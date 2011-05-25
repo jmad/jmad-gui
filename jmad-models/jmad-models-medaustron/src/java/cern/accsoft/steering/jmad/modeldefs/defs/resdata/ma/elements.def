@@ -1,0 +1,126 @@
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+// MAGNETS
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+
+mbhb : SBEND, L=0.6, ANGLE=-0.6278642179, K1=0, E1=-0.31393210895, E2=-0.31393210895,  K2=0, FINT=0;
+//mbhc : sbend, angle = -22.5*pi/180, l:= 1.65, e1 := -22.5*pi/180/2.0, e2: = -22.5*pi/180/2.0;
+mbhc : sbend, angle = -22.5*pi/180, l:= 1.6772, e1 := -22.5*pi/180/2.0, e2: = -22.5*pi/180/2.0;
+
+mbhe : SBEND, L  = 2, ANGLE = -0.3926990817, E1=-0.19634954085, E2=-0.19634954085;
+
+mbhestraight : SBEND, L=2, ANGLE=0.0, E1=0.0, E2=0.0;
+mbhcstraight : SBEND, L=2, ANGLE=0.0, E1=0.0, E2=0.0;
+mbvf : SBEND, L=5.7334, ANGLE=1.57079632679, K1=0, E1=0.366519142918809, E2=0.523598775598299, TILT=Pi/2, K2=0, HGAP=0, FINT=0;
+mbrg : SBEND, L=1.572, ANGLE=-1.0122250525200001, E1=-0.20943951024, E2=-0.2094395102;
+mbrh : SBEND, L=2.3562, ANGLE=pi/2, K1=0, E1=0.20944, E2=0.39968;
+
+mqzb : quadrupole, l:=0.23;
+mqac : Quadrupole, l := 0.402;
+mqzc : quadrupole, l := 0.36;
+mqze : quadrupole, l=0.45;
+mqsc : drift, l := 0.25;
+mqzg : quadrupole, L=0.30;
+mqc : quadrupole, l = 0.137;
+
+mxzc : sextupole, l := 0.26;
+mxrc : sextupole, l := 0.26;
+
+minc : drift, l := 1.51;
+
+mcxb : kicker, l := 0.2;
+mchc : hkicker, l := 0.3;
+mcvc : vkicker, l := 0.255;
+mche : kicker, l := 0.386;
+mcve : kicker, l := 0.386;
+mcxg : KICKER, l := 0.238;
+
+mshe : hkicker, l := 0.5;
+msve : vkicker, l := 0.5;
+msvg : vkicker, l := 0.23;
+mshh : hkicker, l := 0.4;
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+// BI
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+
+pux: monitor, l := 0.7;
+puhn : hmonitor, l := 0.3;
+puvn : vmonitor, l := 0.3;
+puvs : vmonitor, L:= 0.07;
+slx: drift, l := 0.002;
+slus : drift, l := 0.04;
+sluf : drift, l := 0.04;
+ctab : drift, l := 0.4;
+ctaf : drift, l := 0.7;
+shh : drift, l := 0.501;
+shv : drift, l := 0.501;
+prx : drift, l := 0.6;
+cts : drift, l := 1;
+ssm : drift, l := 0.002;
+php : drift, l := 0.1;
+pgxb : monitor, l := 0.1;
+foi : marker;
+deg : drift, l := 0.002;
+sfx : monitor, l := 0.35;
+sfxg: MONITOR, l := 0.3;
+qpm : drift, l := 0.1;
+rhe : monitor, l := 0.5;
+fcn : DRIFT, L := 0.18;
+pin : Drift, L := 0.002;
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+// SPECIAL MAGNETS
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+
+mksa : vkicker, kick := 0.0, l := 0.291;
+mksb : vkicker, kick := 0.0, l := 0.291;
+
+mki : hkicker, l := 0.278;
+mth : hkicker, l := 0.3;
+mtv : vkicker, l := 0.3;
+esi : drift, l := 0.6;
+mr14000eseangle := 0.0;
+ese: SBEND, L= .8, ANGLE = mr14000eseangle, E1 = 0.0, E2 = mr14000eseangle;
+mststraight : drift, l := 0.600128;
+
+mst : sbend, L :=  0.5925, ANGLE = 0, E1 = 0, E2 = 0;
+
+mseangle = 0.098326747883376919;
+firstmse : sbend, L = 0.8403, ANGLE = mseangle, E1 = mseangle / 4., E2 = mseangle * 3. / 4;
+othermse : sbend, L = 0.8403, ANGLE = mseangle, E1 = 0.0986/2, E2 = 0.0986/2;
+
+mkc : hkicker, L := 0.318;
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+// VACUUM
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+
+//vvsi : drift, l := 0.11;
+//vvst : drift, L := 0.1;
+vvgr : drift, l := 0.07;
+vvgh : drift, l := 0.085;
+vvfa : drift, l := 0.2;
+vvgi : drift, l := 0.15;
+vri : drift, L := 0.0426;
+vvst : drift, l := 0.08;
+
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+// INTERCEPTION DEVICES
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+
+bdv : drift, l := 0.1;
+bdh : drift, l := 0.1;
+bdm : drift, l := 0.35;
+bdc : Drift, L = 0.295005;
+bde : DRIFT, L = 0.5;
+bst : drift, l := 0.65;
+sch : drift, l := 0.082;
+scv : drift, l := 0.096;
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+// RF
+// XXXXXXXXXXXXXXXXXXXXXXXXXX
+
+rfcc : drift, l := 1.4;
+rfcd: DRIFT, L := 0.5;      // DEBUNCHER

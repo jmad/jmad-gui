@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+  <classpathentry kind="con"    path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="output" path="build/bin"/>
+  <classpathentry kind="src"    path="src/java"/>
+  <classpathentry kind="src"    path="src/test"/>
+  <classpathentry kind="lib" path="lib/Jama.jar"/>
+  <classpathentry kind="lib" path="lib/accsoft-steering-jmad.jar"/>
+  <classpathentry kind="lib" path="lib/bzip2.jar"/>
+  <classpathentry kind="lib" path="lib/cglib-nodep.jar"/>
+  <classpathentry kind="lib" path="lib/commons-beanutils.jar"/>
+  <classpathentry kind="lib" path="lib/commons-logging.jar"/>
+  <classpathentry kind="lib" path="lib/jta.jar"/>
+  <classpathentry kind="lib" path="lib/junit.jar"/>
+  <classpathentry kind="lib" path="lib/log4j.jar"/>
+  <classpathentry kind="lib" path="lib/py4j0.5.jar"/>
+  <classpathentry kind="lib" path="lib/spring.jar"/>
+  <classpathentry kind="lib" path="lib/xpp3_min.jar"/>
+  <classpathentry kind="lib" path="lib/xstream.jar"/>
+</classpath>

@@ -1,0 +1,37 @@
+<jmad-model-definition name="MedAustron Synchrotron">
+  <optics>
+    <optic name="default optics" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="mr-extr.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="mr-corrector.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+  </optics>
+  <default-optic ref-name="default optics"/>
+  <sequences>
+    <sequence name="mr">
+      <beam/>
+      <ranges>
+        <range name="ALL">
+          <madx-range first="#s" last="#e"/>
+          <twiss-initial-conditions name="unnamed twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+          </twiss-initial-conditions>
+        </range>
+      </ranges>
+      <default-range ref-name="ALL"/>
+    </sequence>
+  </sequences>
+  <default-sequence ref-name="mr"/>
+  <init-files>
+    <call-file location="RESOURCE" path="elements.def"/>
+    <call-file location="RESOURCE" path="mr-elements.def"/>
+    <call-file location="RESOURCE" path="mr.seq"/>
+  </init-files>
+  <path-offsets>
+    <resource-offset value="ma"/>
+  </path-offsets>
+  <svn-revision>$Revision$</svn-revision>
+</jmad-model-definition>
