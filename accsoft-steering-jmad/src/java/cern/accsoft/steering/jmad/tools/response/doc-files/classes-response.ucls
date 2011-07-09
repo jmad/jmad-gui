@@ -1,0 +1,72 @@
+<class-diagram version="0.9.86" automaticImage="PNG" icons="true" always-add-relationships="false" 
+  generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <interface corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.tools.response.ResponseMatrixTool" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/tools/response/ResponseMatrixTool.java" 
+    binary="false">    
+    <position x="340" y="55" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.tools.response.FullResponseMatrixTool" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/tools/response/FullResponseMatrixTool.java" 
+    binary="false">    
+    <position x="616" y="154" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.tools.response.FastResponseMatrixTool" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/tools/response/FastResponseMatrixTool.java" 
+    binary="false">    
+    <position x="194" y="150" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.tools.response.ResponseRequest" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/tools/response/ResponseRequest.java" binary="false">    
+    <position x="155" y="292" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.tools.response.ResponseResult" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/tools/response/ResponseResult.java" binary="false">    
+    <position x="458" y="266" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <realization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.tools.response.FullResponseMatrixTool" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/tools/response/FullResponseMatrixTool.java" 
+      binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.tools.response.ResponseMatrixTool" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/tools/response/ResponseMatrixTool.java" 
+      binary="false"/>  
+  </realization>  
+  <realization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.tools.response.FastResponseMatrixTool" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/tools/response/FastResponseMatrixTool.java" 
+      binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.tools.response.ResponseMatrixTool" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/tools/response/ResponseMatrixTool.java" 
+      binary="false"/>  
+  </realization>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

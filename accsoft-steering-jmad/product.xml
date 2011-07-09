@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+	<product name="accsoft-steering-jmad" version="0.0.59" directory="accsoft/steering/accsoft-steering-jmad">
+		<jar>accsoft-steering-jmad.jar</jar>
+		<!-- Please keep pom.xml in sync with product.xml (Maven migration) -->
+		<dependencies>
+			<dep product="commons-beanutils"/>
+			<dep product="accsoft-steering-commons"/>
+
+			<dep product="log4j"/>
+			<dep product="bzip2"/>
+			<dep product="xstream" version="PRO"/>
+			<dep product="xstream-xpp-3min" version="PRO"/>
+
+			<!-- to allow pymad to connect to the service -->
+			<dep product="py4j"/>
+
+			<!-- for the response matrix stuff. Should go to separate package at some 
+				time. -->
+			<dep product="jama"/>
+
+			<!-- for all the bean handling -->
+			<dep product="spring"/>
+
+			<!-- To be able to use method injection in spring -->
+			<dep product="cglib2"/>
+
+			<!-- For the custom ant parts -->
+			<dep product="ant" local="true"/>
+
+			<!-- for testing -->
+			<dep product="easymock" local="true"/>
+			<dep product="junit" local="true"/>
+		</dependencies>
+	</product>
+</products>

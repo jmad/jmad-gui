@@ -1,0 +1,368 @@
+<class-diagram version="0.9.86" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.AssignCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AssignCommand.java" binary="false">    
+    <position x="637" y="341" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.BeamCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/BeamCommand.java" binary="false">    
+    <position x="837" y="307" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.ValueCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/ValueCommand.java" binary="false">    
+    <position x="1045" y="307" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.Command" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/Command.java" binary="false">    
+    <position x="969" y="54" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.SetListEqual" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/SetListEqual.java" binary="false">    
+    <position x="494" y="146" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.CallCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/CallCommand.java" binary="false">    
+    <position x="1253" y="307" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.EalignCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/EalignCommand.java" binary="false">    
+    <position x="1461" y="307" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.EOptionCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/EOptionCommand.java" binary="false">    
+    <position x="1669" y="307" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.OptionCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/OptionCommand.java" binary="false">    
+    <position x="421" y="307" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.ResbeamCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/ResbeamCommand.java" binary="false">    
+    <position x="1877" y="307" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.SelectCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/SelectCommand.java" binary="false">    
+    <position x="871" y="434" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.SaveBetaCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/SaveBetaCommand.java" binary="false">    
+    <position x="1079" y="434" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.FreeText" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/FreeText.java" binary="false">    
+    <position x="427" y="30" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <enumeration corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.OptionCommand.Option" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/OptionCommand.java" binary="false">    
+    <position x="422" y="514" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </enumeration>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.SetEqual" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/SetEqual.java" binary="false">    
+    <position x="690" y="149" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false">    
+    <position x="953" y="180" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.UseCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/UseCommand.java" binary="false">    
+    <position x="1703" y="434" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.TwissCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/TwissCommand.java" binary="false">    
+    <position x="1495" y="434" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.PrintCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/PrintCommand.java" binary="false">    
+    <position x="1287" y="434" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.cmd.SetFormatCommand" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/SetFormatCommand.java" binary="false">    
+    <position x="1882" y="440" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.JMadExecutable" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/JMadExecutable.java" binary="false">    
+    <position x="720" y="-32" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" name="cern.accsoft.steering.jmad.kernel.AbstractJMadExecutable" 
+    project="accsoft-steering-jmad" 
+    file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/AbstractJMadExecutable.java" binary="false">    
+    <position x="718" y="46" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.FreeText" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/FreeText.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.AbstractJMadExecutable" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/AbstractJMadExecutable.java" 
+      binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.ValueCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/ValueCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.EalignCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/EalignCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.TwissCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/TwissCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.SaveBetaCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/SaveBetaCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.PrintCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/PrintCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.SetFormatCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/SetFormatCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.Command" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/Command.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.JMadExecutable" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/JMadExecutable.java" binary="false"/>  
+  </generalization>  
+  <realization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.Command" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/Command.java" binary="false"/>  
+  </realization>  
+  <realization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.SetListEqual" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/SetListEqual.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.Command" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/Command.java" binary="false"/>  
+  </realization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.ResbeamCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/ResbeamCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.CallCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/CallCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.SetListEqual" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/SetListEqual.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.AbstractJMadExecutable" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/AbstractJMadExecutable.java" 
+      binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.OptionCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/OptionCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <realization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.AbstractJMadExecutable" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/AbstractJMadExecutable.java" 
+      binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.JMadExecutable" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/JMadExecutable.java" binary="false"/>  
+  </realization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.AbstractJMadExecutable" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/AbstractJMadExecutable.java" 
+      binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.BeamCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/BeamCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <realization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.SetEqual" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/SetEqual.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.Command" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/Command.java" binary="false"/>  
+  </realization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.SelectCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/SelectCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <nesting>    
+    <bendpoint x="359" y="348"/>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.OptionCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/OptionCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.OptionCommand.Option" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/OptionCommand.java" binary="false"/>  
+  </nesting>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.UseCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/UseCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AssignCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AssignCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.EOptionCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/EOptionCommand.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/AbstractCommand.java" binary="false"/>  
+  </generalization>  
+  <generalization>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.SetEqual" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/SetEqual.java" binary="false"/>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.AbstractJMadExecutable" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/AbstractJMadExecutable.java" 
+      binary="false"/>  
+  </generalization>  
+  <association>    
+    <source project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.OptionCommand" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/OptionCommand.java" binary="false" 
+      navigable="false">      
+      <attribute name="option"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="accsoft-steering-jmad" name="cern.accsoft.steering.jmad.kernel.cmd.OptionCommand.Option" 
+      file="/accsoft-steering-jmad/src/java/cern/accsoft/steering/jmad/kernel/cmd/OptionCommand.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false"/>    
+    <operations public="false" package="false" protected="false" private="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

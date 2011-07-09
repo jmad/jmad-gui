@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<project name="accsoft-steering-jmad" default="default">
+	<!--
+     Defines project variables
+  -->
+	<property file="project.properties.local" />
+	<property file="project.properties" />
+	<!--
+     import the standard targets from cmmnbuild
+  -->
+	<property environment="env" />
+	<property name="cmmnbuild.home" value="${env.CMMNBUILD_HOME}" />
+	<property name="cmmnbuild.targets" location="${cmmnbuild.home}/targets.xml" />
+	<import file="${cmmnbuild.targets}" />
+
+	<!-- 
+		enable the callback to unsign the cglib
+	-->
+	<property name="callback.after.getjars" value="unsign-cglib" />
+	<!--
+					this target unsigns the cglib - jar.
+					This is necessary because cglib does not work when in jar, because it
+					is signed and cannot work together with unsigned code.
+					This target must be executed after getting the jars.
+	-->
+	<property name="name.cglib.jar" value="cglib-nodep" />
+	<target name="unsign-cglib">
+		<echo message="unsigning cglib" />
+		<antcall target="unsignjars">
+			<param name="jar" value="${name.cglib.jar}" />
+		</antcall>
+	</target>
+
+	<!--
+		Targets to fetch the latest versions of the madx-binaries 
+	-->
+	<target name="fetch-madx-bin-all" depends="fetch-madx-bin-linux, fetch-madx-bin-win, fetch-madx-bin-osx" />
+	<target name="fetch-madx-bin">
+		<get src="${srcurl}" dest="${dir.madx.bin.base}/${dstoffset}/${binname}" verbose="true" usetimestamp="true" />
+	</target>
+	<target name="fetch-madx-bin-win">
+		<antcall target="fetch-madx-bin">
+			<param name="srcurl" value="${url.madx.bin.win}" />
+			<param name="dstoffset" value="win" />
+			<param name="binname" value="madx.exe" />
+		</antcall>
+	</target>
+	<target name="fetch-madx-bin-linux">
+		<antcall target="fetch-madx-bin">
+			<param name="srcurl" value="${url.madx.bin.linux}" />
+			<param name="dstoffset" value="linux" />
+			<param name="binname" value="madx" />
+		</antcall>
+	</target>
+	<target name="fetch-madx-bin-osx">
+		<antcall target="fetch-madx-bin">
+			<param name="srcurl" value="${url.madx.bin.osx}" />
+			<param name="dstoffset" value="osx" />
+			<param name="binname" value="madx" />
+		</antcall>
+	</target>
+
+</project>

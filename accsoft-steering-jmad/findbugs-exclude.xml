@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+	<Match>
+		<Class name="~^TestCase.*" />
+	</Match>
+	
+	<Match>
+		<Class name="~.*Demo$" />
+	</Match>
+	
+	<Match>
+		<Class name="cern.accsoft.steering.jmad.model.twiss.TwissInitialConditionsImpl"/>
+		<Method name="clone" />
+		<Bug pattern="CN_IDIOM_NO_SUPER_CALL" />
+	</Match>
+</FindBugsFilter>

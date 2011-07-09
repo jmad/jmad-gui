@@ -1,0 +1,72 @@
+<jmad-model-definition name="example_THIN">
+  <optics>
+    <optic name="A055C055L1000A1000_THIN" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="V6.5.thin.coll.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+  </optics>
+  <default-optic ref-name="A055C055L1000A1000_THIN"/>
+  <sequences>
+    <sequence name="lhcb1">
+      <beam>
+        <particle value="PROTON"/>
+        <energy value="450.0"/>
+        <ex value="7.297671095555556E-9"/>
+        <ey value="7.297671095555556E-9"/>
+        <sigt value="0.077"/>
+        <sige value="5.0E-4"/>
+        <npart value="1.1E11"/>
+        <bv value="PLUS"/>
+      </beam>
+      <ranges>
+        <range name="ALL">
+          <madx-range first="#s" last="#e"/>
+          <twiss-initial-conditions name="default-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+          </twiss-initial-conditions>
+        </range>
+      </ranges>
+      <default-range ref-name="ALL"/>
+    </sequence>
+    <sequence name="lhcb2">
+      <beam>
+        <particle value="PROTON"/>
+        <energy value="450.0"/>
+        <ex value="7.297671095555556E-9"/>
+        <ey value="7.297671095555556E-9"/>
+        <sigt value="0.077"/>
+        <sige value="5.0E-4"/>
+        <npart value="1.1E11"/>
+        <bv value="MINUS"/>
+      </beam>
+      <ranges>
+        <range name="ALL">
+          <madx-range first="#s" last="#e"/>
+          <twiss-initial-conditions name="default-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+          </twiss-initial-conditions>
+          <corrector-invert-filters>
+            <regex-filter regex="(?i)^MCBX.*" plane="H"/>
+            <regex-filter regex="(?i)^MCBX.*" plane="V"/>
+          </corrector-invert-filters>
+        </range>
+      </ranges>
+      <default-range ref-name="ALL"/>
+    </sequence>
+  </sequences>
+  <default-sequence ref-name="lhcb1"/>
+  <init-files>
+    <call-file location="RESOURCE" path="init-constants.madx"/>
+    <call-file location="RESOURCE" path="V6.5.thin.seq"/>
+    <call-file location="RESOURCE" path="install-beambeam.madx"/>
+  </init-files>
+  <path-offsets>
+  <resource-offset value="example" />
+  </path-offsets>
+  <svn-revision>$Revision$</svn-revision>
+</jmad-model-definition>

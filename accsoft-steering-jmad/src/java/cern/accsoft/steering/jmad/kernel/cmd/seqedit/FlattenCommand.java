@@ -1,0 +1,12 @@
+package cern.accsoft.steering.jmad.kernel.cmd.seqedit;
+
+import cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand;
+
+public class FlattenCommand extends AbstractCommand {
+
+	@Override
+	public String getName() {
+		return "flatten";
+	}
+
+}
