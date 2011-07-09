@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<project name="accsoft-steering-jmad-gui" default="default">
+
+	<!--
+     Defines project variables
+  -->
+	<property file="project.properties" />
+	<!--
+     import the standard target from cmmnbuild
+  -->
+	<property environment="env" />
+	<property name="cmmnbuild.home" value="${env.CMMNBUILD_HOME}" />
+	<property name="cmmnbuild.targets" location="${cmmnbuild.home}/targets.xml" />
+	<import file="${cmmnbuild.targets}" />
+
+	<!-- 
+				enable the callback 
+	-->
+	<property name="callback.after.getjars" value="unsign-my-jars" />
+
+	<!--
+					this target unsigns some jars.
+					This is necessary because cglib does not work when in jar, because it
+					is signed and cannot work together with unsigned code.
+					This target must be executed after getting the jars.
+	-->
+	<target name="unsign-my-jars">
+		<echo message="unsigning cglib" />
+		<antcall target="unsignjars">
+			<param name="jar" value="cglib-nodep" />
+		</antcall>
+		<echo message="unsigning jmad" />
+		<antcall target="unsignjars">
+			<param name="jar" value="accsoft-steering-jmad" />
+		</antcall>
+	</target>
+	
+	
+</project>

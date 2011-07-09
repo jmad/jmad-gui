@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+	<product name="accsoft-steering-jmad-gui" version="0.0.34" directory="accsoft/steering/accsoft-steering-jmad-gui">
+		<jar>accsoft-steering-jmad-gui.jar</jar>
+		<dependencies>
+			<dep product="log4j"/>
+			<dep product="jdataviewer"/>
+			<dep product="spring"/>
+			<dep product="freehep-jminuit"/>
+			<dep product="beanshell"/>
+			<dep product="cglib2"/>
+			<dep product="accsoft-gui-frame"/>
+			<dep product="accsoft-steering-jmad"/>
+			<dep product="accsoft-steering-jmad-models-lsa"/>
+			<dep product="accsoft-steering-jmad-models-default"/>
+			<dep product="accsoft-steering-jmad-models-ptc"/>
+			<dep product="jmad-models-medaustron"/>
+			<dep product="accsoft-steering-commons"/>
+
+			<!-- for testing -->
+			<dep product="junit" local="true"/>
+		</dependencies>
+		<application name="accsoft-steering-jmad-gui" title="Simple gui for madx">
+			<initial-heap-size>40m</initial-heap-size>
+			<max-heap-size>240m</max-heap-size>
+			<main-class name="cern.accsoft.steering.jmad.gui.JMad"/>
+		</application>
+		<application name="accsoft-steering-yasp-file-browser" title="Quick browser for yasp-files">
+			<initial-heap-size>40m</initial-heap-size>
+			<max-heap-size>100m</max-heap-size>
+			<main-class name="cern.accsoft.steering.util.meas.yasp.browse.YaspFileBrowser"/>
+		</application>
+	</product>
+
+	<product name="accsoft-steering-jmad-gui-nomodels" version="0.0.34" directory="accsoft/steering/accsoft-steering-jmad-gui">
+		<jar>accsoft-steering-jmad-gui.jar</jar>
+		<dependencies>
+			<dep product="log4j"/>
+			<dep product="jdataviewer"/>
+			<dep product="spring"/>
+			<dep product="freehep-jminuit"/>
+			<dep product="beanshell"/>
+			<dep product="cglib2"/>
+			<dep product="accsoft-gui-frame"/>
+			<dep product="accsoft-steering-jmad"/>
+			<dep product="accsoft-steering-commons"/>
+
+			<!-- for testing -->
+			<dep product="junit" local="true"/>
+		</dependencies>
+	</product>
+</products>
