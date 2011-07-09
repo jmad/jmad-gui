@@ -1,0 +1,126 @@
+! Deactivate correctors used in the separation bumps for obit correction:
+
+usekick, pattern='MCBXH.1L1', status=off;
+usekick, pattern='MCBXH.1R1', status=off;
+usekick, pattern='MCBYH.A4L1.B1', status=off;
+usekick, pattern='MCBCH.6L1.B1', status=off;
+usekick, pattern='MCBYH.4R1.B1', status=off;
+usekick, pattern='MCBCH.5R1.B1', status=off;
+usekick, pattern='MCBYH.4L1.B2', status=off;
+usekick, pattern='MCBCH.5L1.B2', status=off;
+usekick, pattern='MCBYH.A4R1.B2', status=off;
+usekick, pattern='MCBCH.6R1.B2', status=off;
+
+
+usekick, pattern='MCBXV.1L1', status=off;
+usekick, pattern='MCBXV.1R1', status=off;
+usekick, pattern='MCBCV.5L1.B1', status=off;
+usekick, pattern='MCBYV.4L1.B1', status=off;
+usekick, pattern='MCBYV.A4R1.B1', status=off;
+usekick, pattern='MCBCV.6R1.B1', status=off;
+usekick, pattern='MCBYV.A4L1.B2', status=off;
+usekick, pattern='MCBCV.6L1.B2', status=off;
+usekick, pattern='MCBYV.4R1.B2', status=off;
+usekick, pattern='MCBCV.5R1.B2', status=off;
+
+
+usekick, pattern='MBXWT.1L2', status=off;
+usekick, pattern='MBWMD.1L2', status=off;
+usekick, pattern='MBAW.1R2', status=off;
+usekick, pattern='MBXWT.1R2', status=off;
+
+
+usekick, pattern='MCBXV.1L2', status=off;
+usekick, pattern='MCBXV.1R2', status=off;
+usekick, pattern='MCBXV.2L2', status=off;
+usekick, pattern='MCBXV.2R2', status=off;
+usekick, pattern='MCBXV.3L2', status=off;
+usekick, pattern='MCBXV.3R2', status=off;
+usekick, pattern='MCBYV.A4L2.B1', status=off;
+usekick, pattern='MCBYV.4R2.B1', status=off;
+usekick, pattern='MCBYV.5L2.B1', status=off;
+usekick, pattern='MCBCV.A5R2.B1', status=off;
+usekick, pattern='MCBYV.4L2.B2', status=off;
+usekick, pattern='MCBYV.A4R2.B2', status=off;
+usekick, pattern='MCBYV.B5L2.B2', status=off;
+usekick, pattern='MCBCV.5R2.B2', status=off;
+
+
+usekick, pattern='MCBXH.1L2', status=off;
+usekick, pattern='MCBXH.1R2', status=off;
+usekick, pattern='MCBXH.2L2', status=off;
+usekick, pattern='MCBXH.2R2', status=off;
+usekick, pattern='MCBXH.3L2', status=off;
+usekick, pattern='MCBXH.3R2', status=off;
+usekick, pattern='MCBYH.4L2.B1', status=off;
+usekick, pattern='MCBYH.A4R2.B1', status=off;
+usekick, pattern='MCBYH.B5L2.B1', status=off;
+usekick, pattern='MCBCH.5R2.B1', status=off;
+usekick, pattern='MCBYH.A4L2.B2', status=off;
+usekick, pattern='MCBYH.4R2.B2', status=off;
+usekick, pattern='MCBYH.5L2.B2', status=off;
+usekick, pattern='MCBCH.A5R2.B2', status=off;
+
+
+usekick, pattern='MCBXH.1L5', status=off;
+usekick, pattern='MCBXH.1R5', status=off;
+usekick, pattern='MCBCH.6L5.B1', status=off;
+usekick, pattern='MCBYH.A4L5.B1', status=off;
+usekick, pattern='MCBYH.4R5.B1', status=off;
+usekick, pattern='MCBCH.5R5.B1', status=off;
+usekick, pattern='MCBCH.5L5.B2', status=off;
+usekick, pattern='MCBYH.4L5.B2', status=off;
+usekick, pattern='MCBYH.A4R5.B2', status=off;
+usekick, pattern='MCBCH.6R5.B2', status=off;
+
+
+usekick, pattern='MCBXV.1L5', status=off;
+usekick, pattern='MCBXV.1R5', status=off;
+usekick, pattern='MCBCV.5L5.B1', status=off;
+usekick, pattern='MCBYV.4L5.B1', status=off;
+usekick, pattern='MCBYV.A4R5.B1', status=off;
+usekick, pattern='MCBCV.6R5.B1', status=off;
+usekick, pattern='MCBCV.6L5.B2', status=off;
+usekick, pattern='MCBYV.A4L5.B2', status=off;
+usekick, pattern='MCBYV.4R5.B2', status=off;
+usekick, pattern='MCBCV.5R5.B2', status=off;
+
+
+usekick, pattern='MBXWS.1L8', status=off;
+usekick, pattern='MBXWH.1L8', status=off;
+usekick, pattern='MBLW.1R8', status=off;
+usekick, pattern='MBXWS.1R8', status=off;
+
+
+usekick, pattern='MCBXH.1L8', status=off;
+usekick, pattern='MCBXH.1R8', status=off;
+usekick, pattern='MCBXH.2L8', status=off;
+usekick, pattern='MCBXH.2R8', status=off;
+usekick, pattern='MCBXH.3L8', status=off;
+usekick, pattern='MCBXH.3R8', status=off;
+usekick, pattern='MCBYH.4L8.B1', status=off;
+usekick, pattern='MCBYH.A4R8.B1', status=off;
+usekick, pattern='MCBCH.A5L8.B1', status=off;
+usekick, pattern='MCBYH.5R8.B1', status=off;
+usekick, pattern='MCBYH.A4L8.B2', status=off;
+usekick, pattern='MCBYH.4R8.B2', status=off;
+usekick, pattern='MCBCH.5L8.B2', status=off;
+usekick, pattern='MCBYH.B5R8.B2', status=off;
+
+
+usekick, pattern='MCBXV.1L8', status=off;
+usekick, pattern='MCBXV.1R8', status=off;
+usekick, pattern='MCBXV.2L8', status=off;
+usekick, pattern='MCBXV.2R8', status=off;
+usekick, pattern='MCBXV.3L8', status=off;
+usekick, pattern='MCBXV.3R8', status=off;
+usekick, pattern='MCBYV.A4L8.B1', status=off;
+usekick, pattern='MCBYV.4R8.B1', status=off;
+usekick, pattern='MCBCV.5L8.B1', status=off;
+usekick, pattern='MCBYV.B5R8.B1', status=off;
+usekick, pattern='MCBYV.4L8.B2', status=off;
+usekick, pattern='MCBYV.A4R8.B2', status=off;
+usekick, pattern='MCBCV.B5L8.B2', status=off;
+usekick, pattern='MCBYV.5R8.B2', status=off;
+
+return;

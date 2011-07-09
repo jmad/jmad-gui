@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cern</groupId>
+		<artifactId>parent-pom</artifactId>
+		<version>1.0.4</version>
+	</parent>
+	<groupId>cern.accsoft.steering</groupId>
+	<artifactId>accsoft-steering-jmad-models-lsa</artifactId>
+	<version>0.0.6</version>
+	<name>accsoft-steering-jmad-models-lsa</name>
+	<packaging>jar</packaging>
+	<description />
+	<url />
+	<dependencies>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>cern.accsoft.steering</groupId>
+			<artifactId>accsoft-steering-jmad</artifactId>
+			<version>[0.0.50, 1.0.0)</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>cern.accsoft.steering</groupId>
+			<artifactId>accsoft-steering-commons</artifactId>
+			<version>[0.0.1, 1.0.0)</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>[4.8.1, 5.0.0)</version>
+			<scope>test</scope>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<!--# Japc FESA class generation-->
+		<!--japcfesagen.enabled=false-->
+		<!--japcfesagen.sourcedir=${basedir}/src/xml/-->
+		<!--japcfesagen.metainfodir=${basedir}/src/xml/metainfo-->
+		<!--release.resolvealias=false-->
+		<!--jmad.model.repository.location=/afs/cern.ch/eng-->		
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<id>japcfesagen</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>ant</executable>
+					<arguments>
+<!--						<argument>clean</argument>-->
+						<argument>compile</argument>
+						<argument>-quiet</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-generated-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

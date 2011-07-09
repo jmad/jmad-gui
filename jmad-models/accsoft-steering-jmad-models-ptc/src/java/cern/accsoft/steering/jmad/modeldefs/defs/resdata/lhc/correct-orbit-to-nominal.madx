@@ -1,0 +1,25 @@
+!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!         Correct orbit to zero
+!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!******************************************************************
+twiss;
+!CORRECT, ORBIT=orbitsubtract_x,extern, PLANE=x, CLIST="corrector2_x.dat", MODE=MICADO, NCORR=38, COND=1;
+correct, plane=x, FLAG=ring, mode=micado, ncorr=38,model=nominal, COND=1;
+correct, plane=y, FLAG=ring, mode=micado, ncorr=38,model=nominal, COND=1;
+
+twiss;
+correct, plane=x, FLAG=ring, mode=micado, ncorr=38,model=nominal, COND=1;
+correct, plane=y, FLAG=ring, mode=micado, ncorr=38,model=nominal, COND=1;
+
+twiss;
+correct, plane=x, FLAG=ring, mode=micado, ncorr=38,model=nominal, COND=1;
+correct, plane=y, FLAG=ring, mode=micado, ncorr=38,model=nominal, COND=1;
+
+twiss;
+correct, plane=x, FLAG=ring, mode=micado, ncorr=38,model=nominal, COND=1;
+correct, plane=y, FLAG=ring, mode=micado, ncorr=38,model=nominal, COND=1;
+
+twiss;
+correct, plane=x, FLAG=ring, mode=micado, ncorr=38,model=nominal, COND=1;
+correct, plane=y, FLAG=ring, mode=micado, ncorr=38,model=nominal, COND=1;
+!******************************************************************

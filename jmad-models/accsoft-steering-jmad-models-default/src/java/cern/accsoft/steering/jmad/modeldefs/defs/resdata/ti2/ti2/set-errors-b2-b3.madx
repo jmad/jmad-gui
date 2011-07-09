@@ -1,0 +1,10 @@
+//
+// This file must be called after the use command!
+//
+// it sets the errors to the MBIs in the transferline
+//
+
+// error on the field of MBI (b3 and b2 as computed by Kajetan)
+select, flag=error, class=MBI;
+efcomp, order:=0, radius:=0.025, dknr:={0,-1.35e-4,-4.7e-4};
+!SELECT,FLAG=ERROR, class=mbi;

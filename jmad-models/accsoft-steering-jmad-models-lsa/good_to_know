@@ -1,0 +1,8 @@
+Replacement of $Revision$ tag in the model definition file on commit:
+
+   1. Right-mouse-click on your project folder or model file: Team => Set Property
+   2. Enter the property name:  svn:keywords
+   3. Enter the text property:  Author Date Id Revision HeadURL
+   4. OK
+   
+Inspired by: http://blog.gorges.us/2009/03/how-to-enable-keywords-in-eclipse-and-subversion-svn/

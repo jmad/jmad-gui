@@ -1,0 +1,150 @@
+! Brennan Goddard - July 2009
+! virtual bending magnets
+v.610013  : vkicker, l:=0, kick := v.abiv.610013/2;
+v.610104  : hkicker, l:=0, kick := v.abih.610104/2;
+v.610206  : hkicker, l:=0, kick := v.abih.610206/2;
+v.610304  : vkicker, l:=0, kick := v.abiv.610304/2;
+v.610337  : hkicker, l:=0, kick := v.abih.610337/2;
+v.610405e : vkicker, l:=0, kick := v.abie.610405/2;
+v.20637   : vkicker, l:=0, kick := v.abiv.20637/2;
+v.26407   : vkicker, l:=0, kick := v.abiv.26407/2;
+
+!virtual quads - variable v.xxxxxx is directly vertical alignment offset
+v.d610100   : vkicker, l:=0, kick := v.qtld610100*kqid.610100*l.QTLD/2;    
+v.d610300   : vkicker, l:=0, kick := v.qtld610300*kqid.610300*l.QTLD/2;
+v.d610500   : vkicker, l:=0, kick := v.qtld610500*kqid.610500*l.QTLD/2;
+
+v.f610200   : vkicker, l:=0, kick := v.qtlf610200*kqif.610200*l.QTLF/2;    
+v.f610400   : vkicker, l:=0, kick := v.qtlf610400*kqif.610400*l.QTLF/2;   
+v.f610600   : vkicker, l:=0, kick := v.qtlf610600*kqif.610600*l.QTLF/2;
+    
+v.d20100   : vkicker, l:=0, kick := v.mqid20100*kqid.20100*l.MQID/2;    
+v.d20300   : vkicker, l:=0, kick := v.mqid20300*kqid.20300*l.MQID/2;    
+v.d20500   : vkicker, l:=0, kick := v.mqid20500*kqid.20500*l.MQID/2;     
+v.d20700   : vkicker, l:=0, kick := v.mqid20700*kqid.20700*l.MQID/2;
+v.d20900   : vkicker, l:=0, kick := v.mqid20900*kqid.20900*l.MQID/2;
+
+v.f20200   : vkicker, l:=0, kick := v.mqif20200*kqif.20200*l.MQIF/2;   
+v.f20400   : vkicker, l:=0, kick := v.mqif20400*kqif.20400*l.MQIF/2;    
+
+seqedit, sequence=ti2;
+	install, element=v.610013, at=7.9448   + l.MDAV/2 + 0.00001;
+	install, element=v.610013, at=7.9448   - l.MDAV/2 - 0.00001;
+	install, element=v.610104, at=16.1208  + l.MDLH/2 + 0.00001;
+	install, element=v.610104, at=16.1208  - l.MDLH/2 - 0.00001;
+	install, element=v.610206, at=53.2221  + l.MDLH/2 + 0.00001;
+	install, element=v.610206, at=53.2221  - l.MDLH/2 - 0.00001;	
+	install, element=v.610304, at=96.1011  + l.MDAV/2 + 0.00001;
+	install, element=v.610304, at=96.1011  - l.MDAV/2 - 0.00001;
+	install, element=v.610337, at=120.9101 + l.MDLH/2 + 0.00001;
+	install, element=v.610337, at=120.9101 - l.MDLH/2 - 0.00001;
+
+	install, element=v.d610100, at=13.3058   - l.QTLD/2 - 0.00001;
+	install, element=v.d610100, at=13.3058   + l.QTLD/2 + 0.00001;
+	install, element=v.d610300, at=93.1731   - l.QTLD/2 - 0.00001;
+	install, element=v.d610300, at=93.1731   + l.QTLD/2 + 0.00001;
+	install, element=v.d610500, at=164.76119 - l.QTLD/2 - 0.00001;
+	install, element=v.d610500, at=164.76119 + l.QTLD/2 + 0.00001;
+
+	install, element=v.f610200, at=48.8116   - l.QTLF/2 - 0.00001;
+	install, element=v.f610200, at=48.8116   + l.QTLF/2 + 0.00001;
+	install, element=v.f610400, at=126.4001  - l.QTLF/2 - 0.00001;
+	install, element=v.f610400, at=126.4001  + l.QTLF/2 + 0.00001;
+	install, element=v.f610600, at=197.909662 - l.QTLF/2 - 0.00001;
+	install, element=v.f610600, at=197.909662 + l.QTLF/2 + 0.00001;
+
+	install, element=v.d20100, at=242.091162 - l.MQID/2 - 0.00001;
+	install, element=v.d20100, at=242.091162 + l.MQID/2 + 0.00001;
+	install, element=v.d20300, at=305.259981 - l.MQID/2 - 0.00001;
+	install, element=v.d20300, at=305.259981 + l.MQID/2 + 0.00001;
+	install, element=v.d20500, at=372.428781 - l.MQID/2 - 0.00001;
+	install, element=v.d20500, at=372.428781 + l.MQID/2 + 0.00001;
+	install, element=v.d20700, at=431.501696 - l.MQID/2 - 0.00001;
+	install, element=v.d20700, at=431.501696 + l.MQID/2 + 0.00001;
+      install, element=v.d20900, at=492.101718 - l.MQID/2 - 0.00001;
+	install, element=v.d20900, at=492.101718 + l.MQID/2 + 0.00001;
+
+	install, element=v.f20200, at=273.761571 - l.MQIF/2 - 0.00001;
+	install, element=v.f20200, at=273.761571 + l.MQIF/2 + 0.00001;
+	install, element=v.f20400, at=334.844381 - l.MQIF/2 - 0.00001;
+	install, element=v.f20400, at=334.844381 + l.MQIF/2 + 0.00001;
+
+	install, element=v.20637, at=419.190191 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=419.190191 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=423.717193 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=423.717193 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=428.244195 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=428.244195 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=435.909197 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=435.909197 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=440.436199 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=440.436199 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=444.963201 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=444.963201 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=449.490202 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=449.490202 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=454.017204 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=454.017204 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=458.544206 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=458.544206 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=466.209208 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=466.209208 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=470.736210 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=470.736210 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=475.263212 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=475.263212 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=479.790213 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=479.790213 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=484.317215 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=484.317215 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=488.844217 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=488.844217 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=496.509219 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=496.509219 + l.MBIAV/2 + 0.00001;
+	install, element=v.20637, at=501.036221 - l.MBIAV/2 - 0.00001;
+	install, element=v.20637, at=501.036221 + l.MBIAV/2 + 0.00001;
+
+	install, element=v.26407, at=2163.010864       - l.MBIAV/2 - 0.00001;
+	install, element=v.26407, at=2163.010864       + l.MBIAV/2 + 0.00001;
+	install, element=v.26407, at=2167.537866       - l.MBIAV/2 - 0.00001;
+	install, element=v.26407, at=2167.537866       + l.MBIAV/2 + 0.00001;
+	install, element=v.26407, at=2172.064867       - l.MBIAV/2 - 0.00001;
+	install, element=v.26407, at=2172.064867       + l.MBIAV/2 + 0.00001;
+	install, element=v.26407, at=2176.591869       - l.MBIAV/2 - 0.00001;
+	install, element=v.26407, at=2176.591869       + l.MBIAV/2 + 0.00001;
+	install, element=v.26407, at=2181.118871       - l.MBIAV/2 - 0.00001;
+	install, element=v.26407, at=2181.118871       + l.MBIAV/2 + 0.00001;
+	install, element=v.26407, at=2185.645873       - l.MBIAV/2 - 0.00001;
+	install, element=v.26407, at=2185.645873       + l.MBIAV/2 + 0.00001;
+	install, element=v.26407, at=2284.210874       - l.MBIAV/2 - 0.00001;
+	install, element=v.26407, at=2284.210874       + l.MBIAV/2 + 0.00001;
+	install, element=v.26407, at=2288.737876       - l.MBIAV/2 - 0.00001;
+	install, element=v.26407, at=2288.737876       + l.MBIAV/2 + 0.00001;
+	install, element=v.26407, at=2293.264878       - l.MBIAV/2 - 0.00001;
+	install, element=v.26407, at=2293.264878       + l.MBIAV/2 + 0.00001;
+	install, element=v.26407, at=2297.79188        - l.MBIAV/2 - 0.00001;
+	install, element=v.26407, at=2297.79188        + l.MBIAV/2 + 0.00001;
+	install, element=v.26407, at=2302.318882       - l.MBIAV/2 - 0.00001;
+	install, element=v.26407, at=2302.318882       + l.MBIAV/2 + 0.00001;
+	install, element=v.26407, at=2306.845883       - l.MBIAV/2 - 0.00001;
+	install, element=v.26407, at=2306.845883       + l.MBIAV/2 + 0.00001;
+
+	install, element=v.610405e, at=145.841145        - l.MBE/2 - 0.00001;
+	install, element=v.610405e, at=145.841145        + l.MBE/2 + 0.00001;
+	install, element=v.610405e, at=152.481163        - l.MBE/2 - 0.00001;
+	install, element=v.610405e, at=152.481163        + l.MBE/2 + 0.00001;
+	install, element=v.610405e, at=159.121181        - l.MBE/2 - 0.00001;
+	install, element=v.610405e, at=159.121181        + l.MBE/2 + 0.00001;
+	install, element=v.610405e, at=171.621199        - l.MBE/2 - 0.00001;
+	install, element=v.610405e, at=171.621199        + l.MBE/2 + 0.00001;
+	install, element=v.610405e, at=178.261217        - l.MBE/2 - 0.00001;
+	install, element=v.610405e, at=178.261217        + l.MBE/2 + 0.00001;
+
+endedit;
+
+seqedit, sequence=ti2;
+	flatten;
+endedit;
+
+return;
+

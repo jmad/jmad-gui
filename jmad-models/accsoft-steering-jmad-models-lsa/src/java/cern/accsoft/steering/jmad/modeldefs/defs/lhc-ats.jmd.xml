@@ -1,0 +1,382 @@
+<jmad-model-definition name="LHC ATS">
+  <optics>
+    <optic name="A1100C1100A1000L1000_2011_ATS_INJ" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.1" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A1100C1100A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.2" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A1000C1000A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.3" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A800C800A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.4" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A600C600A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.5" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A440C440A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.6" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A300C300A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.7" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A240C240A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.8" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A200C200A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.9" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A160C160A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.10" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A120C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.11" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A117C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.12" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A114C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.13" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A111C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.14" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A109C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.15" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A108C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.16" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A105C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.17" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A94C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.18" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A84C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.19" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A72C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.20" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A60C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.21" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A54C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.22" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A48C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.23" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A42C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.24" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A36C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.25" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A30C120A1000L1000_2011_ATS" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.26" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A1100C1100A1000L1000_2011_ATS_INJ_OLD" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/ats_V6.503.inj.str" parse="STRENGTHS"/>
+        <call-file path="ATS_V6.503/errors/Presetandknob_B1_inj_450.madx"/>
+        <call-file path="ATS_V6.503/errors/Presetandknob_B2_inj_450.madx"/>
+        <call-file location="RESOURCE" path="tc_re-match_inj.madx"/>
+      </init-files>
+    </optic>
+  </optics>
+  <default-optic ref-name="A1100C1100A1000L1000_2011_ATS_INJ"/>
+  <sequences>
+    <sequence name="lhcb1">
+      <beam>
+        <particle value="PROTON"/>
+        <energy value="450.0"/>
+        <ex value="7.297671095555556E-9"/>
+        <ey value="7.297671095555556E-9"/>
+        <sigt value="0.077"/>
+        <sige value="5.0E-4"/>
+        <npart value="1.1E11"/>
+        <bv value="PLUS"/>
+      </beam>
+      <ranges>
+        <range name="ALL">
+          <madx-range first="#s" last="#e"/>
+          <twiss-initial-conditions name="lsa-definition">
+            <chrom value="true"/>
+            <closed-orbit value="true"/>
+            <centre value="true"/>
+          </twiss-initial-conditions>
+        </range>
+        <range name="ALL first turn">
+          <madx-range first="#s" last="#e"/>
+          <twiss-initial-conditions name="lhcb1-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+            <betx value="55.679041"/>
+            <bety value="71.515031"/>
+            <alfx value="2.128241"/>
+            <alfy value="-1.679855"/>
+            <dx value="-0.1103"/>
+            <dy value="0.0"/>
+            <dpx value="0.03792"/>
+            <dpy value="0.0"/>
+            <deltap value="0.0"/>
+          </twiss-initial-conditions>
+        </range>
+        <range name="Inj. Sector 2-3">
+          <madx-range first="LHCINJ.B1" last="TCLA.7R3.B1"/>
+          <twiss-initial-conditions name="lhcb1-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+            <betx value="55.679041"/>
+            <bety value="71.515031"/>
+            <alfx value="2.128241"/>
+            <alfy value="-1.679855"/>
+            <dx value="-0.1103"/>
+            <dy value="0.0"/>
+            <dpx value="0.03792"/>
+            <dpy value="0.0"/>
+            <deltap value="0.0"/>
+          </twiss-initial-conditions>
+        </range>
+        <range name="Inj. Sector 2-5">
+          <madx-range first="LHCINJ.B1" last="IP5"/>
+          <twiss-initial-conditions name="lhcb1-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+            <betx value="55.679041"/>
+            <bety value="71.515031"/>
+            <alfx value="2.128241"/>
+            <alfy value="-1.679855"/>
+            <dx value="-0.1103"/>
+            <dy value="0.0"/>
+            <dpx value="0.03792"/>
+            <dpy value="0.0"/>
+            <deltap value="0.0"/>
+          </twiss-initial-conditions>
+        </range>
+      </ranges>
+      <default-range ref-name="ALL"/>
+    </sequence>
+    <sequence name="lhcb2">
+      <beam>
+        <particle value="PROTON"/>
+        <energy value="450.0"/>
+        <ex value="7.297671095555556E-9"/>
+        <ey value="7.297671095555556E-9"/>
+        <sigt value="0.077"/>
+        <sige value="5.0E-4"/>
+        <npart value="1.1E11"/>
+        <bv value="MINUS"/>
+      </beam>
+      <ranges>
+        <range name="ALL">
+          <madx-range first="#s" last="#e"/>
+          <twiss-initial-conditions name="lsa-definition">
+            <chrom value="true"/>
+            <closed-orbit value="true"/>
+            <centre value="true"/>
+          </twiss-initial-conditions>
+          <corrector-invert-filters>
+            <regex-filter regex="(?i)^MCBX.*" plane="H"/>
+            <regex-filter regex="(?i)^MCBX.*" plane="V"/>
+          </corrector-invert-filters>
+        </range>
+        <range name="ALL first turn">
+          <madx-range first="#s" last="#e"/>
+          <twiss-initial-conditions name="lhcb2-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+            <betx value="66.829881"/>
+            <bety value="140.995239"/>
+            <alfx value="-9.0E-6"/>
+            <alfy value="-2.127759"/>
+            <dx value="0.107789"/>
+            <dy value="1.36E-4"/>
+            <dpx value="0.003062"/>
+            <dpy value="3.0E-6"/>
+            <deltap value="0.0"/>
+          </twiss-initial-conditions>
+          <corrector-invert-filters>
+            <regex-filter regex="(?i)^MCBX.*" plane="H"/>
+            <regex-filter regex="(?i)^MCBX.*" plane="V"/>
+          </corrector-invert-filters>
+        </range>
+        <range name="Inj. Sectors 8-7">
+          <madx-range first="TCLA.A7L7.B2" last="LHCINJ.B2"/>
+          <twiss-initial-conditions name="lhcb2-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+            <betx value="66.829881"/>
+            <bety value="140.995239"/>
+            <alfx value="-9.0E-6"/>
+            <alfy value="-2.127759"/>
+            <dx value="0.107789"/>
+            <dy value="1.36E-4"/>
+            <dpx value="0.003062"/>
+            <dpy value="3.0E-6"/>
+            <deltap value="0.0"/>
+          </twiss-initial-conditions>
+          <corrector-invert-filters>
+            <regex-filter regex="(?i)^MCBX.*" plane="H"/>
+            <regex-filter regex="(?i)^MCBX.*" plane="V"/>
+          </corrector-invert-filters>
+        </range>
+        <range name="Inj. Sectors 8-6">
+          <madx-range first="TCDQA.A4L6.B2" last="LHCINJ.B2"/>
+          <twiss-initial-conditions name="lhcb2-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+            <betx value="66.829881"/>
+            <bety value="140.995239"/>
+            <alfx value="-9.0E-6"/>
+            <alfy value="-2.127759"/>
+            <dx value="0.107789"/>
+            <dy value="1.36E-4"/>
+            <dpx value="0.003062"/>
+            <dpy value="3.0E-6"/>
+            <deltap value="0.0"/>
+          </twiss-initial-conditions>
+          <corrector-invert-filters>
+            <regex-filter regex="(?i)^MCBX.*" plane="H"/>
+            <regex-filter regex="(?i)^MCBX.*" plane="V"/>
+          </corrector-invert-filters>
+        </range>
+        <range name="Inj. Sectors 8-5">
+          <madx-range first="IP5" last="LHCINJ.B2"/>
+          <twiss-initial-conditions name="lhcb2-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+            <betx value="66.829881"/>
+            <bety value="140.995239"/>
+            <alfx value="-9.0E-6"/>
+            <alfy value="-2.127759"/>
+            <dx value="0.107789"/>
+            <dy value="1.36E-4"/>
+            <dpx value="0.003062"/>
+            <dpy value="3.0E-6"/>
+            <deltap value="0.0"/>
+          </twiss-initial-conditions>
+          <corrector-invert-filters>
+            <regex-filter regex="(?i)^MCBX.*" plane="H"/>
+            <regex-filter regex="(?i)^MCBX.*" plane="V"/>
+          </corrector-invert-filters>
+        </range>
+        <range name="Inj. Sectors 8-4">
+          <madx-range first="IP4" last="LHCINJ.B2"/>
+          <twiss-initial-conditions name="lhcb2-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+            <betx value="66.829881"/>
+            <bety value="140.995239"/>
+            <alfx value="-9.0E-6"/>
+            <alfy value="-2.127759"/>
+            <dx value="0.107789"/>
+            <dy value="1.36E-4"/>
+            <dpx value="0.003062"/>
+            <dpy value="3.0E-6"/>
+            <deltap value="0.0"/>
+          </twiss-initial-conditions>
+          <corrector-invert-filters>
+            <regex-filter regex="(?i)^MCBX.*" plane="H"/>
+            <regex-filter regex="(?i)^MCBX.*" plane="V"/>
+          </corrector-invert-filters>
+        </range>
+        <range name="Inj. Sectors 8-1">
+          <madx-range first="IP1" last="LHCINJ.B2"/>
+          <twiss-initial-conditions name="lhcb2-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+            <betx value="66.829881"/>
+            <bety value="140.995239"/>
+            <alfx value="-9.0E-6"/>
+            <alfy value="-2.127759"/>
+            <dx value="0.107789"/>
+            <dy value="1.36E-4"/>
+            <dpx value="0.003062"/>
+            <dpy value="3.0E-6"/>
+            <deltap value="0.0"/>
+          </twiss-initial-conditions>
+          <corrector-invert-filters>
+            <regex-filter regex="(?i)^MCBX.*" plane="H"/>
+            <regex-filter regex="(?i)^MCBX.*" plane="V"/>
+          </corrector-invert-filters>
+        </range>
+      </ranges>
+      <default-range ref-name="ALL"/>
+    </sequence>
+  </sequences>
+  <default-sequence ref-name="lhcb1"/>
+  <init-files>
+    <call-file path="V6.503/V6.5.seq"/>
+    <call-file path="V6.503/install_additional_elements.madx"/>
+  </init-files>
+  <path-offsets>
+    <repository-offset value="lhc/optics"/>
+    <resource-offset value="lhc/ats"/>
+  </path-offsets>
+  <svn-revision>$Revision$</svn-revision>
+</jmad-model-definition>

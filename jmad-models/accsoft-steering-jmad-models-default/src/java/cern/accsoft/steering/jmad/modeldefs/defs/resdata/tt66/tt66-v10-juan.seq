@@ -1,0 +1,239 @@
+//======================================================//
+//              TT66 BEAM LINE 				//
+//======================================================//
+//   File:	tt66-v10.seq				//
+//   based on:	tt66-v9.seq				//
+//		tt66-v8.seq,				//
+//		tt66-v7.seq				//
+//		TT60T9a-v6.seq				//
+//   		TT60T9a-v5.seq, TT60T9a-v4.seq, 	//
+//		TT60T9d-v3.seq,				//
+//		TT60-v6.seq, TT60T9-v1.seq		//
+//		former T9 beam line (old)		//
+//   Version:	10					//
+//							//
+//   Date:	14-JUL-2010				//
+//   Author:	C. Hessler				//
+//======================================================//
+
+//---------------------- GEOMETRY       ---------------------------------------
+
+REAL CONST l.BCT  = 0.86;
+REAL CONST l.BFCT = 0.4820;
+REAL CONST l.BCTFI = 0.4830;
+REAL CONST l.BPCK = 0.45;
+REAL CONST l.BPCL = 0.72;
+REAL CONST l.BTV  = 0.45; 
+REAL CONST l.BTVI = 0.35; 
+REAL CONST l.BPM  = 0.25;
+REAL CONST l.BPKG = 0.3;
+
+REAL CONST l.MBB  = 6.26;
+REAL CONST l.MBBT = 6.26;
+REAL CONST l.MBE  = 6.26;
+REAL CONST l.MBS  = 3.00;
+REAL CONST l.MDSV = 0.70; 
+REAL CONST l.MDSH = 0.70;
+REAL CONST l.MDLH = 1.40;
+REAL CONST l.MDLV = 1.40;
+REAL CONST l.MDAV = 1.40;
+
+REAL CONST l.QTLD = 2.99;
+REAL CONST l.QTLF = 2.99;
+
+REAL CONST l.BSTL = 0.86; 
+REAL CONST l.TED  = 4.75; 
+
+
+HCORRECTOR : HKICKER;
+VCORRECTOR : VKICKER;
+
+//---------------------- HKICKER        ---------------------------------------
+CMDSH: HKICKER, L := l.MDSH,	APERTYPE = ELLIPSE, APERTURE = {0.0635,0.0335};// correcting dipole, short deflection
+CMDLH: HKICKER, L := l.MDLH,	APERTYPE = ELLIPSE, APERTURE = {0.0605,0.0315};// correcting dipole, long deflection
+
+//---------------------- VKICKER        ---------------------------------------
+CMDSV: VKICKER, L := l.MDSV,	APERTYPE = ELLIPSE, APERTURE = {0.0335,0.0635};// correcting dipole, short deflection
+CMDLV: VKICKER, L := l.MDLV,	APERTYPE = ELLIPSE, APERTURE = {0.0315,0.0605};// correcting dipole, long deflection
+CMDAV: VKICKER, L := l.MDAV,	APERTYPE = ELLIPSE, APERTURE = {0.043,0.0615};// correcting dipole, enlarged aperture
+
+//---------------------- CORRECTORS     ---------------------------------------
+CKH: HKICKER, L := 0;	
+CKV: VKICKER, L := 0;	
+
+//---------------------- MONITOR        ---------------------------------------
+
+BPCK: MONITOR, L := l.BPCK,	APERTYPE = ELLIPSE, APERTURE = {0.0575,0.0575};// beam position, directional coupler
+BPCL: MONITOR, L := l.BPCL,	APERTYPE = ELLIPSE, APERTURE = {0.0575,0.0575};// beam position, directional coupler
+BPM : MONITOR, L := l.BPM,	APERTYPE = ELLIPSE, APERTURE = {0.04,0.04};
+BPKG: MONITOR, L := l.BPKG,	APERTYPE = ELLIPSE, APERTURE = {0.03,0.03};
+
+//---------------------- INSTRUMENT     ---------------------------------------
+
+BCT : INSTRUMENT, L := l.BCT,	APERTYPE = ELLIPSE, APERTURE = {0.0775,0.0775}; // beam current transformer
+BFCT: INSTRUMENT, L := l.BFCT,	APERTYPE = ELLIPSE, APERTURE = {0.080,0.080};//
+BCTFI:INSTRUMENT, L := l.BCTFI,	APERTYPE = ELLIPSE, APERTURE = {0.078,0.078};//
+BTV : INSTRUMENT, L := l.BTV,	APERTYPE = RECTANGLE, APERTURE = {0.050,0.03425}; // light screen monitor
+BTVI: INSTRUMENT, L := l.BTVI,	APERTYPE = RECTELLIPSE, APERTURE={0.03000, 0.03000, 0.03000, 0.03000};
+BSTL: INSTRUMENT, L := l.BSTL,	APERTYPE = ELLIPSE, APERTURE = {0.030,0.030}; // Monitor?
+BLM : MARKER;
+
+//---------------------- QUADRUPOLE     ---------------------------------------
+
+QTLD: QUADRUPOLE, L := l.QTLD,	APERTYPE = ELLIPSE, APERTURE = {0.0315,0.0605};// quadrupole, D=80mm
+QTLF: QUADRUPOLE, L := l.QTLF,	APERTYPE = ELLIPSE, APERTURE = {0.0605,0.0315};// quadrupole, D=80mm
+QTLF2: QUADRUPOLE, L := 2*l.QTLF,	APERTYPE = ELLIPSE, APERTURE = {0.0605,0.0315};// quadrupole, D=80mm
+
+//---------------------- RBEND          ---------------------------------------
+
+MBB : RBEND, L := l.MBB,	APERTYPE = ELLIPSE, APERTURE = {0.0645,0.02425}; // bending magnet
+MBBT: RBEND, L := l.MBBT,	APERTYPE = ELLIPSE, APERTURE = {0.0645,0.02425};// modified MBB, turned
+MBE : RBEND, L := l.MBE,	APERTYPE = ELLIPSE, APERTURE = {0.02425,0.0645}; // modified MBB, vertical deflection
+MBS : RBEND, L := l.MBS,	APERTYPE = ELLIPSE, APERTURE = {0.0645,0.02465}; // fast pulsed bending magnet
+MDSV: RBEND, L := l.MDSV,	APERTYPE = ELLIPSE, APERTURE = {0.0315,0.0605};// correcting dipole, short deflection
+MDSH: RBEND, L := l.MDSH,	APERTYPE = ELLIPSE, APERTURE = {0.0605,0.0315};// correcting dipole, short deflection
+MDLV: RBEND, L := l.MDLV,	APERTYPE = ELLIPSE, APERTURE = {0.0315,0.0605};// correcting dipole, long deflection
+MDLH: RBEND, L := l.MDLH,	APERTYPE = ELLIPSE, APERTURE = {0.0605,0.0315};// correcting dipole, long deflection
+MDAV: RBEND, L := l.MDAV,	APERTYPE = ELLIPSE, APERTURE = {0.043,0.0615};// correcting dipole, enlarged aperture
+
+//---------------------- OTHERS          --------------------------------------
+
+TED:  INSTRUMENT, L := l.TED,	APERTYPE = ELLIPSE, APERTURE = {0.050,0.050};  // beam dump
+
+
+
+// TT60COM
+abiv.610013  =  0.0;
+abih.610104  =  0.00074388;
+abih.610206  =  0.00075584;
+abiv.610304  = -0.00050465;
+abih.610337  =  0.0;
+abib.610405  =  0.00827710;
+abie.610405  = -0.00839623;
+abib.610523  =  0.00827690;
+// TT66
+abie.660224  = -1.05632e-04;
+abis.660004  =  0.00293080;
+abib.660107  =  5.98200e-03;// 0.006120218
+
+t9.frontsurface.at = 4.13780e+02;// 415.550500 - 1.77;
+l.TT66 = 428;
+!offset =-7.27;
+
+//---------------------- TT60COM/TT66 SEQUENCE   --------------------------------------
+TT66 : SEQUENCE,            L = l.TT66;!415.550500+3+5+4.3;
+
+// -------- Start of TT60COM --------
+SPS.EJECTPT:MARKER,	  AT = 0.000000;		  
+MDAV.610013:MDAV, AT = 7.944800,	ANGLE := abiv.610013;
+CKV.610013:CKV,   AT = 7.944800+0.7, 	KICK := kick.CKV.610013;
+BPCK.610015:BPCK, AT = 9.379800;
+BTV.610018:BTV,	  AT = 11.275800;	  
+QTLD.610100:QTLD, AT = 13.305800,		K1 := kqid.610100;
+MDLH.610104:MDLH, AT = 16.120800,	ANGLE := abih.610104,		TILT = 0.0 - 0.0000000165;
+CKH.610104:CKH,   AT = 16.120800+0.7, 	KICK := kick.CKH.610104,	TILT = 0.0 - 0.0000000165;
+QTLF.610200:QTLF, AT = 48.811600,		K1 := kqif.610200;
+MDLH.610206:MDLH, AT = 53.222100,	ANGLE := abih.610206,		TILT = 0.0 - 0.0000000500;
+CKH.610206:CKH,   AT = 53.222100+0.7, 	KICK := kick.CKH.610206,	TILT = 0.0 - 0.0000000500;	  
+BPCK.610211:BPCK, AT = 56.945100;	  
+BFCT.610225:BFCT, AT = 68.3411;
+BSTL.610227:BSTL, AT = 69.712100;	  
+BTV.610252:BTV,   AT = 89.1701;
+QTLD.610300:QTLD, AT = 93.173100,		K1 := kqid.610300;
+MDLV.610304:MDLV, AT = 96.101100,	ANGLE := abiv.610304,		TILT = PI/2 - 0.000000067;
+CKV.610304:CKV,   AT = 96.101100+0.7, 	KICK := kick.CKV.610304,	TILT = PI/2 - 0.000000067;
+BPCK.610312:BPCK, AT = 101.893100;	  
+BTV.610317:BTV,	  AT = 105.533100;
+TED.610321:TED,	  AT = 111.753600;
+MDLH.610337:MDLH, AT = 120.9101,	ANGLE := abih.610337,		TILT = 0.0 - 0.0000000670;
+CKH.610337:CKH,   AT = 120.9101+0.7, 	KICK := kick.CKH.610337,	TILT = 0.0 - 0.0000000670;	  
+BPCK.610340:BPCK, AT = 124.235100;	  
+QTLF.610400:QTLF, AT = 126.400100,		K1 := kqif.610400;
+MBB.610405:MBB,	  AT = 132.424109,	ANGLE := abib.610405,		TILT = 0.0 - 0.0000023420;
+MBB.610413:MBB,	  AT = 139.064127,	ANGLE := abib.610405,		TILT = 0.0 - 0.0000068920;  
+MBE.610422:MBE,	  AT = 145.841145,	ANGLE := abie.610405,		TILT = PI/2 - 0.000009167;	  
+MBE.610430:MBE,	  AT = 152.481163,	ANGLE := abie.610405,		TILT = PI/2 - 0.000009167;  
+MBE.610438:MBE,	  AT = 159.121181,	ANGLE := abie.610405,		TILT = PI/2 - 0.000009167;  
+QTLD.610500:QTLD, AT = 164.76119,		K1 := kqid.610500;
+MBE.610506:MBE,	  AT = 171.621199,	ANGLE := abie.610405,		TILT = PI/2 - 0.000009167;	  
+MBE.610514:MBE,	  AT = 178.261217,	ANGLE := abie.610405,		TILT = PI/2 - 0.000009167;  
+MBB.610523:MBB,	  AT = 185.038235,	ANGLE := abib.610523,		TILT = 0.0 - 0.0001852855;  
+MBB.610531:MBB,	  AT = 191.678253,	ANGLE := abib.610523,		TILT = 0.0 - 0.0005375230;  
+BPCK.610539:BPCK, AT = 195.292661;
+QTLF.610600:QTLF, AT = 197.909662,		K1 := kqif.610600;
+// -------- End of TT60COM --------
+
+// -------- Start of TT66 ---------
+TT66.START:MARKER,AT = 199.404662;
+MBS.660004:MBS,	  AT = 201.574500,	ANGLE := abis.660004;	 
+MBS.660008:MBS,	  AT = 205.214500,	ANGLE := abis.660004;	  
+MBS.660011:MBS,	  AT = 208.854500,	ANGLE := abis.660004;
+MBS.660024:MBS,	  AT = 221.317500,	ANGLE := abis.660004;	  
+MBS.660028:MBS,	  AT = 224.957500,	ANGLE := abis.660004;	  
+MBS.660031:MBS,	  AT = 228.597500,	ANGLE := abis.660004;	  
+MBS.660035:MBS,	  AT = 232.237500,	ANGLE := abis.660004;	  
+MBS.660038:MBS,	  AT = 235.877500,	ANGLE := abis.660004;
+!BLM.660042:BLM,   AT = 238.1775;
+QTLF.660100:QTLF, AT = 239.405500,		K1 := kqif.660100;
+BPM.660104:BPM,   AT = 242.019;	 
+BTV.660105:BTVI,  AT = 242.802;
+MDSV.660106:MDSV, AT = 243.878, 	ANGLE := 0,		TILT = PI/2;
+CKV.660106:CKV,   AT = 243.878+0.35, 	KICK := kick.CKV.660106,	TILT = PI/2;
+
+MBB.660107:MBB,	  AT = 248.000000,	ANGLE := abib.660107;
+MBB.660115:MBB,	  AT = 255.500000,	ANGLE := abib.660107;
+!BLM.660122:BLM,   AT = 259.4300;
+QTLD.660200:QTLD, AT = 261.257400,		K1 := kqid.660200;
+BPM.660204:BPM,   AT = 263.500000;
+MBB.660205:MBB,   AT = 267.500000,	ANGLE := abib.660107;
+MBB.660213:MBB,   AT = 275.000000,	ANGLE := abib.660107;
+BTV.660221:BTVI,  AT = 280.000000;
+MDSV.660224:MDSV, AT = 283.272400,	ANGLE := abie.660224,		TILT = PI/2;
+CKV.660224:CKV,   AT = 283.272400+0.35, 	KICK := kick.CKV.660224,	TILT = PI/2;	 
+!BLM.660225:BLM,   AT = 284.4224;
+
+QTLF.660300:QTLF, AT = 360.090500,		 K1 := kqif.660300;
+BPM.660305:BPM,   AT = 363.090500;	  
+MDLH.660306:MDLH, AT = 365.090500,	ANGLE := 0;
+CKH.660306:CKH,   AT = 365.090500+0.7, 	KICK := kick.CKH.660306;
+!BLM.660308:BLM,   AT = 366.5905;
+
+QTLD.660400:QTLD, AT := 373.224500,		 K1 := kqid.660400;
+QTLD.660404:QTLD, AT := 376.890500,		 K1 := kqid.660400;
+BPM.660408:BPM,   AT := 379.390500;
+MDSV.660409:MDSV, AT := 380.890500,	 ANGLE := abie.660409,  	 TILT = PI/2;
+CKV.660409:CKV,   AT = 380.890500+0.35, 	KICK := kick.CKV.660409,	TILT = PI/2;	 	  
+!BLM.660411:BLM,   AT := 382.0405;
+//QTLF.660500:QTLF, AT := 385.890500,		 K1 := kqif.660500;
+QTLF.660502:QTLF2, AT := 387.72350500,		 K1 := 2*kqif.660500;
+//QTLF.660504:QTLF, AT := 389.556500,		 K1 := kqif.660500;
+BPM.660508:BPM,   AT := 392.056500;
+MDSH.660509:MDSH, AT := 393.556500,	ANGLE := 0;
+CKH.660509:CKH,   AT = 393.556500+0.35, 	KICK := kick.CKH.660509;
+!BLM.660511:BLM,   AT := 394.7065;
+
+MDLV.660512:MDLV, AT := 396.8635,	ANGLE := 0,		TILT = PI/2;
+CKV.660512:CKV,   AT = 396.8635+0.7, 	KICK := kick.CKV.660512,	TILT = PI/2;	 
+BCTFI.660516:BCTFI, AT := 400.168;//400.1655;
+BPM.660517:BPM,   AT := 401.006;	 
+BTV.660518:BTVI,   AT := 402.38;
+TT66.WINDOW:MARKER,	AT := 402.855;
+
+FP:MARKER,	  	AT := t9.frontsurface.at - 9.5;	// marker for matching to focal foint	 
+STAND.0.START:MARKER,	AT := t9.frontsurface.at - 9.5;
+STAND.1.START:MARKER,	AT := t9.frontsurface.at - 7;
+STAND.1.END:MARKER,	AT := t9.frontsurface.at - 7 + 2.2;
+STAND.2.START:MARKER,	AT := t9.frontsurface.at - 4;
+!FP:MARKER,	  	AT := 411.550500;		 
+STAND.2.END:MARKER,	AT := t9.frontsurface.at - 4 + 2.2;
+STAND.0.END:MARKER,	AT := t9.frontsurface.at - 0.5;
+BPKG.660529:BPKG,	AT := t9.frontsurface.at - 0.30/2-0.08; 
+DUMP.START:MARKER,	AT := t9.frontsurface.at; 
+T9.CENTER:MARKER,	AT := t9.frontsurface.at + 1.77; 
+DUMP.END:MARKER,  	AT := t9.frontsurface.at + 4.12;	 
+TT66.END:MARKER,	AT := t9.frontsurface.at + 4.12;
+// -------- End of TT66 ---------
+
+ENDSEQUENCE;
+
+	

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+	<product name="accsoft-steering-jmad-models-lsa" version="0.0.17" directory="accsoft/steering/accsoft-steering-jmad-models-lsa">
+		<!-- Please keep pom.xml in sync with product.xml (Maven migration) -->
+		<dependencies>
+			<dep product="log4j" version="PRO" local="true"/>
+			<dep product="accsoft-steering-jmad"/>
+			<dep product="accsoft-steering-commons"/>
+			<dep product="junit" version="PRO" local="true"/>
+		</dependencies>
+	</product>
+</products>

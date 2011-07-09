@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<project name="accsoft-steering-jmad-models-default" default="default">
+	<!--
+     Defines project variables. the .local version is 
+     read before and therefore overrides the
+     checked in version!
+  	-->
+	<property file="project.properties.local" />
+	<property file="project.properties" />
+
+	<!--
+     import the standard target from cmmnbuild
+  	-->
+	<property environment="env" />
+	<property name="cmmnbuild.home" value="${env.CMMNBUILD_HOME}" />
+	<property name="cmmnbuild.targets" location="${cmmnbuild.home}/targets.xml" />
+	<import file="${cmmnbuild.targets}" />
+
+	<!--
+	 import the build file for model-file handling.
+	-->
+	<import file="build-modeldefs.xml" />
+
+	<!-- 
+					enable the callback 
+		-->
+	<property name="callback.after.getjars" value="unsign-my-jars" />
+
+	<!--
+						this target unsigns some jars.
+						This is necessary because cglib does not work when in jar, because it
+						is signed and cannot work together with unsigned code.
+						This target must be executed after getting the jars.
+		-->
+	<target name="unsign-my-jars">
+		<echo message="unsigning cglib" />
+		<antcall target="unsignjars">
+			<param name="jar" value="cglib-nodep" />
+		</antcall>
+		<echo message="unsigning jmad" />
+		<antcall target="unsignjars">
+			<param name="jar" value="accsoft-steering-jmad" />
+		</antcall>
+	</target>
+
+	<!--
+		this target creates a file containing a list of all 
+		the different str-files for LHC. It is create in the 
+		test-source tree. Afterwards the modeldefinitions must be recreated. 
+		
+		This is just a hack for the moment. Later on a better definition for the LHC
+		shall be provided with correct LSA-names of the optics.
+	-->
+
+	<property name="jmad.model.repository.location.lhc" value="${jmad.model.repository.location}/lhc/optics/V6.503" />
+	<property name="lhc.optics.list.dir" value="${basedir}/src/test/cern/accsoft/steering/jmad/modeldefs/defs/resdata/lhc" />
+	<property name="lhc.optics.list.file" value="${lhc.optics.list.dir}/optics.list" />
+
+	<target name="create-lhc-optics-list">
+		<fileset dir="${jmad.model.repository.location.lhc}" id="id.path.strengthfiles">
+			<include name="IR*/*.str" />
+		</fileset>
+
+		<pathconvert pathsep="${line.separator}" dirsep="/" property="strengthfiles" refid="id.path.strengthfiles">
+			<map from="${jmad.model.repository.location.lhc}/" to='' />
+		</pathconvert>
+
+		<mkdir dir="${jmad.model.data.resdata.lhc}" />
+		<property name="destfile" value="${lhc.optics.list.file}" />
+		<echo>
+Creating LHC optics list:
+${destfile}
+-------------------------
+it will contain the entries:
+${strengthfiles}
+		</echo>
+
+		<mkdir dir="${lhc.optics.list.dir}" />
+		<echo file="${destfile}" message="${strengthfiles}" />
+	</target>
+
+</project>

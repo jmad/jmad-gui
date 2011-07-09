@@ -1,0 +1,78 @@
+<jmad-model-definition name="TT66">
+  <optics>
+    <optic name="0.10mm-0.10mm" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="str/out.tt66-v10-0_10mm-0_10mm.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="0.20mm-0.20mm" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="str/out.tt66-v10-0_20mm-0_20mm.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="0.50mm-0.50mm" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="str/out.tt66-v10-0_50mm-0_50mm.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="1.0mm-1.0mm" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="str/out.tt66-v10-1_0mm-1_0mm.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="1.50mm-1.50mm" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="str/out.tt66-v10-1_50mm-1_50mm.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="2.0mm-2.0mm" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="str/out.tt66-v10-2_0mm-2_0mm.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+  </optics>
+  <default-optic ref-name="0.10mm-0.10mm"/>
+  <sequences>
+    <sequence name="tt66">
+      <beam>
+        <particle value="PROTON"/>
+        <energy value="450.0"/>
+        <ex value="7.297671095555556E-9"/>
+        <ey value="7.297671095555556E-9"/>
+        <sigt value="0.077"/>
+        <sige value="5.0E-4"/>
+        <npart value="1.1E11"/>
+        <bv value="PLUS"/>
+      </beam>
+      <ranges>
+        <range name="ALL">
+          <madx-range first="#s" last="#e"/>
+          <twiss-initial-conditions name="tt66-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+            <betx value="17.02748544"/>
+            <bety value="123.9323528"/>
+            <alfx value="0.4583574683"/>
+            <alfy value="-3.422196857"/>
+            <dx value="-0.3408152943"/>
+            <dy value="0.0"/>
+            <dpx value="0.01307653962"/>
+            <dpy value="0.0"/>
+            <deltap value="0.0"/>
+          </twiss-initial-conditions>
+        </range>
+      </ranges>
+      <default-range ref-name="ALL"/>
+    </sequence>
+  </sequences>
+  <default-sequence ref-name="tt66"/>
+  <init-files>
+    <call-file location="RESOURCE" path="beam.madx"/>
+    <call-file location="RESOURCE" path="tt66-v10-juan.seq"/>
+  </init-files>
+  <path-offsets>
+    <resource-offset value="tt66"/>
+  </path-offsets>
+  <svn-revision>$Revision$</svn-revision>
+</jmad-model-definition>

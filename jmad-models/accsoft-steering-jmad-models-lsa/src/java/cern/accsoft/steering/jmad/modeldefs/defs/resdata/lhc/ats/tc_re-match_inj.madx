@@ -1,0 +1,44 @@
+! tune and chroma rematching routines as provided by S. Fartoukh
+! REQUIRES knob definition files loaded 'Presetandknob_B[12]*'
+! For injection optics (new integer tunes!!!)
+QX0=62.28;
+QY0=60.31;
+QPRIME0=2.0;
+
+! correct the tune for beam1 using the knob flags defined in knob definition file
+use, sequence=lhcb1;
+match,sequence=lhcb1;
+global, q1=QX0,q2=QY0;
+vary, name=dQx.b1;
+vary, name=dQy.b1;
+jacobian,calls=10,tolerance=1.0e-21;
+endmatch;
+
+! correct the tune for beam2 using the knob flags defined in knob definition file
+use, sequence=lhcb2;
+match,sequence=lhcb2;
+global, q1=QX0,q2=QY0;
+vary, name=dQx.b2;
+vary, name=dQy.b2;
+jacobian,calls=10,tolerance=1.0e-21;
+endmatch;
+
+! correct the chroma for beam1 using the knob flags defined in knob definition file
+use, sequence=lhcb1;
+match,sequence=lhcb1;
+global, dq1=QPRIME0,dq2=QPRIME0;
+vary, name=dQpx.b1;
+vary, name=dQpy.b1;
+jacobian,calls=10,tolerance=1.0e-21;
+endmatch;
+
+! correct the chroma for beam1 using the knob flags defined in knob definition file
+use, sequence=lhcb2;
+match,sequence=lhcb2;
+global, dq1=QPRIME0,dq2=QPRIME0;
+vary, name=dQpx.b2;
+vary, name=dQpy.b2;
+jacobian,calls=10,tolerance=1.0e-21;
+endmatch;
+
+return;

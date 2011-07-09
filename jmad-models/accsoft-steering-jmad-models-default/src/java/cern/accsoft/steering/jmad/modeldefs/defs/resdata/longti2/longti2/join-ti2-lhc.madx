@@ -1,0 +1,27 @@
+//
+// this script joins ti2 and the lhc (up to pt 3) into one sequence.
+//
+
+ lhcinj.b1: marker;
+ btvst.a4l2.b1: btvst065;
+
+seqedit, sequence=lhcb1; 
+ replace, element= btvst.a4l2, by= btvst.a4l2.b1;
+ install, element= lhcinj.b1, at = 3189.365584, from=ip1;
+ flatten;
+endedit;
+
+seqedit, sequence=lhcb1; 
+ cycle, start=lhcinj.b1; 
+endedit;
+
+extract, sequence=lhcb1, from=lhcinj.b1 , to=E.DS.R3.B1,  newname=INJDSR3 ,  refpos=lhcinj.b1 ; 
+
+Linjdsr3 = 4022.52899022; Lti2 = 3188.384281;
+! assemble 
+ ti2lhcb1 : sequence, l= Linjdsr3 + Lti2 ; 
+  ti2  , at=0; 
+  INJDSR3, at=0, from=lhcinj.ti2; 
+ endsequence; 
+
+

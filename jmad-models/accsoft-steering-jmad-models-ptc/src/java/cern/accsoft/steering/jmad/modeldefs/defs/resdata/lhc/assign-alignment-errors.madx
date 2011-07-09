@@ -1,0 +1,15 @@
+ n_elem = table(egeoc, tablelength);    value, n_elem ;
+
+ one_elem(j_elem) : macro = {
+     select, flag=error, clear;
+     select, flag=error, range=tabstring(egeoc, name, j_elem);
+     ealign, dx     = table(egeoc,  mc_dx,    j_elem),
+             dy     = table(egeoc,  mc_dy,    j_elem),
+             ds     = table(egeoc,  mc_ds,    j_elem),
+             dphi   = table(egeoc,  mc_phi,   j_elem),
+             dtheta = table(egeoc,  mc_theta, j_elem),
+             dpsi   = table(egeoc,  mc_psi,   j_elem);
+  }
+
+ i_elem = 0;
+ while (i_elem < n_elem) { i_elem = i_elem + 1; exec,  one_elem($i_elem); }

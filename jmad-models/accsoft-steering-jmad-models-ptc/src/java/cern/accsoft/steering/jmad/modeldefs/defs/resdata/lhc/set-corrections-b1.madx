@@ -1,0 +1,68 @@
+!#################################################
+ !!! b2-correction for beam 1
+!#################################################
+ kqtf.b1:=0;
+ kqtd.b1:=0;
+ dKQTF.a12B1 :=     0.1090845666E-02 ;
+ dKQTF.a23B1 :=    -0.1198748767E-02 ;
+ dKQTF.a34B1 :=    -0.1038530124E-02 ;
+ dKQTF.a45B1 :=    -0.9758017129E-03 ;
+ dKQTF.a56B1 :=     0.7852573434E-03 ;
+ dKQTF.a67B1 :=     0.9509184612E-03 ;
+ dKQTF.a78B1 :=     0.7663294534E-03 ;
+ dKQTF.a81B1 :=    -0.9723085355E-03 ;
+ dKQTD.a12B1 :=     0.1139886932E-02 ;
+ dKQTD.a23B1 :=    -0.1099343875E-02 ;
+ dKQTD.a34B1 :=    -0.1093254013E-02 ;
+ dKQTD.a45B1 :=    -0.9888881517E-03 ;
+ dKQTD.a56B1 :=     0.7880141470E-03 ;
+ dKQTD.a67B1 :=     0.9418269271E-03 ;
+ dKQTD.a78B1 :=     0.8307941687E-03 ;
+ dKQTD.a81B1 :=    -0.9801440564E-03 ;
+
+ KQTF.a12B1  :=     0.0000000000E+00  + dKQTF.a12B1 - 1.0*kqtf.b1;
+ KQTF.a23B1  :=     0.0000000000E+00  + dKQTF.a23B1 + 3.0*kqtf.b1;
+ KQTF.a34B1  :=     0.0000000000E+00  + dKQTF.a34B1 + 3.0*kqtf.b1;
+ KQTF.a45B1  :=     0.0000000000E+00  + dKQTF.a45B1 - 1.0*kqtf.b1;
+ KQTF.a56B1  :=     0.0000000000E+00  + dKQTF.a56B1 - 1.0*kqtf.b1;
+ KQTF.a67B1  :=     0.0000000000E+00  + dKQTF.a67B1 + 3.0*kqtf.b1;
+ KQTF.a78B1  :=     0.0000000000E+00  + dKQTF.a78B1 + 3.0*kqtf.b1;
+ KQTF.a81B1  :=     0.0000000000E+00  + dKQTF.a81B1 - 1.0*kqtf.b1;
+ KQTD.a12B1  :=     0.0000000000E+00  + dKQTD.a12B1 - 1.0*kqtd.b1;
+ KQTD.a23B1  :=     0.0000000000E+00  + dKQTD.a23B1 + 3.0*kqtd.b1;
+ KQTD.a34B1  :=     0.0000000000E+00  + dKQTD.a34B1 + 3.0*kqtd.b1;
+ KQTD.a45B1  :=     0.0000000000E+00  + dKQTD.a45B1 - 1.0*kqtd.b1;
+ KQTD.a56B1  :=     0.0000000000E+00  + dKQTD.a56B1 - 1.0*kqtd.b1;
+ KQTD.a67B1  :=     0.0000000000E+00  + dKQTD.a67B1 + 3.0*kqtd.b1;
+ KQTD.a78B1  :=     0.0000000000E+00  + dKQTD.a78B1 + 3.0*kqtd.b1;
+ KQTD.a81B1  :=     0.0000000000E+00  + dKQTD.a81B1 - 1.0*kqtd.b1;
+
+!#########################################
+! Coupling correction (result matching thick model including SF b2 correction)
+! With magnetic errors, alignment errors, orbit corrected to zero
+!#########################################
+kqs.r7b1 =     0.001355159017 ;
+kqs.r5b1 =    0.0006126852129 ;
+kqs.r3b1 =                  0 ;
+kqs.r1b1 =     0.000169504808 ;
+kqs.l8b1 =     0.001355159017 ;
+kqs.l6b1 =    0.0006126852129 ;
+kqs.l4b1 =                  0 ;
+kqs.l2b1 =     0.000169504808 ;
+kqs.a81b1 =     0.001962742886 ;
+kqs.a67b1 =   -0.0009884731393 ;
+kqs.a45b1 =    0.0001946481957 ;
+kqs.a23b1 =    -0.001364953907 ;
+
+!#################################################
+! Correct tune and chromaticity
+!#################################################
+
+! With alignment and magnetic errors (08/11/2010)
+! Orbit matched to zero instead of to the measured orbit
+! Including SF b2 corrections
+! With kqs for coupling correction from ptc matching
+ksf.b1 =      0.05992538772 ;
+ksd.b1 =      -0.1062897009 ;
+kqtf.b1 =    0.0002411227075 ;
+kqtd.b1 =   -0.0001475602437 ;

@@ -1,0 +1,60 @@
+<jmad-model-definition name="LHC PTC">
+  <optics>
+    <optic name="INJ-B1-SEED1" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="create-nominal-b1.madx"/>
+        <table-file location="RESOURCE" path="ERRORS/alignment_errors/LHC-egeoc-b1.tfs"/>
+        <call-file location="RESOURCE" path="assign-alignment-errors.madx"/>
+        <call-file path="measured_errors/Msubroutines.madx"/>
+        <table-file location="REPOSITORY" path="measured_errors/rotations_Q2_integral.tab"/>
+        <call-file location="RESOURCE" path="disable-common-area-correctors.madx"/>
+        <call-file location="RESOURCE" path="CORRECTIONS/orbit_correction/correctors_sep_bumps.madx"/>
+        <call-file location="RESOURCE" path="correct-orbit-to-nominal.madx"/>
+        <call-file location="RESOURCE" path="set-corrections-b1.madx"/>
+      </init-files>
+      <post-ptc-files>
+        <table-file location="RESOURCE" path="ERRORS/absolute_harmonics/BEAM1/harmonics_MB_O2-11_S1.tfs" table-name="errors_read"/>
+        <call-file location="RESOURCE" path="ptc-readerrors-overwrite.madx"/>
+        <table-file location="RESOURCE" path="ERRORS/absolute_harmonics/BEAM1/harmonics_MQ_O2-11_S1.tfs" table-name="errors_read"/>
+        <call-file location="RESOURCE" path="ptc-readerrors.madx"/>
+        <table-file location="RESOURCE" path="CORRECTIONS/BEAM1/ptc_total_corr1_b1_MC_O2-11_S1.tfs" table-name="errors_read"/>
+        <call-file location="RESOURCE" path="ptc-readerrors-overwrite.madx"/>
+      </post-ptc-files>
+    </optic>
+  </optics>
+  <default-optic ref-name="INJ-B1-SEED1"/>
+  <sequences>
+    <sequence name="lhcb1">
+      <beam>
+        <particle value="PROTON"/>
+        <energy value="450.0"/>
+        <sige value="4.5E-4"/>
+        <npart value="1.15E11"/>
+        <bv value="PLUS"/>
+      </beam>
+      <ranges>
+        <range name="ALL">
+          <madx-range first="#s" last="#e"/>
+          <twiss-initial-conditions name="default-twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+          </twiss-initial-conditions>
+        </range>
+      </ranges>
+      <default-range ref-name="ALL"/>
+    </sequence>
+  </sequences>
+  <default-sequence ref-name="lhcb1"/>
+  <init-files>
+    <call-file location="RESOURCE" path="set-options.madx"/>
+    <call-file path="V6.5.seq"/>
+    <call-file location="RESOURCE" path="rotate-to-IP3.madx"/>
+  </init-files>
+  <path-offsets>
+    <repository-offset value="lhc/optics/V6.503"/>
+    <resource-offset value="lhc"/>
+  </path-offsets>
+  <svn-revision>$Revision$</svn-revision>
+</jmad-model-definition>

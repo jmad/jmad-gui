@@ -1,0 +1,19 @@
+! redefinition of the strengthes for b2,b3 
+! main dipole errors
+
+deltakk = 0.0;
+b2.mbi = 0.0;
+b3.mbi = 0.0;
+
+!kqid.20700           := -0.033849964762 ;
+!kqif.20800           :=  0.033849964762 ;
+!kqif.26000           :=  0.033849964762 ;
+
+kmqif = 0.033849964762 ;
+kmqid = -0.033849964762 ;
+
+kqid.20700 := kmqid * (1 + deltakk);
+kqif.20800 := kmqif * (1 + deltakk);
+kqif.26000 := kmqif * (1 + deltakk);
+
+

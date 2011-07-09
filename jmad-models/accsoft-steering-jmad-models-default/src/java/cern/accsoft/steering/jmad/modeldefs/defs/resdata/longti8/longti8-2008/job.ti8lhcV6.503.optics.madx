@@ -1,0 +1,26 @@
+title,   "TI8+LHC";
+ set,     format="12.6f";
+
+ option, -echo, warn, info;
+
+ btvst.a4r8.b2: btvst064;
+
+ seqedit, sequence=lhcb2; 
+ replace, element= btvst.a4r8, by= btvst.a4r8.b2;
+ remove,  element=VCSIH.6R8.A.B2;
+ remove,  element=VAMSA.6R8.B.B2;
+ remove,  element=VAMSA.6R8.A.B2;
+ remove,  element=BTVSS.6R8.A.B2;
+ remove,  element=BTVSS.6R8.B.B2;
+ remove,  element=VCDJE.6R8.B.B2;
+ flatten; endedit;
+
+ seqedit, sequence=lhcb2; cycle, start=lhcinj.b2; endedit;
+ extract, sequence=lhcb2, from=lhcinj.b2 , to=S.DS.L7.B2,  newname=INJDSL7 ,  refpos=lhcinj.b2 ; 
+
+Linjdsl7 = 4011.308990594; Lti8 = 2697.257490800;
+! assemble 
+ ti8lhcb2 : sequence, l= Linjdsl7 + Lti8 ; 
+  TI8, at=0; 
+  INJDSL7, at=0, from=lhcinj.ti8; 
+ endsequence; 

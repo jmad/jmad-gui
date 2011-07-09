@@ -1,0 +1,4 @@
+! error on the field of MBI (b3 and b2 as computed by Kajetan)
+select, flag=error, class=MBI;
+!select, flag=error, class=MBIT;
+efcomp, order:=0, radius:=0.025, dknr:={0,1.35e-4,-4.7e-4};

@@ -1,0 +1,18 @@
+ title,   "TI2+LHC";
+ set,     format="12.6f";
+
+ option, -echo, warn, info;
+
+ call,    file = "TI2.seq";
+ call,    file = "TI2.aperture.seq";
+ call, file="TI2_withb2b3.str";
+
+ call,   file="V6.5.seq";
+ call,   file="V6.5.inj.str"; 
+
+ call, file="join-ti2-lhc.madx";
+ 
+ beam, particle=proton, energy=450.0, ex=7.297671095555556E-9, ey=7.297671095555556E-9, sigt=0.077, sige=5.0E-4, npart=1.1E11, bv=1;
+ 
+ use, period=ti2lhcb1;
+ call, file="set-errors-b2-b3.madx";

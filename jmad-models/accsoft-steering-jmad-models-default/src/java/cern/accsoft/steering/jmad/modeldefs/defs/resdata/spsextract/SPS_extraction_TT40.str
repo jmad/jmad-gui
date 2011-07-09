@@ -1,0 +1,7 @@
+fac := +1;
+
+mpsh.41402,kick :=     -2.0591098e-06*fac;
+mplh.41672,kick :=     0.000564658642*fac;
+mke1kick :=          0.0001002*fac ;
+mke2kick :=          0.0001054*fac ;
+mse418kick :=      0.00207431735*fac ;

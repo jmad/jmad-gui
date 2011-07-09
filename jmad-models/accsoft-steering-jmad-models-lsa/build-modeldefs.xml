@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!--
+		This build file contains a target to synchronize the model files in
+		the source-code tree with the actual ones in the repository. This is
+		intended to be a reference implementation for jmad model packages and
+		can be copied to new projects. This file has to be included in the
+		normal build-file, otherwise the callback does not work. the
+		repository location has to be set via the
+		jmad.model.repository.location property in one of the
+		project.properties files.
+	-->
+<project name="build-modeldefs" default="sync-repdata">
+	<!--
+		Defines project variables. the .local version is read before and
+		therefore overrides the checked in version!
+	-->
+	<property file="project.properties.local" />
+	<property file="project.properties" />
+
+	<!--
+     import the standard target from cmmnbuild
+  	-->
+	<property environment="env" />
+	<property name="cmmnbuild.home" value="${env.CMMNBUILD_HOME}" />
+	<property name="cmmnbuild.targets" location="${cmmnbuild.home}/targets.xml" />
+	<import file="${cmmnbuild.targets}" />
+
+	<!--
+		properties needed for model-files copying.
+	-->
+	<property name="jmad.model.data.base" value="${basedir}/src/java/cern/accsoft/steering/jmad/modeldefs/defs" />
+	<property name="jmad.model.data.repdata" value="${jmad.model.data.base}/repdata" />
+
+	<!--
+		This target cleans the repdata dir in the src-tree. It should normally
+		not be necessary to use this, since newer files from the repository
+		are overwritten anyway.
+	-->
+	<target name="clean-repdata">
+		<delete dir="${jmad.model.data.repdata}" verbose="true" />
+	</target>
+
+	<path id="product.class.path">
+		<pathelement location="lib/" />
+		<pathelement path="${java.class.path}/" />
+		<pathelement path="${additional.path}" />
+	</path>
+
+	<!--
+		This target declares the JMadModelFileSelector component. this has to
+		be done in an environment where the classpath is available. Therefore
+		targets using this have to be called from a commonbuild-callback.
+	-->
+	<target name="declare-jmad-tasks">
+		<typedef name="jmadmfselector" classname="cern.accsoft.steering.jmad.ant.JMadModelFileSelector">
+			<classpath refid="product.classpath" />
+		</typedef>
+	</target>
+
+	<!--
+		This target synchronizes the files required by model-definitions with
+		the actual repository. Newer files are copied and files that are not
+		needed anymore by any model-definition are removed! This target should
+		for the moment only be invoked by hand. It uses a callback from
+		commonbuild, because otherwise the product.classpath would not be
+		available. In case of other modeldefinitions apart from LHC the
+		includes entry needs to be adapted
+	-->
+	<target name="sync-repdata">
+		<property name="callback.target" value="sync-repdata-impl" />
+		<ant antfile="${cmmnbuild.antfile}" dir="${basedir}" target="callback" />
+	</target>
+	<target name="sync-repdata-impl" depends="declare-jmad-tasks">
+		<sync todir="${jmad.model.data.repdata}" verbose="true">
+			<fileset dir="${jmad.model.repository.location}">
+				<include name="lhc/optics/V6.503/**/*"/>
+				<include name="lhc/optics/ATS_V6.503/**/*"/>
+				<jmadmfselector defdir="${jmad.model.data.base}" />
+			</fileset>
+			<preserveintarget>
+				<include name="**/.svn/**" />
+			</preserveintarget>
+		</sync>
+	</target>
+</project>

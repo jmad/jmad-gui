@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+	<product name="accsoft-steering-jmad-models-ptc" version="0.0.1"
+		directory="accsoft/steering/accsoft-steering-jmad-models-ptc">
+		<dependencies>
+			<dep product="log4j" version="PRO" local="true" />
+			<dep product="accsoft-steering-jmad" version="PRO" local="true" />
+			<dep product="accsoft-steering-commons" version="PRO" />
+			<dep product="junit" version="PRO" local="true" />
+		</dependencies>
+	</product>
+</products>

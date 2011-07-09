@@ -1,0 +1,23 @@
+//--------------------------------------------------------------------------
+// Beam definition for HiRadMat
+//--------------------------------------------------------------------------
+
+// Proton beam (LHC type)
+
+
+BEAM,	PARTICLE= PROTON,
+	ENERGY	= 440.0, 
+	EXN	= 3.5e-6*4,//= 4 sigma
+	EYN	= 3.5e-6*4,//= 4 sigma
+	;
+
+KINENERGY = beam->energy - beam->mass;
+BETAGAMMA = sqrt( ((beam->energy)/beam->mass)^2 - 1 );
+
+VALUE,	beam->mass;
+VALUE,	KINENERGY;
+VALUE,	beam->energy;
+VALUE,	BETAGAMMA;
+VALUE,	beam->pc;
+VALUE,	BEAM->EX, BEAM->EY;
+

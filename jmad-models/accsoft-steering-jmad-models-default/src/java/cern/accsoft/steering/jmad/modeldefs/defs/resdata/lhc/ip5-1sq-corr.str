@@ -1,0 +1,29 @@
+!
+! corr-strengthes first squeeze step:
+!
+acbxh1.l5            :=  0.1000000000e-04   *on_x5 ;
+acbxh1.r5            := -0.1000000000e-04   *on_x5 ;
+acbyhs4.l5b1         := -0.1057495598e-05   *on_x5 ;
+acbyhs4.r5b1         :=  0.3487435493e-04   *on_x5 ;
+acbch6.l5b1          := -0.9022296722e-05   *on_x5 ;
+acbch5.r5b1          := -0.1032661745e-04   *on_x5 ;
+acbch7.r5b1          :=  0.0000000000e+00   *on_x5 ;
+acbyhs4.l5b2         :=  0.3683968772e-04   *on_x5 ;
+acbyhs4.r5b2         := -0.1368510955e-05   *on_x5 ;
+acbch5.l5b2          := -0.1168789955e-04   *on_x5 ;
+acbch6.r5b2          := -0.8452264629e-05   *on_x5 ;
+acbch7.l5b2          :=  0.0000000000e+00   *on_x5 ;
+
+acbxv1.l5            :=  0.1000000000e-04 *on_sep5 ;
+acbxv1.r5            :=  0.1000000000e-04 *on_sep5 ;
+acbyvs4.l5b1         :=  0.3013224331e-04 *on_sep5 ;
+acbyvs4.r5b1         :=  0.4176502044e-05 *on_sep5 ;
+acbcv5.l5b1          := -0.1546037094e-04 *on_sep5 ;
+acbcv6.r5b1          :=  0.2228607857e-06 *on_sep5 ;
+acbyvs4.l5b2         := -0.4086679125e-05 *on_sep5 ;
+acbyvs4.r5b2         := -0.2724320212e-04 *on_sep5 ;
+acbcv6.l5b2          := -0.3682831122e-06 *on_sep5 ;
+acbcv5.r5b2          :=  0.1371026594e-04 *on_sep5 ;
+
+
+

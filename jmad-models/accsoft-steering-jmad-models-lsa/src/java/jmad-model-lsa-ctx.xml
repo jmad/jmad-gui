@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-lazy-init="true">
+
+	<bean id="lhcModelManager"
+		class="cern.accsoft.steering.jmad.modeldefs.lhc.impl.LhcModelManagerImpl"
+		init-method="init" destroy-method="cleanup">
+		<property name="jmadService" ref="jmadService" />
+	</bean>
+
+	<bean id="configuredLhcModelManager"
+		class="cern.accsoft.steering.jmad.modeldefs.lhc.impl.LhcModelManagerImpl"
+		init-method="init" destroy-method="cleanup">
+		<property name="jmadService" ref="jmadService" />
+		<property name="startupConfiguration" ref="startupConfiguration" />
+	</bean>
+
+	<bean id="startupConfiguration"
+		class="cern.accsoft.steering.jmad.modeldefs.impl.ContextBeanInjector" />
+
+	<!--
+		jmad stuff 
+	 -->
+	<bean id="jmadService" class="cern.accsoft.steering.jmad.service.JMadServiceFactory"
+		factory-method="createJMadService" />
+</beans>

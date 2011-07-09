@@ -1,0 +1,2 @@
+option, warn,info;
+option,-echo;

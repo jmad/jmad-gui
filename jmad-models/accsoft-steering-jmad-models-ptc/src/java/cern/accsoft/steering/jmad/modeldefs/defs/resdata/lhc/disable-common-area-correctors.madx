@@ -1,0 +1,10 @@
+!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!         Deactivate correctors in the common areas for obit correction
+!+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+! disable all Kickers
+usekick, range=#s/#e,status=off;
+
+! enable all Kickers except the ones in the common areas
+usekick, pattern='.B1',status=on;
+usekick, pattern='.B2',status=on;
