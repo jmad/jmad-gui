@@ -24,9 +24,8 @@ public class NameRefConverter implements Converter {
 		return reader.getAttribute("ref-name");
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public boolean canConvert(Class clazz) {
+	public boolean canConvert(@SuppressWarnings("rawtypes") Class clazz) {
 		return clazz.equals(String.class);
 	}
 }

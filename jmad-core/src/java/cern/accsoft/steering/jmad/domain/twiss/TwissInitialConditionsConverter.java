@@ -78,9 +78,8 @@ public class TwissInitialConditionsConverter implements Converter {
 		return retVal;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public boolean canConvert(Class clazz) {
+	public boolean canConvert(@SuppressWarnings("rawtypes") Class clazz) {
 		return clazz.equals(TwissInitialConditionsImpl.class);
 	}
 }
