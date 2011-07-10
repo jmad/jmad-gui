@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-	<product name="accsoft-steering-jmad" version="0.0.59" directory="accsoft/steering/accsoft-steering-jmad">
-		<jar>accsoft-steering-jmad.jar</jar>
+	<product name="jmad-core" version="0.0.59" directory="accmodel/jmad/jmad-core">
+		<jar>jmad-core.jar</jar>
 		<!-- Please keep pom.xml in sync with product.xml (Maven migration) -->
 		<dependencies>
 			<dep product="commons-beanutils"/>
