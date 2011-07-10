@@ -12,7 +12,7 @@
 	<property name="cmmnbuild.home" value="${env.CMMNBUILD_HOME}" />
 	<property name="cmmnbuild.targets" location="${cmmnbuild.home}/targets.xml" />
 	<import file="${cmmnbuild.targets}" />
-
+ 
 	<!-- 
 		enable the callback to unsign the cglib
 	-->
