@@ -44,9 +44,6 @@ public class TfsResultImpl implements TfsResult {
 	/** The types of the variables (columns in the file) */
 	private final Map<String, MadxVarType> varTypes = new HashMap<String, MadxVarType>();
 
-	/** The numbers of available elements */
-	private int valueCount = 0;
-
 	//
 	// public methods needed for filling the result
 	//
@@ -60,7 +57,6 @@ public class TfsResultImpl implements TfsResult {
 		valueLists.clear();
 		doubleValueLists.clear();
 		keys.clear();
-		valueCount = 0;
 	}
 
 	/**
@@ -106,7 +102,6 @@ public class TfsResultImpl implements TfsResult {
 			}
 			columnNumber++;
 		}
-		this.valueCount++;
 	}
 
 	/**
