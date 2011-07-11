@@ -50,6 +50,9 @@ public class JMadMenuFactoryImpl implements JMadMenuFactory {
         toolBar.add(getChooseActionFactory().getNewModelAction());
         toolBar.add(getChooseActionFactory().getCloseActiveModelAction());
         toolBar.addSeparator();
+        toolBar.add(getChooseActionFactory().getImportAction());
+        toolBar.add(getChooseActionFactory().getExportAction());
+        toolBar.addSeparator();
         toolBar.add(getChooseActionFactory().getChooseRangeAction());
         toolBar.add(getChooseActionFactory().getChooseOpticsAction());
         toolBar.addSeparator();
@@ -71,6 +74,9 @@ public class JMadMenuFactoryImpl implements JMadMenuFactory {
 
         fileMenu.add(getChooseActionFactory().getNewModelAction());
         fileMenu.add(getChooseActionFactory().getCloseActiveModelAction());
+        fileMenu.addSeparator();
+        fileMenu.add(getChooseActionFactory().getImportAction());
+        fileMenu.add(getChooseActionFactory().getExportAction());
         fileMenu.addSeparator();
         fileMenu.add(getChooseActionFactory().getExitAction());
 

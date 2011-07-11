@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="accsoft-steering-jmad-gui" default="default">
+<project name="accmodel-jmad-gui" default="default">
 
 	<!--
      Defines project variables

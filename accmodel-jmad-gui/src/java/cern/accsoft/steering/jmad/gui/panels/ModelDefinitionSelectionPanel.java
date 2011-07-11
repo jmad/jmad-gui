@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
-import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.domain.machine.RangeDefinition;
 import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.JMadModelStartupConfiguration;
@@ -24,8 +23,8 @@ import cern.accsoft.steering.jmad.service.JMadService;
 import cern.accsoft.steering.util.gui.panels.Applyable;
 import cern.accsoft.steering.util.gui.panels.Titleable;
 
-public class ModelSelectionPanel extends JPanel implements Titleable, Applyable {
-    private final static Logger logger = Logger.getLogger(ModelSelectionPanel.class);
+public class ModelDefinitionSelectionPanel extends JPanel implements Titleable, Applyable {
+    private final static Logger logger = Logger.getLogger(ModelDefinitionSelectionPanel.class);
 
     private static final long serialVersionUID = -3095464304653777882L;
 
@@ -34,7 +33,7 @@ public class ModelSelectionPanel extends JPanel implements Titleable, Applyable 
 
     private JComboBox cboModel;
 
-    private boolean initModel = false;
+    private JMadModelStartupConfiguration jmadModelStartupConfiguration = null;
 
     private ActionListener modelSelectionComboListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -47,24 +46,21 @@ public class ModelSelectionPanel extends JPanel implements Titleable, Applyable 
      */
     private RangeSelectionPanel rangeSelectionPanel;
 
-    /** The model, if a new one is created */
-    private JMadModel model;
-
-    public ModelSelectionPanel() {
+    public ModelDefinitionSelectionPanel() {
         /* nothing to do */
     }
 
     private void updateSubPanels() {
-        if (ModelSelectionPanel.this.rangeSelectionPanel != null) {
+        if (ModelDefinitionSelectionPanel.this.rangeSelectionPanel != null) {
             JMadModelDefinition modelDefinition = getActiveModelDefinition();
             if (modelDefinition != null) {
-                ModelSelectionPanel.this.rangeSelectionPanel.setActiveModelDefinition(modelDefinition, modelDefinition
-                        .getDefaultSequenceDefinition().getDefaultRangeDefinition());
+                ModelDefinitionSelectionPanel.this.rangeSelectionPanel.setActiveModelDefinition(modelDefinition,
+                        modelDefinition.getDefaultSequenceDefinition().getDefaultRangeDefinition());
             }
         }
     }
 
-    public ModelSelectionPanel(boolean showRangeSelection) {
+    public ModelDefinitionSelectionPanel(boolean showRangeSelection) {
         if (showRangeSelection) {
             this.rangeSelectionPanel = new RangeSelectionPanel();
             this.rangeSelectionPanel.init();
@@ -140,7 +136,7 @@ public class ModelSelectionPanel extends JPanel implements Titleable, Applyable 
     /**
      * @return the actually selected {@link JMadModelDefinition}
      */
-    private JMadModelDefinition getActiveModelDefinition() {
+    public JMadModelDefinition getActiveModelDefinition() {
         return (JMadModelDefinition) this.cboModel.getSelectedItem();
     }
 
@@ -158,47 +154,23 @@ public class ModelSelectionPanel extends JPanel implements Titleable, Applyable 
 
     @Override
     public boolean apply() {
-        try {
-            this.model = getJmadService().createModel(getActiveModelDefinition());
-
-            RangeDefinition rangeDefinition = null;
-            if (this.rangeSelectionPanel != null) {
-                rangeDefinition = this.rangeSelectionPanel.getActiveRangeDefinition();
-                if (rangeDefinition != null) {
-                    JMadModelStartupConfiguration startupConfiguration = new JMadModelStartupConfiguration();
-                    startupConfiguration.setInitialRangeDefinition(rangeDefinition);
-                    startupConfiguration.setLoadDefaultRange(false);
-                    this.model.setStartupConfiguration(startupConfiguration);
-                }
+        RangeDefinition rangeDefinition = null;
+        this.jmadModelStartupConfiguration = null;
+        if (this.rangeSelectionPanel != null) {
+            rangeDefinition = this.rangeSelectionPanel.getActiveRangeDefinition();
+            if (rangeDefinition != null) {
+                JMadModelStartupConfiguration startupConfiguration = new JMadModelStartupConfiguration();
+                startupConfiguration.setInitialRangeDefinition(rangeDefinition);
+                startupConfiguration.setLoadDefaultRange(false);
+                this.jmadModelStartupConfiguration = startupConfiguration;
             }
-            if (this.initModel) {
-                getModel().reset();
-            }
-            if (getModelManager() != null) {
-                getModelManager().setActiveModel(getModel());
-            }
-            return true;
-        } catch (JMadModelException e) {
-            logger.error("Error while initializing Model.", e);
-            return false;
         }
-    }
-
-    public JMadModel getModel() {
-        return model;
+        return getActiveModelDefinition() != null;
     }
 
     @Override
     public void cancel() {
         /* do nothing */
-    }
-
-    public void setInitModel(boolean initModel) {
-        this.initModel = initModel;
-    }
-
-    public boolean isInitModel() {
-        return initModel;
     }
 
     public void setJmadService(JMadService jmadService) {
@@ -227,5 +199,9 @@ public class ModelSelectionPanel extends JPanel implements Titleable, Applyable 
 
     private JMadModelDefinitionManager getModelDefinitionManager() {
         return getJmadService().getModelDefinitionManager();
+    }
+
+    public JMadModelStartupConfiguration getStartupConfiguration() {
+        return jmadModelStartupConfiguration;
     }
 }

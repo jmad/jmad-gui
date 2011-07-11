@@ -3,6 +3,7 @@
  */
 package cern.accsoft.steering.jmad.gui.manage.impl;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -11,15 +12,17 @@ import javax.swing.Action;
 import org.apache.log4j.Logger;
 
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
+import cern.accsoft.steering.jmad.gui.dialog.JMadOptionPane;
 import cern.accsoft.steering.jmad.gui.icons.Icon;
 import cern.accsoft.steering.jmad.gui.manage.ChooseActionFactory;
 import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
 import cern.accsoft.steering.jmad.gui.manage.ModelDefinitionChooser;
 import cern.accsoft.steering.jmad.gui.panels.ModelOpticsSelectionPanel;
-import cern.accsoft.steering.jmad.gui.panels.ModelSelectionPanel;
+import cern.accsoft.steering.jmad.gui.panels.ModelDefinitionSelectionPanel;
 import cern.accsoft.steering.jmad.gui.panels.RangeSelectionPanel;
 import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.service.JMadService;
 import cern.accsoft.steering.util.gui.NamedAction;
 import cern.accsoft.steering.util.gui.UserInteractor;
 
@@ -30,7 +33,7 @@ import cern.accsoft.steering.util.gui.UserInteractor;
  */
 public class SwingModelDefinitionChooser implements ModelDefinitionChooser, ChooseActionFactory {
 
-    /** The logger for the class */
+    /** The logger for the class */ 
     private final static Logger LOGGER = Logger.getLogger(SwingModelDefinitionChooser.class);
 
     /** The class to communicate with the user */
@@ -39,8 +42,11 @@ public class SwingModelDefinitionChooser implements ModelDefinitionChooser, Choo
     /** The model manager who knows about the models */
     private JMadModelManager modelManager;
 
-    /** The panel to select a new model. */
-    private ModelSelectionPanel modelSelectionPanel;
+    /** The jmad-service */
+    private JMadService jmadService;
+
+    /** The frame to use as parent for the dialog */
+    private Frame frame;
 
     /** The panel to select the active range */
     private RangeSelectionPanel rangeSelectionPanel;
@@ -68,6 +74,36 @@ public class SwingModelDefinitionChooser implements ModelDefinitionChooser, Choo
             showModelChooseDialog();
         }
 
+    };
+
+    /** The action to create a new model from a file-model definition */
+    private Action importAction = new NamedAction("Import model definition",
+            "Creates a new model from an file- model definition.") {
+                private static final long serialVersionUID = 1L;
+
+        {
+            putValue(SMALL_ICON, Icon.IMPORT.getImageIcon());
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JMadOptionPane.showImportModelDefinitionDialog(frame, jmadService);
+        }
+    };
+
+    /** The action to export an internal model definition to a file. */
+    private Action exportAction = new NamedAction("Export model definition",
+            "Saves one of the internal model definitions to a file.") {
+                private static final long serialVersionUID = 1L;
+
+        {
+            putValue(SMALL_ICON, Icon.EXPORT.getImageIcon());
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JMadOptionPane.showExportModelDefinitionDialog(frame, jmadService);
+        }
     };
 
     private Action closeActiveModelAction = new NamedAction("Close active model", "Closes the active model") {
@@ -135,9 +171,7 @@ public class SwingModelDefinitionChooser implements ModelDefinitionChooser, Choo
 
     @Override
     public void showModelChooseDialog() {
-        ModelSelectionPanel panel = getModelSelectionPanel();
-        panel.setInitModel(true);
-        userInteractor.showPanelDialog(panel);
+        JMadOptionPane.showCreateModelDialog(frame, jmadService);
     }
 
     /**
@@ -186,14 +220,6 @@ public class SwingModelDefinitionChooser implements ModelDefinitionChooser, Choo
         return rangeSelectionPanel;
     }
 
-    public void setModelSelectionPanel(ModelSelectionPanel modelSelectionPanel) {
-        this.modelSelectionPanel = modelSelectionPanel;
-    }
-
-    private ModelSelectionPanel getModelSelectionPanel() {
-        return modelSelectionPanel;
-    }
-
     public void setModelOpticsSelectionPanel(ModelOpticsSelectionPanel modelOpticsSelectionPanel) {
         this.modelOpticsSelectionPanel = modelOpticsSelectionPanel;
     }
@@ -234,6 +260,16 @@ public class SwingModelDefinitionChooser implements ModelDefinitionChooser, Choo
         return closeActiveModelAction;
     }
 
+    @Override
+    public Action getImportAction() {
+        return this.importAction;
+    }
+    
+    @Override
+    public Action getExportAction() {
+        return this.exportAction;
+    }
+
     public void setJmadGuiPreferences(JMadGuiPreferences jmadGuiPreferences) {
         this.jmadGuiPreferences = jmadGuiPreferences;
     }
@@ -247,4 +283,21 @@ public class SwingModelDefinitionChooser implements ModelDefinitionChooser, Choo
         return this.exitAction;
     }
 
+    public void setFrame(Frame frame) {
+        this.frame = frame;
+    }
+
+    public Frame getFrame() {
+        return frame;
+    }
+
+    public void setJmadService(JMadService jmadService) {
+        this.jmadService = jmadService;
+    }
+
+    public JMadService getJmadService() {
+        return jmadService;
+    }
+
+   
 }

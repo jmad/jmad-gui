@@ -36,4 +36,14 @@ public interface ChooseActionFactory {
      * @return the action to exit the application
      */
     public abstract Action getExitAction();
+
+    /**
+     * @return the action to import a model definition
+     */
+    public abstract Action getImportAction();
+
+    /**
+     * @return the action to export a model definition
+     */
+    public abstract Action getExportAction();
 }

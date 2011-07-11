@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.freehep.math.minuit.FCNBase;
-import org.freehep.math.minuit.FunctionMinimum;
-import org.freehep.math.minuit.MnMigrad;
-import org.freehep.math.minuit.MnUserParameters;
+//import org.freehep.math.minuit.FCNBase;
+//import org.freehep.math.minuit.FunctionMinimum;
+//import org.freehep.math.minuit.MnMigrad;
+//import org.freehep.math.minuit.MnUserParameters;
 
 import cern.jdve.data.DataSet;
 import cern.jdve.data.DefaultDataSet;
@@ -29,7 +29,8 @@ import cern.jdve.utils.DisplayPoint;
  * @author kfuchsbe
  * 
  */
-public class SineFit implements FCNBase, DataViewerFit {
+//public class SineFit implements FCNBase, DataViewerFit {
+public class SineFit implements DataViewerFit {
 
 	/** the logger for the class */
 	private final static Logger logger = Logger.getLogger(SineFit.class);
@@ -64,7 +65,7 @@ public class SineFit implements FCNBase, DataViewerFit {
 		this.displayPoints = displayPoints;
 	}
 
-	@Override
+	//@Override
 	public double valueOf(double[] params) {
 		int nPoints = displayPoints.size();
 
@@ -159,31 +160,31 @@ public class SineFit implements FCNBase, DataViewerFit {
 	 * performs the fit and stores the fitted function for further usage.
 	 */
 	public void doFit() {
-		MnUserParameters upar = new MnUserParameters();
-		upar.add(PARAM_NAME_AMPLITUDE, 1.0, 0.01);
-		upar.add(PARAM_NAME_FREQUENCY, 1.0, 0.01);
-		upar.add(PARAM_NAME_PHASE, 0.0, 0.01);
-
-		MnMigrad migrad = new MnMigrad(this, upar);
-
-		FunctionMinimum min = migrad.minimize();
-
-		if (min.isValid()) {
-			MnUserParameters parameters = min.userParameters();
-			this.lastFit = new SineFunction(parameters
-					.value(PARAM_NAME_AMPLITUDE), parameters
-					.value(PARAM_NAME_FREQUENCY), parameters
-					.value(PARAM_NAME_PHASE));
-			double chiSquared = valueOf(new double[] {
-					parameters.value(PARAM_NAME_AMPLITUDE),
-					parameters.value(PARAM_NAME_FREQUENCY),
-					parameters.value(PARAM_NAME_PHASE) });
-			logger.info("Successful fit. Result: " + this.lastFit.toString()
-					+ " chisquared: " + chiSquared + ";");
-		} else {
-			logger.warn("Fit was not successful.");
-			this.lastFit = null;
-		}
+//		MnUserParameters upar = new MnUserParameters();
+//		upar.add(PARAM_NAME_AMPLITUDE, 1.0, 0.01);
+//		upar.add(PARAM_NAME_FREQUENCY, 1.0, 0.01);
+//		upar.add(PARAM_NAME_PHASE, 0.0, 0.01);
+//
+//		MnMigrad migrad = new MnMigrad(this, upar);
+//
+//		FunctionMinimum min = migrad.minimize();
+//
+//		if (min.isValid()) {
+//			MnUserParameters parameters = min.userParameters();
+//			this.lastFit = new SineFunction(parameters
+//					.value(PARAM_NAME_AMPLITUDE), parameters
+//					.value(PARAM_NAME_FREQUENCY), parameters
+//					.value(PARAM_NAME_PHASE));
+//			double chiSquared = valueOf(new double[] {
+//					parameters.value(PARAM_NAME_AMPLITUDE),
+//					parameters.value(PARAM_NAME_FREQUENCY),
+//					parameters.value(PARAM_NAME_PHASE) });
+//			logger.info("Successful fit. Result: " + this.lastFit.toString()
+//					+ " chisquared: " + chiSquared + ";");
+//		} else {
+//			logger.warn("Fit was not successful.");
+//			this.lastFit = null;
+//		}
 	}
 
 	/**
