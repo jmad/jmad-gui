@@ -4,27 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 
-	<distributionManagement>
-		<repository>
-			<id>internal.repo</id>
-			<name>Test-repo for jmad</name>
-			<url>file://c:/temp/jmad-deps-repo</url>
-		</repository>
-	</distributionManagement>
-
-	<repositories>
-		<repository>
-			<id>jmad-deps-repo</id>
-			<url>file://c:/temp/jmad-deps-repo</url>
-		</repository>
-	</repositories>
+	
 
 	<!-- <parent> <groupId>cern</groupId> <artifactId>parent-pom</artifactId> 
 		<version>1.0.4</version> </parent> -->
-	<groupId>cern.jmad</groupId>
-	<artifactId>jmad-core</artifactId>
+	<groupId>cern.accmodel.jmad</groupId>
+	<artifactId>accmodel-jmad-core</artifactId>
 	<version>0.0.54</version>
-	<name>jmad-core</name>
+	<name>accmodel-jmad-core</name>
 	<packaging>jar</packaging>
 	<description />
 	<url />
