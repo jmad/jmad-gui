@@ -3,7 +3,7 @@
  */
 package cern.accsoft.steering.jmad.ant;
 
-import static cern.accsoft.steering.jmad.util.ResourceUtil.prependPathOffset;
+import static cern.accmodel.commons.util.ResourceUtil.prependPathOffset;
 
 import java.io.File;
 import java.util.Collection;

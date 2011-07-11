@@ -46,21 +46,20 @@ public class JMadModelDefinitionExporterImpl implements JMadModelDefinitionExpor
 
     @Override
     public File export(JMadModelDefinition modelDefinition, File exportPath) {
+        if (modelDefinition == null) {
+            LOGGER.error("No model definition given to export.");
+            return null;
+        }
         if (exportPath == null) {
             LOGGER.error("No file given. Cannot export model definition.");
             return null;
         }
 
-        if (ModelDefinitionUtil.isXmlFileName(exportPath.getName())) {
+        if (ModelDefinitionUtil.isXmlFileName(exportPath.getName()) || exportPath.isDirectory()) {
             return exportAsFiles(modelDefinition, exportPath);
-        } else if (ModelDefinitionUtil.isZipFileName(exportPath.getName())) {
-            return exportAsZip(modelDefinition, exportPath);
         } else {
-            LOGGER
-                    .warn("File '"
-                            + exportPath.getAbsolutePath()
-                            + "' is neither a valid model definition xml file name nor a zip file name. No idea how to export.");
-            return null;
+            /* per default we export as zip */
+            return exportAsZip(modelDefinition, exportPath);
         }
     }
 

@@ -3,7 +3,7 @@
  */
 package cern.accsoft.steering.jmad.modeldefs.io.impl;
 
-import static cern.accsoft.steering.jmad.util.ResourceUtil.prependPathOffset;
+import static cern.accmodel.commons.util.ResourceUtil.prependPathOffset;
 
 import java.io.File;
 import java.io.FileInputStream;
