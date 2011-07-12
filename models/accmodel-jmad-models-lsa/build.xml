@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="accsoft-steering-jmad-models-lsa" default="default">
+<project name="accmodel-jmad-models-lsa" default="default">
 	<!--
 		Defines project variables. the .local version is read before and
 		therefore overrides the checked in version!
