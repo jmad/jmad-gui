@@ -7,10 +7,10 @@
 		<artifactId>parent-pom</artifactId>
 		<version>1.0.4</version>
 	</parent>
-	<groupId>cern.accsoft.steering</groupId>
-	<artifactId>accsoft-steering-jmad-models-lsa</artifactId>
-	<version>0.0.6</version>
-	<name>accsoft-steering-jmad-models-lsa</name>
+	<groupId>cern.accmodel.jmad.models</groupId>
+	<artifactId>accmodel-jmad-models-lsa</artifactId>
+	<version>0.1.0</version>
+	<name>accmodel-jmad-models-lsa</name>
 	<packaging>jar</packaging>
 	<description />
 	<url />
@@ -22,8 +22,8 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>cern.accsoft.steering</groupId>
-			<artifactId>accsoft-steering-jmad</artifactId>
+			<groupId>cern.accmodel.jmad</groupId>
+			<artifactId>accmodel-jmad-core</artifactId>
 			<version>[0.0.50, 1.0.0)</version>
 			<optional>true</optional>
 		</dependency>
