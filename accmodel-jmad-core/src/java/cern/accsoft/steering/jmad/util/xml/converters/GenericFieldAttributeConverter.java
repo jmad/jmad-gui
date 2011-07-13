@@ -155,7 +155,8 @@ public class GenericFieldAttributeConverter<T> implements Converter {
          * 
          * @XStreamAsAttribute annotation.
          */
-        SingleValueConverter singleValueConverter = mapper.getConverterFromAttribute(this.clazz, fieldName);
+
+        SingleValueConverter singleValueConverter = mapper.getConverterFromAttribute(this.clazz, fieldName, fieldType);
 
         /*
          * if this did not succeed then we try to lookup the converter from the ConverterLookup ... but this is then not
@@ -178,7 +179,7 @@ public class GenericFieldAttributeConverter<T> implements Converter {
     }
 
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public boolean canConvert(Class otherClazz) {
         return otherClazz.equals(this.clazz);
     }

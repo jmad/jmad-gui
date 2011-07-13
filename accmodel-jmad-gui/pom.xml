@@ -11,41 +11,64 @@
 
 	<groupId>cern.accmodel.jmad</groupId>
 	<artifactId>accmodel-jmad-gui</artifactId>
-	<version>0.0.34</version>
-	<name>accmodel-jmad-core</name>
+	<version>0.1.0</version>
+	<name>accmodel-jmad-gui</name>
 	<packaging>jar</packaging>
 	<description />
 	<url />
 
-	<!-- Since this build should one time also work outside cern, we do not 
-		use the cern-parent file here. instead we use pure maven to deplou to the 
-		repository. -->
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<url>http://artifacts/content/repositories/releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<url>http://artifacts/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<build>
-		<sourceDirectory>src/java</sourceDirectory>
-		<testSourceDirectory>src/test</testSourceDirectory>
 		<plugins>
 			<plugin>
+				<!-- NOTE: We don't need a groupId specification because the group is 
+					org.apache.maven.plugins ...which is assumed by default. -->
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2.1</version>
+				<configuration>
+					 <descriptors> <descriptor>assembly.xml</descriptor> </descriptors>
+					<!-- <descriptorRefs>
+						<descriptorRef>bin</descriptorRef>
+					</descriptorRefs>
+					 -->
+					<!-- 
+					<archive>
+						<manifest>
+							<mainClass>cern.accsoft.steering.jmad.gui.JMad</mainClass>
+						</manifest>
+					</archive>
+					-->
+				</configuration>
+			</plugin>
+			<!-- The configuration of maven-jar-plugin -->
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-deploy-plugin</artifactId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<!-- The configuration of the plugin -->
+				<configuration>
+					<!-- Configuration of the archiver -->
+					<archive>
+						<!-- Manifest specific configuration -->
+						<manifest>
+							<!-- Classpath is added to the manifest of the created jar file. -->
+							<addClasspath>true</addClasspath>
+							<!-- Configures the classpath prefix. This configuration option is 
+								used to specify that all needed libraries are found under lib/ directory. -->
+							<classpathPrefix>lib/</classpathPrefix>
+							<!-- Specifies the main class of the application -->
+							<mainClass>cern.accsoft.steering.jmad.gui.JMad</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>cern.accmodel.jmad</groupId>
 			<artifactId>accmodel-jmad-core</artifactId>
-			<version>0.0.54</version>
+			<version>[0.1.0, 1.0.1)</version>
 		</dependency>
 		<dependency>
 			<groupId>cern.accsoft.gui</groupId>
@@ -63,9 +86,9 @@
 			<version>1.2.14</version>
 		</dependency>
 		<dependency>
-			<groupId>org.beanshell</groupId>
-			<artifactId>beanshell</artifactId>
-			<version>2.0b4</version>
+			<groupId>bsh</groupId>
+			<artifactId>bsh</artifactId>
+			<version>2.0b1</version>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
@@ -89,6 +112,35 @@
 			<scope>test</scope>
 			<optional>true</optional>
 		</dependency>
+
+		<!-- model-definitions -->
+		<dependency>
+			<groupId>cern.accmodel.jmad.models</groupId>
+			<artifactId>accmodel-jmad-models-default</artifactId>
+			<version>[0.1.0, 1.0.0)</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>cern.accmodel.jmad.models</groupId>
+			<artifactId>accmodel-jmad-models-lsa</artifactId>
+			<version>[0.1.0, 1.0.0)</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>cern.accmodel.jmad.models</groupId>
+			<artifactId>accmodel-jmad-models-ptc</artifactId>
+			<version>[0.1.0, 1.0.0)</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>cern.accmodel.jmad.models</groupId>
+			<artifactId>accmodel-jmad-models-medaustron</artifactId>
+			<version>[0.1.0, 1.0.0)</version>
+			<scope>runtime</scope>
+		</dependency>
+
+
+
 	</dependencies>
 	<developers />
 </project>

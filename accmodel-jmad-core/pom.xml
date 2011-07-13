@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+ 
 	<parent>
 		<groupId>cern</groupId>
 		<artifactId>parent-pom</artifactId>
@@ -12,13 +12,41 @@
 
 	<groupId>cern.accmodel.jmad</groupId>
 	<artifactId>accmodel-jmad-core</artifactId>
-	<version>0.0.54</version>
+	<version>0.1.2</version>
 	<name>accmodel-jmad-core</name>
 	<packaging>jar</packaging>
 	<description />
 	<url />
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/ModelDefinitionExportImportTest.java</exclude>
+						<exclude>**/ResponseMatrixToolTest.java</exclude>
+						<exclude>**/OrbitInterpolationToolTest.java</exclude>
+						<exclude>**/TransferMatrixCalculatorTest.java</exclude>
+						<exclude>**/JMadModelTest.java</exclude>
+						<exclude>**/ClassPathModelDefinitionFinderTest.java</exclude>
+						<exclude>**/ResourceUtilTest.java</exclude>
+						<exclude>**/JMadThinLensModelTest.java</exclude>
+						<exclude>**/RotateSequenceTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
 	<dependencies>
+		<dependency>
+			<groupId>cern.accmodel.commons</groupId>
+			<artifactId>accmodel-commons-util</artifactId>
+			<version>[0.0.1,1.0.0)</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
