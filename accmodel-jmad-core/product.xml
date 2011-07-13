@@ -6,6 +6,7 @@
 		<dependencies>
 			<dep product="commons-beanutils"/>
 			<dep product="accsoft-steering-commons"/>
+			<dep product="accmodel-commons-util" />
 
 			<dep product="log4j"/>
 			<dep product="bzip2"/>
