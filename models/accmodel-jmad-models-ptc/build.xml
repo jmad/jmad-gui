@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="accsoft-steering-jmad-models-ptc" default="default">
+<project name="accmodel-jmad-models-ptc" default="default">
 	<!--
      Defines project variables. the .local version is 
      read before and therefore overrides the
