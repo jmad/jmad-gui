@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="jmad-models-medaustron" default="default">
+<project name="accmodel-jmad-models-medaustron" default="default">
 	<!--
      Defines project variables. the .local version is 
      read before and therefore overrides the
