@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
 	<product name="accmodel-jmad-models-ptc" version="0.1.0"
-		directory="accmodel/jmad/accmodel-jmad-models-ptc">
+		directory="accmodel/jmad/models/accmodel-jmad-models-ptc">
 		<dependencies>
-			<dep product="log4j" version="PRO" local="true" />
-			<dep product="accmodel-jmad-core" version="PRO" local="true" />
-			<dep product="accsoft-steering-commons" version="PRO" />
+			<dep product="log4j" local="true" />
+			<dep product="accmodel-jmad-core" local="true" />
+			<dep product="accsoft-steering-commons" />
 			<dep product="junit" version="PRO" local="true" />
 		</dependencies>
 	</product>
