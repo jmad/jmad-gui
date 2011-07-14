@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-	<product name="accmodel-jmad-models-medaustron" version="0.1.0" directory="accmodel/jmad/models/accmodel-jmad-models-medaustron">
+	<product name="accmodel-jmad-models-medaustron" version="0.2.0" directory="accmodel/jmad/models/accmodel-jmad-models-medaustron">
 		<dependencies>
 			<dep product="log4j"/>
 			<dep product="accmodel-jmad-core"/>
