@@ -3,23 +3,23 @@
  *
  * This file is part of JMad.
  * 
- * Copyright (c) 2008-2011, Kajetan Fuchsberger. All rights reserved.
- * 
- * JMad is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * JMad is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with JMad.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  * 
  ******************************************************************************/
 // @formatter:on
+
 package cern.accsoft.steering.util.gui.dv.ds;
 
 import cern.jdve.Style;
@@ -31,30 +31,27 @@ import cern.jdve.utils.DisplayPoint;
  * This class defines, how the value for a BPM will be rendered.
  * 
  * @author kfuchsbe
- * 
  */
 public class ValidityRenderingHint implements RenderingHint {
 
-	/* the two different styles we use */
-	private final static Style STYLE_INVALID = new Style(
-			ColorConstants.COLOR_INVALID_DATA,
-			ColorConstants.COLOR_INVALID_DATA);
+    /* the two different styles we use */
+    private final static Style STYLE_INVALID = new Style(ColorConstants.COLOR_INVALID_DATA,
+            ColorConstants.COLOR_INVALID_DATA);
 
-	@Override
-	public Style getStyle(DisplayPoint point, Style defaultStyle) {
-		DataSet dataSet = point.getDataSet();
+    @Override
+    public Style getStyle(DisplayPoint point, Style defaultStyle) {
+        DataSet dataSet = point.getDataSet();
 
-		/*
-		 * check which basic style to use
-		 */
-		Style style = defaultStyle;
-		if ((dataSet instanceof ValidityDataSet)
-				&& (((ValidityDataSet) dataSet).hasValidityInformation())) {
-			if (!((ValidityDataSet) dataSet).getValidity(point.getIndex())) {
-				style = STYLE_INVALID;
-			}
-		}
+        /*
+         * check which basic style to use
+         */
+        Style style = defaultStyle;
+        if ((dataSet instanceof ValidityDataSet) && (((ValidityDataSet) dataSet).hasValidityInformation())) {
+            if (!((ValidityDataSet) dataSet).getValidity(point.getIndex())) {
+                style = STYLE_INVALID;
+            }
+        }
 
-		return style;
-	}
+        return style;
+    }
 }

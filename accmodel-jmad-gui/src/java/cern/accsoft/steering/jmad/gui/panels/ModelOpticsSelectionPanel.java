@@ -3,23 +3,23 @@
  *
  * This file is part of JMad.
  * 
- * Copyright (c) 2008-2011, Kajetan Fuchsberger. All rights reserved.
- * 
- * JMad is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * JMad is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with JMad.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  * 
  ******************************************************************************/
 // @formatter:on
+
 package cern.accsoft.steering.jmad.gui.panels;
 
 import java.awt.BorderLayout;
@@ -53,12 +53,10 @@ import cern.accsoft.steering.util.gui.table.TableModelSelectionAdapter;
  * 
  * @author kfuchsbe
  */
-public class ModelOpticsSelectionPanel extends JPanel implements Titleable,
-        Applyable {
+public class ModelOpticsSelectionPanel extends JPanel implements Titleable, Applyable {
     private static final long serialVersionUID = 1733380183463632497L;
 
-    private static final Logger LOGGER = Logger
-            .getLogger(ModelOpticsSelectionPanel.class);
+    private static final Logger LOGGER = Logger.getLogger(ModelOpticsSelectionPanel.class);
 
     /** the table model for the display */
     private ModelOpticsDefinitionTableModel tableModel;
@@ -118,15 +116,13 @@ public class ModelOpticsSelectionPanel extends JPanel implements Titleable,
         JTable table = new JTable(tableModel);
         table.setDefaultRenderer(Double.class, new DoubleTableCellRenderer());
         table.setAutoCreateRowSorter(true);
-        table.getSelectionModel().setSelectionMode(
-                ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         new MousePopupListener(table, new TablePopupMenu(tableModel));
         selectionAdapter = new TableModelSelectionAdapter(table);
         tableModel.setTableModelSelectionAdapter(selectionAdapter);
 
-        JScrollPane scrollPane = new JScrollPane(table,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+        JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         add(new TableFilterPanel(table), BorderLayout.NORTH);
@@ -140,8 +136,7 @@ public class ModelOpticsSelectionPanel extends JPanel implements Titleable,
         try {
             getModel().setActiveOpticsDefinition(opticsDefinition);
         } catch (JMadModelException e) {
-            LOGGER.error("Could not set Optic [" + opticsDefinition.getName()
-                    + "] in Model [" + getModel() + "].");
+            LOGGER.error("Could not set Optic [" + opticsDefinition.getName() + "] in Model [" + getModel() + "].");
         }
     }
 

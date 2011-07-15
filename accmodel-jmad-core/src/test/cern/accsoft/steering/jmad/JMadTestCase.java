@@ -3,23 +3,23 @@
  *
  * This file is part of JMad.
  * 
- * Copyright (c) 2008-2011, Kajetan Fuchsberger. All rights reserved.
- * 
- * JMad is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * JMad is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with JMad.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  * 
  ******************************************************************************/
 // @formatter:on
+
 package cern.accsoft.steering.jmad;
 
 import cern.accsoft.steering.jmad.modeldefs.ClassPathModelDefinitionFinder;
@@ -30,40 +30,32 @@ import cern.accsoft.steering.jmad.service.JMadServiceFactory;
 import cern.accsoft.steering.jmad.util.LoggedTestCase;
 
 /***
- * this is a general testcase for jmad-stuff. It provides a convenience-method
- * to fetch the example model.
+ * this is a general testcase for jmad-stuff. It provides a convenience-method to fetch the example model.
  * 
  * @author kfuchsbe
- * 
  */
 public abstract class JMadTestCase extends LoggedTestCase {
 
-	private static JMadService jmadService = JMadServiceFactory
-			.createJMadService();
+    private static JMadService jmadService = JMadServiceFactory.createJMadService();
 
-	/**
-	 * just uses the {@link ClassPathModelDefinitionFinder} to get the example
-	 * model definition.
-	 * 
-	 * @return the example model-definition.
-	 */
-	protected static JMadModelDefinition findExampleModelDefinition() {
-		JMadModelDefinitionManager manager = jmadService
-				.getModelDefinitionManager();
-		JMadModelDefinition modelDefinition = manager.getModelDefinition(
-				"example", false);
-		return modelDefinition;
-	}
-	
-	protected static JMadModelDefinition findThinLensExampleModelDefinition() {
-		JMadModelDefinitionManager manager = jmadService
-			.getModelDefinitionManager();
-		JMadModelDefinition modelDefinition = manager.getModelDefinition(
-				"example_THIN", false);
-		return modelDefinition;
-	}
+    /**
+     * just uses the {@link ClassPathModelDefinitionFinder} to get the example model definition.
+     * 
+     * @return the example model-definition.
+     */
+    protected static JMadModelDefinition findExampleModelDefinition() {
+        JMadModelDefinitionManager manager = jmadService.getModelDefinitionManager();
+        JMadModelDefinition modelDefinition = manager.getModelDefinition("example", false);
+        return modelDefinition;
+    }
 
-	protected static JMadService getJMadService() {
-		return jmadService;
-	}
+    protected static JMadModelDefinition findThinLensExampleModelDefinition() {
+        JMadModelDefinitionManager manager = jmadService.getModelDefinitionManager();
+        JMadModelDefinition modelDefinition = manager.getModelDefinition("example_THIN", false);
+        return modelDefinition;
+    }
+
+    protected static JMadService getJMadService() {
+        return jmadService;
+    }
 }

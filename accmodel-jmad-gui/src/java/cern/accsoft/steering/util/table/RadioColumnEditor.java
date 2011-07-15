@@ -3,23 +3,23 @@
  *
  * This file is part of JMad.
  * 
- * Copyright (c) 2008-2011, Kajetan Fuchsberger. All rights reserved.
- * 
- * JMad is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * JMad is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with JMad.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  * 
  ******************************************************************************/
 // @formatter:on
+
 package cern.accsoft.steering.util.table;
 
 import java.awt.Color;
@@ -33,31 +33,29 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.TableCellEditor;
 
-public class RadioColumnEditor extends AbstractCellEditor implements
-		TableCellEditor {
-	private static final long serialVersionUID = 1L;
-	private JRadioButton radioButton;
+public class RadioColumnEditor extends AbstractCellEditor implements TableCellEditor {
+    private static final long serialVersionUID = 1L;
+    private JRadioButton radioButton;
 
-	public RadioColumnEditor() {
-		super();
-		radioButton = new JRadioButton();
-		radioButton.setBackground(Color.WHITE);
-		radioButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				fireEditingStopped();
-			}
-		});
-	}
+    public RadioColumnEditor() {
+        super();
+        radioButton = new JRadioButton();
+        radioButton.setBackground(Color.WHITE);
+        radioButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                fireEditingStopped();
+            }
+        });
+    }
 
-	public Component getTableCellEditorComponent(JTable table, Object obj,
-			boolean isSelected, int row, int col) {
-		radioButton.setHorizontalAlignment(SwingUtilities.CENTER);
-		Boolean lValueAsBoolean = (Boolean) obj;
-		radioButton.setSelected(lValueAsBoolean.booleanValue());
-		return radioButton;
-	}
+    public Component getTableCellEditorComponent(JTable table, Object obj, boolean isSelected, int row, int col) {
+        radioButton.setHorizontalAlignment(SwingUtilities.CENTER);
+        Boolean lValueAsBoolean = (Boolean) obj;
+        radioButton.setSelected(lValueAsBoolean.booleanValue());
+        return radioButton;
+    }
 
-	public Object getCellEditorValue() {
-		return new Boolean(radioButton.isSelected());
-	}
+    public Object getCellEditorValue() {
+        return new Boolean(radioButton.isSelected());
+    }
 }

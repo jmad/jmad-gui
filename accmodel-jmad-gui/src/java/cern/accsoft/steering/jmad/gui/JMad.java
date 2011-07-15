@@ -3,23 +3,23 @@
  *
  * This file is part of JMad.
  * 
- * Copyright (c) 2008-2011, Kajetan Fuchsberger. All rights reserved.
- * 
- * JMad is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * JMad is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with JMad.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  * 
  ******************************************************************************/
 // @formatter:on
+
 package cern.accsoft.steering.jmad.gui;
 
 import javax.swing.JPanel;
@@ -43,137 +43,129 @@ import cern.accsoft.steering.jmad.service.JMadServiceFactory;
 
 public class JMad {
 
-	/*
-	 * bean names
-	 */
-	private final static String BEAN_NAME_JMAD_GUI = "jmadGui";
-	private final static String BEAN_NAME_MODEL_MANAGER = "modelManager";
-	private final static String BEAN_NAME_JMAD_GUI_PREFERENCES = "jmadGuiPreferences";
-	private final static String BEAN_NAME_JMAD_PANEL_FACTORY = "jmadPanelFactory";
-	private final static String BEAN_NAME_JMAD_MENU_FACTORY = "jmadMenuFactory";
-	private final static String BEAN_NAME_MARKED_ELEMENTS_MANAGER = "markedElementsManager";
-	private final static String BEAN_NAME_SPLASH_SCREEN = "splashScreen";
-	private final static String BEAN_NAME_JMAD_SERVICE = "jmadService";
+    /*
+     * bean names
+     */
+    private final static String BEAN_NAME_JMAD_GUI = "jmadGui";
+    private final static String BEAN_NAME_MODEL_MANAGER = "modelManager";
+    private final static String BEAN_NAME_JMAD_GUI_PREFERENCES = "jmadGuiPreferences";
+    private final static String BEAN_NAME_JMAD_PANEL_FACTORY = "jmadPanelFactory";
+    private final static String BEAN_NAME_JMAD_MENU_FACTORY = "jmadMenuFactory";
+    private final static String BEAN_NAME_MARKED_ELEMENTS_MANAGER = "markedElementsManager";
+    private final static String BEAN_NAME_SPLASH_SCREEN = "splashScreen";
+    private final static String BEAN_NAME_JMAD_SERVICE = "jmadService";
 
-	/**
-	 * the app-context of the gui.
-	 */
-	private ApplicationContext appCtx = null;
+    /**
+     * the app-context of the gui.
+     */
+    private ApplicationContext appCtx = null;
 
-	/**
-	 * the default constructor
-	 */
-	public JMad() {
-		this(null, null, null);
-	}
+    /**
+     * the default constructor
+     */
+    public JMad() {
+        this(null, null, null);
+    }
 
-	/**
-	 * the constructor, for which one can provide a JMadService, a modelManager
-	 * and preferences.
-	 * 
-	 * @param jmadService
-	 *            the service to which to attach
-	 * @param jmadGuiPreferences
-	 *            the preferences that define the behaviour of the GUI
-	 * @param markedElementsManager
-	 *            the manager which keeps track of marked elements
-	 */
-	public JMad(JMadService jmadService, JMadGuiPreferences jmadGuiPreferences,
-			MarkedElementsManager markedElementsManager) {
-		super();
-		/* show the Splash - screen */
-		SplashFactory.getSplashScreen();
+    /**
+     * the constructor, for which one can provide a JMadService, a modelManager and preferences.
+     * 
+     * @param jmadService the service to which to attach
+     * @param jmadGuiPreferences the preferences that define the behaviour of the GUI
+     * @param markedElementsManager the manager which keeps track of marked elements
+     */
+    public JMad(JMadService jmadService, JMadGuiPreferences jmadGuiPreferences,
+            MarkedElementsManager markedElementsManager) {
+        super();
+        /* show the Splash - screen */
+        SplashFactory.getSplashScreen();
 
-		if (jmadService == null) {
-			jmadService = JMadServiceFactory.createJMadService();
-		}
-		JMadContextInjector.putBean(BEAN_NAME_JMAD_SERVICE, jmadService);
-		JMadContextInjector.putBean(BEAN_NAME_MODEL_MANAGER, jmadService
-				.getModelManager());
+        if (jmadService == null) {
+            jmadService = JMadServiceFactory.createJMadService();
+        }
+        JMadContextInjector.putBean(BEAN_NAME_JMAD_SERVICE, jmadService);
+        JMadContextInjector.putBean(BEAN_NAME_MODEL_MANAGER, jmadService.getModelManager());
 
-		if (jmadGuiPreferences == null) {
-			jmadGuiPreferences = new JMadGuiPreferencesImpl();
-		}
-		JMadContextInjector.putBean(BEAN_NAME_JMAD_GUI_PREFERENCES,
-				jmadGuiPreferences);
+        if (jmadGuiPreferences == null) {
+            jmadGuiPreferences = new JMadGuiPreferencesImpl();
+        }
+        JMadContextInjector.putBean(BEAN_NAME_JMAD_GUI_PREFERENCES, jmadGuiPreferences);
 
-		if (markedElementsManager == null) {
-			markedElementsManager = new MarkedElementsManagerImpl();
-		}
-		JMadContextInjector.putBean(BEAN_NAME_MARKED_ELEMENTS_MANAGER,
-				markedElementsManager);
+        if (markedElementsManager == null) {
+            markedElementsManager = new MarkedElementsManagerImpl();
+        }
+        JMadContextInjector.putBean(BEAN_NAME_MARKED_ELEMENTS_MANAGER, markedElementsManager);
 
-		/* creating the application - context. */
-		this.appCtx = new ClassPathXmlApplicationContext(
-				new String[] { "app-ctx-jmad-gui.xml" });
-	}
+        /* creating the application - context. */
+        this.appCtx = new ClassPathXmlApplicationContext(new String[] { "app-ctx-jmad-gui.xml" });
+    }
 
-	public JMad(JMadGuiPreferences jmadGuiPreferences) {
-		this(null, jmadGuiPreferences, null);
-	}
+    public JMad(JMadGuiPreferences jmadGuiPreferences) {
+        this(null, jmadGuiPreferences, null);
+    }
 
-	public void show() {
-		JMadGui jmadGui = getJMadGuiBean();
-		if (jmadGui != null) {
-			jmadGui.show();
-		}
-	}
+    public void show() {
+        JMadGui jmadGui = getJMadGuiBean();
+        if (jmadGui != null) {
+            jmadGui.show();
+        }
+    }
 
-	private Object getBean(String beanName) {
-		if (this.appCtx == null) {
-			return null;
-		}
-		return this.appCtx.getBean(beanName);
-	}
+    private Object getBean(String beanName) {
+        if (this.appCtx == null) {
+            return null;
+        }
+        return this.appCtx.getBean(beanName);
+    }
 
-	/**
-	 * @return the {@link JMadGui} bean from the application-context
-	 */
-	private JMadGui getJMadGuiBean() {
-		return (JMadGui) getBean(BEAN_NAME_JMAD_GUI);
-	}
+    /**
+     * @return the {@link JMadGui} bean from the application-context
+     */
+    private JMadGui getJMadGuiBean() {
+        return (JMadGui) getBean(BEAN_NAME_JMAD_GUI);
+    }
 
-	public MarkedElementsManager getMarkedElementsManager() {
-		return (MarkedElementsManager) getBean(BEAN_NAME_MARKED_ELEMENTS_MANAGER);
-	}
+    public MarkedElementsManager getMarkedElementsManager() {
+        return (MarkedElementsManager) getBean(BEAN_NAME_MARKED_ELEMENTS_MANAGER);
+    }
 
-	/**
-	 * @return the menu factory
-	 */
-	public JMadMenuFactory getJMadMenuFactory() {
-		return (JMadMenuFactory) getBean(BEAN_NAME_JMAD_MENU_FACTORY);
-	}
+    /**
+     * @return the menu factory
+     */
+    public JMadMenuFactory getJMadMenuFactory() {
+        return (JMadMenuFactory) getBean(BEAN_NAME_JMAD_MENU_FACTORY);
+    }
 
-	public JMadModelManager getModelManager() {
-		return (JMadModelManager) getBean(BEAN_NAME_MODEL_MANAGER);
-	}
+    public JMadModelManager getModelManager() {
+        return (JMadModelManager) getBean(BEAN_NAME_MODEL_MANAGER);
+    }
 
-	public SplashScreen getSplashScreen() {
-		return (SplashScreen) getBean(BEAN_NAME_SPLASH_SCREEN);
-	}
+    public SplashScreen getSplashScreen() {
+        return (SplashScreen) getBean(BEAN_NAME_SPLASH_SCREEN);
+    }
 
-	public JMadPanelFactory getJMadPanelFactory() {
-		return (JMadPanelFactory) getBean(BEAN_NAME_JMAD_PANEL_FACTORY);
-	}
+    public JMadPanelFactory getJMadPanelFactory() {
+        return (JMadPanelFactory) getBean(BEAN_NAME_JMAD_PANEL_FACTORY);
+    }
 
-	/*
-	 * the main method
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		/* configure the log4j - system */
-		BasicConfigurator.configure();
+    /*
+     * the main method
+     * 
+     * @param args
+     */
+    public static void main(String[] args) {
+        /* configure the log4j - system */
+        BasicConfigurator.configure();
 
-		SwingUtilities.invokeLater(new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
 
-			@Override
-			public void run() {
-				JMad jmad = new JMad();
-				jmad.show();
+            @Override
+            public void run() {
+                JMad jmad = new JMad();
+                jmad.show();
 
-			}
-		});
-	}
+            }
+        });
+    }
 
 }

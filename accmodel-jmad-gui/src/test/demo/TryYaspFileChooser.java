@@ -3,23 +3,23 @@
  *
  * This file is part of JMad.
  * 
- * Copyright (c) 2008-2011, Kajetan Fuchsberger. All rights reserved.
- * 
- * JMad is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * JMad is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with JMad.  If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  * 
  ******************************************************************************/
 // @formatter:on
+
 package demo;
 
 import java.io.File;
@@ -30,33 +30,32 @@ import cern.accsoft.steering.util.meas.yasp.browse.YaspFileChooser;
 
 public class TryYaspFileChooser {
 
-	/**
-	 * use args[0] as the current path
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		JFileChooser fileChooser = new YaspFileChooser();
+    /**
+     * use args[0] as the current path
+     * 
+     * @param args
+     */
+    public static void main(String[] args) {
+        JFileChooser fileChooser = new YaspFileChooser();
 
-		if (args.length > 0) {
-			fileChooser.setCurrentDirectory(new File(args[0]));
-		}
-		fileChooser.setMultiSelectionEnabled(true);
+        if (args.length > 0) {
+            fileChooser.setCurrentDirectory(new File(args[0]));
+        }
+        fileChooser.setMultiSelectionEnabled(true);
 
+        int returnValue = fileChooser.showOpenDialog(null);
 
-		int returnValue = fileChooser.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File[] files = fileChooser.getSelectedFiles();
+            System.out.println("Selected files:");
+            System.out.println("---------------");
+            for (File file : files) {
+                System.out.println(file.getAbsolutePath());
+            }
+        } else {
+            System.out.println("File selection aborted.");
+        }
 
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File[] files = fileChooser.getSelectedFiles();
-			System.out.println("Selected files:");
-			System.out.println("---------------");
-			for (File file : files) {
-				System.out.println(file.getAbsolutePath());
-			}
-		} else {
-			System.out.println("File selection aborted.");
-		}
-
-	}
+    }
 
 }
