@@ -31,7 +31,7 @@ import cern.accsoft.steering.jmad.domain.beam.Beam;
  * Represents a <a href="http://mad.web.cern.ch/mad/Introduction/sequence.html">SEQUENCE</a> in the MadX-model. This
  * class also manages the its ranges and knows about its own {@link SequenceDefinition}.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class SequenceImpl implements Sequence {
 

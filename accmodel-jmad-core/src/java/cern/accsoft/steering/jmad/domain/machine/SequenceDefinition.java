@@ -32,7 +32,7 @@ import cern.accsoft.steering.jmad.domain.beam.Beam;
 /**
  * This class defines the attributes which define a sequence.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface SequenceDefinition {
 

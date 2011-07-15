@@ -46,7 +46,7 @@ import org.apache.log4j.spi.RootLogger;
  * Log4JSniffer.INSTANCE.setRecording(true);<p>
  * </code> </blockquote>
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public enum Log4JSniffer {
     INSTANCE;
@@ -127,7 +127,7 @@ public enum Log4JSniffer {
      * This class is a simple implementation of a log4j - appender that collects all the log events into a string
      * buffer. The string can then be fetched for further use.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class StringBufferLogAppender extends WriterAppender {
 

@@ -28,7 +28,7 @@ package cern.accsoft.steering.jmad.domain.var;
 /**
  * This interface represents a variable which can result in a column of a twiss table.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface TwissVariable extends MadxVariable {
 

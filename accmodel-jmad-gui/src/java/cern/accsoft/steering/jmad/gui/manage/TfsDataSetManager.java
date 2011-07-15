@@ -47,7 +47,7 @@ import cern.accsoft.steering.jmad.model.manage.JMadModelManagerListener;
  * creates DataSets for JMad-Results and stores the therefore required Variables. So all the DataSets can then be
  * refreshed very easily.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TfsDataSetManager implements DataSetManager {
     private final static Logger logger = Logger.getLogger(TfsDataSetManager.class);

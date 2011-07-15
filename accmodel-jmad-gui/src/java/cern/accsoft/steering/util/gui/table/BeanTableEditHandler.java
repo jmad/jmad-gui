@@ -27,7 +27,7 @@ import cern.accsoft.steering.jmad.gui.panels.TablePanelEditHandler;
 /**
  * This interface defines methods, which allow to add a checkable column to a bean table and react on the events
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface BeanTableEditHandler extends TablePanelEditHandler {
 

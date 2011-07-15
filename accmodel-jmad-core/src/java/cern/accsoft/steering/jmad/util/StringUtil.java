@@ -28,7 +28,7 @@ package cern.accsoft.steering.jmad.util;
 /**
  * some utils to handle strings
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class StringUtil {
 

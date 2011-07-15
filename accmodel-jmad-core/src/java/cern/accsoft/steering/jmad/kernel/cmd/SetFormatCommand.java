@@ -36,7 +36,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
  * Unlike the MadX version, which supports up to three format settings at the same time, we only support setting one
  * format at a time here.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class SetFormatCommand extends AbstractCommand {
     private static final String CMD_NAME = "set";

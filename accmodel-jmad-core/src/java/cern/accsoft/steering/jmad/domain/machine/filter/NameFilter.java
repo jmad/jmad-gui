@@ -34,7 +34,7 @@ import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
 /**
  * simple interface to define e filter (e.g. for elements)
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface NameFilter {
 

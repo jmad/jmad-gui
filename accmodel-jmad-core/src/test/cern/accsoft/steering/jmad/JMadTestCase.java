@@ -32,7 +32,7 @@ import cern.accsoft.steering.jmad.util.LoggedTestCase;
 /***
  * this is a general testcase for jmad-stuff. It provides a convenience-method to fetch the example model.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class JMadTestCase extends LoggedTestCase {
 

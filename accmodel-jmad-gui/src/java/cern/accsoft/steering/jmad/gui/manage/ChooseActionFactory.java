@@ -27,7 +27,7 @@ import javax.swing.Action;
 /**
  * interface, which provides actions to choose model, range and optics.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ChooseActionFactory {
 

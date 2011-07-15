@@ -34,7 +34,7 @@ import cern.accsoft.steering.jmad.domain.knob.strength.Strength;
 /**
  * The default implementation of a {@link StrengthVarSet}
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class StrengthVarSetImpl implements StrengthVarSet {
 

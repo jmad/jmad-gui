@@ -38,7 +38,7 @@ import cern.accsoft.steering.jmad.util.bean.NamedBean;
  * this class defines values, which describe a misalignment of one or more elements. When communicating with MadX this
  * always results in a set of <a href="http://mad.web.cern.ch/mad/error/error_align.html">EALIGN</a> commands.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class Misalignment implements NamedBean {
 

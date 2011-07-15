@@ -29,7 +29,7 @@ import cern.accsoft.steering.jmad.domain.var.TwissVariable;
 /**
  * The interface of a class that can select variables for plotting.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface MadxVarSelector {
 

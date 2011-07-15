@@ -32,7 +32,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.param.GenericParameter;
 import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class OptionCommand extends AbstractCommand {
 
@@ -64,7 +64,7 @@ public class OptionCommand extends AbstractCommand {
     /**
      * this enum represents the possible option commands
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public enum Option {
         // default | meaning if true

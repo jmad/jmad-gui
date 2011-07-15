@@ -29,7 +29,7 @@ import cern.accsoft.steering.jmad.domain.var.TwissVariable;
 /**
  * provides a list of all possibly selectable variables.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface AllVarManager {
 

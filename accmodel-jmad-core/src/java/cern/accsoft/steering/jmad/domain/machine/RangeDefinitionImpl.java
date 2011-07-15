@@ -37,7 +37,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 /**
  * this class defines a range in a sequence, by defining the first and the last element.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 @XStreamAlias("range")
 public class RangeDefinitionImpl implements RangeDefinition, Cloneable {

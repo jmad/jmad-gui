@@ -33,7 +33,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
 /**
  * represents the readtable command of madx
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ReadTableCommand extends AbstractTableCommand {
 

@@ -35,7 +35,7 @@ import cern.accsoft.steering.jmad.domain.elem.MadxElementType;
  * Represents in JMad an element of type <a href="http://mad.web.cern.ch/mad/Introduction/octupole.html">OCTUPOLE</a> in
  * MadX.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class Octupole extends AbstractElement {
 

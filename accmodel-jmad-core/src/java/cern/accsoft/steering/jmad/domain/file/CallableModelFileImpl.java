@@ -31,7 +31,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 /**
  * The default implementation of a modelFile. Immutable.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 @XStreamAlias("call-file")
 public class CallableModelFileImpl extends AbstractModelFile implements CallableModelFile, Cloneable {

@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * Creates panels and configures them with edit-handlers if wanted.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class JMadPanelFactory {
 

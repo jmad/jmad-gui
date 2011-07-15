@@ -39,7 +39,7 @@ import cern.accsoft.steering.jmad.util.JMadPreferences;
 /**
  * The default implementation of the jmad-service. This class is configured by spring.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadServiceImpl implements JMadService {
 

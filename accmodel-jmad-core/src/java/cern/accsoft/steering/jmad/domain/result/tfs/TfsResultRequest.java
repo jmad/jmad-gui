@@ -29,7 +29,7 @@ import cern.accsoft.steering.jmad.domain.var.TwissVariable;
 /**
  * Defines which madx-variables shall be contained in the {@link TfsResult} after the twiss.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface TfsResultRequest {
 

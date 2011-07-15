@@ -28,7 +28,7 @@ package cern.accsoft.steering.jmad.domain.file;
 /**
  * a file for the model-definition that will be loaded as table.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface TableModelFile extends ModelFile {
 

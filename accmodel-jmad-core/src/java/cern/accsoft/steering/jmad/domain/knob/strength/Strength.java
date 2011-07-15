@@ -28,7 +28,7 @@ import cern.accsoft.steering.jmad.domain.knob.MadxParameter;
 /**
  * this class represents a simple name-value pair for madx.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface Strength extends Knob, MadxParameter {
     /* nothing special at the moment */

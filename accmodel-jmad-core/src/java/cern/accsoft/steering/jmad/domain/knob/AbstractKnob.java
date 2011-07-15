@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * the abstract implementation of a genera knob
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class AbstractKnob implements Knob {
 

@@ -29,7 +29,7 @@ import cern.accsoft.steering.jmad.domain.var.custom.StrengthVarSet;
 /**
  * This interface represents a manager, which keeps track of certain variables which can used in twiss-tables.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface StrengthVarManager {
 

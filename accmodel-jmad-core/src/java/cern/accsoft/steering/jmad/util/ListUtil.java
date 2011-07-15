@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * This class provides some utility-methods for generic lists.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class ListUtil {
 

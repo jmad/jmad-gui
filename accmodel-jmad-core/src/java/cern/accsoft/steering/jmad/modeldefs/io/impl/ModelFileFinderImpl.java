@@ -52,7 +52,7 @@ import cern.accsoft.steering.jmad.util.TempFileUtil;
 /**
  * This is the implementation of a class that finds model-files.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ModelFileFinderImpl implements ModelFileFinder {
 
@@ -355,7 +355,7 @@ public class ModelFileFinderImpl implements ModelFileFinder {
      * this enum indicates from where the repository-file is taken. It is the result of a combination of
      * {@link ModelFileFinder.RepositoryFilePriority} and the availability.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private static enum FileSource {
         ARCHIVE {

@@ -40,7 +40,7 @@ import cern.accsoft.steering.jmad.domain.elem.MadxElementType;
  * L=real,ANGLE=real,TILT=real,K0=real,K0S=real,K1=real,E1=real,E2=real,
  * FINT=real,FINTX=real,HGAP=real,K2=real,H1=real,H2=real,K3=real;
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class Bend extends AbstractElement {
 

@@ -43,7 +43,7 @@ import cern.accsoft.steering.util.gui.panels.ValidateApplyable;
 /**
  * A dialog, which contains a panel.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class PanelDialog extends JDialog {
     private static final long serialVersionUID = 67399462987558666L;

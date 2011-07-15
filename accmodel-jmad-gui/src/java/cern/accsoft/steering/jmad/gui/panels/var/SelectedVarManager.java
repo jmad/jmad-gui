@@ -27,7 +27,7 @@ import cern.accsoft.steering.jmad.domain.var.TwissVariable;
 /**
  * This is the interface of a class that collects selected variables for one axis.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface SelectedVarManager extends MadxVarSelector {
 
@@ -65,7 +65,7 @@ public interface SelectedVarManager extends MadxVarSelector {
     /**
      * this mode represents, if only one variable can be selected, or multiple ones.
      * 
-     * @author kaifox
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public static enum VarSelectionMode {
         SINGLE, MULTIPLE;

@@ -36,7 +36,7 @@ import org.apache.log4j.Logger;
  * in a table. the table then has as many rows as the bean has properties and 2 columns: one for the name of the
  * property and one for the value.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class BeanTableModel extends AbstractTableModel {
     private static final long serialVersionUID = -7282333473638238414L;

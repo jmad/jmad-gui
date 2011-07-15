@@ -47,7 +47,7 @@ import cern.jdve.renderer.HiLoRenderer;
  * functions, we use in aloha. Here we provide an easy way to access the renderers, which each of them will have a
  * dedicated role in Aloha.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class Aloha2DChart extends MarkableChart {
     private static final long serialVersionUID = 7117238469835822463L;
@@ -373,7 +373,7 @@ public class Aloha2DChart extends MarkableChart {
     /**
      * this is the enum, which will define the roles for different renderers in ALOHA.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public enum ChartRendererRole {
         MEAS_DATA, MEAS_ERROR, MODEL_DATA, MEAS_FIT, MODEL_FIT;
@@ -382,7 +382,7 @@ public class Aloha2DChart extends MarkableChart {
     /**
      * this enum encapsulates the int-constants used in dataViewer into an enum
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public enum RendererType {
 

@@ -25,7 +25,7 @@ package cern.accsoft.steering.util.gui.dv.ds;
 /**
  * This Interface must be implemented by all datasets, which shall allow a different style for different datapoints.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ValidityDataSet {
 

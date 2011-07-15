@@ -27,7 +27,7 @@ import cern.accsoft.steering.jmad.domain.elem.MadxElementType;
 /**
  * The madx-element <a href="http://mad.web.cern.ch/mad/Introduction/marker.html">MARKER</a>.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class Marker extends AbstractElement {
 

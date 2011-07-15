@@ -28,7 +28,7 @@ package cern.accsoft.steering.jmad.domain.file;
 /**
  * interface for defining the path offsets within repository and resources. this is valid for one model definition.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ModelPathOffsets {
 

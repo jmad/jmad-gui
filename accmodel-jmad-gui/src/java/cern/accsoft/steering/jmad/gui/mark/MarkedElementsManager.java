@@ -27,7 +27,7 @@ import java.util.Collection;
 /**
  * A manager for markers in Charts
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface MarkedElementsManager {
 

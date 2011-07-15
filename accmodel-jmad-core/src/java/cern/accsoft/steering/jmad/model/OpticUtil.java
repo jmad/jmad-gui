@@ -36,7 +36,7 @@ import cern.accsoft.steering.jmad.domain.var.enums.MadxTwissVariable;
 /**
  * collectiion of utility methods for the Model
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class OpticUtil {
 

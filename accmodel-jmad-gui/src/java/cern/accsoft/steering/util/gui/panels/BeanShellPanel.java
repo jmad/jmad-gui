@@ -45,7 +45,7 @@ import cern.accsoft.steering.util.gui.script.ScriptConsole;
 /**
  * This Class encapsulates the creation of the panel for the bean-shell
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class BeanShellPanel extends JPanel implements ApplicationContextAware {
     private static final long serialVersionUID = 4374231778801633419L;
@@ -128,7 +128,7 @@ public class BeanShellPanel extends JPanel implements ApplicationContextAware {
     /**
      * just a wrapper for ScriptEngineFactories whose toString Method returns a nice name;
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private static class ScriptEngineFactoryItem {
 

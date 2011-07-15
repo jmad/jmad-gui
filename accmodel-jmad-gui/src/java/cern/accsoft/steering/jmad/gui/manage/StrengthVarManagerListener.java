@@ -29,7 +29,7 @@ import cern.accsoft.steering.jmad.domain.var.custom.CustomVariable;
 /**
  * This interface represents a listener to a {@link StrengthVarManager}
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface StrengthVarManagerListener {
 

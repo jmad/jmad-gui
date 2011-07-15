@@ -28,14 +28,14 @@ package cern.accsoft.steering.jmad.domain.file;
 /**
  * a model file that will be called at initialization time
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface CallableModelFile extends ModelFile {
 
     /**
      * This enum defines if the file will be parsed or not
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public static enum ParseType {
         NONE, /* do not parse */

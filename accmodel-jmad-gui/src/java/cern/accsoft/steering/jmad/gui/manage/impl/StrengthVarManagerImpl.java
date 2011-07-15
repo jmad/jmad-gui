@@ -39,7 +39,7 @@ import cern.accsoft.steering.jmad.io.StrengthFileParserException;
 /**
  * This is the default implementation of a {@link StrengthVarManager}
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class StrengthVarManagerImpl implements StrengthVarManager {
 

@@ -41,7 +41,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
 /**
  * This class contains some utility methods for model definitions
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class ModelDefinitionUtil {
 

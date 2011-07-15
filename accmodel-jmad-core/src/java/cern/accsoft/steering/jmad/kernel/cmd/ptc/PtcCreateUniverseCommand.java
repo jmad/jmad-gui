@@ -35,7 +35,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
 /**
  * This class represents the madx-command to initialize the ptc-universe
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class PtcCreateUniverseCommand extends AbstractCommand {
 

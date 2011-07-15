@@ -38,7 +38,7 @@ import cern.accsoft.steering.jmad.util.StreamConnector;
  * manipulate values in madx directly, they are in general not consistent with the java-representation of the model! So
  * use this possibility with care!
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class MadXConsolePanel extends JPanel {
     private static final long serialVersionUID = -227501450207198640L;

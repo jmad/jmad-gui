@@ -49,7 +49,7 @@ import cern.accsoft.steering.jmad.domain.var.enums.MadxTwissVariable;
 /**
  * this is the implementation of the loader for aperture data
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ApertureReaderImpl implements ApertureReader {
 

@@ -33,7 +33,7 @@ import cern.accsoft.steering.util.gui.panels.PanelProvider;
 /**
  * This class provides methods for user-interaction through swing-dialogs.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class SwingUserInteractor implements UserInteractor {
 

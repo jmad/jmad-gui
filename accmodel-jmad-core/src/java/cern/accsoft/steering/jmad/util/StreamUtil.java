@@ -36,7 +36,7 @@ import java.io.OutputStream;
 import org.apache.log4j.Logger;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class StreamUtil {
 

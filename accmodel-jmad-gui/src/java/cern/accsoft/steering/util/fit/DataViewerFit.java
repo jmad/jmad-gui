@@ -29,7 +29,7 @@ import cern.jdve.utils.DataRange;
 /**
  * This interface defines the methods necessary to display the result of the fit in a DataViewer
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface DataViewerFit {
 

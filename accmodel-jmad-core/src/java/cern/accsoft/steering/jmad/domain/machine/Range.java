@@ -38,7 +38,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
  * of this elements, the filters to apply (e.g. for BPM reading inversions) and knows about its definition in the
  * {@link JMadModelDefinition}
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class Range {
 

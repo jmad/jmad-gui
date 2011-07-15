@@ -42,7 +42,7 @@ import org.apache.log4j.Logger;
 /**
  * This class connects two streams: an input-stream and an output-stream.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 /*
  * TODO Is there a standard method for doing such things?

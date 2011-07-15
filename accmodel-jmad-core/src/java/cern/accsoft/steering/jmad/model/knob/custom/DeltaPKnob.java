@@ -34,7 +34,7 @@ import cern.accsoft.steering.jmad.model.knob.AbstractModelKnob;
  * This knob allows setting the x,y,px,py initial conditions according to the given deltap. This enforces the trajectory
  * to match correctly the dispersion orbit.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class DeltaPKnob extends AbstractModelKnob {
 

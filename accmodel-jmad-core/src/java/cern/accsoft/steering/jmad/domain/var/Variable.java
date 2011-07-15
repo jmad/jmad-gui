@@ -25,7 +25,7 @@ package cern.accsoft.steering.jmad.domain.var;
 /**
  * This is the general interface for a variable. It simple has a name and a unit.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface Variable {
 

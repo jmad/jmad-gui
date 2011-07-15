@@ -27,7 +27,7 @@ import javax.swing.JPanel;
 /**
  * displays the header data of a yaspFile
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class YaspHeaderPanel extends JPanel {
     private static final long serialVersionUID = 1L;

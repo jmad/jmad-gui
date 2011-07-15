@@ -25,7 +25,7 @@ package cern.accsoft.steering.jmad.gui.manage;
 /**
  * This is the interface of a listener to a {@link CustomFileManager}
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface CustomFileManagerListener {
 

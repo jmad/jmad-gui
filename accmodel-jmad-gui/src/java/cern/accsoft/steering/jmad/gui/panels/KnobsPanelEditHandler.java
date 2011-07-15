@@ -27,7 +27,7 @@ import cern.accsoft.steering.jmad.domain.knob.Knob;
 /**
  * provides methods to handle the selection of certain strengthes in a {@link AbstractKnobsPanel}
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface KnobsPanelEditHandler extends TablePanelEditHandler {
 

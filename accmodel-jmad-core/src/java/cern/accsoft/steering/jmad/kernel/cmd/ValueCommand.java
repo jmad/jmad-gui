@@ -32,7 +32,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
 /**
  * This class implements the MadX-Command 'value'.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ValueCommand extends AbstractCommand {
     private static final String CMD_NAME = "value";

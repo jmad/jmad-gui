@@ -31,7 +31,7 @@ import cern.accsoft.steering.jmad.domain.machine.Range;
  * A model-listener, which implements all the methods, which may be overridden by subclasses, in order to react only on
  * special events.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class AbstractJMadModelListener implements JMadModelListener {
 

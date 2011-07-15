@@ -33,7 +33,7 @@ import cern.accsoft.steering.util.gui.dv.ds.ListDataSet;
 /**
  * The Dataset for the charts to display the phase space coordinates.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class PhaseSpaceDataSet extends ListDataSet {
     private static final long serialVersionUID = 1L;

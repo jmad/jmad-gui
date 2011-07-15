@@ -40,7 +40,7 @@ import cern.accsoft.steering.jmad.model.JMadModel;
 /**
  * simplest possible implementation of a {@link JMadModelManager}.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadModelManagerImpl implements JMadModelManager {
 

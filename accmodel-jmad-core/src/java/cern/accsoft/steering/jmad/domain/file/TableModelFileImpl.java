@@ -31,7 +31,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 /**
  * A model file which will be loaded as table
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 @XStreamAlias("table-file")
 public class TableModelFileImpl extends AbstractModelFile implements TableModelFile {

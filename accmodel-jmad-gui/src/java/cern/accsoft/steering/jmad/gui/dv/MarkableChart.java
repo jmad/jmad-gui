@@ -47,7 +47,7 @@ import cern.jdve.utils.DataRange;
 /**
  * This chart is a chart which listens on the MarkedElementsManager, in order to display all the elements as markers.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class MarkableChart extends Chart {
     private static final long serialVersionUID = -6909388067830384883L;

@@ -42,7 +42,7 @@ import cern.accsoft.steering.util.gui.CompUtils;
 /**
  * This is a panel which displays all the currently open models in the ModelManager.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ModelManagerPanel extends JPanel {
     private static final long serialVersionUID = -244842549979376608L;
@@ -177,7 +177,7 @@ public class ModelManagerPanel extends JPanel {
     /**
      * a table model, which displays all available models
      * 
-     * @author kaifox
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class ModelManagerTableModel extends AbstractTableModel {
 

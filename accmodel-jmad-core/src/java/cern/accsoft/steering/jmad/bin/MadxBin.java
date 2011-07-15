@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * Encapsulates the execution of the (native) MadX binaries.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface MadxBin {
 

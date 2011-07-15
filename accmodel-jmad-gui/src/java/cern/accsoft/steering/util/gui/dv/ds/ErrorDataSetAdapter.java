@@ -28,7 +28,7 @@ import cern.jdve.data.DataSource;
 import cern.jdve.data.DefaultDataSource;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ErrorDataSetAdapter extends AbstractDataSet implements ValidityDataSet, DataSet {
 
@@ -41,7 +41,7 @@ public class ErrorDataSetAdapter extends AbstractDataSet implements ValidityData
      * this enum determines, if the errors should be added (PLUS) or subtracted (MINUS) from the y-values. When set to
      * OFF, the errors are not taken into account.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public enum ErrorAddMode {
         PLUS, MINUS, OFF;

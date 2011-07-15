@@ -25,7 +25,7 @@ package cern.accsoft.steering.jmad.gui.panels;
 /**
  * classes derived from this interface can use {@link TablePanelEditHandler}s
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface EditHandlerUser<T extends TablePanelEditHandler> {
 

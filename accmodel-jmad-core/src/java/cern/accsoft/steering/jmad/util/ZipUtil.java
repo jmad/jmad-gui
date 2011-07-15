@@ -38,7 +38,7 @@ import java.util.zip.ZipFile;
 /**
  * some utility methods for zip files
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class ZipUtil {
 

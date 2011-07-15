@@ -28,7 +28,7 @@ import cern.accsoft.steering.util.gui.dialog.SimplePanelDialog;
 /**
  * The same as a panel - dialog, but has the MADX icon on top.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadPanelDialog extends SimplePanelDialog {
     private static final long serialVersionUID = -4191349467425767648L;

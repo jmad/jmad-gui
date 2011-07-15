@@ -29,7 +29,7 @@ package cern.accsoft.steering.jmad.domain.knob;
  * This interface characterizes a knob to the model. This has nothing to do with knobs in lsa etc! This Knob in
  * principle is just a method to tune multiple values of the model in one go
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface Knob {
 

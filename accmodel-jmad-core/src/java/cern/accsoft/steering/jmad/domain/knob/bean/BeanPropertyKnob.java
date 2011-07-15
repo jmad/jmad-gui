@@ -43,7 +43,7 @@ import cern.accsoft.steering.jmad.util.bean.NamedBean;
  * This class is designed to be sub classed by more dedicated knobs, that have to provide the actual bean by the
  * {@link #getBean()} method.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class BeanPropertyKnob extends AbstractKnob {
 

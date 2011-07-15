@@ -34,7 +34,7 @@ import cern.accsoft.steering.jmad.gui.manage.ElementSelectionManagerListener;
  * default implementation of the {@link ElementSelectionManager}. It keepos track of all the elements that are currently
  * selected.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ElementSelectionManagerImpl extends AbstractObservableManager<ElementSelectionManagerListener> implements
         ElementSelectionManager {

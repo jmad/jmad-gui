@@ -28,7 +28,7 @@ import cern.accsoft.steering.jmad.gui.icons.Icon;
 /**
  * This class manages the Splash-screen.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class SplashFactory {
 

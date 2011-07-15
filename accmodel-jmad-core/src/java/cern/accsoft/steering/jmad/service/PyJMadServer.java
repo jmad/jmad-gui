@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
 /**
  * creates a JMadService and publish it via py4j. This way it will be possible by any python program to use it.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class PyJMadServer {
 

@@ -36,7 +36,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
  * This class represents the madx-command to transfer the madx data to ptc: <a
  * href="http://mad.web.cern.ch/mad/ptc_general/ptc_general.html">PTC_CREATE_LAYOUT</a>
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class PtcCreateLayoutCommand extends AbstractCommand {
 

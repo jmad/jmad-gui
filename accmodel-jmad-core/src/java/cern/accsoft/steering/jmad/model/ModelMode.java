@@ -28,7 +28,7 @@ package cern.accsoft.steering.jmad.model;
 /**
  * Defines in which mode the model is working.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public enum ModelMode {
     /** The JMad model is working in normal madx mode. */

@@ -34,7 +34,7 @@ import org.junit.Test;
 /**
  * A simple test case for the resource util
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ResourceUtilTest extends LoggedTestCase {
 

@@ -36,7 +36,7 @@ package cern.accsoft.steering.jmad.util;
  * If it is set individually then the value is returned. If not set, then the value of the system property is returned,
  * if this is not set then a hardcoded default value is returned.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadPreferencesImpl implements JMadPreferences {
 

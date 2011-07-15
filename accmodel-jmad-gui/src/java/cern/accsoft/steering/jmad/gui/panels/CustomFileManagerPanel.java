@@ -61,7 +61,7 @@ import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
 /**
  * This panel allows to parse a variable-file and add these variables to the twiss results.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class CustomFileManagerPanel extends JPanel {
     private static final long serialVersionUID = 1427999923260387841L;
@@ -327,7 +327,7 @@ public class CustomFileManagerPanel extends JPanel {
     /**
      * table model for the available variables.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class CustomFilesTableModel extends AbstractTableModel {
         private static final long serialVersionUID = -4386551081279607172L;

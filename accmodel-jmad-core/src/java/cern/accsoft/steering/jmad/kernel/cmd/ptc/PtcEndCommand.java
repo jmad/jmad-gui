@@ -30,7 +30,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand;
 /**
  * this class represents the madx command, to end a ptc-block.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class PtcEndCommand extends AbstractCommand {
 

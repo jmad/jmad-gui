@@ -41,7 +41,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * The default implementation of the Optics definition. to operate correctly it needs a {@link ModelFileFinder} and some
  * filenames.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 @XStreamAlias("optic")
 public class OpticsDefinitionImpl implements OpticsDefinition, Cloneable {

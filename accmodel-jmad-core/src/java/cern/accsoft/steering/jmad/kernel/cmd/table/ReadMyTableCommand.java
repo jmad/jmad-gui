@@ -37,7 +37,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
  * <p>
  * This command provides the possibility to load into a table with a specific name.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ReadMyTableCommand extends AbstractTableCommand {
     /** the name of the command */

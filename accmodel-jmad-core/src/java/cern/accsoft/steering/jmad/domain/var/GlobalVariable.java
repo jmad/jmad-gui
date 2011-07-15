@@ -29,7 +29,7 @@ package cern.accsoft.steering.jmad.domain.var;
  * This interface represents a variable which is global in a model. For example Tune, Chroma or any element of a
  * madx-sum table.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface GlobalVariable extends MadxVariable {
     /* nothing special for the moment */

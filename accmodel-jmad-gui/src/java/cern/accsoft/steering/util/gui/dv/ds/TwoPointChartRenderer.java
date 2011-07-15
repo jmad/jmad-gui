@@ -34,7 +34,7 @@ import cern.jdve.utils.DisplayPoints;
  * This renderer always connects two subsequent points with one line. This e.g. is useful for displaying data, which
  * contains start and end-values. (e.g. alignmentData)
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TwoPointChartRenderer extends ScatterChartRenderer {
 

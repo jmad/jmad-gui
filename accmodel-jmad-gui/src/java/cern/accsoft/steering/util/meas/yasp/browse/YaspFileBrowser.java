@@ -54,7 +54,7 @@ import cern.accsoft.steering.util.gui.table.TableModelSelectionAdapter;
 /**
  * A simple dialog to browse through yasp files in a directory and preview the contents.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class YaspFileBrowser extends JDialog {
     private static final long serialVersionUID = 8936666262913943289L;
@@ -151,7 +151,7 @@ public class YaspFileBrowser extends JDialog {
     /**
      * This class is the implementation of a listener to change the displayed Data in the {@link DataViewerPanel}.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class FileSelectionAdapter implements ListSelectionListener {
         private JTable table = null;

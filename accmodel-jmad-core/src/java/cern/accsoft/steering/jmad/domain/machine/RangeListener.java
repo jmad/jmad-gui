@@ -34,7 +34,7 @@ import cern.accsoft.steering.jmad.domain.misalign.MisalignmentConfiguration;
 /**
  * this interface defines methods, which are fired, when something in a range changes.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface RangeListener {
 

@@ -32,7 +32,7 @@ import cern.jdve.event.DataSetEvent;
 /**
  * This class is the basic implementation of our DataSets
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class AbstractJmadDataSet extends AbstractDataSet implements MarkerXProvider {
 

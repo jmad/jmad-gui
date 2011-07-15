@@ -30,7 +30,7 @@ import Jama.Matrix;
  * this class represents a dataset for the dataviewer, which either displays a row or a column of a matrix. The number
  * of the displayed column/row is determined by the fixedIndex property. The type is determined by the
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class MatrixRowColDataSet extends ValidityMatrixDataSet {
 
@@ -256,7 +256,7 @@ public abstract class MatrixRowColDataSet extends ValidityMatrixDataSet {
     /**
      * a simple row/col index - pair
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class RowCol {
         private final int row;
@@ -272,7 +272,7 @@ public abstract class MatrixRowColDataSet extends ValidityMatrixDataSet {
      * this enum represents the two possible different types of a {@link MatrixRowColDataSet}: either it displayes one
      * column, or one row.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public enum MatrixDsType {
         ROW, COLUMN;

@@ -33,7 +33,7 @@ import cern.accsoft.steering.jmad.gui.manage.StrengthVarManagerListener;
 /**
  * This panel allows to parse a variable-file and add these variables to the twiss results.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class CustomVarSelectionTableModel extends AbstractVarSelectionTableModel {
 

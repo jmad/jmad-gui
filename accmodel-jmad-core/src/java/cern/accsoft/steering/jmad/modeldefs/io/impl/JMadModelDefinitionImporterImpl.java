@@ -49,7 +49,7 @@ import cern.accsoft.steering.jmad.util.xml.PersistenceServiceException;
 /**
  * The default implementation of a {@link JMadModelDefinitionImporter}
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadModelDefinitionImporterImpl implements JMadModelDefinitionImporter {
 

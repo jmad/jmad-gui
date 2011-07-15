@@ -25,7 +25,7 @@ package cern.accsoft.steering.util.gui.panels;
 /**
  * This interface enforces an apply-method for a panel
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface Applyable {
 

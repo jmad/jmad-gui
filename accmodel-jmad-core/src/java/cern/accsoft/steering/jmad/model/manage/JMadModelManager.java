@@ -38,7 +38,7 @@ import cern.accsoft.steering.jmad.model.JMadModel;
  * <p>
  * The manager keeps also track of all created models in the service.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface JMadModelManager {
 

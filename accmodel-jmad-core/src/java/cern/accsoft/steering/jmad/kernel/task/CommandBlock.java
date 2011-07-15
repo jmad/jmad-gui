@@ -29,7 +29,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.Command;
 /**
  * this block just represents a block of commands which is executed in one go.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class CommandBlock extends AbstractTask {
     private final List<Command> commands;

@@ -39,7 +39,7 @@ import javax.swing.table.TableRowSorter;
  * This class is a simple panel, which just contains a label and an textfield, which reacts on pressing the return key
  * and then applies the entered regex-filter.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TableFilterPanel extends JPanel {
     private static final long serialVersionUID = -1378930333245172769L;

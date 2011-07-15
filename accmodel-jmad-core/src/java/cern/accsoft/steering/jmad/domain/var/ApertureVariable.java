@@ -28,7 +28,7 @@ package cern.accsoft.steering.jmad.domain.var;
 /**
  * just a marker interface.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ApertureVariable extends TwissVariable {
     /*

@@ -25,7 +25,7 @@ package cern.accsoft.steering.util.gui.panels;
 /**
  * adds the functionality to a panel provide a title
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface Titleable {
 

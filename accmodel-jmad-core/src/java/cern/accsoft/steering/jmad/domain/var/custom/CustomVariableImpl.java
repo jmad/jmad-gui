@@ -30,7 +30,7 @@ import cern.accsoft.steering.jmad.util.MadxVarType;
 /**
  * This class is the basic implementation of a {@link CustomVariable}
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class CustomVariableImpl implements CustomVariable {
 

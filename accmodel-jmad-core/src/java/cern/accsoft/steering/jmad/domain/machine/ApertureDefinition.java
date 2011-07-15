@@ -32,7 +32,7 @@ import cern.accsoft.steering.jmad.domain.file.ModelFile;
 /**
  * This the interface of a class that defines aperture-values
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ApertureDefinition {
 

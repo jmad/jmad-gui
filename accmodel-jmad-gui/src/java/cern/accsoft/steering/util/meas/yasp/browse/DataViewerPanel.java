@@ -56,7 +56,7 @@ import cern.jdve.viewer.DataViewer;
 /**
  * The panel to display the yasp-traj data
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class DataViewerPanel extends JPanel {
     private static final long serialVersionUID = -8543734363603875904L;
@@ -190,7 +190,7 @@ public class DataViewerPanel extends JPanel {
     /**
      * the dataset for monitor-values
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class MonitorValueDataSet extends AbstractJmadDataSet implements ValidityDataSet {
 
@@ -235,7 +235,7 @@ public class DataViewerPanel extends JPanel {
     /**
      * the dataset for corrector-values
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class CorrectorValuesDataSet extends AbstractJmadDataSet {
 

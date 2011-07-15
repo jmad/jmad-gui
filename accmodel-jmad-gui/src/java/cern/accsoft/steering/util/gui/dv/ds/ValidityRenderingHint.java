@@ -30,7 +30,7 @@ import cern.jdve.utils.DisplayPoint;
 /**
  * This class defines, how the value for a BPM will be rendered.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ValidityRenderingHint implements RenderingHint {
 

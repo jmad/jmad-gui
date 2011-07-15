@@ -45,7 +45,7 @@ import cern.accsoft.steering.jmad.service.JMadServiceFactory;
 /**
  * this demo shows, how to initialize a model and output the some-parameters
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class SimpleTwissDemo {
 

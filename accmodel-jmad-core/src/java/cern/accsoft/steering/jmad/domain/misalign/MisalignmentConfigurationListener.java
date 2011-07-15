@@ -32,7 +32,7 @@ package cern.accsoft.steering.jmad.domain.misalign;
 /**
  * the interface for a listener to MisalignmentConfigurations
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface MisalignmentConfigurationListener {
 

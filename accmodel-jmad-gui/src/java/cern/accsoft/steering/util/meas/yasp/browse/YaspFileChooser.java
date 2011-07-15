@@ -31,7 +31,7 @@ import javax.swing.JFileChooser;
 /**
  * A file chooser, which contains a preview for yasp files
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class YaspFileChooser extends JFileChooser {
     private static final long serialVersionUID = 1L;

@@ -45,7 +45,7 @@ import cern.accsoft.steering.jmad.util.xml.PersistenceServiceException;
  * This class is an implementation of a {@link ModelDefinitionFinder} which searches in the classpath for all available
  * model definitions.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ClassPathModelDefinitionFinder implements ModelDefinitionFinder {
 

@@ -30,7 +30,7 @@ import cern.accsoft.steering.jmad.domain.var.VariableUtil;
 import cern.accsoft.steering.jmad.util.MadxVarType;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public enum MadxApertureVariable implements ApertureVariable {
     // apertures

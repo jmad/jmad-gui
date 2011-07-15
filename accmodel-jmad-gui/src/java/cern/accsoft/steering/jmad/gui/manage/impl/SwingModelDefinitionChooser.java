@@ -48,7 +48,7 @@ import cern.accsoft.steering.util.gui.UserInteractor;
 /**
  * The swing-implementation of the {@link ModelDefinitionChooser}
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class SwingModelDefinitionChooser implements ModelDefinitionChooser, ChooseActionFactory {
 

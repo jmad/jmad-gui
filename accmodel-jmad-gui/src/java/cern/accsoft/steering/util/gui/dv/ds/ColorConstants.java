@@ -27,7 +27,7 @@ import java.awt.Color;
 /**
  * This interface contains color - constants for the dataviewer
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ColorConstants {
     /* colors used */

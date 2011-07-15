@@ -51,7 +51,7 @@ import cern.accsoft.steering.jmad.util.TempFileUtil;
 /**
  * this is the implementation of the {@link JMadKernel} which controls one MadX-Process.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadKernelImpl implements JMadKernel, JMadKernelConfig {
 

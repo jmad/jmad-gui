@@ -42,7 +42,7 @@ import cern.accsoft.steering.jmad.util.TempFileUtil;
  * Determines the correct version of the madx-executable and provides methods to start its execution. Depending on the
  * operating system the correct executable is extracted to a temporary directory and can be executed from there.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class MadxBinImpl implements MadxBin {
     /** the logger */

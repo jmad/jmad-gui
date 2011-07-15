@@ -25,7 +25,7 @@ package cern.accsoft.steering.util.gui.menu;
 /**
  * this interface can be implemented by a tableModel to enable the setting of double-values via popup menu.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ValueSetable {
 

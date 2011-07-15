@@ -32,7 +32,7 @@ package cern.accsoft.steering.jmad.domain.misalign;
 /**
  * this interface defines methods, which are fired when data in misalignment changes
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface MisalignmentListener {
 

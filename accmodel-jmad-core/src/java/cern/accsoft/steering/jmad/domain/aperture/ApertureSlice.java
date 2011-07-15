@@ -31,7 +31,7 @@ import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
  * This class contains the original values as well as the calculated min/max values for the both planes. Additionaly the
  * positions for a so-called reference trajectory are stored, around which the aperture can later be centered.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ApertureSlice {
 

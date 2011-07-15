@@ -26,7 +26,7 @@ package cern.accsoft.steering.jmad.gui.manage;
  * The generic interface for a class to which listeners can be attached.
  * 
  * @param T the type of the listener that can be attached to the class.
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface GenericObservableManager<T> {
 

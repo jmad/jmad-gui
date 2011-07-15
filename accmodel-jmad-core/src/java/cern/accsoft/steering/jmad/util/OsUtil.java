@@ -32,7 +32,7 @@ package cern.accsoft.steering.jmad.util;
 /**
  * provides some methods to determine the operating-system
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class OsUtil {
     /* the name of the system-property */

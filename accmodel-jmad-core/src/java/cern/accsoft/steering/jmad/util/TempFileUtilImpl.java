@@ -36,7 +36,7 @@ import org.apache.log4j.Logger;
 /**
  * This Class provides some methods to simply access output-files
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TempFileUtilImpl implements TempFileUtil {
 

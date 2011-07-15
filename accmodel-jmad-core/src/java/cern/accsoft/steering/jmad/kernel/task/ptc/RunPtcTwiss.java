@@ -35,7 +35,7 @@ import cern.accsoft.steering.jmad.kernel.task.AbstractResultSelectableTask;
  * Represents a task to be executed in the kernel, that prepares the environment for a ptc twiss and exevutes the
  * ptc_twiss command
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class RunPtcTwiss extends AbstractResultSelectableTask {
 

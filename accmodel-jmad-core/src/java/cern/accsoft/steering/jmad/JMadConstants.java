@@ -30,7 +30,7 @@ import java.util.Locale;
 /**
  * This class contains constants which are used by many JMad-classes
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class JMadConstants {
 

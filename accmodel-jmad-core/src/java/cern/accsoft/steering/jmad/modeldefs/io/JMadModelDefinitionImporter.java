@@ -33,7 +33,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
 /**
  * This is the interface of a class which can import modelDefinitions from files.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface JMadModelDefinitionImporter {
 

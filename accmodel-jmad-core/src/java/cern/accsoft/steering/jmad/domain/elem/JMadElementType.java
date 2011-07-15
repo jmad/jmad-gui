@@ -37,7 +37,7 @@ import cern.accsoft.steering.jmad.domain.elem.impl.UnknownElement;
  * themselves are represented one to one by {@link MadxElementType} Most importantly this enum also contains the
  * information, which classes will be instancated for every type.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public enum JMadElementType {
     /**

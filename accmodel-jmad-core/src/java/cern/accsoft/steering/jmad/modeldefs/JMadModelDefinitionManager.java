@@ -34,7 +34,7 @@ import cern.accsoft.steering.jmad.modeldefs.io.ModelFileFinderManager;
  * This is the interface of a class that keeps track of all (internally) available model definitions. It provides some
  * methods to search for specific model definitions.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface JMadModelDefinitionManager extends ModelFileFinderManager {
 

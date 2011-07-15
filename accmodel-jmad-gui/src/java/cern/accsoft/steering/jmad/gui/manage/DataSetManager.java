@@ -25,7 +25,7 @@ package cern.accsoft.steering.jmad.gui.manage;
 /**
  * this interface defines common methods for the DataSetManager
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface DataSetManager {
 

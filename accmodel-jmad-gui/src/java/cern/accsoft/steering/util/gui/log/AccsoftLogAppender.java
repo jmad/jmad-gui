@@ -36,7 +36,7 @@ import cern.accsoft.gui.frame.MessageManager;
  * statusline, without having to implement the LogSource interface for all classes, that want to use logging. So one
  * simply can use the log4j-api in all classes.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class AccsoftLogAppender extends WriterAppender {
 

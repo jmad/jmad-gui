@@ -27,7 +27,7 @@ import java.io.File;
 /**
  * This interface describes the source of a model definition. This can be e.g. JAR, ZIP or LOCAL
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface SourceInformation {
 
@@ -57,7 +57,7 @@ public interface SourceInformation {
      * {@link SourceInformation} is interpreted differently. This also influences the search behaviour of a
      * {@link cern.accsoft.steering.jmad.modeldefs.io.ModelFileFinder}.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public static enum SourceType {
         /**

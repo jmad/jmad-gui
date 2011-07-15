@@ -31,7 +31,7 @@ import java.util.Collection;
  * This interface must be implemented by all parts of model definitions that require modelfiles. This is necessary
  * because by this interface the file finder decides which files are required and therefore need to be unpacked/copied.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ModelFileDependant {
 

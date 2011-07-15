@@ -25,7 +25,7 @@ package cern.accsoft.steering.jmad.gui.manage.impl;
 import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadGuiPreferencesImpl implements JMadGuiPreferences {
 

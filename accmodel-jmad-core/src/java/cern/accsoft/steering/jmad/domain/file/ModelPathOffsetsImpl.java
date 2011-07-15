@@ -28,7 +28,7 @@ package cern.accsoft.steering.jmad.domain.file;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 @XStreamAlias("path-offsets")
 public class ModelPathOffsetsImpl implements ModelPathOffsets {

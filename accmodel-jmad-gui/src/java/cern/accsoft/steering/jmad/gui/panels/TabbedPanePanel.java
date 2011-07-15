@@ -36,7 +36,7 @@ import javax.swing.JTabbedPane;
  * A very simple panel, to which several sub-panels can be set via a map. When the panel is initialized, then all the
  * panels are shown as tabbed panes with their keys as tab title.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TabbedPanePanel extends JPanel {
     private static final long serialVersionUID = 7123876964118824309L;

@@ -30,7 +30,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
 /**
  * this interface provides lookup methods for modelFileFinders
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ModelFileFinderManager {
 

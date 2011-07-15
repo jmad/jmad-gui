@@ -30,7 +30,7 @@ import cern.accsoft.steering.jmad.modeldefs.io.ModelFileFinder;
 /**
  * This interface represents the description of a file used for a model and provides the information where to find it.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ModelFile {
 
@@ -38,7 +38,7 @@ public interface ModelFile {
      * Where to search the file? In the repository (or if not found there in the repo-copy within the jar) or in the
      * sourcepath
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public static enum ModelFileLocation {
         REPOSITORY("repdata") {

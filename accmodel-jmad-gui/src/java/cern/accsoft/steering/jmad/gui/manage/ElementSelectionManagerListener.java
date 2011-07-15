@@ -29,7 +29,7 @@ import cern.accsoft.steering.jmad.domain.elem.Element;
 /**
  * This listener can be attached to an element selection manager and gets notified when the selected elements change.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ElementSelectionManagerListener {
 

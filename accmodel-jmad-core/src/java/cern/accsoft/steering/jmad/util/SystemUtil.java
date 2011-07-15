@@ -35,7 +35,7 @@ import java.net.UnknownHostException;
 /**
  * This class contains various methods to access system properties.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class SystemUtil {
 

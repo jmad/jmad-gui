@@ -38,7 +38,7 @@ import cern.accsoft.steering.util.io.impl.TextFileParserImpl;
 /**
  * This class provides an interface to read MadX-output files. The read data is returned in a Result - Object.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TfsFileParser {
 

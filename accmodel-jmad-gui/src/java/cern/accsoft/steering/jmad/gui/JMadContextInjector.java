@@ -31,7 +31,7 @@ import org.springframework.beans.factory.FactoryBean;
 /**
  * This is some special-trick bean to get some preconfigured beans into the application-context.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadContextInjector implements BeanNameAware, FactoryBean {
 

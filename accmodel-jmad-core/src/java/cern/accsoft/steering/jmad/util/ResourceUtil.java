@@ -46,7 +46,7 @@ import org.apache.log4j.Logger;
 /**
  * This class provides methods to handle resource files
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class ResourceUtil {
 

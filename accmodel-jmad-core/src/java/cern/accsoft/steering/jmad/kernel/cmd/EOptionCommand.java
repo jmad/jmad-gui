@@ -38,7 +38,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
 /**
  * the madx-command to change error options: EOPTION,SEED=real,ADD=logical;
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class EOptionCommand extends AbstractCommand {
 

@@ -25,7 +25,7 @@ package cern.accsoft.steering.jmad.kernel.cmd.param;
 /**
  * this interface represents all kind of possible parameters to madx-commands
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface Parameter {
 

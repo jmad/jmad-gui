@@ -50,7 +50,7 @@ import cern.accsoft.steering.jmad.service.JMadServiceFactory;
 /**
  * this demo is the example for the ipac-paper 2010
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class PaperTwissDemo {
 

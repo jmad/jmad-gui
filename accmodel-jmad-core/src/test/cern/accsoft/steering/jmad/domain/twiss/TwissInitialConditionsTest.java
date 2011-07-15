@@ -35,7 +35,7 @@ import cern.accsoft.steering.jmad.domain.twiss.TwissInitialConditionsImpl;
 import cern.accsoft.steering.jmad.domain.twiss.TwissListener;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TwissInitialConditionsTest {
 

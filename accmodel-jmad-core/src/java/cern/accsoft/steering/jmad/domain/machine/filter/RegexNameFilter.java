@@ -37,7 +37,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 /**
  * basic implementation of {@link NameFilter} using regexpressions.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 @XStreamAlias("regex-filter")
 public class RegexNameFilter implements NameFilter {

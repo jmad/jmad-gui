@@ -32,7 +32,7 @@ import cern.accsoft.steering.jmad.util.MadxVarType;
 /**
  * table model for the available variables in tfs-results.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class GenericTwissVarSelectionTableModel<T extends Enum<T> & TwissVariable> extends
         AbstractVarSelectionTableModel {

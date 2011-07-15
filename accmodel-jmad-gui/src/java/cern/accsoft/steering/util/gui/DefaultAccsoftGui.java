@@ -44,7 +44,7 @@ import cern.accsoft.steering.util.gui.log.AccsoftLogAppender;
 /**
  * This class combines the main elements of the gui: lsa-frame and custom panels.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class DefaultAccsoftGui {
 

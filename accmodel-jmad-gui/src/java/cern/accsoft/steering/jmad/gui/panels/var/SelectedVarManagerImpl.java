@@ -33,7 +33,7 @@ import cern.accsoft.steering.jmad.domain.var.TwissVariable;
 /**
  * the simplest implementation of a class collecting variables.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class SelectedVarManagerImpl implements SelectedVarManager {
 

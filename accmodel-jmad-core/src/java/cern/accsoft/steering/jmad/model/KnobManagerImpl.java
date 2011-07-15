@@ -40,7 +40,7 @@ import cern.accsoft.steering.jmad.model.knob.StatefulKnob;
 /**
  * The simplest implementation of a knob-manager
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class KnobManagerImpl implements KnobManager {
 

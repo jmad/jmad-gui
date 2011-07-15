@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * A misalignment-configuration for one element.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class MisalignmentConfiguration {
 

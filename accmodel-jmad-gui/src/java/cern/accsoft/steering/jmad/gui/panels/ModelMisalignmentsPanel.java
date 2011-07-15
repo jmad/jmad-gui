@@ -57,7 +57,7 @@ import cern.accsoft.steering.util.gui.table.SelectionSetTableModel;
 import cern.accsoft.steering.util.gui.table.TableModelSelectionAdapter;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ModelMisalignmentsPanel extends JPanel {
     private static final long serialVersionUID = -2761017481167940042L;
@@ -188,7 +188,7 @@ public class ModelMisalignmentsPanel extends JPanel {
     /**
      * the table model for the table of all misalignments
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class MisalignmentsTableModel extends SelectionSetTableModel {
         private static final long serialVersionUID = -5686224769800416136L;
@@ -242,7 +242,7 @@ public class ModelMisalignmentsPanel extends JPanel {
     /**
      * This class is the implementation of a listener to change the misalignment
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class MisalignmentsSelectionAdapter implements ListSelectionListener {
         private JTable table = null;
@@ -348,7 +348,7 @@ public class ModelMisalignmentsPanel extends JPanel {
      * this class adapts the general {@link ModelElementsPanelEditHandler} so, that we can cope with the
      * multiple-selection in the misalignments-table.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class EditHandlerAdapter implements BeanTableEditHandler {
 

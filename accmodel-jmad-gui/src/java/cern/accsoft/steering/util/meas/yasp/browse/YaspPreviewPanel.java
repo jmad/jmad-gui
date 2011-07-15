@@ -30,7 +30,7 @@ import javax.swing.JTabbedPane;
 /**
  * displays the data contained in a yasp file.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class YaspPreviewPanel extends JPanel {
     private static final long serialVersionUID = 1L;

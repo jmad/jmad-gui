@@ -28,7 +28,7 @@ import javax.swing.table.AbstractTableModel;
  * this class enables the table-model to keep track of all selected rows and provides a method for subclasses to set a
  * value to all selected rows.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class SelectionSetTableModel extends AbstractTableModel {
     private static final long serialVersionUID = -5682220710157369381L;

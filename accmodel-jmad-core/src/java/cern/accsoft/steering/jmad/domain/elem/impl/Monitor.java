@@ -28,7 +28,7 @@ import cern.accsoft.steering.jmad.domain.elem.MadxElementType;
  * This element represents in JMad one of the MadX element types <a
  * href="http://mad.web.cern.ch/mad/Introduction/monitors.html">HMONITOR, VMONITOR or MONITOR</a>
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class Monitor extends AbstractElement {
 

@@ -32,7 +32,7 @@ import cern.accsoft.steering.util.gui.dv.chart.TuneDiagramChart;
 /**
  * listens to the TfsResultManager and displays the tune-values in the tune diagram, if the result is updated.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TuneDiagramPanel extends AbstractTfsDataSetManagerResultPanel {
     private static final long serialVersionUID = 1L;

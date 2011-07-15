@@ -31,7 +31,7 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * Represents all the attributes a particle beam in MadX can have. Detailed information can be found <a
  * href="http://mad.web.cern.ch/mad/Introduction/beam.html">here</a>.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 @XStreamAlias("beam")
 /*
@@ -189,7 +189,7 @@ public class Beam { // NOPMD by kaifox on 6/25/10 5:26 PM
      * href="http://mad.web.cern.ch/mad/Introduction/bv_flag.html">bv flag</a> in MadX. It was introduced in MadX
      * especially for the needs of LHC design in order to cope with two beams circulating in opposite directions.
      * 
-     * @author kaifox
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public enum Direction implements MadxValue {
         /**
@@ -216,7 +216,7 @@ public class Beam { // NOPMD by kaifox on 6/25/10 5:26 PM
     /**
      * represents one of the possible particles that can be used to define a MadX beam.
      * 
-     * @author kaifox
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public enum Particle implements MadxValue {
         POSITRON("positron"), ELECTRON("electron"), PROTON("proton"), ANTIPROTON("antiproton"), POSMUON("posmuon"), NEGMUON(

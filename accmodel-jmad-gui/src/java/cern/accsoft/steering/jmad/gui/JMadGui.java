@@ -43,7 +43,7 @@ import cern.accsoft.steering.util.gui.DefaultAccsoftGui;
 /**
  * this class represents the main frame for the jmad-gui standalone application
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadGui extends DefaultAccsoftGui {
     private static final long serialVersionUID = -8292677890152652172L;

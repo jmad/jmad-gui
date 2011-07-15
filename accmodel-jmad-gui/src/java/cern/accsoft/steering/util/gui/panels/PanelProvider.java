@@ -27,7 +27,7 @@ import javax.swing.JPanel;
 /**
  * this interface just provides an panel
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface PanelProvider {
 

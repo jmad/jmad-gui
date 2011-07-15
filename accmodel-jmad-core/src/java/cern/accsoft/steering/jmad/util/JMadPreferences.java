@@ -32,7 +32,7 @@ package cern.accsoft.steering.jmad.util;
 /**
  * methods to handle settings that must be configurable by an user-application
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface JMadPreferences {
 

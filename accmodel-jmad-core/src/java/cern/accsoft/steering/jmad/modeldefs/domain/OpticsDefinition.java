@@ -33,7 +33,7 @@ import cern.accsoft.steering.jmad.domain.file.ModelFileDependant;
 /**
  * This is the interface for definitions of optics.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface OpticsDefinition extends ModelFileDependant {
 

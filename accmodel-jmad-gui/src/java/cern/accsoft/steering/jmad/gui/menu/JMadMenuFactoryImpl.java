@@ -40,7 +40,7 @@ import cern.accsoft.steering.jmad.gui.manage.ChooseActionFactory;
 /**
  * This class creates the actual instances of the toolbar and the menuBar for JMad.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadMenuFactoryImpl implements JMadMenuFactory {
 

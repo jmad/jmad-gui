@@ -34,7 +34,7 @@ import cern.accsoft.steering.jmad.util.MadxVarType;
 /**
  * This enum represents madx global variables, which appear in general in the sum-table of the twiss. TODO define units
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public enum PtcGlobalVariable implements GlobalVariable {
 

@@ -38,7 +38,7 @@ import cern.accsoft.steering.jmad.modeldefs.io.impl.ModelFileFinderImpl;
  * This is the default implementation of a class that knows about the available Model definitions. It uses certain
  * finders to search for model definitions and stores them internally for further retrieval.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class JMadModelDefinitionManagerImpl implements JMadModelDefinitionManager {
 

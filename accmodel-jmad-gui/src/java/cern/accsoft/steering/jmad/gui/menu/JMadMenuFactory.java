@@ -31,7 +31,7 @@ import javax.swing.JToolBar;
 /**
  * The factory for toolbar and menu
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface JMadMenuFactory {
 

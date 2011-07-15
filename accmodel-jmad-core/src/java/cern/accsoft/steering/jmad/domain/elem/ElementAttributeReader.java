@@ -32,7 +32,7 @@ import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 /**
  * This interface provides a method to read attribute properties from MadX.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ElementAttributeReader {
 

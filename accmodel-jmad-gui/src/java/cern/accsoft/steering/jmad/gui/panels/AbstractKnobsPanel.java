@@ -51,7 +51,7 @@ import cern.accsoft.steering.util.gui.table.TableModelSelectionAdapter;
  * this class represents the panel, which allows to view all strengths of a model (that is the content of the
  * strength-file) and in addition it provides the possibility to select certain strengths (if a EditHandler is set).
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class AbstractKnobsPanel extends JPanel implements EditHandlerUser<KnobsPanelEditHandler> {
     private static final long serialVersionUID = 1733380183463632497L;
@@ -147,7 +147,7 @@ public abstract class AbstractKnobsPanel extends JPanel implements EditHandlerUs
     /**
      * this inner class is the Table model for the displayed Table.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     class ModelStrengthesTableModel extends SelectionSetTableModel implements ValueSetable, Checkable, ActionProvider {
         private final static int COLUMN_COUNT = 4;

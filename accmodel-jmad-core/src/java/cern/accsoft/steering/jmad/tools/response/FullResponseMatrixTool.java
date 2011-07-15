@@ -46,7 +46,7 @@ import cern.accsoft.steering.jmad.model.JMadModel;
  * in the request and calculates the response matrix by the use of two trajectories returned by the madx-model. It thus
  * includes all (even nonlinear) effects and coupling.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class FullResponseMatrixTool implements ResponseMatrixTool {
 

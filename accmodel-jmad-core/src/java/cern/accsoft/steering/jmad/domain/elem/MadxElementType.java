@@ -35,7 +35,7 @@ import cern.accsoft.steering.jmad.util.ListUtil;
  * {@link MadxElementType} is also associated with one (more general) jmad-internal type. This {@link JMadElementType}
  * then determines which class-instance represents the type in jmad. (e.g. there is only one class for bends in jmad)
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public enum MadxElementType {
     /*

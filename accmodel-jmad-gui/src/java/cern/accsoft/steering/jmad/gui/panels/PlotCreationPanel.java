@@ -56,7 +56,7 @@ import cern.accsoft.steering.util.gui.panels.Titleable;
 /**
  * This panel allows the creation of different datasets.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class PlotCreationPanel extends JPanel implements Titleable, Applyable {
     private static final long serialVersionUID = -8324977554578482096L;

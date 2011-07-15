@@ -72,7 +72,7 @@ import cern.accsoft.steering.util.gui.table.TableModelSelectionAdapter;
  * element. It also offers the possibility to select certain properties of some elements (when an Edit Handler is
  * plugged in).
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ModelElementsPanel extends JPanel implements EditHandlerUser<ModelElementsPanelEditHandler> {
     private static final long serialVersionUID = 1L;
@@ -282,7 +282,7 @@ public class ModelElementsPanel extends JPanel implements EditHandlerUser<ModelE
     /**
      * this class is attended to be plugged in into the table-menu
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class MisalignmentCreator implements ActionProvider {
 
@@ -315,7 +315,7 @@ public class ModelElementsPanel extends JPanel implements EditHandlerUser<ModelE
     /**
      * This class is the implementation of a listener to change the selected elements in the elements-table.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class ElementSelectionAdapter implements ListSelectionListener {
         private JTable table = null;
@@ -344,7 +344,7 @@ public class ModelElementsPanel extends JPanel implements EditHandlerUser<ModelE
     /**
      * This class is the table model for the table of available elements.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class ModelElementsTableModel extends SelectionSetTableModel {
         private static final long serialVersionUID = 1L;

@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 /**
  * This class represents all possible Types of Values in the file. It also takes care of the corresponding tags.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public enum MadxVarType {
     STRING(String.class) {

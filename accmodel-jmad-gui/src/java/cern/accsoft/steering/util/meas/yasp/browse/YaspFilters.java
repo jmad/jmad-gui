@@ -28,7 +28,7 @@ import java.io.FilenameFilter;
 import javax.swing.filechooser.FileFilter;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class YaspFilters {
 

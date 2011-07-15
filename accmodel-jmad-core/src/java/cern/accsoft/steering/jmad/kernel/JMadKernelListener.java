@@ -32,7 +32,7 @@ package cern.accsoft.steering.jmad.kernel;
 /**
  * this interface defines the methods which are fired, when the kernel-state changes.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface JMadKernelListener {
 

@@ -44,7 +44,7 @@ import cern.jdve.utils.DisplayPoint;
 /**
  * this class provides methods to create a fit on a dataset of a dataviewer, using selected points
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class SineFitInteractor extends EditInteractor {
     private final static Logger logger = Logger.getLogger(SineFitInteractor.class);
@@ -157,7 +157,7 @@ public abstract class SineFitInteractor extends EditInteractor {
     /**
      * The action to create a sine fit
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public class SineFitAction extends AbstractAction {
         private static final long serialVersionUID = -645526133743397868L;
@@ -178,7 +178,7 @@ public abstract class SineFitInteractor extends EditInteractor {
     /**
      * action to remove the fit from the dataViewer
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public class ClearFitAction extends AbstractAction {
         private static final long serialVersionUID = -6375357705542370646L;

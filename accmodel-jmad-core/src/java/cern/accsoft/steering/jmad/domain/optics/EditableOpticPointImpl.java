@@ -27,7 +27,7 @@ import cern.accsoft.steering.jmad.domain.var.enums.MadxTwissVariable;
 /**
  * The general implementation of an optics point.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class EditableOpticPointImpl extends OpticPointImpl implements EditableOpticPoint {
 

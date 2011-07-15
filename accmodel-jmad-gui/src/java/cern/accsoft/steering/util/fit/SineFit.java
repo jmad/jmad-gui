@@ -39,7 +39,7 @@ import cern.jdve.utils.DisplayPoint;
 /**
  * This is the sine-function used for fitting.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 // public class SineFit implements FCNBase, DataViewerFit {
 public class SineFit implements DataViewerFit {
@@ -99,7 +99,7 @@ public class SineFit implements DataViewerFit {
     /**
      * the sine function
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     private class SineFunction {
 

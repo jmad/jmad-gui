@@ -31,7 +31,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * This is a renderer for table-cells, that renders doiuble values with more digits after the comma than the standard
  * renderer.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class DoubleTableCellRenderer extends DefaultTableCellRenderer {
     private static final long serialVersionUID = -5226757407025454017L;

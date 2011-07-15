@@ -34,7 +34,7 @@ import cern.accsoft.steering.jmad.util.MadxVarType;
  * In general the values in here are a representation of the values of the <a
  * href="http://mad.web.cern.ch/mad/Introduction/tables.html#summ">summary table</a> of MadX.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface TfsSummary {
 

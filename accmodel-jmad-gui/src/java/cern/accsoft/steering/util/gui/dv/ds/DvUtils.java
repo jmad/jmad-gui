@@ -49,7 +49,7 @@ import cern.jdve.renderer.ScatterChartRenderer;
 import cern.jdve.viewer.DataView;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class DvUtils {
 

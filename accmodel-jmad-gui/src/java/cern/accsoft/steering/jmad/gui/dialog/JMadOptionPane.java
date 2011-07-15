@@ -43,7 +43,7 @@ import cern.accsoft.steering.util.gui.dialog.PanelDialog;
 /**
  * This is a collection of utility methods to show dialogs related to jmad-models
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadOptionPane {
 

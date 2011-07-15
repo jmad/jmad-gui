@@ -25,7 +25,7 @@ package cern.accsoft.steering.jmad.gui.mark;
 /**
  * The interface of a listener to the markedElementsManager
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface MarkedElementsManagerListener {
 

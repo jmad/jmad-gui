@@ -27,7 +27,7 @@ import java.text.NumberFormat;
 /**
  * simple statistical util-methods
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class StatUtil {
 

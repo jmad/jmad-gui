@@ -29,7 +29,7 @@ import cern.accsoft.steering.jmad.domain.aperture.Aperture;
 /**
  * this is the interface of a class which loads the aperture data for jmad
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ApertureReader {
 

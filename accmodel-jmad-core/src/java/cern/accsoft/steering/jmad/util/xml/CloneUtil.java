@@ -32,7 +32,7 @@ import com.thoughtworks.xstream.converters.Converter;
  * This is a utility class that uses the XStream mechanism to clone objects. Custom converters can be provided in order
  * to control behaviour of the cloning.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class CloneUtil {
 

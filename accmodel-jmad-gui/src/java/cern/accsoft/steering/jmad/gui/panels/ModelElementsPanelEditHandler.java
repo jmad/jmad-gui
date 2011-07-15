@@ -27,7 +27,7 @@ import cern.accsoft.steering.jmad.domain.elem.Element;
 /**
  * defines methods which are called by ModelElementsPanel for using an additional - selection column.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ModelElementsPanelEditHandler extends TablePanelEditHandler {
 

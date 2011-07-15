@@ -29,7 +29,7 @@ import cern.accsoft.steering.util.gui.panels.PanelProvider;
 /**
  * this interface provides some simple methods for user-interaction.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface UserInteractor {
 

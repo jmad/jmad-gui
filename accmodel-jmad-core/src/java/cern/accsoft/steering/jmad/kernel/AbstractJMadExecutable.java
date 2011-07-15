@@ -29,7 +29,7 @@ import cern.accsoft.steering.jmad.domain.result.ResultType;
 /**
  * Contains common functions of commands/tasks that can be executed in MadX.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class AbstractJMadExecutable implements JMadExecutable {
 

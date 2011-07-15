@@ -29,7 +29,7 @@ import javax.swing.Action;
  * This is our basic action for the Orbit-feedback dataManager. It is basically the same as {@link AbstractAction} but
  * provides a constructor that allows to set the name and the short description. That simplifies things a bit.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class NamedAction extends AbstractAction {
     private static final long serialVersionUID = -165287112033003245L;

@@ -33,7 +33,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
  * Represents the command in MadX which resets the beam to the default values. (<a
  * href="http://mad.web.cern.ch/mad/Introduction/resbeam.html">RESBEAM</a>).
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ResbeamCommand extends AbstractCommand {
 

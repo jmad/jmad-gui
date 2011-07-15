@@ -53,7 +53,7 @@ import cern.accsoft.steering.jmad.modeldefs.io.ModelFileFinder;
  * This is the facade of a JMad - model It provides methods to retrieve values from the model in a save form and also
  * some wrappers to low-level functions which should be used with care.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface JMadModel {
 

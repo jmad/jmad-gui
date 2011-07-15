@@ -31,7 +31,7 @@ import cern.accsoft.steering.jmad.model.JMadModelListener;
 /**
  * this panel lists all knobs of the model, displays their values and allows to set new ones
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ModelCustomKnobsPanel extends AbstractKnobsPanel {
     private static final long serialVersionUID = -4669651127690020870L;

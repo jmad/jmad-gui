@@ -31,7 +31,7 @@ import cern.accsoft.steering.jmad.domain.knob.bean.BeanPropertyKnob;
 /**
  * this is a knob for a twiss initial condition.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TwissInitialConditionKnob extends BeanPropertyKnob {
 

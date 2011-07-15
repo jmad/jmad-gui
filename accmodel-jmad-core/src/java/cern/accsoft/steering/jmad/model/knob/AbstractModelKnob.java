@@ -31,7 +31,7 @@ import cern.accsoft.steering.jmad.model.JMadModel;
 /**
  * The simplest Knob, acting on a model
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class AbstractModelKnob extends AbstractKnob implements ModelKnob {
 

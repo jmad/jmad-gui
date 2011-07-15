@@ -51,7 +51,7 @@ import cern.accsoft.steering.jmad.util.xml.converters.GenericFieldAttributeConve
 import com.thoughtworks.xstream.XStream;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class XmlModelDefinitionPersistenceService extends GenericXStreamService<JMadModelDefinition> implements
         ModelDefinitionPersistenceService {

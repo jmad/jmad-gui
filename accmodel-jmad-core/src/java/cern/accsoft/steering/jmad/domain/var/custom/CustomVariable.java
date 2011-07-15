@@ -32,7 +32,7 @@ import cern.accsoft.steering.jmad.domain.var.TwissVariable;
  * parsed from a strength file and then plotted in a gui. For the moment the expression of a variable can not be
  * explicitely set and the name can not be changed.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface CustomVariable extends TwissVariable {
 

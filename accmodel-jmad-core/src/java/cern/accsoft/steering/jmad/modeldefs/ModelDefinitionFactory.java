@@ -30,7 +30,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
 /**
  * a simple interface to create model definitions
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ModelDefinitionFactory {
 

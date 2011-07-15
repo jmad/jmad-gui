@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * This is the interface of a class which keeps track of custom files, that can be added and executed.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface CustomFileManager {
 

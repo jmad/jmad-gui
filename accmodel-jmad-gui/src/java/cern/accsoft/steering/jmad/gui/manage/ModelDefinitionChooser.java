@@ -23,7 +23,7 @@
 package cern.accsoft.steering.jmad.gui.manage;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ModelDefinitionChooser {
 

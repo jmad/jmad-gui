@@ -44,7 +44,7 @@ import cern.accsoft.steering.util.gui.table.BeanTableModel;
 /**
  * this panel provides a table, in which one can edit the twiss parameters.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ModelTwissPanel extends JPanel implements EditHandlerUser<BeanTableEditHandler> {
     private static final long serialVersionUID = 7182385328020991187L;

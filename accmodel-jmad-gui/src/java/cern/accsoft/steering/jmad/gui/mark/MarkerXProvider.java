@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * This interface should be e.g. implemented by a dataset, which then can determine the x position for a marker
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface MarkerXProvider {
 

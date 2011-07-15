@@ -41,7 +41,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.SelectCommand;
 /**
  * This class represents a task, which applies a certain misalignment to a element.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class SetMisalignment extends AbstractTask {
 

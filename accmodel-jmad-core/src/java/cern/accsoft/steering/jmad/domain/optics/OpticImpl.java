@@ -41,7 +41,7 @@ import cern.accsoft.steering.jmad.util.ListUtil.Mapper;
  * different manners: As objects representing the values at one element of the accelerator and as lists of values
  * representing all the values along the accelerator.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class OpticImpl implements Optic {
 

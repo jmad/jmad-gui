@@ -33,7 +33,7 @@ import cern.jdve.utils.DataRange;
 /**
  * implements the interface <code>DataSet3D</code> in order to map Matrix-values to Z-coordinates.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class MatrixDataSet extends AbstractDataSet3D {
     private Matrix matrix = null;

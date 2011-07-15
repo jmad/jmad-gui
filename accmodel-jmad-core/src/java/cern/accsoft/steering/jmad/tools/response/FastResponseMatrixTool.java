@@ -36,7 +36,7 @@ import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
 import cern.accsoft.steering.jmad.model.JMadModel;
 
 /**
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class FastResponseMatrixTool implements ResponseMatrixTool {
 

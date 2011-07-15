@@ -32,7 +32,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
 /**
  * This is the interface of a class that can export jmad model-definitions to flat files or zip files.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface JMadModelDefinitionExporter {
 

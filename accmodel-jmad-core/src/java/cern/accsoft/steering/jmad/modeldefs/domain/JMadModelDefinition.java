@@ -35,7 +35,7 @@ import cern.accsoft.steering.jmad.domain.machine.SequenceImpl;
  * This interface represents a general definition of a model-configuration for jmad. It can be implemented directly by a
  * class, which provides a configuration.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface JMadModelDefinition extends ModelFileDependant {
 

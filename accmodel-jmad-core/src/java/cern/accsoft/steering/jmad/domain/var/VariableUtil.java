@@ -33,7 +33,7 @@ import cern.accsoft.steering.jmad.util.MadxVarType;
 /**
  * This class provides some methods to handle variables which are implemented in enums.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class VariableUtil {
 

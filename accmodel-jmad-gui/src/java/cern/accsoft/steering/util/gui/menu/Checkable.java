@@ -25,7 +25,7 @@ package cern.accsoft.steering.util.gui.menu;
 /**
  * this interface can be implemented by a TableModel in order to receive commands from the popu menu.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface Checkable {
 

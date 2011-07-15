@@ -39,7 +39,7 @@ import cern.accsoft.steering.jmad.model.manage.JMadModelManagerListener;
 /**
  * contains gui elements to configure the actual model
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ModelOptionsPanel extends JPanel {
     private static final long serialVersionUID = 1L;

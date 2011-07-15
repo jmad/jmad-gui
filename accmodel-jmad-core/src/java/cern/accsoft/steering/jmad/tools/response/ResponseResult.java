@@ -31,7 +31,7 @@ import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
 /**
  * The result of a response-matrix calculation
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ResponseResult {
 

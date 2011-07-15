@@ -47,7 +47,7 @@ import cern.accsoft.steering.jmad.modeldefs.io.impl.XmlModelDefinitionPersistenc
  * from the repository. XXX For the time being this is the simplest possible implementation: It just uses naively the
  * {@link ClassPathModelDefinitionFinder} and accepts all files which are used by one of the models.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadModelFileSelector extends BaseSelector {
 

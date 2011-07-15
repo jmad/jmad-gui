@@ -30,7 +30,7 @@ import cern.accsoft.steering.jmad.model.JMadModel;
 /**
  * A simple adapter which implements all methods of the listener and requires only those to be implemented when needed.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadModelManagerAdapter implements JMadModelManagerListener {
 

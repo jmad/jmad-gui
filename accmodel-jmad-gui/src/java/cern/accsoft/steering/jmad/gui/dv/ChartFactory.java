@@ -35,7 +35,7 @@ import cern.jdve.renderer.PolylineChartRenderer;
 /**
  * This class provides methods to create charts for JMad
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class ChartFactory {
 

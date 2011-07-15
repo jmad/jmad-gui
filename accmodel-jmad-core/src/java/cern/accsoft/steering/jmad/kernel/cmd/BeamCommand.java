@@ -36,7 +36,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
  * EX=real,EXN=real,EY=real,EYN=real, ET=real,SIGT=real,SIGE=real, KBUNCH=integer,NPART=real,BCURRENT=real,
  * BUNCHED=logical,RADIATE=logical,BV=integer,SEQUENCE=name;
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class BeamCommand extends AbstractCommand {
     private static final String CMD_NAME = "beam";

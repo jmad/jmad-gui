@@ -30,7 +30,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.Command;
 /**
  * A MadX task is a combination of simple madx commands.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class AbstractTask extends AbstractJMadExecutable {
 

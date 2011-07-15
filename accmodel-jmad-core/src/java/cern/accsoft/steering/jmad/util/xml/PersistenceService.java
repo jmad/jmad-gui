@@ -32,7 +32,7 @@ import com.thoughtworks.xstream.XStream;
  * Represents a general service to store java objects into xml files. It uses the {@link XStream} mechanism to
  * accomplish this task.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  * @param <T> the type of the object which can be saved and loaded
  */
 public interface PersistenceService<T> {

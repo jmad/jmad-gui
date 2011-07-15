@@ -31,7 +31,7 @@ import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
  * This enum groups two {@link MadxTwissVariable}s together, one for each plane. The correct twiss variable for one
  * plane can then be retrieved through one method.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public enum JMadTwissVariable {
     POS(MadxTwissVariable.X, MadxTwissVariable.Y), //

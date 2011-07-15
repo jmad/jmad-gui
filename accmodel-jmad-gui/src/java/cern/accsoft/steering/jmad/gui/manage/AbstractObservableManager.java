@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * the base implementation of a class to which listeners can be attached
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  * @param <T> the type of listeners that can be attached
  */
 public class AbstractObservableManager<T> implements GenericObservableManager<T> {

@@ -37,7 +37,7 @@ import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
 /**
  * This panel displays the values of a tfs result
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TfsSummaryPanel extends AbstractTfsDataSetManagerResultPanel {
     private static final long serialVersionUID = 1L;
@@ -64,7 +64,7 @@ public class TfsSummaryPanel extends AbstractTfsDataSetManagerResultPanel {
     /**
      * The table model for the tfsSummary
      * 
-     * @author kaifox
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     static class TfsSummaryTableModel extends AbstractTableModel {
         private static final long serialVersionUID = 1L;

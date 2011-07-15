@@ -32,7 +32,7 @@ import cern.accsoft.steering.jmad.model.JMadModel;
 /**
  * This is the interface of a simple tool, which can calculate a response matrix.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ResponseMatrixTool {
 

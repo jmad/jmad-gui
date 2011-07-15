@@ -37,7 +37,7 @@ import cern.accsoft.steering.jmad.util.ListUtil.Mapper;
 /**
  * this class provides a way to define, what results one wants to get back from a MadX twiss - Task.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  * @author muellerg
  */
 public class TfsResultRequestImpl implements TfsResultRequest {

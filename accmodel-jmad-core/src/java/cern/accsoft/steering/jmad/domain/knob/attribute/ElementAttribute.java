@@ -34,7 +34,7 @@ import cern.accsoft.steering.jmad.domain.knob.MadxParameter;
 /**
  * this knob is a wrapper of the knob interface to element-attributes.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ElementAttribute extends AbstractKnob implements MadxParameter {
 

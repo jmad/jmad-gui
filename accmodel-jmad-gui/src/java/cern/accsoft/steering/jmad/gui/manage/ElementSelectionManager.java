@@ -31,7 +31,7 @@ import cern.accsoft.steering.jmad.domain.elem.Element;
  * elements can do this with the provide methods. Elements which want to get notified on changes can add a listener to
  * this class.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ElementSelectionManager extends GenericObservableManager<ElementSelectionManagerListener> {
 

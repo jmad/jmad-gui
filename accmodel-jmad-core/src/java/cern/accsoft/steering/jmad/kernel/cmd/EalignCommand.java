@@ -41,7 +41,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
  * select command. EALIGN, DX=real,DY=real,DS=real, DPHI=real,DTHETA=real,DPSI=real, MREX=real,MREY=real,
  * MSCALX=real,MSCALY=real, AREX=real,AREY=real;
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class EalignCommand extends AbstractCommand {
 

@@ -29,7 +29,7 @@ import javax.swing.Action;
 /**
  * simple interface, that provides actions
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ActionProvider {
 

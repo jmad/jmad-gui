@@ -30,7 +30,7 @@ import java.io.File;
 /**
  * The default implementation for the {@link SourceInformation} interface.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class SourceInformationImpl implements SourceInformation {
 

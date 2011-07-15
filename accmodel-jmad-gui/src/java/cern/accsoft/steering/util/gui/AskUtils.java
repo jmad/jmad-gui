@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 /**
  * Some util-methods for simple user interaction.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class AskUtils {
     private final static Logger logger = Logger.getLogger(AskUtils.class);

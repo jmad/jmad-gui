@@ -30,7 +30,7 @@ import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
  * this interface defines, what kickers shall be used for calculating the response matrix and at what monitors the
  * response-values shall be calculated.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface ResponseRequest {
 

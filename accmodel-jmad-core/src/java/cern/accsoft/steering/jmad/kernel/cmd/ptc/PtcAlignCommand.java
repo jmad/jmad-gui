@@ -34,7 +34,7 @@ import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
 /**
  * this class represents the madx command, to end a ptc-block.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class PtcAlignCommand extends AbstractCommand {
 

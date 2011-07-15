@@ -40,7 +40,7 @@ import cern.accsoft.steering.jmad.modeldefs.io.impl.ModelDefinitionUtil;
  * create... methods have to be overridden by the subclasses. NOTE: It is important that that class stays at the same
  * resource-location, since all the resource-paths are calculated relative to this class!
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class AbstractModelDefinition implements JMadModelDefinition {
 

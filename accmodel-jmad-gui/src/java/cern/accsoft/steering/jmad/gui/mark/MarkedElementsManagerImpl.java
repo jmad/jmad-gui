@@ -31,7 +31,7 @@ import java.util.Set;
 /**
  * the implementation for managing elements, that shall be displayed as markers in charts.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class MarkedElementsManagerImpl implements MarkedElementsManager {
 

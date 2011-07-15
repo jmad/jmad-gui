@@ -78,7 +78,7 @@ public interface ModelFileFinder {
     /**
      * This enum defines what shall take priority if dealing with repository files.
      * 
-     * @author kfuchsbe
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public static enum RepositoryFilePriority {
         /**

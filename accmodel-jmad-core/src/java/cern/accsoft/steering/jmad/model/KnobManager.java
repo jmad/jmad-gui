@@ -33,7 +33,7 @@ import cern.accsoft.steering.jmad.domain.knob.KnobType;
 /**
  * This is the interface of a class, which manages several knobs
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface KnobManager {
 

@@ -31,7 +31,7 @@ import javax.swing.JPopupMenu;
 /**
  * extension for {@link MouseAdapter} to check if a popup menu shall show up.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class MousePopupListener extends MouseAdapter {
 

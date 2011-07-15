@@ -29,7 +29,7 @@ import javax.swing.ScrollPaneConstants;
 /**
  * commun util-functions creating components etc.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class CompUtils {
 

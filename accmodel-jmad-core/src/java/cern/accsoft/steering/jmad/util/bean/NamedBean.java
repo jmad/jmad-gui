@@ -32,7 +32,7 @@ package cern.accsoft.steering.jmad.util.bean;
 /**
  * this interface defines just one method: the one to return the name.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface NamedBean {
 

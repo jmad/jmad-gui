@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
 /**
  * This class contains some useful static methods for handling files
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class FileUtil {
 

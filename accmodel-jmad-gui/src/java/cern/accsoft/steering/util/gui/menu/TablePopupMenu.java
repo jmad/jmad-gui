@@ -36,7 +36,7 @@ import cern.accsoft.steering.util.gui.AskUtils;
  * This class is a basic popupmenu used in tables, to enable setting a value to multiple rows and checking/unchecking
  * multiple rows.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TablePopupMenu extends JPopupMenu {
     private static final long serialVersionUID = -3519304791315763524L;

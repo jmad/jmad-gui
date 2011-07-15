@@ -37,7 +37,7 @@ import cern.accsoft.steering.jmad.kernel.task.AbstractTask;
 /**
  * initializes the PTC universe, creates the layout and calls the ptc-align
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class InitPtcTask extends AbstractTask {
 

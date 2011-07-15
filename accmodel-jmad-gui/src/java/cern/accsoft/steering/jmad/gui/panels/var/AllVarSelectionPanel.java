@@ -32,7 +32,7 @@ import cern.accsoft.steering.jmad.domain.var.TwissVariable;
 /**
  * This is just a panel that collects all available var selection panels
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class AllVarSelectionPanel extends JTabbedPane {
     private static final long serialVersionUID = 1447914858470855189L;

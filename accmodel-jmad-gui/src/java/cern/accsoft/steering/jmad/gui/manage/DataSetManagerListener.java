@@ -31,7 +31,7 @@ import cern.accsoft.steering.jmad.gui.data.TfsResultDataSet;
 /**
  * the interface for listeners on {@link DataSetManager}
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface DataSetManagerListener {
 

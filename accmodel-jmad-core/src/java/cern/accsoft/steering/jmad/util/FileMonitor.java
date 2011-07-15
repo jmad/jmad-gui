@@ -29,7 +29,7 @@ import cern.accsoft.steering.jmad.JMadException;
 /**
  * polls a file and terminates as soon as it exists.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class FileMonitor {
     /** the sleeping interval between the polls. in milliseconds. */
@@ -102,7 +102,7 @@ public class FileMonitor {
     /**
      * Will be thrown, if the waiting fails for some reason.
      * 
-     * @author kaifox
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
      */
     public static class WaitingFailedException extends JMadException {
         private static final long serialVersionUID = 1L;

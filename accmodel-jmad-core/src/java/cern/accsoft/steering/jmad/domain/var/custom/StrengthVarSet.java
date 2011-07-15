@@ -34,7 +34,7 @@ import cern.accsoft.steering.jmad.domain.knob.strength.Strength;
  * strengthes and variables. Nevertheless if variables or strengthes with the same name already exist, then they
  * override the old ones! This is in order to correctly deal with optics definitions and optics overlays.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface StrengthVarSet {
 

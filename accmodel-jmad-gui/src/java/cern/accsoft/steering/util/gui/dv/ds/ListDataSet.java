@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * this class represents a dataset for a list of double-values. The x-values are then simply the indizes
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ListDataSet extends AbstractJmadDataSet implements ErrorDataSet {
 

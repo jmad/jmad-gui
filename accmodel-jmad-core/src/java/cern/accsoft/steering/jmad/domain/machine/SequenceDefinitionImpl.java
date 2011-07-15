@@ -42,7 +42,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  * <p>
  * This sequence definition also contains several ranges and the beam command associated with the sequence.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 @XStreamAlias("sequence")
 public class SequenceDefinitionImpl implements SequenceDefinition {

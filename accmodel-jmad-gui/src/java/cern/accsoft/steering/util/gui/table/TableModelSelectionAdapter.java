@@ -33,7 +33,7 @@ import javax.swing.event.ListSelectionListener;
  * This class is the implementation of a listener to remember, which rows in the table are selected and convert the
  * indizes correctly to the model.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TableModelSelectionAdapter implements ListSelectionListener {
 

@@ -31,7 +31,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * This is a static factory for a jmad service.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public final class JMadServiceFactory {
 

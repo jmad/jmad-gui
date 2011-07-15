@@ -48,7 +48,7 @@ import cern.jdve.data.DefaultDataSource;
 /**
  * Shows several graphs which display the closed orbit in phase and real space at one or more elements.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class PhaseSpacePanel extends JPanel {
     private static final long serialVersionUID = 1L;

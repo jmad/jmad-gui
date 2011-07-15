@@ -30,7 +30,7 @@ import cern.jdve.data.DataSet;
 /**
  * this is the implementation of a SineFitInteractor for Aloha
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class AlohaSineFitInteractor extends SineFitInteractor {
 

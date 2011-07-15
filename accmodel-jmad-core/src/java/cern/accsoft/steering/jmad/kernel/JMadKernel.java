@@ -33,7 +33,7 @@ import cern.accsoft.steering.jmad.domain.result.Result;
  * of input and output of the MadX process. Listeners can also be attached, which then get notified, when the status of
  * the kernel changes.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface JMadKernel {
 

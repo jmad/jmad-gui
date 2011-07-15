@@ -31,7 +31,7 @@ import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
 /**
  * The implementation of a ResponseResult
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ResponseResultImpl implements ResponseResult {
 

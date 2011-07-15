@@ -36,7 +36,7 @@ import cern.accsoft.steering.jmad.util.JMadPreferences;
 /**
  * This is the main entry-point to jmad. This interface offers methods to create new model, retrieve the active models
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public interface JMadService {
 
