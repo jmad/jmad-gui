@@ -58,9 +58,9 @@ public class LhcNominalModelDefinitionFactory extends AbstractLhcModelDefinition
     protected List<OpticDefinitionSet> getOpticDefinitionSets() {
         List<OpticDefinitionSet> definitionSetList = new ArrayList<OpticDefinitionSet>();
 
-        definitionSetList.add(this.createTotemOpticsSet());
         definitionSetList.add(this.createSqueezeFlatAllIrsOpticsSet());
         definitionSetList.add(this.createPartialSqueeze2011OpticsSet());
+        definitionSetList.add(this.createTotemOpticsSet());
         definitionSetList.add(this.createLowBeta2011OpticsSet());
 
         return definitionSetList;
@@ -81,8 +81,8 @@ public class LhcNominalModelDefinitionFactory extends AbstractLhcModelDefinition
         builder.addFinalCommonOpticFile(OpticModelFileBuilder.createInstance("match-chroma.madx").isResource()
                 .doNotParse());
 
-        builder.addOptic("A1100C1100A1000L1000_FLAT_INJ", new OpticModelFileBuilder[0]);
         builder.addOptic("A1100C1100A1000L1000_INJ_2011", new OpticModelFileBuilder[0]);
+        builder.addOptic("A1100C1100A1000L1000_FLAT_INJ", new OpticModelFileBuilder[0]); /* for compatibility */
 
         /* Tune shift Optic */
         builder.addOptic("A1100C1100A1000L1000_2011", new OpticModelFileBuilder[] {
