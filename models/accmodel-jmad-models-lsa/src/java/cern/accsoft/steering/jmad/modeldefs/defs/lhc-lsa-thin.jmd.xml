@@ -43,7 +43,7 @@
       </init-files>
     </optic>
   </optics>
-  <default-optic ref-name="A1100C1100L1000A1000_THIN"/>
+  <default-optic ref-name="A080C080L200A200_THIN"/>
   <sequences>
     <sequence name="lhcb1">
       <beam>
@@ -277,7 +277,6 @@
   <init-files>
     <call-file location="RESOURCE" path="init-constants.madx"/>
     <call-file path="V6.5.thin.seq"/>
-    <call-file location="RESOURCE" path="install-beambeam.madx"/>
   </init-files>
   <path-offsets>
     <repository-offset value="lhc/optics/V6.503"/>

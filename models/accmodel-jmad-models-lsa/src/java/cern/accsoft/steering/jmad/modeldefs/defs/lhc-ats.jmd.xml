@@ -133,8 +133,8 @@
     <optic name="A1100C1100A1000L1000_2011_ATS_INJ_OLD" overlay="false">
       <init-files>
         <call-file path="ATS_V6.503/ats_V6.503.inj.str" parse="STRENGTHS"/>
-        <call-file path="ATS_V6.503/errors/Presetandknob_B1_inj_450.madx"/>
-        <call-file path="ATS_V6.503/errors/Presetandknob_B2_inj_450.madx"/>
+        <call-file path="ATS_V6.503/errors/Presetandknob_B1_inj_450.madx" parse="STRENGTHS"/>
+        <call-file path="ATS_V6.503/errors/Presetandknob_B2_inj_450.madx" parse="STRENGTHS"/>
         <call-file location="RESOURCE" path="tc_re-match_inj.madx"/>
       </init-files>
     </optic>
