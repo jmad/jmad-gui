@@ -12,7 +12,7 @@ import cern.accsoft.steering.jmad.domain.machine.RangeDefinitionImpl;
 import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinition;
 import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinitionImpl;
 
-public abstract class AbstractLhcNominalModelDefinitionFactory extends AbstractLhcThickModelDefinitionFactory {
+public abstract class AbstractLhcNominalModelDefinitionFactory extends AbstractLhcModelDefinitionFactory {
 
     public AbstractLhcNominalModelDefinitionFactory() {
         super();
@@ -70,17 +70,7 @@ public abstract class AbstractLhcNominalModelDefinitionFactory extends AbstractL
     protected void addPostUseFiles(RangeDefinitionImpl rangeDefinition) {
     }
 
-    //
-    // @Override
-    // protected ApertureDefinition createB1ApertureDefinition() {
-    // ApertureDefinitionImpl aperture = new ApertureDefinitionImpl(new CallableModelFileImpl(
-    // "aperture/APERIDX.LHC.B1.tfs", ModelFileLocation.RESOURCE));
-    //
-    // aperture.addPartFile(new CallableModelFileImpl("aperture/twiss.ir1_prof.b1.n1_inj.tfs.bz2"));
-    //
-    // return aperture;
-    //
-    // }
+
 
     private enum OpticsDef {
         A1100C1100A1000L1000_FLAT_INJ(new String[] { "match-chroma.madx" }), // for Ramp using still old optics

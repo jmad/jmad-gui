@@ -7,10 +7,12 @@
  */
 package cern.accsoft.steering.jmad.modeldefs.defs.lhc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cern.accsoft.steering.jmad.domain.beam.Beam;
 import cern.accsoft.steering.jmad.domain.beam.Beam.Direction;
+import cern.accsoft.steering.jmad.domain.file.ModelFile;
 import cern.accsoft.steering.jmad.domain.file.ModelPathOffsets;
 import cern.accsoft.steering.jmad.domain.machine.MadxRange;
 import cern.accsoft.steering.jmad.domain.machine.RangeDefinition;
@@ -21,12 +23,14 @@ import cern.accsoft.steering.jmad.domain.machine.filter.RegexNameFilter;
 import cern.accsoft.steering.jmad.domain.twiss.TwissInitialConditionsImpl;
 import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
 import cern.accsoft.steering.jmad.modeldefs.ModelDefinitionFactory;
+import cern.accsoft.steering.jmad.modeldefs.create.OpticDefinitionSet;
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinitionImpl;
 import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinition;
+import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinitionImpl;
 import cern.accsoft.steering.jmad.modeldefs.lhc.LhcUtil;
 
-public abstract class AbstractLhcThickModelDefinitionFactory implements ModelDefinitionFactory {
+public abstract class AbstractLhcModelDefinitionFactory implements ModelDefinitionFactory {
 
     protected abstract String getModelDefinitionName();
 
@@ -34,8 +38,44 @@ public abstract class AbstractLhcThickModelDefinitionFactory implements ModelDef
 
     protected abstract void addInitFiles(JMadModelDefinitionImpl modelDefinition);
 
-    protected abstract List<OpticsDefinition> createOpticsDefinitions();
+    /**
+     * @return the list of optic definition sets which are defined in this factory
+     */
+    protected abstract List<OpticDefinitionSet> getOpticDefinitionSets();
 
+    private List<OpticsDefinition> createOpticsDefinitions() {
+        List<OpticsDefinition> opticsDefinitions = new ArrayList<OpticsDefinition>();
+
+        for (OpticDefinitionSet definitionSet : this.getOpticDefinitionSets()) {
+            for (String opticName : definitionSet.getDefinedOpticNames()) {
+
+                /*
+                 * first collect the model files
+                 */
+                List<ModelFile> modelFiles = new ArrayList<ModelFile>();
+                modelFiles.addAll(definitionSet.getInitialCommonOpticFiles());
+                modelFiles.addAll(definitionSet.getOpticModelFiles(opticName));
+                modelFiles.addAll(definitionSet.getFinalCommonOpticFiles());
+
+                /*
+                 * next create the actual definition
+                 */
+                OpticsDefinition opticsDefinition = new OpticsDefinitionImpl(opticName, modelFiles
+                        .toArray(new ModelFile[modelFiles.size()]));
+
+                opticsDefinitions.add(opticsDefinition);
+            }
+        }
+
+        return opticsDefinitions;
+    }
+
+    /**
+     * Method to be overwritten by extending classes to add files that have to be called after the given range was used
+     * in MADX.
+     * 
+     * @param rangeDefinition
+     */
     protected abstract void addPostUseFiles(RangeDefinitionImpl rangeDefinition);
 
     @Override
@@ -102,7 +142,7 @@ public abstract class AbstractLhcThickModelDefinitionFactory implements ModelDef
             String end, TwissInitialConditionsImpl twiss) {
         RangeDefinitionImpl rangeDefinition = new RangeDefinitionImpl(sequenceDefinition, name, new MadxRange(start,
                 end), twiss);
-//        rangeDefinition.setApertureDefinition(createB1ApertureDefinition());
+        // rangeDefinition.setApertureDefinition(createB1ApertureDefinition());
         addPostUseFiles(rangeDefinition);
         return rangeDefinition;
     }
@@ -177,4 +217,16 @@ public abstract class AbstractLhcThickModelDefinitionFactory implements ModelDef
         beam.setDirection(direction);
         return beam;
     }
+
+    //
+    // @Override
+    // protected ApertureDefinition createB1ApertureDefinition() {
+    // ApertureDefinitionImpl aperture = new ApertureDefinitionImpl(new CallableModelFileImpl(
+    // "aperture/APERIDX.LHC.B1.tfs", ModelFileLocation.RESOURCE));
+    //
+    // aperture.addPartFile(new CallableModelFileImpl("aperture/twiss.ir1_prof.b1.n1_inj.tfs.bz2"));
+    //
+    // return aperture;
+    //
+    // }
 }

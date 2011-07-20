@@ -33,7 +33,7 @@
 		</antcall>
 		<echo message="unsigning jmad" />
 		<antcall target="unsignjars">
-			<param name="jar" value="accsoft-steering-jmad" />
+			<param name="jar" value="accmodel-jmad-core" />
 		</antcall>
 	</target>
 
