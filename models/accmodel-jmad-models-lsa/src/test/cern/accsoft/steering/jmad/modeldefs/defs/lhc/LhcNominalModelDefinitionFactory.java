@@ -13,6 +13,8 @@ import cern.accsoft.steering.jmad.domain.file.ModelPathOffsetsImpl;
 import cern.accsoft.steering.jmad.domain.file.ModelFile.ModelFileLocation;
 import cern.accsoft.steering.jmad.domain.machine.RangeDefinitionImpl;
 import cern.accsoft.steering.jmad.modeldefs.create.OpticDefinitionSet;
+import cern.accsoft.steering.jmad.modeldefs.create.OpticDefinitionSetBuilder;
+import cern.accsoft.steering.jmad.modeldefs.create.OpticModelFileBuilder;
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinitionImpl;
 import cern.accsoft.steering.jmad.modeldefs.lhc.LhcUtil;
 
@@ -23,35 +25,40 @@ import cern.accsoft.steering.jmad.modeldefs.lhc.LhcUtil;
  */
 public class LhcNominalModelDefinitionFactory extends AbstractLhcModelDefinitionFactory {
 
-    @Override
-    protected void addInitFiles(JMadModelDefinitionImpl modelDefinition) {
-        modelDefinition.addInitFile(new CallableModelFileImpl("init-constants.madx", ModelFileLocation.RESOURCE));
-        modelDefinition.addInitFile(new CallableModelFileImpl("V6.5.seq"));
-        modelDefinition.addInitFile(new CallableModelFileImpl("install_additional_elements.madx"));
-        modelDefinition.addInitFile(new CallableModelFileImpl("install-ac-dipole.madx", ModelFileLocation.RESOURCE));
-    }
+  @Override
+  protected void addInitFiles(JMadModelDefinitionImpl modelDefinition) {
+    modelDefinition.addInitFile(new CallableModelFileImpl("init-constants.madx", ModelFileLocation.RESOURCE));
+    modelDefinition.addInitFile(new CallableModelFileImpl("V6.5.seq"));
+    modelDefinition.addInitFile(new CallableModelFileImpl("install_additional_elements.madx"));
+    modelDefinition.addInitFile(new CallableModelFileImpl("install-ac-dipole.madx", ModelFileLocation.RESOURCE));
+  }
 
-    @Override
-    protected ModelPathOffsets createModelPathOffsets() {
-        ModelPathOffsetsImpl offsets = new ModelPathOffsetsImpl();
-        offsets.setResourceOffset("lhc");
-        offsets.setRepositoryOffset("lhc/optics/V6.503");
-        return offsets;
-    }
+  @Override
+  protected ModelPathOffsets createModelPathOffsets() {
+    ModelPathOffsetsImpl offsets = new ModelPathOffsetsImpl();
+    offsets.setResourceOffset("lhc");
+    offsets.setRepositoryOffset("lhc/optics/V6.503");
+    return offsets;
+  }
 
-    @Override
-    protected String getModelDefinitionName() {
-        return LhcUtil.NOMINAL_MODEL_DEFINITION_NAME;
-    }
+  @Override
+  protected String getModelDefinitionName() {
+    return LhcUtil.NOMINAL_MODEL_DEFINITION_NAME;
+  }
 
-    @Override
-    protected void addPostUseFiles(RangeDefinitionImpl rangeDefinition) {
-        // TODO Auto-generated method stub
-        
-    }
+  @Override
+  protected void addPostUseFiles(RangeDefinitionImpl rangeDefinition) {
+  // TODO Auto-generated method stub
 
-    @Override
+  }
+
+  @Override
     protected List<OpticDefinitionSet> getOpticDefinitionSets() {
+      List<OpticDefinitionSet> definitionSetList = new ArrayList<OpticDefinitionSet>();
+      
+      definitionSetList.add(this.createTotemOpticsSet());
+      
+      
         private enum OpticsDef {
             A1100C1100A1000L1000_FLAT_INJ(new String[] { "match-chroma.madx" }), // for Ramp using still old optics
             A1100C1100A1000L1000_INJ_2011(new String[] { "match-chroma.madx" }), //
@@ -105,7 +112,7 @@ public class LhcNominalModelDefinitionFactory extends AbstractLhcModelDefinition
                     "IR2/3.5TeV/special/ip2_0.00889_beta4.00m.str", "IR8/3.5TeV/special/ip8_0.00888_beta3.75m.str",
                     "match-chroma.madx" }), //
             A350C350A350_0x00889L350_0x00882_FLAT(new String[] { "IR1/IP1_beta_3.50.str", "IR5/IP5_beta_3.50.str",
-                    "IR8/3.5TeV/special/ip8_0.00882_beta3.50m.str", "IR2/3.5TeV/special/ip2_0.00889_beta3.50m.str",
+                    "IR8/3.5TeV/special/ip8_0.00882_beta3.50m.str", "IR2/3.5TeV/special/ip2_0.00889_beta3.50m.str", 
                     "match-chroma.madx" }), //
             A350C350A350_0x00889L325_0x00878_FLAT(new String[] { "IR1/IP1_beta_3.50.str", "IR5/IP5_beta_3.50.str",
                     "IR2/3.5TeV/special/ip2_0.00889_beta3.50m.str", "IR8/3.5TeV/special/ip8_0.00878_beta3.25m.str",
@@ -269,60 +276,6 @@ public class LhcNominalModelDefinitionFactory extends AbstractLhcModelDefinition
                     "IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str", "match-chroma.madx" }), //
             A150C150A1000L300_0x00875_2011(new String[] { "IR1/IP1_beta_1.50.str", "IR5/IP5_beta_1.50.str",
                     "IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str", "match-chroma.madx" }),
-            /* combined unsqueeze Optics IR1/5 */
-            A7500C7500A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_75.str", "HiBeta/un-squeeze-11-to-90m/IP5_75.str",
-                    "totem-matching-main-quads.madx" }), //
-            A6700C6700A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_67.str", "HiBeta/un-squeeze-11-to-90m/IP5_67.str",
-                    "totem-matching-main-quads.madx" }), //
-            A6000C6000A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_60.str", "HiBeta/un-squeeze-11-to-90m/IP5_60.str",
-                    "totem-matching-main-quads.madx" }), //
-            A5400C5400A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_54.str", "HiBeta/un-squeeze-11-to-90m/IP5_54.str",
-                    "totem-matching-main-quads.madx" }), //
-            A5100C5100A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_51.str", "HiBeta/un-squeeze-11-to-90m/IP5_51.str",
-                    "totem-matching-main-quads.madx" }), //
-            A4600C4600A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_46.str", "HiBeta/un-squeeze-11-to-90m/IP5_46.str",
-                    "totem-matching-main-quads.madx" }), //
-            A4300C4300A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_43.str", "HiBeta/un-squeeze-11-to-90m/IP5_43.str",
-                    "totem-matching-main-quads.madx" }), //
-            A4000C4000A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_40.str", "HiBeta/un-squeeze-11-to-90m/IP5_40.str",
-                    "totem-matching-main-quads.madx" }), //
-            A3600C3600A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_36.str", "HiBeta/un-squeeze-11-to-90m/IP5_36.str",
-                    "totem-matching-main-quads.madx" }), //
-            A3300C3300A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_33.str", "HiBeta/un-squeeze-11-to-90m/IP5_33.str",
-                    "totem-matching-main-quads.madx" }), //
-            A3000C3000A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_30.str", "HiBeta/un-squeeze-11-to-90m/IP5_30.str",
-                    "totem-matching-main-quads.madx" }), //
-            A2500C2500A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_25.str", "HiBeta/un-squeeze-11-to-90m/IP5_25.str",
-                    "totem-matching-main-quads.madx" }), //
-            A2200C2200A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_22.str", "HiBeta/un-squeeze-11-to-90m/IP5_22.str",
-                    "totem-matching-main-quads.madx" }), //
-            A1920C1920A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_19.str", "HiBeta/un-squeeze-11-to-90m/IP5_19.str",
-                    "totem-matching-main-quads.madx" }), //
-            A1670C1670A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_16.str", "HiBeta/un-squeeze-11-to-90m/IP5_16.str",
-                    "totem-matching-main-quads.madx" }), //
-            A1450C1450A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_14.str", "HiBeta/un-squeeze-11-to-90m/IP5_14.str",
-                    "totem-matching-main-quads.madx" }), //
-            A1260C1260A1000L1000_2011(new String[] { "IR5/IP5_beta11.00.str", "IR1/IP1_beta11.00.str",
-                    "HiBeta/un-squeeze-11-to-90m/IP1_12.str", "HiBeta/un-squeeze-11-to-90m/IP5_12.str",
-                    "totem-matching-main-quads.madx" }), //
-            A9000C9000A1000L1000_2011(new String[] { "IR1/IP1_beta11.00.str", "IR5/IP5_beta11.00.str",
-                    "HiBeta/IP1_beta90.str", "HiBeta/IP5_beta90_2010.str", "totem-matching-main-quads.madx" });
             protected final static String[] COMMON_FILE_NAMES = new String[] { "V6.5.inj_special.str" };
             protected final static String[] COMMON_FILE_NAMES_RESOURCE = new String[] { "ac-dipole.str" };
 
@@ -345,4 +298,74 @@ public class LhcNominalModelDefinitionFactory extends AbstractLhcModelDefinition
         }
     }
 
+  private OpticDefinitionSet createTotemOpticsSet() {
+    OpticDefinitionSetBuilder builder = OpticDefinitionSetBuilder.newInstance();
+
+    builder.addInitialCommonOpticFile(OpticModelFileBuilder.createInstance("V6.5.inj_special.str"));
+    builder.addInitialCommonOpticFile(OpticModelFileBuilder.createInstance("IR5/IP5_beta11.00.str"));
+    builder.addInitialCommonOpticFile(OpticModelFileBuilder.createInstance("IR1/IP1_beta11.00.str"));
+
+    builder.addFinalCommonOpticFile(OpticModelFileBuilder.createInstance("ac-dipole.str"));
+    builder.addFinalCommonOpticFile(OpticModelFileBuilder.createInstance("totem-matching-main-quads.madx"));
+
+    builder.addOptic("A7500C7500A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_75.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_75.str")});
+
+    /* combined unsqueeze Optics IR1/5 */
+
+    builder.addOptic("A6700C6700A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_67.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_67.str")});
+    builder.addOptic("A6000C6000A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_60.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_60.str")});
+    builder.addOptic("A5400C5400A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_54.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_54.str")});
+    builder.addOptic("A5100C5100A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_51.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_51.str")});
+    builder.addOptic("A4600C4600A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_46.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_46.str")});
+    builder.addOptic("A4300C4300A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_43.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_43.str")});
+    builder.addOptic("A4000C4000A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_40.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_40.str")});
+    builder.addOptic("A3600C3600A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_36.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_36.str")});
+    builder.addOptic("A3300C3300A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_33.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_33.str")});
+    builder.addOptic("A3000C3000A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_30.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_30.str")});
+    builder.addOptic("A2500C2500A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_25.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_25.str")});
+    builder.addOptic("A2200C2200A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_22.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_22.str")});
+    builder.addOptic("A1920C1920A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_19.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_19.str")});
+    builder.addOptic("A1670C1670A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_16.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_16.str")});
+    builder.addOptic("A1450C1450A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_14.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_14.str")});
+    builder.addOptic("A1260C1260A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP1_12.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/un-squeeze-11-to-90m/IP5_12.str")});
+    builder.addOptic("A9000C9000A1000L1000_2011", new OpticModelFileBuilder[]{
+        OpticModelFileBuilder.createInstance("HiBeta/IP5_beta90_2010.str"),
+        OpticModelFileBuilder.createInstance("HiBeta/IP1_beta90.str")});
+
+    return builder.build();
+  }
 }
