@@ -86,6 +86,11 @@ public class XmlModelDefinitionPersistenceService extends GenericXStreamService<
                 RegexNameFilter.class };
         xStream.processAnnotations(classes);
 
+        /*
+         * To avoid using references
+         */
+        xStream.addImmutableType(CallableModelFileImpl.class);
+
         /* The default implementations */
         xStream.addDefaultImplementation(ModelPathOffsetsImpl.class, ModelPathOffsets.class);
 
