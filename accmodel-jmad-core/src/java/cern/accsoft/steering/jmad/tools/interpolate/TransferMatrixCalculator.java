@@ -30,6 +30,12 @@ import cern.accsoft.steering.jmad.domain.var.enums.JMadTwissVariable;
 public class TransferMatrixCalculator {
 
     /**
+     * The required {@link JMadTwissVariable}s for the calculation of the transfer matrices.
+     */
+    public static final JMadTwissVariable[] REQUIRED_VARIABLES = { JMadTwissVariable.BETA, JMadTwissVariable.ALFA,
+            JMadTwissVariable.MU };
+
+    /**
      * Calculate the transfer matrix from one optic point to another
      * 
      * @param plane The plane for which to calc the transfer matrix

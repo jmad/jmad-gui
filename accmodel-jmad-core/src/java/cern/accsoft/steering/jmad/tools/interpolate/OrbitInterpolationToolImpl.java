@@ -107,6 +107,7 @@ public class OrbitInterpolationToolImpl implements OrbitInterpolationTool {
 
             /* and end the segment with the first monitor */
             calculator.setEndSegmentMonitor(firstMonitor);
+            calculator.setIsCycleStartSegment(true);
             this.calculators.add(calculator);
         }
 

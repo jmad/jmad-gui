@@ -56,6 +56,13 @@ public interface OrbitSegmentCalculator {
     public abstract void setEndSegmentMonitor(Element element);
 
     /**
+     * Define that this segments contains the start and end element of the circular machine.
+     * 
+     * @param isCycleStartSegment set to <code>true</code> if segment contains start and end element.
+     */
+    public abstract void setIsCycleStartSegment(boolean isCycleStartSegment);
+
+    /**
      * Add an element to this calculator. For each update with a new monitor reading the orbit will be calculated.
      * 
      * @param element the element to add to the calculations in this segment

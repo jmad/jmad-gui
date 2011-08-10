@@ -32,8 +32,10 @@ import Jama.Matrix;
 import cern.accsoft.steering.jmad.domain.elem.Element;
 import cern.accsoft.steering.jmad.domain.optics.Optic;
 import cern.accsoft.steering.jmad.domain.optics.OpticPoint;
+import cern.accsoft.steering.jmad.domain.optics.OpticPointImpl;
 import cern.accsoft.steering.jmad.domain.orbit.Orbit;
 import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
+import cern.accsoft.steering.jmad.domain.var.enums.JMadTwissVariable;
 
 /**
  * This class does the actual interpolation of the orbit in one plane for one segment defined by two adjacent monitors.
@@ -60,6 +62,12 @@ public class SimpleOrbitSegmentCalculator implements OrbitSegmentCalculator {
     /** the list of elements in the segment, including the monitors (first/last) */
     private LinkedList<Element> segmentElements = new LinkedList<Element>();
 
+    /** flag to determine if segment contains start and end of circular machine */
+    private boolean isCycleStartSegment = false;
+
+    /** the maximum mu in the segment */
+    private double maxMu;
+
     public SimpleOrbitSegmentCalculator(JMadPlane plane) {
         this.plane = plane;
         this.elementMatrices = new HashMap<Element, Matrix>();
@@ -84,6 +92,10 @@ public class SimpleOrbitSegmentCalculator implements OrbitSegmentCalculator {
 
     @Override
     public boolean update(Optic optic) {
+        if (this.isCycleStartSegment()) {
+            this.updateMuMax(optic);
+        }
+
         if (!this.updateMonitorTransferMatrix(optic)) {
             return false;
         }
@@ -101,15 +113,65 @@ public class SimpleOrbitSegmentCalculator implements OrbitSegmentCalculator {
                 return false;
             }
 
-            this.elementMatrices.put(element, TransferMatrixCalculator.calculate(this.getPlane(), from, to));
+            this.elementMatrices.put(element, this.calculateTransferMatrix(from, to));
         }
 
         return true;
     }
 
+    private void updateMuMax(Optic optic) {
+        double maxMu = Double.MIN_VALUE;
+        for (Element element : this.segmentElements) {
+            double mu = optic.getPoint(element).getValue(JMadTwissVariable.MU, this.getPlane());
+            if (mu > maxMu) {
+                maxMu = mu;
+            }
+        }
+
+        this.setMaxMu(maxMu);
+    }
+
+    private void setMaxMu(double maxMu) {
+        this.maxMu = maxMu;
+    }
+
+    private double getMaxMu() {
+        return this.maxMu;
+    }
+
+    private Matrix calculateTransferMatrix(OpticPoint from, OpticPoint to) {
+        if (!this.isCycleStartSegment()) {
+            return TransferMatrixCalculator.calculate(getPlane(), from, to);
+        }
+
+        double muFrom = from.getValue(JMadTwissVariable.MU, this.getPlane());
+        double muTo = to.getValue(JMadTwissVariable.MU, this.getPlane());
+
+        if (muTo < muFrom) {
+            muTo = muTo + (this.getMaxMu() - muFrom);
+            muFrom = 0.0;
+            return TransferMatrixCalculator.calculate(getPlane(), this.adaptOpticPoint(from, muFrom), this
+                    .adaptOpticPoint(to, muTo));
+        } else {
+            return TransferMatrixCalculator.calculate(getPlane(), from, to);
+        }
+    }
+
+    private OpticPoint adaptOpticPoint(OpticPoint point, double newMu) {
+        OpticPointImpl newPoint = new OpticPointImpl(point.getName());
+        for (JMadTwissVariable variable : TransferMatrixCalculator.REQUIRED_VARIABLES) {
+            newPoint.setValue(variable.getMadxTwissVariable(getPlane()), point.getValue(variable, this.getPlane()));
+        }
+
+        newPoint.setValue(JMadTwissVariable.MU.getMadxTwissVariable(getPlane()), newMu);
+        return newPoint;
+    }
+
     private boolean updateMonitorTransferMatrix(Optic optic) {
+
         OpticPoint from = optic.getPoint(this.startMonitor);
         OpticPoint to = optic.getPoint(endMonitor);
+
         if (from == null || to == null) {
             LOGGER.error("Could not update monitor transfer matrix in " + this.getName()
                     + " no optic data for monitors.");
@@ -117,7 +179,7 @@ public class SimpleOrbitSegmentCalculator implements OrbitSegmentCalculator {
             return false;
         }
 
-        this.monitorTransferMatrix = TransferMatrixCalculator.calculate(this.getPlane(), from, to);
+        this.monitorTransferMatrix = this.calculateTransferMatrix(from, to);
         return true;
     }
 
@@ -174,5 +236,14 @@ public class SimpleOrbitSegmentCalculator implements OrbitSegmentCalculator {
     @Override
     public JMadPlane getPlane() {
         return this.plane;
+    }
+
+    @Override
+    public void setIsCycleStartSegment(boolean isCycleStartSegment) {
+        this.setCycleStartSegment(isCycleStartSegment);
+    }
+
+    private boolean isCycleStartSegment() {
+        return isCycleStartSegment;
     }
 }
