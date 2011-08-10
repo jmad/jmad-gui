@@ -240,7 +240,7 @@ public class SimpleOrbitSegmentCalculator implements OrbitSegmentCalculator {
 
     @Override
     public void setIsCycleStartSegment(boolean isCycleStartSegment) {
-        this.setCycleStartSegment(isCycleStartSegment);
+        this.isCycleStartSegment = isCycleStartSegment;
     }
 
     private boolean isCycleStartSegment() {
