@@ -25,18 +25,12 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2.1</version>
 				<configuration>
-					 <descriptors> <descriptor>assembly.xml</descriptor> </descriptors>
-					<!-- <descriptorRefs>
-						<descriptorRef>bin</descriptorRef>
-					</descriptorRefs>
-					 -->
-					<!-- 
-					<archive>
-						<manifest>
-							<mainClass>cern.accsoft.steering.jmad.gui.JMad</mainClass>
-						</manifest>
-					</archive>
-					-->
+					<descriptors>
+						<descriptor>assembly.xml</descriptor>
+					</descriptors>
+					<!-- <descriptorRefs> <descriptorRef>bin</descriptorRef> </descriptorRefs> -->
+					<!-- <archive> <manifest> <mainClass>cern.accsoft.steering.jmad.gui.JMad</mainClass> 
+						</manifest> </archive> -->
 				</configuration>
 			</plugin>
 			<!-- The configuration of maven-jar-plugin -->
@@ -84,6 +78,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring</artifactId>
 			<version>2.5.6</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.py4j</groupId>
+			<artifactId>py4j</artifactId>
+			<version>0.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>cern.accsoft.steering</groupId>
