@@ -166,7 +166,7 @@ public class TfsResultImpl implements TfsResult {
             }
         }
     }
-    
+
     /**
      * Converts all double data for fast retrieval.
      * 
@@ -222,7 +222,7 @@ public class TfsResultImpl implements TfsResult {
 
     @Override
     public List<Double> getDoubleData(String key) {
-        return Collections.unmodifiableList(doubleValueLists.get(unifyKey(key)));
+        return this.createImmutableList(doubleValueLists.get(unifyKey(key)));
     }
 
     @Override
@@ -232,7 +232,23 @@ public class TfsResultImpl implements TfsResult {
 
     @Override
     public List<String> getStringData(String key) {
-        return Collections.unmodifiableList(valueLists.get(unifyKey(key)));
+        return this.createImmutableList(valueLists.get(unifyKey(key)));
+    }
+
+    /**
+     * make the input list unmodifiable. checks if the input list is <code>null</code> and returns <code>null</code> in
+     * this case.
+     * 
+     * @param <T> the generic type of the list elements
+     * @param input the input list
+     * @return the immutable list or <code>null</code> if input was <code>null</code>
+     */
+    private <T> List<T> createImmutableList(List<T> input) {
+        if (input == null) {
+            return null;
+        } else {
+            return Collections.unmodifiableList(input);
+        }
     }
 
     @Override
