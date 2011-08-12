@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-	<product name="accmodel-jmad-core" version="0.2.0" directory="accmodel/jmad/accmodel-jmad-core">
+	<product name="accmodel-jmad-core" version="0.2.1" directory="accmodel/jmad/accmodel-jmad-core">
 		<jar>accmodel-jmad-core.jar</jar>
 		<!-- Please keep pom.xml in sync with product.xml (Maven migration) -->
 		<dependencies>
 			<dep product="commons-beanutils"/>
 			<dep product="accsoft-steering-commons"/>
-			<dep product="accmodel-commons-util" />
+			<dep product="accmodel-commons-util"/>
 
 			<dep product="log4j"/>
 			<dep product="bzip2"/>
