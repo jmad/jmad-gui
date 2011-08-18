@@ -18,7 +18,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinitionImpl;
 /**
  * the model definition for med-austron
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class MedAustronModelDefinitionFactory implements ModelDefinitionFactory {
 
