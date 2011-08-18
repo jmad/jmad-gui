@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-	<product name="accmodel-jmad-core" version="0.2.1" directory="accmodel/jmad/accmodel-jmad-core">
+	<product name="accmodel-jmad-core" version="0.2.2"
+		directory="accmodel/jmad/accmodel-jmad-core">
 		<jar>accmodel-jmad-core.jar</jar>
 		<!-- Please keep pom.xml in sync with product.xml (Maven migration) -->
 		<dependencies>
-			<dep product="commons-beanutils"/>
-			<dep product="accsoft-steering-commons"/>
+			<dep product="commons-beanutils" />
+			<dep product="accsoft-steering-commons" />
 			<dep product="accmodel-commons-util"/>
 
-			<dep product="log4j"/>
-			<dep product="bzip2"/>
-			<dep product="xstream" version="PRO"/>
-			<dep product="xstream-xpp-3min" version="PRO"/>
-
-			<!-- to allow pymad to connect to the service -->
-			<dep product="py4j"/>
+			<dep product="log4j" />
+			<dep product="bzip2" />
+			<dep product="xstream" version="PRO" />
+			<dep product="xstream-xpp-3min" version="PRO" />
 
 			<!-- for the response matrix stuff. Should go to separate package at some 
 				time. -->
-			<dep product="jama"/>
+			<dep product="jama" />
 
 			<!-- for all the bean handling -->
-			<dep product="spring"/>
+			<dep product="spring" />
 
 			<!-- To be able to use method injection in spring -->
-			<dep product="cglib2"/>
+			<dep product="cglib2" />
 
 			<!-- For the custom ant parts -->
-			<dep product="ant" local="true"/>
+			<dep product="ant" local="true" />
 
 			<!-- for testing -->
-			<dep product="easymock" local="true"/>
-			<dep product="junit" local="true"/>
+			<dep product="easymock" local="true" />
+			<dep product="junit" local="true" />
 		</dependencies>
 	</product>
 </products>

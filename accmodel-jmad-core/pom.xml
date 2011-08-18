@@ -12,7 +12,7 @@
 
 	<groupId>cern.accmodel.jmad</groupId>
 	<artifactId>accmodel-jmad-core</artifactId>
-	<version>0.2.0</version>
+	<version>0.2.2</version>
 	<name>accmodel-jmad-core</name>
 	<packaging>jar</packaging>
 	<description />
@@ -71,11 +71,6 @@
 			<groupId>xpp3</groupId>
 			<artifactId>xpp3_min</artifactId>
 			<version>1.1.4c</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sourceforge.py4j</groupId>
-			<artifactId>py4j</artifactId>
-			<version>0.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>gov.nist.math.jama</groupId>

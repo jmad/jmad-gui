@@ -80,12 +80,4 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<property name="kernel" ref="jmadKernel" />
 	</bean>
 
-	<!--
-		The gateway server, which allows python to access all the jmad-objects
-	-->
-	<bean id="pyJMadServer" class="py4j.GatewayServer" init-method="start">
-		<constructor-arg ref="jmadService" />
-	</bean>
-
-
 </beans>
