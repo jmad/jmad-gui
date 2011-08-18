@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+	this file contains ant targets that are used to publish the pymadservice to the world. This only works inside cern. 
+-->
+<project name="accmodel-jmad-pymadservice-towild" default="publish-dist-zip">
+
+	<!--
+     	Defines project variables
+ 	 -->
+	<property name="dist.zip.file" value="build/accmodel-jmad-pymadservice-dist-zip.zip" />
+
+	<property name="website.target.dir" value="//cern.ch/dfs/websites/j/jmad/static/download/bin" />
+
+	<!--
+		copies the zip file to the website location.
+	-->
+	<target name="publish-dist-zip">
+		<echo message="Publishing the dist-zip file to the website."/>
+		<copy file="${dist.zip.file}" todir="${website.target.dir}" overwrite="true" verbose="true" />
+	</target>
+
+
+</project>

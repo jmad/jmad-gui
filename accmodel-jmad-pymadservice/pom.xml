@@ -11,7 +11,7 @@
 
 	<groupId>cern.accmodel.jmad</groupId>
 	<artifactId>accmodel-jmad-pymadservice</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.4</version>
 	<name>accmodel-jmad-pymadservice</name>
 	<packaging>jar</packaging>
 	<description />
@@ -19,6 +19,23 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<phase>deploy</phase>
+						<configuration>
+							<target>
+								<ant antfile="build-world.xml" target="publish-dist-zip" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<!-- NOTE: We don't need a groupId specification because the group is 
 					org.apache.maven.plugins ...which is assumed by default. -->
@@ -32,6 +49,15 @@
 					<!-- <archive> <manifest> <mainClass>cern.accsoft.steering.jmad.gui.JMad</mainClass> 
 						</manifest> </archive> -->
 				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- bind to the packaging phase -->
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<!-- The configuration of maven-jar-plugin -->
 			<plugin>
@@ -50,7 +76,7 @@
 								used to specify that all needed libraries are found under lib/ directory. -->
 							<classpathPrefix>lib/</classpathPrefix>
 							<!-- Specifies the main class of the application -->
-							<mainClass>cern.accsoft.steering.jmad.gui.JMad</mainClass>
+							<mainClass>cern.accmodel.jmad.pymadservice.PyMadService</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

@@ -41,7 +41,7 @@
 			<directory>etc</directory>
 			<outputDirectory></outputDirectory>
 			<includes>
-				<include>startup.*</include>
+				<include>start-pymadservice.*</include>
 			</includes>
 		</fileSet>
 	</fileSets>
