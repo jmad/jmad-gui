@@ -11,10 +11,10 @@
 
 	<groupId>cern.accmodel.jmad</groupId>
 	<artifactId>accmodel-jmad-pymadservice</artifactId>
-	<version>0.0.4</version>
+	<version>0.0.5</version>
 	<name>accmodel-jmad-pymadservice</name>
 	<packaging>jar</packaging>
-	<description />
+	<description /> 
 	<url />
 
 	<build>
@@ -113,7 +113,7 @@
 		<dependency>
 			<groupId>cern.accsoft.steering</groupId>
 			<artifactId>accsoft-steering-commons</artifactId>
-			<version>0.0.2</version>
+			<version>[0.0.1, 1.0.0)</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -145,7 +145,7 @@
 		<dependency>
 			<groupId>cern.accmodel.jmad.models</groupId>
 			<artifactId>accmodel-jmad-models-medaustron</artifactId>
-			<version>[0.1.0, 1.0.0)</version>
+			<version>[0.0.1, 1.0.0)</version>
 			<scope>runtime</scope>
 		</dependency>
 
