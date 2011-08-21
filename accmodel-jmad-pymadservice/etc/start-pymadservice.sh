@@ -17,4 +17,4 @@ then
     jarfile=${jname}
 fi
 
-echo "java -jar ${jarfile}"
+java -jar ${jarfile}
