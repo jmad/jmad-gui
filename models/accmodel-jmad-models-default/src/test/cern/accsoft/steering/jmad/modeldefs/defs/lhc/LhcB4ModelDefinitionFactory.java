@@ -23,7 +23,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinition;
 /**
  * The model definition for LHC beam 4
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  * 
  */
 public class LhcB4ModelDefinitionFactory extends

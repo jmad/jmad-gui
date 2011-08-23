@@ -11,7 +11,7 @@ import org.junit.runners.Parameterized;
 /**
  * class to show first parameter of unit-test as label.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class LabelledParameterized extends Parameterized {
 

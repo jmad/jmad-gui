@@ -19,7 +19,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinitionImpl;
 /**
  * This class is the implementation of the model definition for the Sps
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  * 
  */
 public class SpsModelDefinitionFactory implements ModelDefinitionFactory {

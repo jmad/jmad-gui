@@ -21,7 +21,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinitionImpl;
 /**
  * The model definition for the TI8-transfer line
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  * 
  */
 public class Ti8ModelDefinition09Factory implements ModelDefinitionFactory {

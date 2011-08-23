@@ -23,7 +23,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinitionImpl;
 /**
  * The model definition for Ti2+LHC sector 23
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  * 
  */
 public class LongTi2ModelDefinitionFactory implements ModelDefinitionFactory {

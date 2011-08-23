@@ -23,7 +23,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinitionImpl;
 /**
  * This class is the actual model configuration for the TI2 transfer line.
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class Tt66ModelDefinitionFactory implements ModelDefinitionFactory {
 

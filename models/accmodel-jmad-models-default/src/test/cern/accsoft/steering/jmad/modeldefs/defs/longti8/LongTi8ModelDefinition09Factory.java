@@ -21,7 +21,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinitionImpl;
 /**
  * The model definition for a model covering TI8 + LHC sector 78
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class LongTi8ModelDefinition09Factory implements ModelDefinitionFactory {
 
