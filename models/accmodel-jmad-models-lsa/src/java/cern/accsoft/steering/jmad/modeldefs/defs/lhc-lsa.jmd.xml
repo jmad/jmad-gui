@@ -563,6 +563,16 @@
         <call-file reference="../../../optic[24]/init-files/call-file[6]"/>
       </init-files>
     </optic>
+    <optic name="A400C400A1000L350_0.00882_2011" overlay="false">
+      <init-files>
+        <call-file reference="../../../optic[24]/init-files/call-file"/>
+        <call-file path="IR1/IP1_beta_4.00.str" parse="STRENGTHS"/>
+        <call-file path="IR5/IP5_beta_4.00.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00882_beta3.50m.str" parse="STRENGTHS"/>
+        <call-file reference="../../../optic[24]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[24]/init-files/call-file[6]"/>
+      </init-files>
+    </optic>
     <optic name="A7500C7500A1000L1000_2011" overlay="false">
       <init-files>
         <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
@@ -576,189 +586,189 @@
     </optic>
     <optic name="A6700C6700A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_67.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_67.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A6000C6000A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_60.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_60.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A5400C5400A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_54.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_54.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A5100C5100A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_51.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_51.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A4600C4600A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_46.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_46.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A4300C4300A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_43.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_43.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A4000C4000A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_40.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_40.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A3600C3600A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_36.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_36.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A3300C3300A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_33.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_33.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A3000C3000A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_30.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_30.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A2500C2500A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_25.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_25.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A2200C2200A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_22.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_22.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A1920C1920A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_19.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_19.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A1670C1670A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_16.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_16.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A1450C1450A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_14.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_14.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A1260C1260A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP1_12.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/un-squeeze-11-to-90m/IP5_12.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A9000C9000A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[56]/init-files/call-file"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[2]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[3]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[2]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[3]"/>
         <call-file path="HiBeta/IP5_beta90_2010.str" parse="STRENGTHS"/>
         <call-file path="HiBeta/IP1_beta90.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[6]"/>
-        <call-file reference="../../../optic[56]/init-files/call-file[7]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[57]/init-files/call-file[7]"/>
       </init-files>
     </optic>
     <optic name="A55C55A1000L300_0.00875_2011" overlay="false">
@@ -773,291 +783,291 @@
     </optic>
     <optic name="A60C60A1000L300_0.00875_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.60m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.60m.str" parse="STRENGTHS"/>
         <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A65C65A1000L300_0.00875_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.65m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.65m.str" parse="STRENGTHS"/>
         <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A70C70A1000L300_0.00875_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.70m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.70m.str" parse="STRENGTHS"/>
         <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A80C80A1000L300_0.00875_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.80m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.80m.str" parse="STRENGTHS"/>
         <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A90C90A1000L300_0.00875_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.90m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.90m.str" parse="STRENGTHS"/>
         <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A100C100A1000L300_0.00875_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str" parse="STRENGTHS"/>
         <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A110C110A1000L300_0.00875_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.10m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.10m.str" parse="STRENGTHS"/>
         <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A120C120A1000L300_0.00875_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.20m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.20m.str" parse="STRENGTHS"/>
         <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A130C130A1000L300_0.00875_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.30m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.30m.str" parse="STRENGTHS"/>
         <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A140C140A1000L300_0.00875_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.40m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.40m.str" parse="STRENGTHS"/>
         <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A150C150A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/IP1_beta_1.50.str" parse="STRENGTHS"/>
         <call-file path="IR5/IP5_beta_1.50.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A160C160A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/IP1_beta_1.60.str" parse="STRENGTHS"/>
         <call-file path="IR5/IP5_beta_1.60.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A200C200A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/IP1_beta_2.00.str" parse="STRENGTHS"/>
         <call-file path="IR5/IP5_beta_2.00.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A250C250A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/IP1_beta_2.50.str" parse="STRENGTHS"/>
         <call-file path="IR5/IP5_beta_2.50.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A300C300A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/IP1_beta_3.00.str" parse="STRENGTHS"/>
         <call-file path="IR5/IP5_beta_3.00.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A350C350A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/IP1_beta_3.50.str" parse="STRENGTHS"/>
         <call-file path="IR5/IP5_beta_3.50.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A400C400A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/IP1_beta_4.00.str" parse="STRENGTHS"/>
         <call-file path="IR5/IP5_beta_4.00.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A500C500A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/IP1_beta_5.00.str" parse="STRENGTHS"/>
         <call-file path="IR5/IP5_beta_5.00.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A700C700A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/IP1_beta_7.00.str" parse="STRENGTHS"/>
         <call-file path="IR5/IP5_beta_7.00.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A900C900A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/IP1_beta_9.00.str" parse="STRENGTHS"/>
         <call-file path="IR5/IP5_beta_9.00.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A55C55A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.55m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.55m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A60C60A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.60m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.60m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A65C65A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.65m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.65m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A70C70A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.70m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.70m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A80C80A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.80m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.80m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A90C90A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.90m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.90m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A100C100A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A110C110A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.10m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.10m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A120C120A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.20m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.20m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A130C130A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.30m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.30m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
     <optic name="A140C140A1000L1000_2011" overlay="false">
       <init-files>
-        <call-file reference="../../../optic[74]/init-files/call-file"/>
+        <call-file reference="../../../optic[75]/init-files/call-file"/>
         <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.40m.str" parse="STRENGTHS"/>
         <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.40m.str" parse="STRENGTHS"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[5]"/>
-        <call-file reference="../../../optic[74]/init-files/call-file[6]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[5]"/>
+        <call-file reference="../../../optic[75]/init-files/call-file[6]"/>
       </init-files>
     </optic>
   </optics>
