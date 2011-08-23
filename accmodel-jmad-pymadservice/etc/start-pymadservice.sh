@@ -2,6 +2,14 @@
 
 jname=accmodel-jmad-pymadservice.jar
 
+# Check correct number of input arguments:
+
+if (( $# != 1 ))
+then
+    echo "Wrong number of input arguments"
+    exit 1
+fi
+
 # first some default paths,
 # then some wild guesses..
 for d in ${JMAD_HOME} ${JAVA_HOME} /usr/lib/java /usr/share/java/ /opt/java/lib/
@@ -17,4 +25,4 @@ then
     jarfile=${jname}
 fi
 
-java -jar ${jarfile}
+java -Dpymad.service.ready.file=$1 -jar ${jarfile}
