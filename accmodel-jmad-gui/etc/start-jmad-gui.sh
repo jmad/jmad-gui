@@ -2,7 +2,6 @@
 
 jname=accmodel-jmad-gui.jar
 
-CLASSPATH='/usr/share/java/*;/usr/share/java/lib/*'
 # first some default paths,
 # then some wild guesses..
 for d in ${JMAD_HOME} ${JAVA_HOME} /usr/lib/java /usr/share/java/ /opt/java/lib/
@@ -12,11 +11,17 @@ do
         jhome=${d}
     fi
 done
-# if still not defined, hoping for CLASSPATH..
-if [ ! -n "$jarfile" ]
+
+if [ ! -f "${jhome}${jname}" ]
 then
-    jarfile=${jname}
+    echo "Could not find $jname"
+    exit 1
 fi
-cd $jhome
-java -cp $CLASSPATH -Dpymad.service.ready.file=/tmp/pymad-service-is-ready.txt -jar ${jarfile} 
+
+if [ $jhome ]
+then
+    cd $jhome
+fi
+
+java -Dpymad.service.ready.file=/tmp/pymad-service-is-ready.txt -jar ${jname} > /dev/null 
 

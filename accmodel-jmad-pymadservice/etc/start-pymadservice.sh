@@ -16,13 +16,19 @@ for d in ${JMAD_HOME} ${JAVA_HOME} /usr/lib/java /usr/share/java/ /opt/java/lib/
 do
     if [ -f "${d}${jname}" ]
     then
-        jarfile=${d}${jname}
+        jhome=${d}
     fi
 done
-# if still not defined, hoping for CLASSPATH..
-if [ ! -n "$jarfile" ]
+
+if [ ! -f "${jhome}${jname}" ]
 then
-    jarfile=${jname}
+    echo "Could not find $jname"
+    exit 1
 fi
 
-java -Dpymad.service.ready.file=$1 -jar ${jarfile}
+if [ $jhome ]
+then
+    cd $jhome
+fi
+
+java -Dcern.jmad.output.path=/tmp/ -Dpymad.service.ready.file=$1 -jar ${jname} > /dev/null 
