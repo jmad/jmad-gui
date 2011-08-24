@@ -23,5 +23,5 @@ then
     cd $jhome
 fi
 
-java -Dpymad.service.ready.file=/tmp/pymad-service-is-ready.txt -jar ${jname} > /dev/null 
+java -Dcern.jmad.output.path=/tmp/ -Dpymad.service.ready.file=/tmp/pymad-service-is-ready.txt -jar ${jname} > /dev/null 
 
