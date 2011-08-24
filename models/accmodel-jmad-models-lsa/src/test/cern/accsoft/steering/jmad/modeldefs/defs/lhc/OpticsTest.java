@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,8 +48,11 @@ import cern.accsoft.steering.jmad.service.JMadServiceFactory;
  */
 @RunWith(value = LabelledParameterized.class)
 public class OpticsTest {
+    private static final Logger LOGGER = Logger.getLogger(OpticsTest.class);
 
     private static JMadModel MODEL;
+    private static int MODEL_LOOP_CNT = 0;
+    private static final int MAX_MODEL_LOOP_CNT = 30;
 
     /** XXX optics names which need higher tolerances on tune and chroma values: */
     private static List<String> OPTICS_NAMES_HIGHER_TOLERANCE = Arrays.asList(new String[] {
@@ -65,9 +69,10 @@ public class OpticsTest {
         BasicConfigurator.configure();
         JMadService service = JMadServiceFactory.createJMadService();
         JMadModelDefinitionManager modelDefinitionManager = service.getModelDefinitionManager();
-        JMadModelDefinition modelDefinition = modelDefinitionManager.getModelDefinition(LhcUtil.NOMINAL_MODEL_DEFINITION_NAME);
+        JMadModelDefinition modelDefinition = modelDefinitionManager
+                .getModelDefinition(LhcUtil.NOMINAL_MODEL_DEFINITION_NAME);
         MODEL = service.createModel(modelDefinition);
-        System.out.println("Set-Up");
+        LOGGER.info("Set-Up");
     }
 
     @Parameters
@@ -107,9 +112,16 @@ public class OpticsTest {
     /** the delta values to use for tune and chroma testing */
     private Double tuneChromaDelta;
 
-    /** the constructor of the test */
+    /**
+     * the constructor of the test
+     * 
+     * @throws JMadModelException
+     */
     public OpticsTest(String testName, OpticsDefinition opticDefinition, RangeDefinition rangeDefinition,
-            Double tuneChromaDelta) {
+            Double tuneChromaDelta) throws JMadModelException {
+
+        LOGGER.info("***********************************  START EXECUTION OF: " + testName);
+
         this.opticDefinition = opticDefinition;
         this.rangeDefinition = rangeDefinition;
         this.tuneChromaDelta = tuneChromaDelta;
@@ -122,6 +134,11 @@ public class OpticsTest {
      */
     @Test
     public void getOpticsForOpticAndRange() throws JMadException {
+        if (MODEL_LOOP_CNT++ > MAX_MODEL_LOOP_CNT) {
+            MODEL.reset();
+            LOGGER.info("*********** MODEL RESETTED");
+        }
+
         assertNotNull("Optic definition should not be null", opticDefinition);
         assertNotNull("Range definition should not be null", rangeDefinition);
 
@@ -177,7 +194,7 @@ public class OpticsTest {
     public static void tearDown() {
         try {
             MODEL.cleanup();
-            System.out.println("Teared-Down");
+            LOGGER.info("Teared-Down");
         } catch (JMadModelException e) {
             e.printStackTrace();
         }
