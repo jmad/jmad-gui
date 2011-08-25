@@ -1,22 +1,11 @@
 // @formatter:off
- /*******************************************************************************
- *
- * This file is part of JMad.
- * 
- * Copyright (c) 2008-2011, CERN. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+/*******************************************************************************
+ * This file is part of JMad. Copyright (c) 2008-2011, CERN. All rights reserved. Licensed under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in
+ * writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  ******************************************************************************/
 // @formatter:on
 
@@ -93,8 +82,8 @@ public class OrbitInterpolationToolTest extends JMadTestCase {
                         .buildRequest();
                 interpolationTool.update(request);
 
-                OrbitInterpolationRequest interpolationRequest = new OrbitInterpolationRequestImpl(
-                        this.createCurrentOrbit());
+                OrbitInterpolationRequest interpolationRequest = new OrbitInterpolationRequestImpl(this
+                        .createCurrentOrbit());
                 OrbitInterpolationResult intRes = interpolationTool.interpolate(interpolationRequest);
 
                 TfsResult interpolationResult = intRes.getTfsResult();
@@ -129,13 +118,23 @@ public class OrbitInterpolationToolTest extends JMadTestCase {
             assertNotNull("Index should be non-null for element [" + elementName + "]", interpolatedIdx);
 
             for (JMadPlane plane : JMadPlane.values()) {
+                /* orbit */
                 double originalValue = this.jmadResult.getDoubleData(JMadTwissVariable.POS.getMadxTwissVariable(plane))
                         .get(originalIdx);
                 double interpolatedValue = interpolationResult.getDoubleData(
                         JMadTwissVariable.POS.getMadxTwissVariable(plane)).get(interpolatedIdx);
 
-                assertEquals("Values should be equal up to 1.0e-4 for element [" + elementName + "]", originalValue,
-                        interpolatedValue, 1.0e-4);
+                assertEquals("orbit values should be equal up to 1.0e-4 for element [" + elementName + "]",
+                        originalValue, interpolatedValue, 1.0e-4);
+
+                /* angle */
+                originalValue = this.jmadResult.getDoubleData(JMadTwissVariable.P.getMadxTwissVariable(plane)).get(
+                        originalIdx);
+                interpolatedValue = interpolationResult.getDoubleData(JMadTwissVariable.P.getMadxTwissVariable(plane))
+                        .get(interpolatedIdx);
+
+                assertEquals("angle values should be equal up to 1.0e-4 for element [" + elementName + "]",
+                        originalValue, interpolatedValue, 1.0e-4);
             }
         }
     }
@@ -146,6 +145,8 @@ public class OrbitInterpolationToolTest extends JMadTestCase {
         request.addVariable(MadxTwissVariable.S);
         request.addVariable(MadxTwissVariable.X);
         request.addVariable(MadxTwissVariable.Y);
+        request.addVariable(MadxTwissVariable.PX);
+        request.addVariable(MadxTwissVariable.PY);
         request.addVariable(MadxTwissVariable.KEYWORD);
         request.addElementFilter(".*");
 

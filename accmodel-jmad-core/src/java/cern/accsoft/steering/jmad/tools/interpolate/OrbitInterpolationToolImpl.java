@@ -1,22 +1,11 @@
 // @formatter:off
- /*******************************************************************************
- *
- * This file is part of JMad.
- * 
- * Copyright (c) 2008-2011, CERN. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+/*******************************************************************************
+ * This file is part of JMad. Copyright (c) 2008-2011, CERN. All rights reserved. Licensed under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in
+ * writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  ******************************************************************************/
 // @formatter:on
 
@@ -34,7 +23,7 @@ import cern.accsoft.steering.jmad.domain.elem.Element;
 import cern.accsoft.steering.jmad.domain.optics.Optic;
 import cern.accsoft.steering.jmad.domain.orbit.Orbit;
 import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
-import cern.accsoft.steering.jmad.domain.var.enums.JMadTwissVariable;
+import cern.accsoft.steering.jmad.domain.var.enums.MadxTwissVariable;
 
 public class OrbitInterpolationToolImpl implements OrbitInterpolationTool {
 
@@ -211,9 +200,9 @@ public class OrbitInterpolationToolImpl implements OrbitInterpolationTool {
             throw new JMadException("Could not interpolate, interpolation tool no properly updated");
         }
 
-        OrbitInterpolationResultImpl result = new OrbitInterpolationResultImpl(JMadTwissVariable.POS);
+        OrbitInterpolationResultImpl result = new OrbitInterpolationResultImpl();
         for (OrbitSegmentCalculator calculator : this.calculators) {
-            Map<Element, Double> valueMapping = calculator.calculate(request.getOrbit());
+            Map<Element, Map<MadxTwissVariable, Double>> valueMapping = calculator.calculate(request.getOrbit());
             if (valueMapping.size() == 0) {
                 throw new JMadException("Could not interpolate, calculation of " + calculator.getName() + " failed");
             }
@@ -229,8 +218,8 @@ public class OrbitInterpolationToolImpl implements OrbitInterpolationTool {
     public synchronized void update(UpdateRequest request) throws JMadException {
         for (JMadPlane plane : JMadPlane.values()) {
             if (request.updateStructure(plane)) {
-                this.createStructure(plane, request.getMachineElements(), request.getMonitors(plane),
-                        request.isCircularMachine());
+                this.createStructure(plane, request.getMachineElements(), request.getMonitors(plane), request
+                        .isCircularMachine());
             }
         }
 

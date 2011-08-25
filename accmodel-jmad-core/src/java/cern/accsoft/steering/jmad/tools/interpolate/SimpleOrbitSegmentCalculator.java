@@ -1,27 +1,17 @@
 // @formatter:off
- /*******************************************************************************
- *
- * This file is part of JMad.
- * 
- * Copyright (c) 2008-2011, CERN. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+/*******************************************************************************
+ * This file is part of JMad. Copyright (c) 2008-2011, CERN. All rights reserved. Licensed under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in
+ * writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  ******************************************************************************/
 // @formatter:on
 
 package cern.accsoft.steering.jmad.tools.interpolate;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -36,6 +26,7 @@ import cern.accsoft.steering.jmad.domain.optics.OpticPointImpl;
 import cern.accsoft.steering.jmad.domain.orbit.Orbit;
 import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
 import cern.accsoft.steering.jmad.domain.var.enums.JMadTwissVariable;
+import cern.accsoft.steering.jmad.domain.var.enums.MadxTwissVariable;
 
 /**
  * This class does the actual interpolation of the orbit in one plane for one segment defined by two adjacent monitors.
@@ -184,13 +175,13 @@ public class SimpleOrbitSegmentCalculator implements OrbitSegmentCalculator {
     }
 
     @Override
-    public Map<Element, Double> calculate(Orbit orbit) {
-        Map<Element, Double> valueMapping = new HashMap<Element, Double>();
+    public Map<Element, Map<MadxTwissVariable, Double>> calculate(Orbit orbit) {
         if (this.monitorTransferMatrix == null) {
             LOGGER.error("Segment orbit interpolation calculator not initialized for " + this.getName());
-            return valueMapping;
+            return Collections.emptyMap();
         }
 
+        Map<Element, Map<MadxTwissVariable, Double>> elementValueMapping = new HashMap<Element, Map<MadxTwissVariable, Double>>();
         double pos_start = this.getMonitorPosition(this.startMonitor, orbit);
         double pos_end = this.getMonitorPosition(this.endMonitor, orbit);
 
@@ -200,26 +191,44 @@ public class SimpleOrbitSegmentCalculator implements OrbitSegmentCalculator {
         double factor = (pos_end - (c_seg * pos_start)) / s_seg;
 
         for (Element element : this.segmentElements) {
+            Map<MadxTwissVariable, Double> valueMapping = new HashMap<MadxTwissVariable, Double>();
+            elementValueMapping.put(element, valueMapping);
+
             /* for the monitors we just copy the reading */
+            boolean positionDone = false;
             if (element.equals(startMonitor)) {
-                valueMapping.put(element, pos_start);
-                continue;
+                valueMapping.put(JMadTwissVariable.POS.getMadxTwissVariable(getPlane()), pos_start);
+                positionDone = true;
             }
             if (element.equals(endMonitor)) {
-                valueMapping.put(element, pos_end);
-                continue;
+                valueMapping.put(JMadTwissVariable.POS.getMadxTwissVariable(getPlane()), pos_end);
+                positionDone = true;
             }
 
             /* do the interpolation */
             Matrix elementMatrix = this.elementMatrices.get(element);
-            double c_elem = elementMatrix.get(0, 0);
-            double s_elem = elementMatrix.get(0, 1);
-            double value = c_elem * pos_start + s_elem * factor;
 
-            valueMapping.put(element, value);
+            if (!positionDone) {
+                double c_elem = elementMatrix.get(0, 0);
+                double s_elem = elementMatrix.get(0, 1);
+                double value = c_elem * pos_start + s_elem * factor;
+
+                valueMapping.put(JMadTwissVariable.POS.getMadxTwissVariable(getPlane()), value);
+
+                double cp_elem = elementMatrix.get(1, 0);
+                double sp_elem = elementMatrix.get(1, 1);
+                value = cp_elem * pos_start + sp_elem * factor;
+                valueMapping.put(JMadTwissVariable.P.getMadxTwissVariable(getPlane()), value);
+                
+            } else {
+                double cp_elem = this.monitorTransferMatrix.get(1, 0);
+                double sp_elem = this.monitorTransferMatrix.get(1, 1);
+                double value = cp_elem * pos_start + sp_elem * factor;
+                valueMapping.put(JMadTwissVariable.P.getMadxTwissVariable(getPlane()), value);
+            }
         }
 
-        return valueMapping;
+        return elementValueMapping;
     }
 
     private double getMonitorPosition(Element monitor, Orbit orbit) {
