@@ -12,7 +12,7 @@
 
 	<groupId>cern.accmodel.jmad</groupId>
 	<artifactId>accmodel-jmad-core</artifactId>
-	<version>0.2.2</version>
+	<version>0.2.3</version>
 	<name>accmodel-jmad-core</name>
 	<packaging>jar</packaging>
 	<description />
