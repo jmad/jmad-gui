@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="accmodel-jmad-doc" default="publish" basedir=".">
+<project name="accmodel-jmad-doc" default="run.sphinx" basedir=".">
 
 	<!-- Load the files where all the dirs have to be given -->
 	<property file="build.properties" />
