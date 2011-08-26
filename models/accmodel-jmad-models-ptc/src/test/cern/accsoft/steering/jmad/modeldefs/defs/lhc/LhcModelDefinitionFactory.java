@@ -30,7 +30,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinitionImpl;
 /**
  * The model definition for the LHC model
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class LhcModelDefinitionFactory implements ModelDefinitionFactory {
 

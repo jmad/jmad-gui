@@ -6,7 +6,7 @@ package cern.accsoft.steering.jmad.modeldefs.defs;
 /**
  * Just a dummy class that commonbuild sees a source file ...
  * 
- * @author kfuchsbe
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  *
  */
 public interface Dummy {

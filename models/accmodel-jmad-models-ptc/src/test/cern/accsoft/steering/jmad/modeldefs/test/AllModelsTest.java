@@ -24,7 +24,7 @@ import cern.accsoft.steering.jmad.service.JMadServiceFactory;
 /**
  * This is a JUnit4 test case, that loops through all available models and checks several simple conditions.
  * 
- * @author kaifox
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 // @RunWith(value = org.junit.runners.Parameterized.class)
 @RunWith(value = LabelledParameterized.class)
