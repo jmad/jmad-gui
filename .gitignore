@@ -2,5 +2,4 @@
 *.jar
 .settings
 .classpath
-.project
 build
