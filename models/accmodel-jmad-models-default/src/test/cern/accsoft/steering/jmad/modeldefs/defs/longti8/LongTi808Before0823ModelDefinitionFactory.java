@@ -3,7 +3,7 @@ package cern.accsoft.steering.jmad.modeldefs.defs.longti8;
 import cern.accsoft.steering.jmad.domain.twiss.TwissInitialConditionsImpl;
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinitionImpl;
 
-public class LongTi8ModelDefinition08FactoryBefore0823 extends LongTi8ModelDefinition08Factory {
+public class LongTi808Before0823ModelDefinitionFactory extends LongTi808ModelDefinitionFactory {
 
     @Override
     protected String getName() {

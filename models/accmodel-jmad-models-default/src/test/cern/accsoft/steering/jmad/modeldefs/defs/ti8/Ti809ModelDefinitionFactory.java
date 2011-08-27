@@ -24,7 +24,7 @@ import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinitionImpl;
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  * 
  */
-public class Ti8ModelDefinition09Factory implements ModelDefinitionFactory {
+public class Ti809ModelDefinitionFactory implements ModelDefinitionFactory {
 
 	@Override
 	public JMadModelDefinition create() {

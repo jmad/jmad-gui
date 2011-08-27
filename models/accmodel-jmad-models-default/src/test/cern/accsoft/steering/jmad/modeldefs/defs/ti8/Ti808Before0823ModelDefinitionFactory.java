@@ -3,7 +3,7 @@ package cern.accsoft.steering.jmad.modeldefs.defs.ti8;
 import cern.accsoft.steering.jmad.domain.twiss.TwissInitialConditionsImpl;
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinitionImpl;
 
-public class Ti8ModelDefinition08FactoryBefore0823 extends Ti8ModelDefinition08Factory {
+public class Ti808Before0823ModelDefinitionFactory extends Ti808ModelDefinitionFactory {
 
     @Override
     protected void addOpticsDefinitions(JMadModelDefinitionImpl modelDefinition) {
