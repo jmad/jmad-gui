@@ -67,7 +67,8 @@ public interface ModelFile {
             return resourcePrefix;
         }
     }
-
+   
+    
     /**
      * @return the name used by the {@link ModelFileFinder} to find the file.
      */

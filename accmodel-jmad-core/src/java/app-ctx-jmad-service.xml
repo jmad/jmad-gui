@@ -5,11 +5,11 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-	<!--
-	The find mechanism for model definitions: 
-	 -->
+	<!-- The find mechanism for model definitions: -->
 	<bean id="xmlModelDefinitionPersistenceService"
 		class="cern.accsoft.steering.jmad.modeldefs.io.impl.XmlModelDefinitionPersistenceService" />
+	<bean id="jsonModelDefinitionPersistenceService"
+		class="cern.accsoft.steering.jmad.modeldefs.io.impl.JsonModelDefinitionPersistenceService" />
 	<bean id="classPathModelDefinitionFinder"
 		class="cern.accsoft.steering.jmad.modeldefs.ClassPathModelDefinitionFinder">
 		<property name="persistenceService" ref="xmlModelDefinitionPersistenceService" />
@@ -25,7 +25,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 	</bean>
 	<bean id="jmadModelDefinitionExporter"
 		class="cern.accsoft.steering.jmad.modeldefs.io.impl.JMadModelDefinitionExporterImpl">
-		<property name="persistenceService" ref="xmlModelDefinitionPersistenceService" />
+		<property name="persistenceServices">
+			<list>
+				<ref bean="xmlModelDefinitionPersistenceService"/>
+				<ref bean="jsonModelDefinitionPersistenceService"/>
+			</list>
+		</property>
 		<property name="fileFinderManager" ref="jmadModelDefinitionManager" />
 	</bean>
 	<bean id="jmadModelDefinitionImporter"
@@ -57,9 +62,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<property name="fileUtil" ref="tempFileUtil" />
 	</bean>
 
-	<!--
-		prototypes: In principle all these beans are created once per model
-	-->
+	<!-- prototypes: In principle all these beans are created once per model -->
 	<bean id="modelFileFinder"
 		class="cern.accsoft.steering.jmad.modeldefs.io.impl.ModelFileFinderImpl"
 		scope="prototype">

@@ -215,7 +215,7 @@ public final class TwissInitialConditionsImpl extends EditableOpticPointImpl imp
 
     @Override
     public TwissInitialConditionsImpl clone() {
-        return CloneUtil.clone(TwissInitialConditionsImpl.class, this, new TwissInitialConditionsConverter());
+        return CloneUtil.clone(TwissInitialConditionsImpl.class, this, new TwissInitialConditionsXmlConverter());
     }
 
     /*

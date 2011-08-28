@@ -1,5 +1,5 @@
 // @formatter:off
- /*******************************************************************************
+/*******************************************************************************
  *
  * This file is part of JMad.
  * 
@@ -31,111 +31,155 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+import org.apache.log4j.Logger;
+
 import com.thoughtworks.xstream.XStream;
 
 public abstract class GenericXStreamService<T> implements PersistenceService<T> {
 
-    /** the original xstream xml-converter (singleton) */
-    private final XStream xStream = new XStream();
+	private static final Logger LOGGER = Logger
+			.getLogger(GenericXStreamService.class);
 
-    @Override
-    public synchronized File save(T object, File xmlFile) throws PersistenceServiceException {
-        File file = ensureXmlFileExtension(xmlFile);
+	/** the original xstream xml-converter (singleton) */
+	private final XStream xStream;
 
-        try {
-            FileWriter writer = new FileWriter(file);
-            writer.write(xStream.toXML(object));
-            writer.close();
-        } catch (Exception ex) {
-            throw new PersistenceServiceException("Error writing Object [" + object.toString() + "] of Class ["
-                    + object.getClass().getCanonicalName() + "] to XmlFile [" + file.getAbsolutePath() + "]", ex);
-        }
+	public GenericXStreamService() {
+		super();
+		this.xStream = createXStream();
+	}
 
-        return file;
-    }
+	/**
+	 * This method must be implemented by subclass and has to return a properly
+	 * configured XStream object.
+	 * 
+	 * @return a fully configured xstream object
+	 */
+	protected abstract XStream createXStream();
 
-    /**
-     * adds the correct extension for jmad-model xm files to the file name if not already there.
-     * 
-     * @param file the file which shall be a correct jmad xml file
-     * @return the file
-     */
-    private File ensureXmlFileExtension(File file) {
-        if (isXmlFileName(file.getName())) {
-            return file;
-        } else {
-            return new File(file.getAbsolutePath() + getFileExtension());
-        }
-    }
+	/**
+	 * Has to return the class which can be saved by this service. This is used
+	 * for checking and producing an error message, if an object cannot be
+	 * saved.
+	 * 
+	 * @return The class which can be saved by this persistence service
+	 */
+	protected abstract Class<? extends T> getSaveableClass();
 
-    /**
-     * determines if the given name is a correct xml file name
-     * 
-     * @param fileName the file name to check
-     * @return true if it is an xml file name, false if not
-     */
-    private boolean isXmlFileName(String fileName) {
-        return fileName.toLowerCase().endsWith(getFileExtension());
-    }
+	@Override
+	public synchronized final File save(T object, File destFile)
+			throws PersistenceServiceException {
 
-    @Override
-    public void save(T object, OutputStream outStream) throws PersistenceServiceException {
-        try {
-            OutputStreamWriter writer = new OutputStreamWriter(outStream);
-            writer.write(xStream.toXML(object));
-            writer.flush();
-        } catch (IOException e) {
-            throw new PersistenceServiceException("Error writing Object [" + object.toString() + "] of Class ["
-                    + object.getClass().getCanonicalName() + "] to output stream.", e);
-        }
-    }
+		if (!(getSaveableClass().isInstance(object))) {
+			LOGGER.error("can only save model definitions of type '"
+					+ getSaveableClass().getCanonicalName() + "' to file.");
+			return null;
+		}
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public synchronized T load(File xmlFile) throws PersistenceServiceException {
+		File file = ensureCorrectFileExtension(destFile);
 
-        T retVal = null;
-        try {
-            retVal = (T) xStream.fromXML(new FileReader(xmlFile));
-        } catch (Exception ex) {
-            throw new PersistenceServiceException("Error loading Object from XmlFile [" + xmlFile.getAbsolutePath()
-                    + "]", ex);
-        }
+		try {
+			FileWriter writer = new FileWriter(file);
+			writer.write(xStream.toXML(object));
+			writer.close();
+		} catch (Exception ex) {
+			throw new PersistenceServiceException("Error writing Object ["
+					+ object.toString() + "] of Class ["
+					+ object.getClass().getCanonicalName() + "] to XmlFile ["
+					+ file.getAbsolutePath() + "]", ex);
+		}
 
-        return retVal;
-    }
+		return file;
+	}
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public synchronized T load(InputStream inputStream) throws PersistenceServiceException {
-        T retVal = null;
-        try {
-            retVal = (T) xStream.fromXML(new InputStreamReader(inputStream));
-        } catch (Exception ex) {
-            throw new PersistenceServiceException("Error loading Object from Xml stream", ex);
-        }
-        return retVal;
-    }
+	/**
+	 * adds the correct extension for jmad-model files to the file name if not
+	 * already there.
+	 * 
+	 * @param file
+	 *            the file which shall be a correct jmad xml file
+	 * @return the file
+	 */
+	private File ensureCorrectFileExtension(File file) {
+		if (isCorrectFileName(file.getName())) {
+			return file;
+		} else {
+			return new File(file.getAbsolutePath() + getFileExtension());
+		}
+	}
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public synchronized T clone(T object) throws PersistenceServiceException {
+	/**
+	 * determines if the given name is a correct file name
+	 * 
+	 * @param fileName
+	 *            the file name to check
+	 * @return true if it is an xml file name, false if not
+	 */
+	@Override
+	public final boolean isCorrectFileName(String fileName) {
+		return fileName.toLowerCase().endsWith(getFileExtension());
+	}
 
-        T retVal = null;
-        try {
-            retVal = (T) xStream.fromXML(xStream.toXML(object));
-        } catch (Exception ex) {
+	@Override
+	public void save(T object, OutputStream outStream)
+			throws PersistenceServiceException {
+		try {
+			OutputStreamWriter writer = new OutputStreamWriter(outStream);
+			writer.write(xStream.toXML(object));
+			writer.flush();
+		} catch (IOException e) {
+			throw new PersistenceServiceException("Error writing Object ["
+					+ object.toString() + "] of Class ["
+					+ object.getClass().getCanonicalName()
+					+ "] to output stream.", e);
+		}
+	}
 
-            String className = object.getClass().getCanonicalName();
+	@Override
+	@SuppressWarnings("unchecked")
+	public synchronized T load(File srcFile) throws PersistenceServiceException {
 
-            throw new PersistenceServiceException("Error cloning Object of Class [" + className + "]", ex);
-        }
+		T retVal = null;
+		try {
+			retVal = (T) xStream.fromXML(new FileReader(srcFile));
+		} catch (Exception ex) {
+			throw new PersistenceServiceException(
+					"Error loading Object from file ["
+							+ srcFile.getAbsolutePath() + "]", ex);
+		}
 
-        return retVal;
-    }
+		return retVal;
+	}
 
-    protected XStream getXStream() {
-        return xStream;
-    }
+	@Override
+	@SuppressWarnings("unchecked")
+	public synchronized T load(InputStream inputStream)
+			throws PersistenceServiceException {
+		T retVal = null;
+		try {
+			retVal = (T) xStream.fromXML(new InputStreamReader(inputStream));
+		} catch (Exception ex) {
+			throw new PersistenceServiceException(
+					"Error loading Object from Xml stream", ex);
+		}
+		return retVal;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public synchronized T clone(T object) throws PersistenceServiceException {
+
+		T retVal = null;
+		try {
+			retVal = (T) xStream.fromXML(xStream.toXML(object));
+		} catch (Exception ex) {
+
+			String className = object.getClass().getCanonicalName();
+
+			throw new PersistenceServiceException(
+					"Error cloning Object of Class [" + className + "]", ex);
+		}
+
+		return retVal;
+	}
 
 }
