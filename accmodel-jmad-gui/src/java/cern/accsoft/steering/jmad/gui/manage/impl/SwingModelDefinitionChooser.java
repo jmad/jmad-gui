@@ -1,5 +1,5 @@
 // @formatter:off
- /*******************************************************************************
+/*******************************************************************************
  *
  * This file is part of JMad.
  * 
@@ -50,272 +50,289 @@ import cern.accsoft.steering.util.gui.UserInteractor;
  * 
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
-public class SwingModelDefinitionChooser implements ModelDefinitionChooser, ChooseActionFactory {
+public class SwingModelDefinitionChooser implements ModelDefinitionChooser,
+		ChooseActionFactory {
 
-    /** The logger for the class */
-    private final static Logger LOGGER = Logger.getLogger(SwingModelDefinitionChooser.class);
+	/** The logger for the class */
+	private final static Logger LOGGER = Logger
+			.getLogger(SwingModelDefinitionChooser.class);
 
-    /** The class to communicate with the user */
-    private UserInteractor userInteractor;
+	/** The class to communicate with the user */
+	private UserInteractor userInteractor;
 
-    /** The model manager who knows about the models */
-    private JMadModelManager modelManager;
+	/** The model manager who knows about the models */
+	private JMadModelManager modelManager;
 
-    /** The jmad-service */
-    private JMadService jmadService;
+	/** The jmad-service */
+	private JMadService jmadService;
 
-    /** The frame to use as parent for the dialog */
-    private Frame frame;
+	/** The frame to use as parent for the dialog */
+	private Frame frame;
 
-    /** The panel to select the active range */
-    private RangeSelectionPanel rangeSelectionPanel;
+	/** The panel to select the active range */
+	private RangeSelectionPanel rangeSelectionPanel;
 
-    /** The panel to select the optics definition */
-    private ModelOpticsSelectionPanel modelOpticsSelectionPanel;
+	/** The panel to select the optics definition */
+	private ModelOpticsSelectionPanel modelOpticsSelectionPanel;
 
-    /** The preferences to activate/deactivate the actions */
-    private JMadGuiPreferences jmadGuiPreferences;
+	/** The preferences to activate/deactivate the actions */
+	private JMadGuiPreferences jmadGuiPreferences;
 
-    //
-    // actions
-    //
+	//
+	// actions
+	//
 
-    /** the action to choose a new model */
-    private Action newModelAction = new NamedAction("New model", "Creates a new model from internal model definition.") {
-        private static final long serialVersionUID = 2464183652035511611L;
+	/** the action to choose a new model */
+	private Action newModelAction = new NamedAction("New model",
+			"Creates a new model from internal model definition.") {
+		private static final long serialVersionUID = 2464183652035511611L;
 
-        {
-            putValue(SMALL_ICON, Icon.NEW.getImageIcon());
-        }
+		{
+			putValue(SMALL_ICON, Icon.NEW.getImageIcon());
+		}
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            showModelChooseDialog();
-        }
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			showModelChooseDialog();
+		}
 
-    };
+	};
 
-    /** The action to create a new model from a file-model definition */
-    private Action importAction = new NamedAction("Import model definition",
-            "Creates a new model from an file- model definition.") {
-        private static final long serialVersionUID = 1L;
+	/** The action to create a new model from a file-model definition */
+	private Action importAction = new NamedAction("Import model definition",
+			"Creates a new model from an file- model definition.") {
+		private static final long serialVersionUID = 1L;
 
-        {
-            putValue(SMALL_ICON, Icon.IMPORT.getImageIcon());
-        }
+		{
+			putValue(SMALL_ICON, Icon.IMPORT.getImageIcon());
+		}
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JMadOptionPane.showImportModelDefinitionDialog(frame, jmadService);
-        }
-    };
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JMadOptionPane.showImportModelDefinitionDialog(frame, jmadService);
+		}
+	};
 
-    /** The action to export an internal model definition to a file. */
-    private Action exportAction = new NamedAction("Export model definition",
-            "Saves one of the internal model definitions to a file.") {
-        private static final long serialVersionUID = 1L;
+	/** The action to export an internal model definition to a file. */
+	private Action exportAction = new NamedAction("Export model definition",
+			"Saves one of the internal model definitions to a file.") {
+		private static final long serialVersionUID = 1L;
 
-        {
-            putValue(SMALL_ICON, Icon.EXPORT.getImageIcon());
-        }
+		{
+			putValue(SMALL_ICON, Icon.EXPORT.getImageIcon());
+		}
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JMadOptionPane.showExportModelDefinitionDialog(frame, jmadService);
-        }
-    };
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JMadOptionPane.showExportModelDefinitionDialog(frame, jmadService);
+		}
+	};
 
-    private Action closeActiveModelAction = new NamedAction("Close active model", "Closes the active model") {
-        private static final long serialVersionUID = 1L;
+	private Action closeActiveModelAction = new NamedAction(
+			"Close active model", "Closes the active model") {
+		private static final long serialVersionUID = 1L;
 
-        {
-            putValue(SMALL_ICON, Icon.DELETE.getImageIcon());
-        }
+		{
+			putValue(SMALL_ICON, Icon.DELETE.getImageIcon());
+		}
 
-        @Override
-        public void actionPerformed(ActionEvent arg0) {
-            closeActiveModel();
-        }
-    };
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			closeActiveModel();
+		}
+	};
 
-    private Action exitAction = new AbstractAction("Exit", Icon.EXIT.getImageIcon()) {
-        private static final long serialVersionUID = 1L;
+	private Action exitAction = new AbstractAction("Exit",
+			Icon.EXIT.getImageIcon()) {
+		private static final long serialVersionUID = 1L;
 
-        {
-            putValue(Action.SHORT_DESCRIPTION, "Exit Application");
-        }
+		{
+			putValue(Action.SHORT_DESCRIPTION, "Exit Application");
+		}
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            getModelManager().cleanup();
-            System.exit(0);
-        }
-    };
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			getModelManager().cleanup();
+			System.exit(0);
+		}
+	};
 
-    /** the action to choose a newe RangeDefinition within the model. */
-    private Action chooseRangeAction = new NamedAction("select range",
-            "Select one of the possible ranges of the model.") {
-        private static final long serialVersionUID = -2928278893227845086L;
+	/** the action to choose a newe RangeDefinition within the model. */
+	private Action chooseRangeAction = new NamedAction("select range",
+			"Select one of the possible ranges of the model.") {
+		private static final long serialVersionUID = -2928278893227845086L;
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            showRangeDefinitionChooseDialog();
-        }
-    };
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			showRangeDefinitionChooseDialog();
+		}
+	};
 
-    /** the action to choose a new optics */
-    private Action chooseOpticsAction = new NamedAction("select optics", "Select optics definition of the model.") {
-        private static final long serialVersionUID = -9088381330307065526L;
+	/** the action to choose a new optics */
+	private Action chooseOpticsAction = new NamedAction("select optics",
+			"Select optics definition of the model.") {
+		private static final long serialVersionUID = -9088381330307065526L;
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            showOpticsDefinitionChooseDialog();
-        }
-    };
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			showOpticsDefinitionChooseDialog();
+		}
+	};
 
-    //
-    // methods
-    //
+	//
+	// methods
+	//
 
-    /**
-     * init method called by spring
-     */
-    public void init() {
-        newModelAction.setEnabled(getJmadGuiPreferences().isEnabledChangeModel());
-        closeActiveModelAction.setEnabled(getJmadGuiPreferences().isEnabledChangeModel());
-        chooseRangeAction.setEnabled(getJmadGuiPreferences().isEnabledChangeRange());
-        chooseOpticsAction.setEnabled(getJmadGuiPreferences().isEnabledChangeOptic());
-        exitAction.setEnabled(getJmadGuiPreferences().isExitOnClose());
-    }
+	/**
+	 * init method called by spring
+	 */
+	public void init() {
+		newModelAction.setEnabled(getJmadGuiPreferences()
+				.isEnabledChangeModel());
+		closeActiveModelAction.setEnabled(getJmadGuiPreferences()
+				.isEnabledChangeModel());
+		chooseRangeAction.setEnabled(getJmadGuiPreferences()
+				.isEnabledChangeRange());
+		chooseOpticsAction.setEnabled(getJmadGuiPreferences()
+				.isEnabledChangeOptic());
+		exitAction.setEnabled(getJmadGuiPreferences().isExitOnClose());
+	}
 
-    @Override
-    public void showModelChooseDialog() {
-        JMadOptionPane.showCreateModelDialog(frame, jmadService);
-    }
+	@Override
+	public void showModelChooseDialog() {
+		JMadModel model = JMadOptionPane.showCreateModelDialog(frame,
+				jmadService);
+		try {
+			model.reset();
+		} catch (JMadModelException e) {
+			LOGGER.error("Error while initializing Model.", e);
+		}
+	}
 
-    /**
-     * cleans up the active model and removes it from the modelManager
-     */
-    private void closeActiveModel() {
-        JMadModel model = getModelManager().getActiveModel();
-        if (model == null) {
-            return;
-        }
-        try {
-            model.cleanup();
-        } catch (JMadModelException e) {
-            LOGGER.error("Error while cleaning up model.", e);
-        }
-        getModelManager().removeModel(model);
-    }
+	/**
+	 * cleans up the active model and removes it from the modelManager
+	 */
+	private void closeActiveModel() {
+		JMadModel model = getModelManager().getActiveModel();
+		if (model == null) {
+			return;
+		}
+		try {
+			model.cleanup();
+		} catch (JMadModelException e) {
+			LOGGER.error("Error while cleaning up model.", e);
+		}
+		getModelManager().removeModel(model);
+	}
 
-    @Override
-    public void showRangeDefinitionChooseDialog() {
-        userInteractor.showPanelDialog(getRangeSelectionPanel());
-    }
+	@Override
+	public void showRangeDefinitionChooseDialog() {
+		userInteractor.showPanelDialog(getRangeSelectionPanel());
+	}
 
-    @Override
-    public void showOpticsDefinitionChooseDialog() {
-        userInteractor.showPanelDialog(getModelOpticsSelectionPanel());
-    }
+	@Override
+	public void showOpticsDefinitionChooseDialog() {
+		userInteractor.showPanelDialog(getModelOpticsSelectionPanel());
+	}
 
-    //
-    // Getters and setters
-    //
+	//
+	// Getters and setters
+	//
 
-    public void setUserInteractor(UserInteractor userInteractor) {
-        this.userInteractor = userInteractor;
-    }
+	public void setUserInteractor(UserInteractor userInteractor) {
+		this.userInteractor = userInteractor;
+	}
 
-    public UserInteractor getUserInteractor() {
-        return userInteractor;
-    }
+	public UserInteractor getUserInteractor() {
+		return userInteractor;
+	}
 
-    public void setRangeSelectionPanel(RangeSelectionPanel rangeSelectionPanel) {
-        this.rangeSelectionPanel = rangeSelectionPanel;
-    }
+	public void setRangeSelectionPanel(RangeSelectionPanel rangeSelectionPanel) {
+		this.rangeSelectionPanel = rangeSelectionPanel;
+	}
 
-    private RangeSelectionPanel getRangeSelectionPanel() {
-        return rangeSelectionPanel;
-    }
+	private RangeSelectionPanel getRangeSelectionPanel() {
+		return rangeSelectionPanel;
+	}
 
-    public void setModelOpticsSelectionPanel(ModelOpticsSelectionPanel modelOpticsSelectionPanel) {
-        this.modelOpticsSelectionPanel = modelOpticsSelectionPanel;
-    }
+	public void setModelOpticsSelectionPanel(
+			ModelOpticsSelectionPanel modelOpticsSelectionPanel) {
+		this.modelOpticsSelectionPanel = modelOpticsSelectionPanel;
+	}
 
-    private ModelOpticsSelectionPanel getModelOpticsSelectionPanel() {
-        return modelOpticsSelectionPanel;
-    }
+	private ModelOpticsSelectionPanel getModelOpticsSelectionPanel() {
+		return modelOpticsSelectionPanel;
+	}
 
-    //
-    // Methods of interface ChooseActionFactory
-    //
+	//
+	// Methods of interface ChooseActionFactory
+	//
 
-    @Override
-    public Action getNewModelAction() {
-        return this.newModelAction;
-    }
+	@Override
+	public Action getNewModelAction() {
+		return this.newModelAction;
+	}
 
-    @Override
-    public Action getChooseOpticsAction() {
-        return this.chooseOpticsAction;
-    }
+	@Override
+	public Action getChooseOpticsAction() {
+		return this.chooseOpticsAction;
+	}
 
-    @Override
-    public Action getChooseRangeAction() {
-        return this.chooseRangeAction;
-    }
+	@Override
+	public Action getChooseRangeAction() {
+		return this.chooseRangeAction;
+	}
 
-    public void setModelManager(JMadModelManager modelManager) {
-        this.modelManager = modelManager;
-    }
+	public void setModelManager(JMadModelManager modelManager) {
+		this.modelManager = modelManager;
+	}
 
-    private JMadModelManager getModelManager() {
-        return modelManager;
-    }
+	private JMadModelManager getModelManager() {
+		return modelManager;
+	}
 
-    @Override
-    public Action getCloseActiveModelAction() {
-        return closeActiveModelAction;
-    }
+	@Override
+	public Action getCloseActiveModelAction() {
+		return closeActiveModelAction;
+	}
 
-    @Override
-    public Action getImportAction() {
-        return this.importAction;
-    }
+	@Override
+	public Action getImportAction() {
+		return this.importAction;
+	}
 
-    @Override
-    public Action getExportAction() {
-        return this.exportAction;
-    }
+	@Override
+	public Action getExportAction() {
+		return this.exportAction;
+	}
 
-    public void setJmadGuiPreferences(JMadGuiPreferences jmadGuiPreferences) {
-        this.jmadGuiPreferences = jmadGuiPreferences;
-    }
+	public void setJmadGuiPreferences(JMadGuiPreferences jmadGuiPreferences) {
+		this.jmadGuiPreferences = jmadGuiPreferences;
+	}
 
-    private JMadGuiPreferences getJmadGuiPreferences() {
-        return jmadGuiPreferences;
-    }
+	private JMadGuiPreferences getJmadGuiPreferences() {
+		return jmadGuiPreferences;
+	}
 
-    @Override
-    public Action getExitAction() {
-        return this.exitAction;
-    }
+	@Override
+	public Action getExitAction() {
+		return this.exitAction;
+	}
 
-    public void setFrame(Frame frame) {
-        this.frame = frame;
-    }
+	public void setFrame(Frame frame) {
+		this.frame = frame;
+	}
 
-    public Frame getFrame() {
-        return frame;
-    }
+	public Frame getFrame() {
+		return frame;
+	}
 
-    public void setJmadService(JMadService jmadService) {
-        this.jmadService = jmadService;
-    }
+	public void setJmadService(JMadService jmadService) {
+		this.jmadService = jmadService;
+	}
 
-    public JMadService getJmadService() {
-        return jmadService;
-    }
+	public JMadService getJmadService() {
+		return jmadService;
+	}
 
 }
