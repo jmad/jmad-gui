@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-	<product name="accmodel-jmad-gui" version="0.2.1" directory="accmodel/jmad/accmodel-jmad-gui">
+	<product name="accmodel-jmad-gui" version="0.2.6" directory="accmodel/jmad/accmodel-jmad-gui">
 		<jar>accmodel-jmad-gui.jar</jar>
 		<dependencies>
 			<dep product="log4j"/>
@@ -33,7 +33,7 @@
 		</application>
 	</product>
 
-	<product name="accmodel-jmad-gui-nomodels" version="0.2.5" directory="accmodel/jmad/accmodel-jmad-gui">
+	<product name="accmodel-jmad-gui-nomodels" version="0.2.6" directory="accmodel/jmad/accmodel-jmad-gui">
 		<jar>accmodel-jmad-gui.jar</jar>
 		<dependencies>
 			<dep product="accsoft-gui-frame"/>
