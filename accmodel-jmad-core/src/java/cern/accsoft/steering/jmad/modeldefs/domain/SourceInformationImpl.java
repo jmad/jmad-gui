@@ -67,7 +67,7 @@ public class SourceInformationImpl implements SourceInformation {
     }
 
     @Override
-    public String getXmlFileName() {
+    public String getFileName() {
         return this.xmlFileName;
     }
 

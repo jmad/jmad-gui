@@ -90,4 +90,6 @@ public interface PersistenceService<T> {
      */
     public String getFileExtension();
 
+	boolean isCorrectFileName(String fileName);
+
 }

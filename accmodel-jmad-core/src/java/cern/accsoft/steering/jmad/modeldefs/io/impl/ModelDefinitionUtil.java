@@ -1,5 +1,5 @@
 // @formatter:off
- /*******************************************************************************
+/*******************************************************************************
  *
  * This file is part of JMad.
  * 
@@ -45,105 +45,164 @@ import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
  */
 public final class ModelDefinitionUtil {
 
-    /**
-     * this is the class relative to which the model-definitions and files will be searched.
-     */
-    public static final Class<?> BASE_CLASS = ClassPathModelDefinitionFinder.class;
+	/**
+	 * this is the class relative to which the model-definitions and files will
+	 * be searched.
+	 */
+	public static final Class<?> BASE_CLASS = ClassPathModelDefinitionFinder.class;
 
-    /**
-     * the package name relative to the base class where to search for model-definitions and files
-     */
-    public static final String PACKAGE_OFFSET = "defs";
+	/**
+	 * the package name relative to the base class where to search for
+	 * model-definitions and files
+	 */
+	public static final String PACKAGE_OFFSET = "defs";
 
-    /** the default file extension for xml files */
-    public static final String XML_FILE_EXTENSION = ".jmd.xml";
+	/** the default file extension for xml files */
+	public static final String XML_FILE_EXTENSION = ".jmd.xml";
 
-    /** The extension used for jmad zip files */
-    public static final String ZIP_FILE_EXTENSION = ".jmd.zip";
+	/** the default file extension for json files */
+	public static final String JSON_FILE_EXTENSION = ".jmd.json";
 
-    /**
-     * the private constructor to prevent instantiation
-     */
-    private ModelDefinitionUtil() {
-        /* Only static methods */
-    }
+	/** The extension used for jmad zip files */
+	public static final String ZIP_FILE_EXTENSION = ".jmd.zip";
 
-    /**
-     * creates a file name for the given model definition
-     * 
-     * @param modelDefinition the model definition for which to create the filename
-     * @return the filename
-     */
-    public static String getProposedXmlFileName(JMadModelDefinition modelDefinition) {
-        return modelDefinition.getName().replaceAll("\\(", "").replaceAll("\\)", "").toLowerCase().replaceAll(" ", "-")
-                + XML_FILE_EXTENSION;
-    }
+	/**
+	 * the private constructor to prevent instantiation
+	 */
+	private ModelDefinitionUtil() {
+		/* Only static methods */
+	}
 
-    /**
-     * determines if the given name is a model definition xml file
-     * 
-     * @param fileName the file name to check
-     * @return true if it is an xml file name, false if not
-     */
-    public static boolean isXmlFileName(String fileName) {
-        return fileName.toLowerCase().endsWith(XML_FILE_EXTENSION);
-    }
+	public static String getProposedDefaultFileName(
+			JMadModelDefinition modelDefinition) {
+		return getProposedIdStringFromName(modelDefinition)
+				+ getDefaultFileExtension();
+	}
 
-    /**
-     * adds the correct file extension for jmad zip files if necessary
-     * 
-     * @param file the file which shall be a correct jmad zip file
-     * @return the corrected file
-     */
-    public static File ensureZipFileExtension(File file) {
-        if (isZipFileName(file.getName())) {
-            return file;
-        } else {
-            return new File(file.getAbsolutePath() + ZIP_FILE_EXTENSION);
-        }
-    }
+	public static String getDefaultFileExtension() {
+		return XML_FILE_EXTENSION;
+	}
 
-    /**
-     * determines if the given name is a model definition zip file
-     * 
-     * @param fileName the file name to check
-     * @return true if it is a jmad zip file name, false if not
-     */
-    public static boolean isZipFileName(String fileName) {
-        return fileName.toLowerCase(JMadConstants.DEFAULT_LOCALE).endsWith(ZIP_FILE_EXTENSION);
-    }
+	/**
+	 * creates a file name for the given model definition
+	 * 
+	 * @param modelDefinition
+	 *            the model definition for which to create the filename
+	 * @return the filename
+	 */
+	public static String getProposedXmlFileName(
+			JMadModelDefinition modelDefinition) {
+		return getProposedIdStringFromName(modelDefinition)
+				+ XML_FILE_EXTENSION;
+	}
 
-    /**
-     * collects all the model files which are required by a model definition and its parts
-     * 
-     * @param modelDefinition the {@link JMadModelDefinition} for which to collect the model files
-     * @return all the required model files
-     */
-    public static final Collection<ModelFile> getRequiredModelFiles(JMadModelDefinition modelDefinition) {
+	/**
+	 * creates a json-filename for the given model definition
+	 * 
+	 * @param modelDefinition
+	 *            the model definition for which to create the filename
+	 * @return the filename
+	 */
+	public static String getProposedJsonFileName(
+			JMadModelDefinition modelDefinition) {
+		return getProposedIdStringFromName(modelDefinition)
+				+ JSON_FILE_EXTENSION;
+	}
 
-        Set<ModelFile> requiredFiles = new HashSet<ModelFile>();
-        for (ModelFileDependant modelFileDependant : getModelFileDependants(modelDefinition)) {
-            requiredFiles.addAll(modelFileDependant.getRequiredFiles());
-        }
-        return requiredFiles;
-    }
+	/**
+	 * creates an Id for the given model definition from its name. This is done
+	 * by replacing all '(' and ')' by empty strings and all spaces by '-'.
+	 * Note: Neither uniquenes is guaranteed nor that it will be a valid
+	 * filename for example.
+	 * 
+	 * @param modelDefinition
+	 *            the model definition for which to create the id
+	 * @return the proposed Id as string
+	 */
+	public static String getProposedIdStringFromName(
+			JMadModelDefinition modelDefinition) {
+		return modelDefinition.getName().replaceAll("\\(", "")
+				.replaceAll("\\)", "").toLowerCase().replaceAll(" ", "-");
+	}
 
-    /**
-     * collects all the parts of a model definition that potentially depend on model files
-     * 
-     * @param modelDefinition the model definition for which to collect the dependent classes
-     * @return all the model-file dependent classes
-     */
-    private static final Collection<ModelFileDependant> getModelFileDependants(JMadModelDefinition modelDefinition) {
-        List<ModelFileDependant> modelFileDependants = new ArrayList<ModelFileDependant>();
+	/**
+	 * determines if the given name is a model definition xml file
+	 * 
+	 * @param fileName
+	 *            the file name to check
+	 * @return true if it is an xml file name, false if not
+	 */
+	public static boolean isXmlFileName(String fileName) {
+		return fileName.toLowerCase().endsWith(XML_FILE_EXTENSION);
+	}
 
-        /*
-         * XXX: not very nice. Here all parts of a model definition which potentially depend on model files are added
-         * manually to the collection.
-         */
-        modelFileDependants.add(modelDefinition);
-        modelFileDependants.addAll(modelDefinition.getRangeDefinitions());
-        modelFileDependants.addAll(modelDefinition.getOpticsDefinitions());
-        return modelFileDependants;
-    }
+	/**
+	 * adds the correct file extension for jmad zip files if necessary
+	 * 
+	 * @param file
+	 *            the file which shall be a correct jmad zip file
+	 * @return the corrected file
+	 */
+	public static File ensureZipFileExtension(File file) {
+		if (isZipFileName(file.getName())) {
+			return file;
+		} else {
+			return new File(file.getAbsolutePath() + ZIP_FILE_EXTENSION);
+		}
+	}
+
+	/**
+	 * determines if the given name is a model definition zip file
+	 * 
+	 * @param fileName
+	 *            the file name to check
+	 * @return true if it is a jmad zip file name, false if not
+	 */
+	public static boolean isZipFileName(String fileName) {
+		return fileName.toLowerCase(JMadConstants.DEFAULT_LOCALE).endsWith(
+				ZIP_FILE_EXTENSION);
+	}
+
+	/**
+	 * collects all the model files which are required by a model definition and
+	 * its parts
+	 * 
+	 * @param modelDefinition
+	 *            the {@link JMadModelDefinition} for which to collect the model
+	 *            files
+	 * @return all the required model files
+	 */
+	public static final Collection<ModelFile> getRequiredModelFiles(
+			JMadModelDefinition modelDefinition) {
+
+		Set<ModelFile> requiredFiles = new HashSet<ModelFile>();
+		for (ModelFileDependant modelFileDependant : getModelFileDependants(modelDefinition)) {
+			requiredFiles.addAll(modelFileDependant.getRequiredFiles());
+		}
+		return requiredFiles;
+	}
+
+	/**
+	 * collects all the parts of a model definition that potentially depend on
+	 * model files
+	 * 
+	 * @param modelDefinition
+	 *            the model definition for which to collect the dependent
+	 *            classes
+	 * @return all the model-file dependent classes
+	 */
+	private static final Collection<ModelFileDependant> getModelFileDependants(
+			JMadModelDefinition modelDefinition) {
+		List<ModelFileDependant> modelFileDependants = new ArrayList<ModelFileDependant>();
+
+		/*
+		 * XXX: not very nice. Here all parts of a model definition which
+		 * potentially depend on model files are added manually to the
+		 * collection.
+		 */
+		modelFileDependants.add(modelDefinition);
+		modelFileDependants.addAll(modelDefinition.getRangeDefinitions());
+		modelFileDependants.addAll(modelDefinition.getOpticsDefinitions());
+		return modelFileDependants;
+	}
 }
