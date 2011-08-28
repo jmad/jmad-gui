@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-	<product name="accmodel-jmad-core" version="0.2.3"
+	<product name="accmodel-jmad-core" version="0.2.4"
 		directory="accmodel/jmad/accmodel-jmad-core">
 		<jar>accmodel-jmad-core.jar</jar>
 		<!-- Please keep pom.xml in sync with product.xml (Maven migration) -->

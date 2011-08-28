@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-	<product name="accmodel-jmad-models-default" version="0.2.0"
+	<product name="accmodel-jmad-models-default" version="0.2.1"
 		directory="accmodel/jmad/models/accmodel-jmad-models-default">
 		<dependencies>
 			<dep product="log4j" />
