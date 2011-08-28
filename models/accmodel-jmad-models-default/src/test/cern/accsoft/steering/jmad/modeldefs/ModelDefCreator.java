@@ -1,26 +1,9 @@
 package cern.accsoft.steering.jmad.modeldefs;
 
 import java.io.File;
-import java.io.FileWriter;
 
 import org.apache.log4j.BasicConfigurator;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
-import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
-
-import cern.accsoft.steering.jmad.domain.beam.Beam;
-import cern.accsoft.steering.jmad.domain.file.AbstractModelFile;
-import cern.accsoft.steering.jmad.domain.file.CallableModelFileImpl;
-import cern.accsoft.steering.jmad.domain.file.ModelPathOffsets;
-import cern.accsoft.steering.jmad.domain.file.ModelPathOffsetsImpl;
-import cern.accsoft.steering.jmad.domain.file.TableModelFileImpl;
-import cern.accsoft.steering.jmad.domain.machine.MadxRange;
-import cern.accsoft.steering.jmad.domain.machine.RangeDefinitionImpl;
-import cern.accsoft.steering.jmad.domain.machine.SequenceDefinitionImpl;
-import cern.accsoft.steering.jmad.domain.machine.filter.RegexNameFilter;
-import cern.accsoft.steering.jmad.domain.twiss.TwissInitialConditionsJsonConverter;
-import cern.accsoft.steering.jmad.domain.twiss.TwissInitialConditionsXmlConverter;
 import cern.accsoft.steering.jmad.modeldefs.defs.lhc.LhcB4ModelDefinitionFactory;
 import cern.accsoft.steering.jmad.modeldefs.defs.lhc.LhcModelDefinitionFactory;
 import cern.accsoft.steering.jmad.modeldefs.defs.longti2.LongTi208ModelDefinitionFactory;
@@ -39,14 +22,11 @@ import cern.accsoft.steering.jmad.modeldefs.defs.ti8.Ti809ModelDefinitionFactory
 import cern.accsoft.steering.jmad.modeldefs.defs.ti8.Ti8ModelDefinitionFactory;
 import cern.accsoft.steering.jmad.modeldefs.defs.tt66.Tt66ModelDefinitionFactory;
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
-import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinitionImpl;
-import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinitionImpl;
 import cern.accsoft.steering.jmad.modeldefs.io.ModelDefinitionPersistenceService;
 import cern.accsoft.steering.jmad.modeldefs.io.impl.JsonModelDefinitionPersistenceService;
 import cern.accsoft.steering.jmad.modeldefs.io.impl.ModelDefinitionUtil;
 import cern.accsoft.steering.jmad.modeldefs.io.impl.XmlModelDefinitionPersistenceService;
 import cern.accsoft.steering.jmad.util.xml.PersistenceServiceException;
-import cern.accsoft.steering.jmad.util.xml.converters.GenericFieldAttributeConverter;
 
 public class ModelDefCreator {
 
