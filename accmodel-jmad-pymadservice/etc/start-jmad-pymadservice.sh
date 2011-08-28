@@ -6,8 +6,10 @@ jname=accmodel-jmad-pymadservice.jar
 
 if (( $# != 1 ))
 then
-    echo "Wrong number of input arguments"
-    exit 1
+    echo "using default ready-file"
+    readyfile=pymad-service-ready.out
+else
+	readyfile=$1
 fi
 
 # first some default paths,
@@ -31,4 +33,6 @@ then
     cd $jhome
 fi
 
-java -Dcern.jmad.output.path=/tmp/ -Dpymad.service.ready.file=$1 -jar ${jname} > /dev/null 
+clp=$CLASSPATH:${jhome}*;${jhome}lib/*
+
+java -Dpymad.service.ready.file=$readyfile -classpath "$clp" cern.accmodel.jmad.pymadservice.PyMadService > /dev/null 

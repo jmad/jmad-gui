@@ -1,1 +1,0 @@
-java -jar accmodel-jmad-pymadservice.jar
