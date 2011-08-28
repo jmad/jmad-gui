@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!-- This is a special build file to enable some quick hack for releasing 
+	the GUI jnlp to the public. The aim is to take the cern internal jnlp file 
+	and process it and then publish it together with all the jars in the lib 
+	dir. -->
+<project name="accmodel-jmad-gui-jnlp">
+
+	<!-- Defines project variables -->
+	<property file="jnlp.properties" />
+
+
+	<property name="codebase.subdir" value="static/ws" />
+	<property name="codebase.public" value="http://www.cern.ch/jmad/${codebase.subdir}/" />
+	<property name="dfs.base" value="//cerndfs.cern.ch/dfs/websites/j/jmad" />
+
+	<property name="tmp.dir" value="tmp" />
+	<property name="name.jnlp" value="jmad-gui.jnlp" />
+	<property name="name.gui.jar" value="accmodel-jmad-gui.jar" />
+
+	<property name="jnlp.src"
+		value="http://abwww/ap/dist/accmodel/jmad/accmodel-jmad-gui/PRO" />
+
+	<target name="init">
+		<mkdir dir="${tmp.dir}" />
+	</target>
+
+	<target name="cleanup">
+		<delete dir="${tmp.dir}" />
+	</target>
+
+	<target name="fetch-jnlp">
+		<get src="${jnlp.src}/${name.jnlp}" dest="${tmp.dir}/${name.jnlp}"
+			verbose="true" />
+	</target>
+
+	<target name="fetch-gui-jar">
+		<get src="${jnlp.src}/build/dist/${name.gui.jar}" dest="${tmp.dir}/${name.gui.jar}"
+			verbose="true" />
+	</target>
+
+
+	<target name="process-jnlp">
+		<property name="jnlp.file" value="${tmp.dir}/${name.jnlp}" />
+		<replaceregexp file="${jnlp.file}" match='codebase="(.*)"'
+			replace='codebase="${codebase.public}"' byline="true" />
+		<replaceregexp file="${jnlp.file}" match='jar href=".*/([^/]*\.jar)"'
+			replace='jar href="lib/\1"' byline="true" />
+	</target>
+
+	<target name="publish-jnlp">
+		<copy file="${tmp.dir}/${name.jnlp}" todir="${dfs.base}/${codebase.subdir}"
+			verbose="true" />
+	</target>
+
+	<target name="publish-jars">
+		<sync todir="${dfs.base}/${codebase.subdir}/lib" verbose="true">
+			<fileset dir="lib" />
+		</sync>
+		<copy file="${tmp.dir}/${name.gui.jar}" todir="${dfs.base}/${codebase.subdir}/lib"
+			verbose="true" />
+	</target>
+
+</project>
