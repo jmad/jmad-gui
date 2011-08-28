@@ -16,6 +16,7 @@
 			<dep product="accmodel-jmad-models-ptc"/>
 			<dep product="accmodel-jmad-models-medaustron"/>
 			<dep product="accsoft-steering-commons"/>
+			<dep product="accmodel-jmad-pymadservice"/>
 
 			<!-- for testing -->
 			<dep product="junit" local="true"/>
