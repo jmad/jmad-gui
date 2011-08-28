@@ -4,4 +4,3 @@
 scriptloc=''
 
 ${scriptloc}start-jmad.sh pymad $@
-
