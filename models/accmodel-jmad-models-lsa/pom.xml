@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>cern.accmodel.jmad.models</groupId>
 	<artifactId>accmodel-jmad-models-lsa</artifactId>
-	<version>0.2.0</version>
+	<version>0.2.6</version>
 	<name>accmodel-jmad-models-lsa</name>
 	<packaging>jar</packaging>
 	<description />

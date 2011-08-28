@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>cern.accmodel.jmad.models</groupId>
 	<artifactId>accmodel-jmad-models-medaustron</artifactId>
-	<version>0.2.1</version>
+	<version>0.2.2</version>
 	<name>accmodel-jmad-models-lsa</name>
 	<packaging>jar</packaging>
 	<description />

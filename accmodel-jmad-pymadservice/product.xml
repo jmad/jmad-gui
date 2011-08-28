@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-	<product name="accmodel-jmad-pymadservice" version="0.0.5" directory="accmodel/jmad/accmodel-jmad-pymadservice">
+	<product name="accmodel-jmad-pymadservice" version="0.0.6" directory="accmodel/jmad/accmodel-jmad-pymadservice">
 		<jar>accmodel-jmad-gui.jar</jar>
 		<dependencies>
 			<dep product="log4j"/>
@@ -12,6 +12,7 @@
 			<dep product="accmodel-jmad-models-ptc"/>
 			<dep product="accmodel-jmad-models-medaustron"/>
 			<dep product="accsoft-steering-commons"/>
+			<dep product="py4j"/>
 
 			<!-- for testing -->
 			<dep product="junit" local="true"/>
