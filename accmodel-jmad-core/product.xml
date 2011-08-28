@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-	<product name="accmodel-jmad-core" version="0.2.3"
+	<product name="accmodel-jmad-core" version="0.2.5"
 		directory="accmodel/jmad/accmodel-jmad-core">
-		<jar>accmodel-jmad-core.jar</jar>
+		<jar>accmodel-jmad-core.jar</jar> 
 		<!-- Please keep pom.xml in sync with product.xml (Maven migration) -->
 		<dependencies>
 			<dep product="commons-beanutils" />

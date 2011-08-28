@@ -20,7 +20,7 @@
 			<!-- for testing -->
 			<dep product="junit" local="true"/>
 		</dependencies>
-		<application name="jmad-gui" title="Simple gui for madx">
+		<application name="accmodel-jmad-gui" title="Simple gui for madx">
 			<initial-heap-size>40m</initial-heap-size>
 			<max-heap-size>240m</max-heap-size>
 			<main-class name="cern.accsoft.steering.jmad.gui.JMad"/>
@@ -37,6 +37,7 @@
 		<dependencies>
 			<dep product="accsoft-gui-frame"/>
 			<dep product="accmodel-jmad-core"/>
+			<dep product="accmodel-jmad-pymadservice"/>
 			
 			
 			<dep product="jdataviewer"/>
