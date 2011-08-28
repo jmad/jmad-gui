@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Encoding=UTF-8
+Name=JMad
+Comment=Java front-end to Mad-X
+GenericName=JMad, Mad-X front-end
+Icon=jmad
+Exec=start-jmad.sh gui
+Type=Application
+Terminal=false
+Categories=Office;Science;
