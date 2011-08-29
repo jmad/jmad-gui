@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!-- This is a special build file to enable some quick hack for releasing 
+	the GUI as zip and jnlp to the public. The aim is to take the cern internal jnlp file 
+	and process it and then publish it together with all the jars in the lib 
+	dir. -->
+<project name="accmodel-jmad-core-world" default="publish-all">
+
+	<!-- Defines project variables. Local values override the checked in ones -->
+	<property file="project.world.properties.local" />
+	<property file="project.world.properties" />
+
+	<property name="javadoc.subdir" value="static/javadoc/api" />
+	<property name="dfs.base" value="//cerndfs.cern.ch/dfs/websites/j/jmad" />
+
+	<property name="javadoc.src" value="build/docs/api" />
+
+
+	<!--
+		This is the main target of this project!
+		It fetches all the necessary data and, processes it and publishes it to the website.
+	-->
+	<target name="publish-all">
+		<!-- first fetch all the necessary data -->
+		<antcall target="create-javadoc" />
+
+		<!-- and finally publish everything -->
+		<antcall target="publish-javadoc" />
+	</target>
+
+
+	<target name="create-javadoc">
+		<ant antfile="build.xml" target="javadoc" />
+	</target>
+
+
+	<target name="publish-javadoc">
+		<sync todir="${dfs.base}/${javadoc.subdir}" verbose="false">
+			<fileset dir="${javadoc.src}" />
+		</sync>
+	</target>
+
+</project>
