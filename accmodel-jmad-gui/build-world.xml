@@ -13,6 +13,7 @@
 
 	<property name="codebase.subdir" value="static/ws" />
 	<property name="codebase.public" value="http://www.cern.ch/jmad/${codebase.subdir}/" />
+	<property name="javadoc.subdir" value="static/javadoc/gui" />
 	<property name="dfs.base" value="//cerndfs.cern.ch/dfs/websites/j/jmad" />
 	<property name="dfs.download.dir" value="${dfs.base}/static/download" />
 
@@ -31,6 +32,8 @@
 	<property name="tmp.jnlp.file" value="${tmp.dir}/${name.jnlp}" />
 
 	<property name="jnlp.src" value="http://abwww/ap/dist/accmodel/jmad/accmodel-jmad-gui/PRO" />
+	<property name="javadoc.src" value="build/docs/api" />
+
 
 	<!--
 		This is the main target of this project!
@@ -42,6 +45,7 @@
 		<antcall target="fetch-gui-jar" />
 		<antcall target="fetch-jnlp" />
 		<antcall target="copy-startup-scripts" />
+		<antcall target="create-javadoc" />
 
 		<!-- processing of the files -->
 		<antcall target="process-jnlp" />
@@ -51,12 +55,16 @@
 		<antcall target="publish-jars" />
 		<antcall target="publish-jnlp" />
 		<antcall target="publish-zip-files" />
+		<antcall target="publish-javadoc" />
 	</target>
 
 	<target name="init">
 		<mkdir dir="${tmp.dir}" />
 		<mkdir dir="${pack.dir}" />
 		<mkdir dir="${pack.lib.dir}" />
+		<mkdir dir="${javadoc.dir}" />
+		<mkdir dir="${javadoc.api.dir}" />
+		<mkdir dir="${javadoc.gui.dir}" />
 	</target>
 
 	<target name="cleanup">
@@ -144,7 +152,10 @@
 				<patternset refid="id.support.files" />
 			</fileset>
 		</zip>
+	</target>
 
+	<target name="create-javadoc">
+		<ant antfile="build.xml" target="javadoc" />
 	</target>
 
 
@@ -155,6 +166,13 @@
 		<echo message="Publishing the dist-zip file to the website." />
 		<copy file="${dist.zip.file}" todir="${dfs.download.dir}" overwrite="true" verbose="true" />
 		<copy file="${support.zip.file}" todir="${dfs.download.dir}" overwrite="true" verbose="true" />
+	</target>
+
+
+	<target name="publish-javadoc">
+		<sync todir="${dfs.base}/${javadoc.subdir}" verbose="false">
+			<fileset dir="${javadoc.src}" />
+		</sync>
 	</target>
 
 </project>
