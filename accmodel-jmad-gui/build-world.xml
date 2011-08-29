@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<!-- This is a special build file to enable some quick hack for releasing 
+	the GUI as zip and jnlp to the public. The aim is to take the cern internal jnlp file 
+	and process it and then publish it together with all the jars in the lib 
+	dir. -->
+<project name="accmodel-jmad-gui-world" default="publish-all">
+
+	<!-- Defines project variables. Local values override the checked in ones -->
+	<property file="project.world.properties.local" />
+	<property file="project.world.properties" />
+
+
+	<property name="codebase.subdir" value="static/ws" />
+	<property name="codebase.public" value="http://www.cern.ch/jmad/${codebase.subdir}/" />
+	<property name="dfs.base" value="//cerndfs.cern.ch/dfs/websites/j/jmad" />
+	<property name="dfs.download.dir" value="${dfs.base}/static/download" />
+
+	<property name="tmp.dir" value="tmp" />
+	<property name="pack.dir" value="${tmp.dir}/pack" />
+	<property name="pack.lib.dir" value="${pack.dir}/lib" />
+
+	<!-- names for the zip files -->
+	<property name="dist.zip.name" value="accmodel-jmad-gui-dist.zip" />
+	<property name="support.zip.name" value="accmodel-jmad-gui-support.zip" />
+	<property name="dist.zip.file" value="${tmp.dir}/${dist.zip.name}" />
+	<property name="support.zip.file" value="${tmp.dir}/${support.zip.name}" />
+
+	<property name="name.jnlp" value="accmodel-jmad-gui.jnlp" />
+	<property name="name.gui.jar" value="accmodel-jmad-gui.jar" />
+	<property name="tmp.jnlp.file" value="${tmp.dir}/${name.jnlp}" />
+
+	<property name="jnlp.src" value="http://abwww/ap/dist/accmodel/jmad/accmodel-jmad-gui/PRO" />
+
+	<!--
+		This is the main target of this project!
+		It fetches all the necessary data and, processes it and publishes it to the website.
+	-->
+	<target name="publish-all" depends="cleanup, init">
+		<!-- first fetch all the necessary data -->
+		<antcall target="fetch-lib-jars" />
+		<antcall target="fetch-gui-jar" />
+		<antcall target="fetch-jnlp" />
+		<antcall target="copy-startup-scripts" />
+
+		<!-- processing of the files -->
+		<antcall target="process-jnlp" />
+		<antcall target="create-zip-files" />
+
+		<!-- and finally publish everything -->
+		<antcall target="publish-jars" />
+		<antcall target="publish-jnlp" />
+		<antcall target="publish-zip-files" />
+	</target>
+
+	<target name="init">
+		<mkdir dir="${tmp.dir}" />
+		<mkdir dir="${pack.dir}" />
+		<mkdir dir="${pack.lib.dir}" />
+	</target>
+
+	<target name="cleanup">
+		<delete dir="${tmp.dir}" />
+	</target>
+
+
+
+
+	<!-- 
+	fetches all the required jars. This is done by first cleaning them and then refatching them without unsigning any of them.
+	After that they are all copied to the pack-directory in subdir lib.
+	-->
+	<target name="fetch-lib-jars" depends="init">
+		<!-- use the commonbuild mechanism to get all the required files -->
+		<ant antfile="build.xml" target="cleanjars" />
+		<property name="unsign.my.jars.enabled" value="false" />
+		<ant antfile="build.xml" target="getjars" />
+
+		<!-- copy them to the pack dir -->
+		<copy todir="${pack.lib.dir}" verbose="true">
+			<fileset dir="lib" />
+		</copy>
+	</target>
+
+	<!-- retrieves the released gui jar -->
+	<target name="fetch-gui-jar" depends="init">
+		<get src="${jnlp.src}/build/dist/${name.gui.jar}" dest="${pack.lib.dir}" verbose="true" />
+	</target>
+
+	<!-- copies all the start scripts to the pack-dir -->
+	<target name="copy-startup-scripts" depends="init">
+		<copy todir="${pack.dir}" verbose="true">
+			<fileset dir="etc" />
+		</copy>
+	</target>
+
+	<!-- retrieves the cern-released jnlp file -->
+	<target name="fetch-jnlp">
+		<get src="${jnlp.src}/${name.jnlp}" dest="${tmp.jnlp.file}" verbose="true" />
+	</target>
+
+	<!-- changes the cern jnlp file so that it refers to the jars which will be hosted on the jmad homepage -->
+	<target name="process-jnlp">
+		<replaceregexp file="${tmp.jnlp.file}" match='codebase="(.*)"' replace='codebase="${codebase.public}"' byline="true" />
+		<replaceregexp file="${tmp.jnlp.file}" match='jar href=".*/([^/]*\.jar)"' replace='jar href="lib/\1"' byline="true" />
+		<replaceregexp file="${tmp.jnlp.file}" match='.*property name="java.security.policy".*' replace='' byline="true" />
+		<replaceregexp file="${tmp.jnlp.file}" match='-[0-9].*\.jar' replace='\.jar' byline="true" />
+	</target>
+
+	<!-- copies the jnlp file to the website -->
+	<target name="publish-jnlp">
+		<copy file="${tmp.dir}/${name.jnlp}" todir="${dfs.base}/${codebase.subdir}" verbose="true" />
+	</target>
+
+	<!-- copies all the jars to the website -->
+	<target name="publish-jars">
+		<sync todir="${dfs.base}/${codebase.subdir}/lib" verbose="true">
+			<fileset dir="${pack.lib.dir}" />
+		</sync>
+	</target>
+
+
+
+	<patternset id="id.support.files">
+		<include name="**/jdataviewer*" />
+		<include name="**/accsoft-commons*" />
+		<include name="**/accsoft-gui*" />
+	</patternset>
+	<patternset id="id.dist.files">
+		<exclude name="**/jdataviewer*" />
+		<exclude name="**/accsoft-commons*" />
+		<exclude name="**/accsoft-gui*" />
+	</patternset>
+
+	<target name="create-zip-files">
+		<zip destfile="${dist.zip.file}">
+			<fileset dir="${pack.dir}">
+				<patternset refid="id.dist.files" />
+			</fileset>
+		</zip>
+		<zip destfile="${support.zip.file}">
+			<fileset dir="${pack.dir}">
+				<patternset refid="id.support.files" />
+			</fileset>
+		</zip>
+
+	</target>
+
+
+	<!--
+		copies the zip file to the website location.
+	-->
+	<target name="publish-zip-files">
+		<echo message="Publishing the dist-zip file to the website." />
+		<copy file="${dist.zip.file}" todir="${dfs.download.dir}" overwrite="true" verbose="true" />
+		<copy file="${support.zip.file}" todir="${dfs.download.dir}" overwrite="true" verbose="true" />
+	</target>
+
+</project>
