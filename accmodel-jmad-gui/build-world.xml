@@ -9,6 +9,7 @@
 	<property file="project.world.properties.local" />
 	<property file="project.world.properties" />
 
+	<property name="license.file" value="LICENSE.txt" />
 
 	<property name="codebase.subdir" value="static/ws" />
 	<property name="codebase.public" value="http://www.cern.ch/jmad/${codebase.subdir}/" />
@@ -91,6 +92,7 @@
 		<copy todir="${pack.dir}" verbose="true">
 			<fileset dir="etc" />
 		</copy>
+		<copy todir="${pack.dir}" file="${license.file}" verbose="true" />
 	</target>
 
 	<!-- retrieves the cern-released jnlp file -->
