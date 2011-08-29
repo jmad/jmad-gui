@@ -13,16 +13,12 @@ public class JsonModelDefinitionPersistenceService extends AbstractModelDefiniti
 
         @Override
         protected void initializeXStream(XStream xstream) {
-            /* first the converter */
-            xstream.registerConverter(new TwissInitialConditionsJsonConverter());
-
-            /* then the super class initialization */
-            configureXStream(xstream);
+            performXStreamInitialization(xstream);
         }
 
         @Override
         protected Class<? extends JMadModelDefinition> getSaveableClass() {
-            return getSaveableClass();
+            return retrieveSavableClass();
         }
 
         @Override
@@ -30,6 +26,18 @@ public class JsonModelDefinitionPersistenceService extends AbstractModelDefiniti
             return ModelDefinitionUtil.JSON_FILE_EXTENSION;
         }
     };
+
+    protected void performXStreamInitialization(XStream xStream) {
+        /* first the converter */
+        xStream.registerConverter(new TwissInitialConditionsJsonConverter());
+
+        /* then the super class initialization */
+        super.configureXStream(xStream);
+    }
+
+    protected Class<? extends JMadModelDefinition> retrieveSavableClass() {
+        return super.getSaveableClass();
+    }
 
     @Override
     protected GenericXStreamService<JMadModelDefinition> getXStreamService() {

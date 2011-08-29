@@ -33,18 +33,12 @@ public class XmlModelDefinitionPersistenceService extends AbstractModelDefinitio
 
         @Override
         protected void initializeXStream(XStream xstream) {
-            /* first the converter */
-            xstream.registerConverter(new TwissInitialConditionsXmlConverter());
-            xstream.registerConverter(new GenericFieldAttributeConverter<Beam>(xstream, Beam.class));
-            xstream.registerConverter(new GenericFieldAttributeConverter<ModelPathOffsetsImpl>(xstream,
-                    ModelPathOffsetsImpl.class));
-
-            configureXStream(xstream);
+            performXStreamInitialization(xstream);
         }
 
         @Override
         protected Class<? extends JMadModelDefinition> getSaveableClass() {
-            return getSaveableClass();
+            return retrieveSavableClass();
         }
 
         @Override
@@ -52,6 +46,21 @@ public class XmlModelDefinitionPersistenceService extends AbstractModelDefinitio
             return ModelDefinitionUtil.XML_FILE_EXTENSION;
         }
     };
+
+    protected void performXStreamInitialization(XStream xStream) {
+        /* first the converter */
+        xStream.registerConverter(new TwissInitialConditionsXmlConverter());
+        xStream.registerConverter(new GenericFieldAttributeConverter<Beam>(xStream, Beam.class));
+        xStream.registerConverter(new GenericFieldAttributeConverter<ModelPathOffsetsImpl>(xStream,
+                ModelPathOffsetsImpl.class));
+
+        /* then the super class initialization */
+        super.configureXStream(xStream);
+    }
+
+    protected Class<? extends JMadModelDefinition> retrieveSavableClass() {
+        return super.getSaveableClass();
+    }
 
     @Override
     protected GenericXStreamService<JMadModelDefinition> getXStreamService() {
