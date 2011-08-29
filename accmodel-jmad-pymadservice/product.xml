@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-	<product name="accmodel-jmad-pymadservice" version="0.0.6" directory="accmodel/jmad/accmodel-jmad-pymadservice">
-		<jar>accmodel-jmad-gui.jar</jar>
+	<product name="accmodel-jmad-pymadservice" version="0.0.7" directory="accmodel/jmad/accmodel-jmad-pymadservice">
+		<jar>accmodel-jmad-pymadservice.jar</jar>
 		<dependencies>
 			<dep product="log4j"/>
 			<dep product="spring"/>
