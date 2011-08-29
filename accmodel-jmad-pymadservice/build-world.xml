@@ -10,6 +10,8 @@
 	<property file="project.world.properties" />
 
 
+	<property name="license.file" value="LICENSE.txt" />
+
 	<property name="dfs.base" value="//cerndfs.cern.ch/dfs/websites/j/jmad" />
 	<property name="dfs.download.dir" value="${dfs.base}/static/download" />
 
@@ -22,7 +24,7 @@
 	<property name="dist.zip.file" value="${tmp.dir}/${dist.zip.name}" />
 
 	<property name="name.pymadservice.jar" value="accmodel-jmad-pymadservice.jar" />
-	
+
 	<property name="jar.src" value="http://abwww/ap/dist/accmodel/jmad/accmodel-jmad-pymadservice/PRO" />
 
 	<!--
@@ -81,14 +83,15 @@
 		<copy todir="${pack.dir}" verbose="true">
 			<fileset dir="etc" />
 		</copy>
+		<copy todir="${pack.dir}" file="${license.file}" verbose="true" />
 	</target>
 
-	
+
 
 
 	<target name="create-zip-files">
 		<zip destfile="${dist.zip.file}">
-			<fileset dir="${pack.dir}"/>
+			<fileset dir="${pack.dir}" />
 		</zip>
 	</target>
 
