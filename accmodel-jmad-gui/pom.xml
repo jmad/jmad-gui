@@ -11,7 +11,7 @@
 
 	<groupId>cern.accmodel.jmad</groupId>
 	<artifactId>accmodel-jmad-gui</artifactId>
-	<version>0.2.7</version>
+	<version>0.2.8</version>
 	<name>accmodel-jmad-gui</name>
 	<packaging>jar</packaging>
 	<description />

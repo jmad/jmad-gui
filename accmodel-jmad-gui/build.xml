@@ -4,7 +4,9 @@
 	<!--
      Defines project variables
   -->
+	<property file="project.properties.local" />
 	<property file="project.properties" />
+	
 	<!--
      import the standard target from cmmnbuild
   -->
@@ -24,7 +26,7 @@
 					is signed and cannot work together with unsigned code.
 					This target must be executed after getting the jars.
 	-->
-	<target name="unsign-my-jars">
+	<target name="unsign-my-jars" if="unsign.my.jars.enabled">
 		<echo message="unsigning cglib" />
 		<antcall target="unsignjars">
 			<param name="jar" value="cglib-nodep" />
