@@ -1,23 +1,104 @@
 <?xml version="1.0"?>
-<!--
-	this file contains ant targets that are used to publish the pymadservice to the world. This only works inside cern. 
--->
-<project name="accmodel-jmad-pymadservice-towild" default="publish-dist-zip">
+<!-- This is a special build file to enable some quick hack for releasing 
+	the GUI as zip and jnlp to the public. The aim is to take the cern internal jnlp file 
+	and process it and then publish it together with all the jars in the lib 
+	dir. -->
+<project name="accmodel-jmad-pymadservice-world" default="publish-all">
+
+	<!-- Defines project variables. Local values override the checked in ones -->
+	<property file="project.world.properties.local" />
+	<property file="project.world.properties" />
+
+
+	<property name="dfs.base" value="//cerndfs.cern.ch/dfs/websites/j/jmad" />
+	<property name="dfs.download.dir" value="${dfs.base}/static/download" />
+
+	<property name="tmp.dir" value="tmp" />
+	<property name="pack.dir" value="${tmp.dir}/pack" />
+	<property name="pack.lib.dir" value="${pack.dir}/lib" />
+
+	<!-- names for the zip files -->
+	<property name="dist.zip.name" value="accmodel-jmad-pymadservice-dist.zip" />
+	<property name="dist.zip.file" value="${tmp.dir}/${dist.zip.name}" />
+
+	<property name="name.pymadservice.jar" value="accmodel-jmad-pymadservice.jar" />
+	
+	<property name="jar.src" value="http://abwww/ap/dist/accmodel/jmad/accmodel-jmad-pymadservice/PRO" />
 
 	<!--
-     	Defines project variables
- 	 -->
-	<property name="dist.zip.file" value="build/accmodel-jmad-pymadservice-dist-zip.zip" />
+		This is the main target of this project!
+		It fetches all the necessary data and, processes it and publishes it to the website.
+	-->
+	<target name="publish-all" depends="cleanup, init">
+		<!-- first fetch all the necessary data -->
+		<antcall target="fetch-lib-jars" />
+		<antcall target="fetch-pymadservice-jar" />
+		<antcall target="copy-startup-scripts" />
 
-	<property name="website.target.dir" value="//cern.ch/dfs/websites/j/jmad/static/download/bin" />
+		<!-- processing of the files -->
+		<antcall target="create-zip-files" />
+
+		<!-- and finally publish everything -->
+		<antcall target="publish-zip-files" />
+	</target>
+
+	<target name="init">
+		<mkdir dir="${tmp.dir}" />
+		<mkdir dir="${pack.dir}" />
+		<mkdir dir="${pack.lib.dir}" />
+	</target>
+
+	<target name="cleanup">
+		<delete dir="${tmp.dir}" />
+	</target>
+
+
+
+
+	<!-- 
+	fetches all the required jars. This is done by first cleaning them and then refatching them without unsigning any of them.
+	After that they are all copied to the pack-directory in subdir lib.
+	-->
+	<target name="fetch-lib-jars" depends="init">
+		<!-- use the commonbuild mechanism to get all the required files -->
+		<ant antfile="build.xml" target="cleanjars" />
+		<property name="unsign.my.jars.enabled" value="false" />
+		<ant antfile="build.xml" target="getjars" />
+
+		<!-- copy them to the pack dir -->
+		<copy todir="${pack.lib.dir}" verbose="true">
+			<fileset dir="lib" />
+		</copy>
+	</target>
+
+	<!-- retrieves the released gui jar -->
+	<target name="fetch-pymadservice-jar" depends="init">
+		<get src="${jar.src}/build/dist/${name.pymadservice.jar}" dest="${pack.lib.dir}" verbose="true" />
+	</target>
+
+	<!-- copies all the start scripts to the pack-dir -->
+	<target name="copy-startup-scripts" depends="init">
+		<copy todir="${pack.dir}" verbose="true">
+			<fileset dir="etc" />
+		</copy>
+	</target>
+
+	
+
+
+	<target name="create-zip-files">
+		<zip destfile="${dist.zip.file}">
+			<fileset dir="${pack.dir}"/>
+		</zip>
+	</target>
+
 
 	<!--
 		copies the zip file to the website location.
 	-->
-	<target name="publish-dist-zip">
-		<echo message="Publishing the dist-zip file to the website."/>
-		<copy file="${dist.zip.file}" todir="${website.target.dir}" overwrite="true" verbose="true" />
+	<target name="publish-zip-files">
+		<echo message="Publishing the dist-zip file to the website." />
+		<copy file="${dist.zip.file}" todir="${dfs.download.dir}" overwrite="true" verbose="true" />
 	</target>
-
 
 </project>
