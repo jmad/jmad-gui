@@ -11,6 +11,7 @@ import java.util.List;
 import cern.accsoft.steering.jmad.domain.elem.Element;
 import cern.accsoft.steering.jmad.domain.elem.MadxElementType;
 import cern.accsoft.steering.jmad.domain.elem.Position;
+import cern.accsoft.steering.jmad.domain.elem.RelativePosition;
 import cern.accsoft.steering.jmad.domain.elem.impl.BeamBeam;
 import cern.accsoft.steering.jmad.kernel.cmd.seqedit.CycleCommand;
 import cern.accsoft.steering.jmad.kernel.cmd.seqedit.EndeditCommand;
@@ -164,8 +165,8 @@ public class LhcBeamBeamFileCreator {
 		List<Element> retVal = new ArrayList<Element>();
 		for(Double s = c*bunchLength*0.5;s<parasiticRange;s+=c*bunchLength*0.5)
 		{
-			retVal.add(getDefaultBeamBeamElement("bbip"+ip.toString()+"pl"+count.toString(),new Position("IP"+ip.toString(),-s)));
-			retVal.add(getDefaultBeamBeamElement("bbip"+ip.toString()+"pr"+count.toString(),new Position("IP"+ip.toString(),s)));
+			retVal.add(getDefaultBeamBeamElement("bbip"+ip.toString()+"pl"+count.toString(),new RelativePosition("IP"+ip.toString(),-s)));
+			retVal.add(getDefaultBeamBeamElement("bbip"+ip.toString()+"pr"+count.toString(),new RelativePosition("IP"+ip.toString(),s)));
 			++count;
 		}
 		return retVal;
@@ -175,13 +176,13 @@ public class LhcBeamBeamFileCreator {
 	private static List<Element> getHeadOnElementList(Integer ip) {
 		List<Element> retVal = new ArrayList<Element>();
 		
-		retVal.add(getDefaultBeamBeamElement("bbip"+ip.toString(),new Position("IP"+ip.toString(),1E-9)));
+		retVal.add(getDefaultBeamBeamElement("bbip"+ip.toString(),new RelativePosition("IP"+ip.toString(),1E-9)));
 		
 		Integer count = 0;
 		for(int i = 0;i<slicePosition.length;++i)
 		{
-			retVal.add(getDefaultBeamBeamElement("bbip"+ip.toString()+"l"+count.toString(),new Position("IP"+ip.toString(),-slicePosition[i])));
-			retVal.add(getDefaultBeamBeamElement("bbip"+ip.toString()+"r"+count.toString(),new Position("IP"+ip.toString(),slicePosition[i])));
+			retVal.add(getDefaultBeamBeamElement("bbip"+ip.toString()+"l"+count.toString(),new RelativePosition("IP"+ip.toString(),-slicePosition[i])));
+			retVal.add(getDefaultBeamBeamElement("bbip"+ip.toString()+"r"+count.toString(),new RelativePosition("IP"+ip.toString(),slicePosition[i])));
 			++count;
 		}
 		
