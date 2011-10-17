@@ -5,8 +5,6 @@ import java.io.File;
 import org.apache.log4j.BasicConfigurator;
 
 import cern.accsoft.steering.jmad.modeldefs.defs.lhc.LhcAtsModelDefinitionFactory;
-import cern.accsoft.steering.jmad.modeldefs.defs.lhc.LhcNominalModelDefinitionFactory;
-import cern.accsoft.steering.jmad.modeldefs.defs.lhc.LhcThinModelDefinitionFactory;
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
 import cern.accsoft.steering.jmad.modeldefs.io.ModelDefinitionPersistenceService;
 import cern.accsoft.steering.jmad.modeldefs.io.impl.ModelDefinitionUtil;
@@ -24,8 +22,10 @@ public class ModelDefCreator {
 
         BasicConfigurator.configure();
 
-        ModelDefinitionFactory[] factories = new ModelDefinitionFactory[] { new LhcNominalModelDefinitionFactory()
-        /* new LhcThinModelDefinitionFactory(), *//* new LhcAtsModelDefinitionFactory() */};
+        ModelDefinitionFactory[] factories = new ModelDefinitionFactory[] {
+        // new LhcNominalModelDefinitionFactory(),
+        // new LhcThinModelDefinitionFactory(),
+        new LhcAtsModelDefinitionFactory() };
 
         ModelDefinitionPersistenceService service = new XmlModelDefinitionPersistenceService();
 

@@ -1,10 +1,5 @@
 <jmad-model-definition name="LHC ATS">
   <optics>
-    <optic name="A1100C1100A1000L1000_2011_ATS_INJ" overlay="false">
-      <init-files>
-        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.1" parse="STRENGTHS"/>
-      </init-files>
-    </optic>
     <optic name="A1100C1100A1000L1000_2011_ATS" overlay="false">
       <init-files>
         <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.2" parse="STRENGTHS"/>
@@ -138,8 +133,163 @@
         <call-file location="RESOURCE" path="tc_re-match_inj.madx"/>
       </init-files>
     </optic>
+    <optic name="A1100C1100A1000L1000_2011_ATS_MD4_INJ" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.1" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A1100C1100A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.2" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A1000C1000A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.3" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A800C800A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.4" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A600C600A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.5" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A440C440A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.6" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A300C300A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.7" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A240C240A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.8" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A200C200A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.9" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A160C160A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.10" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A120C120A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.11" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A100C100A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.12" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A080C080A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.13" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A060C060A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.14" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A050C050A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.15" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A040C040A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.16" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A039C039A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.17" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A038C038A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.18" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A037C037A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.19" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A036.5C036.5A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.20" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A036C036A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.21" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A035C035A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.22" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A032C032A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.23" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A028C028A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.24" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A024C024A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.25" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A020C020A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.26" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A018C018A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.27" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A016C016A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.28" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A014C014A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.29" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A012C012A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.30" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="A010C010A1000L1000_2011_ATS_MD4" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.31" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
   </optics>
-  <default-optic ref-name="A1100C1100A1000L1000_2011_ATS_INJ"/>
+  <default-optic ref-name="A1100C1100A1000L1000_2011_ATS"/>
   <sequences>
     <sequence name="lhcb1">
       <beam>
