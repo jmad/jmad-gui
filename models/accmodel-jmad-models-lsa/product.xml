@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-	<product name="accmodel-jmad-models-lsa" version="0.2.6" directory="accmodel/jmad/models/accmodel-jmad-models-lsa">
+	<product name="accmodel-jmad-models-lsa" version="0.2.7" directory="accmodel/jmad/models/accmodel-jmad-models-lsa">
 		<!-- Please keep pom.xml in sync with product.xml (Maven migration) -->
 		<dependencies>
 			<dep product="log4j" version="PRO" local="true"/>
