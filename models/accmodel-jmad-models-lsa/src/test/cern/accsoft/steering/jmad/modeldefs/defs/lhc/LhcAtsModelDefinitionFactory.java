@@ -3,6 +3,7 @@
  */
 package cern.accsoft.steering.jmad.modeldefs.defs.lhc;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,11 +50,20 @@ public class LhcAtsModelDefinitionFactory extends AbstractLhcModelDefinitionFact
 
     @Override
     protected List<OpticDefinitionSet> getOpticDefinitionSets() {
+        List<OpticDefinitionSet> opticDefinitions = new ArrayList<OpticDefinitionSet>();
+        
+        opticDefinitions.add(this.createIp1To30Squeeze());
+        opticDefinitions.add(this.createIp1n5To10Squeeze());
+        
+        return opticDefinitions;
+    }
+        
+    private OpticDefinitionSet createIp1To30Squeeze() {
         OpticDefinitionSetBuilder builder = OpticDefinitionSetBuilder.newInstance();
-        builder.addOptic("A1100C1100A1000L1000_2011_ATS_INJ", OpticModelFileBuilder
-                .createInstance("ATS_V6.503/OPTICS_MD2011/opticsfile.1"));
-        builder.addOptic("A1100C1100A1000L1000_2011_ATS", OpticModelFileBuilder
-                .createInstance("ATS_V6.503/OPTICS_MD2011/opticsfile.2"));
+//        builder.addOptic("A1100C1100A1000L1000_2011_ATS_INJ", OpticModelFileBuilder
+//                .createInstance("ATS_V6.503/OPTICS_MD2011/opticsfile.1"));
+//        builder.addOptic("A1100C1100A1000L1000_2011_ATS", OpticModelFileBuilder
+//                .createInstance("ATS_V6.503/OPTICS_MD2011/opticsfile.2"));
         builder.addOptic("A1000C1000A1000L1000_2011_ATS", OpticModelFileBuilder
                 .createInstance("ATS_V6.503/OPTICS_MD2011/opticsfile.3"));
         builder.addOptic("A800C800A1000L1000_2011_ATS", OpticModelFileBuilder
@@ -108,6 +118,21 @@ public class LhcAtsModelDefinitionFactory extends AbstractLhcModelDefinitionFact
                 OpticModelFileBuilder.createInstance("ATS_V6.503/errors/Presetandknob_B2_inj_450.madx"),
                 OpticModelFileBuilder.createInstance("tc_re-match_inj.madx").isResource().doNotParse() });
 
-        return Collections.singletonList(builder.build());
+        return builder.build();
     }
+
+    
+    private OpticDefinitionSet createIp1n5To10Squeeze() {
+        OpticDefinitionSetBuilder builder = OpticDefinitionSetBuilder.newInstance();
+        
+        /* new injection optics -- only the factors changed to the tele-knobs */
+        builder.addOptic("A1100C1100A1000L1000_2011_ATS_INJ", OpticModelFileBuilder
+                .createInstance("ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.1"));
+        
+        builder.addOptic("A1100C1100A1000L1000_2011_ATS", OpticModelFileBuilder
+                .createInstance("ATS_V6.503/OPTICS_round_IR1_40-10_IR5_40-10/opticsfile.2"));
+        
+        return builder.build();
+    }
+    
 }

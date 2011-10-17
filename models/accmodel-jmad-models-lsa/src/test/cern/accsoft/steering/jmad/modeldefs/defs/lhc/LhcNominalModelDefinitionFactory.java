@@ -333,9 +333,9 @@ public class LhcNominalModelDefinitionFactory extends AbstractLhcModelDefinition
                 OpticModelFileBuilder.createInstance("IR5/IP5_beta_1.50.str"),
                 OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str") });
         builder.addOptic("A400C400A1000L350_0.00882_2011", new OpticModelFileBuilder[] {
-            OpticModelFileBuilder.createInstance("IR1/IP1_beta_4.00.str"),
-            OpticModelFileBuilder.createInstance("IR5/IP5_beta_4.00.str"),
-            OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00882_beta3.50m.str") });
+                OpticModelFileBuilder.createInstance("IR1/IP1_beta_4.00.str"),
+                OpticModelFileBuilder.createInstance("IR5/IP5_beta_4.00.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00882_beta3.50m.str") });
 
         return builder.build();
     }
@@ -543,41 +543,173 @@ public class LhcNominalModelDefinitionFactory extends AbstractLhcModelDefinition
                 OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.40m.str"),
                 OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.40m.str") });
 
-        
         // 3)
-        builder.addOptic("A100C100A982L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00941_beta9.82m.str") });
-        builder.addOptic("A100C100A950L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00928_beta9.50m.str") });
-        builder.addOptic("A100C100A900L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00915_beta9.00m.str") });
-        builder.addOptic("A100C100A850L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00907_beta8.50m.str") });
-        builder.addOptic("A100C100A800L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00901_beta8.00m.str") });
-        builder.addOptic("A100C100A750L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00897_beta7.50m.str") });
-        builder.addOptic("A100C100A700L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00893_beta7.00m.str") });
-        builder.addOptic("A100C100A650L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00891_beta6.50m.str") });
-        builder.addOptic("A100C100A600L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta6.00m.str") });
-        builder.addOptic("A100C100A550L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta5.50m.str") });
-        builder.addOptic("A100C100A500L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta5.00m.str") });
-        builder.addOptic("A100C100A450L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta4.50m.str") });
-        builder.addOptic("A100C100A400L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta4.00m.str") });
-        builder.addOptic("A100C100A350L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta3.50m.str") });
-        builder.addOptic("A100C100A300L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str") });
-        builder.addOptic("A100C100A250L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta2.50m.str") });
-        builder.addOptic("A100C100A200L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta2.00m.str") });
-        builder.addOptic("A100C100A050L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta0.50m.str") });
-        builder.addOptic("A100C100A060L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta0.60m.str") });
-        builder.addOptic("A100C100A080L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta0.80m.str") });
-        builder.addOptic("A100C100A100L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.00m.str") });
-        builder.addOptic("A100C100A120L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.20m.str") });
-        builder.addOptic("A100C100A140L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.40m.str") });
-        builder.addOptic("A100C100A160L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.60m.str") });
-        builder.addOptic("A100C100A180L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.80m.str") });
-        builder.addOptic("A100C100A275L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta2.75m.str") });
-        builder.addOptic("A100C100A225L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta2.25m.str") });
-        builder.addOptic("A100C100A190L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.90m.str") });
-        builder.addOptic("A100C100A150L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.50m.str") });
-        builder.addOptic("A100C100A110L300_0.00875_2011", new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.10m.str") });
-        builder.addOptic("A100C100A90L300_0.00875_2011",  new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta0.90m.str") });
-        builder.addOptic("A100C100A70L300_0.00875_2011",  new OpticModelFileBuilder[] {OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta0.70m.str") });
-        
+        builder.addOptic("A100C100A1000_0.00951L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00951_beta10.00m.str") });
+        builder.addOptic("A100C100A982_0.00941L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00941_beta9.82m.str") });
+        builder.addOptic("A100C100A950_0.00928L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00928_beta9.50m.str") });
+        builder.addOptic("A100C100A900_0.00915L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00915_beta9.00m.str") });
+        builder.addOptic("A100C100A850_0.00907L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00907_beta8.50m.str") });
+        builder.addOptic("A100C100A800_0.00901L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00901_beta8.00m.str") });
+        builder.addOptic("A100C100A750_0.00897L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00897_beta7.50m.str") });
+        builder.addOptic("A100C100A700_0.00893L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00893_beta7.00m.str") });
+        builder.addOptic("A100C100A650_0.00891L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00891_beta6.50m.str") });
+        builder.addOptic("A100C100A600_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta6.00m.str") });
+        builder.addOptic("A100C100A550_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta5.50m.str") });
+        builder.addOptic("A100C100A500_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta5.00m.str") });
+        builder.addOptic("A100C100A450_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta4.50m.str") });
+        builder.addOptic("A100C100A400_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta4.00m.str") });
+        builder.addOptic("A100C100A350_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta3.50m.str") });
+        builder.addOptic("A100C100A300_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str") });
+        builder.addOptic("A100C100A275_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta2.75m.str") });
+        builder.addOptic("A100C100A250_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta2.50m.str") });
+        builder.addOptic("A100C100A225_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta2.25m.str") });
+        builder.addOptic("A100C100A200_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta2.00m.str") });
+        builder.addOptic("A100C100A190_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.90m.str") });
+        builder.addOptic("A100C100A180_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.80m.str") });
+        builder.addOptic("A100C100A160_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.60m.str") });
+        builder.addOptic("A100C100A150_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.50m.str") });
+        builder.addOptic("A100C100A140_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.40m.str") });
+        builder.addOptic("A100C100A120_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.20m.str") });
+        builder.addOptic("A100C100A110_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.10m.str") });
+        builder.addOptic("A100C100A100_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta1.00m.str") });
+        builder.addOptic("A100C100A090_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta0.90m.str") });
+        builder.addOptic("A100C100A080_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta0.80m.str") });
+        builder.addOptic("A100C100A070_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta0.70m.str") });
+        builder.addOptic("A100C100A060_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta0.60m.str") });
+        builder.addOptic("A100C100A050_0.00889L300_0.00875_2011", new OpticModelFileBuilder[] {
+                OpticModelFileBuilder.createInstance("IR1/new_ip1_b2_squeeze/IP1_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR5/new_ip5_b2_squeeze/IP5_beta_1.00m.str"),
+                OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str"),
+                OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00889_beta0.50m.str") });
+
         return builder.build();
 
     }
