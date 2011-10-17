@@ -4,7 +4,6 @@
 package cern.accsoft.steering.jmad.modeldefs.defs.lhc;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import cern.accsoft.steering.jmad.domain.file.CallableModelFileImpl;
@@ -43,6 +42,9 @@ public class LhcAtsModelDefinitionFactory extends AbstractLhcModelDefinitionFact
         return LhcUtil.ATS_MODEL_DEFINITION_NAME;
     }
 
+    /**
+     * @param rangeDefinition
+     */
     @Override
     protected void addPostUseFiles(RangeDefinitionImpl rangeDefinition) {
         /* nothing to do here */
