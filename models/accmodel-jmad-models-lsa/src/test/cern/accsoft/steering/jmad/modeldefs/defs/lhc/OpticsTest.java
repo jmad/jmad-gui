@@ -68,9 +68,14 @@ public class OpticsTest {
     static {
         BasicConfigurator.configure();
         JMadService service = JMadServiceFactory.createJMadService();
+       
         JMadModelDefinitionManager modelDefinitionManager = service.getModelDefinitionManager();
         JMadModelDefinition modelDefinition = modelDefinitionManager
-                .getModelDefinition(LhcUtil.NOMINAL_MODEL_DEFINITION_NAME);
+                .getModelDefinition(LhcUtil.ATS_MODEL_DEFINITION_NAME);
+        LOGGER.info("Number of ATS optics: " + modelDefinition.getOpticsDefinitions().size());
+
+        modelDefinition = modelDefinitionManager.getModelDefinition(LhcUtil.NOMINAL_MODEL_DEFINITION_NAME);
+        LOGGER.info("Number of nominal optics: " + modelDefinition.getOpticsDefinitions().size());
         MODEL = service.createModel(modelDefinition);
         LOGGER.info("Set-Up");
     }
