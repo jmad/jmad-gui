@@ -22,8 +22,10 @@
 
 package cern.accsoft.steering.jmad.gui;
 
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.apache.log4j.BasicConfigurator;
 import org.springframework.context.ApplicationContext;
@@ -156,6 +158,8 @@ public class JMad {
     public static void main(String[] args) {
         /* configure the log4j - system */
         BasicConfigurator.configure();
+        
+        setupLookAndFeel();
 
         SwingUtilities.invokeLater(new Runnable() {
 
@@ -168,4 +172,22 @@ public class JMad {
         });
     }
 
+    private static void setupLookAndFeel() {
+        try {
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (UnsupportedLookAndFeelException e) {
+            // handle exception
+        } catch (ClassNotFoundException e) {
+            // handle exception
+        } catch (InstantiationException e) {
+            // handle exception
+        } catch (IllegalAccessException e) {
+            // handle exception
+        }
+    }
 }
