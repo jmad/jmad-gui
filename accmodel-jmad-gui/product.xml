@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-	<product name="accmodel-jmad-gui" version="0.2.11" directory="accmodel/jmad/accmodel-jmad-gui">
+	<product name="accmodel-jmad-gui" version="0.2.12" directory="accmodel/jmad/accmodel-jmad-gui">
 		<jar>accmodel-jmad-gui.jar</jar>
 		<dependencies>
 			<dep product="log4j"/>
@@ -23,7 +23,7 @@
 		</dependencies>
 		<application name="accmodel-jmad-gui" title="Simple gui for madx">
 			<initial-heap-size>40m</initial-heap-size>
-			<max-heap-size>240m</max-heap-size>
+			<max-heap-size>1g</max-heap-size>
 			<main-class name="cern.accsoft.steering.jmad.gui.JMad"/>
 		</application>
 		<application name="yasp-file-browser" title="Quick browser for yasp-files">
