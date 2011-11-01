@@ -33,7 +33,7 @@
 		</application>
 	</product>
 
-	<product name="accmodel-jmad-gui-nomodels" version="0.2.11" directory="accmodel/jmad/accmodel-jmad-gui">
+	<product name="accmodel-jmad-gui-nomodels" version="0.2.12" directory="accmodel/jmad/accmodel-jmad-gui">
 		<jar>accmodel-jmad-gui.jar</jar>
 		<dependencies>
 			<dep product="accsoft-gui-frame"/>
