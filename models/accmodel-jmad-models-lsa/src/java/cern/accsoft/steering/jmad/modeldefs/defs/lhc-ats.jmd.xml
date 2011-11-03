@@ -1,5 +1,10 @@
 <jmad-model-definition name="LHC ATS">
   <optics>
+    <optic name="A1100C1100A1000L1000_2011_ATS_INJ" overlay="false">
+      <init-files>
+        <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.1" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
     <optic name="A1100C1100A1000L1000_2011_ATS" overlay="false">
       <init-files>
         <call-file path="ATS_V6.503/OPTICS_MD2011/opticsfile.2" parse="STRENGTHS"/>
@@ -289,7 +294,7 @@
       </init-files>
     </optic>
   </optics>
-  <default-optic ref-name="A1100C1100A1000L1000_2011_ATS"/>
+  <default-optic ref-name="A1100C1100A1000L1000_2011_ATS_INJ"/>
   <sequences>
     <sequence name="lhcb1">
       <beam>

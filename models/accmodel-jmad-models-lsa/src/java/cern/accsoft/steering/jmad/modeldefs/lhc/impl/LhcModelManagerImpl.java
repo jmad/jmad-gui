@@ -81,9 +81,10 @@ public class LhcModelManagerImpl extends AbstractModelManager implements LhcMode
         RangeDefinition rangeDefinition = modelDefinition.getSequenceDefinition(sequenceName).getRangeDefinition(
                 LhcUtil.DEFAULT_RANGE_NAME);
 
-        /* create the model and initialize it */
+        /* create the model, add to model manager and initialize it */
         JMadModel model = getJMadService().createModel(modelDefinition);
         if (super.getStartupConfiguration() != null) {
+            /* transfer the start-up configuration */
             model.getStartupConfiguration().setInitialOpticsDefinition(
                     super.getStartupConfiguration().getInitialOpticsDefinition());
             model.getStartupConfiguration().setLoadDefaultOptics(super.getStartupConfiguration().isLoadDefaultOptics());

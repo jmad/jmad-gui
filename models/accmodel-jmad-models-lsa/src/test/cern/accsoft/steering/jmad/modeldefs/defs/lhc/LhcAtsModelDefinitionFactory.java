@@ -62,8 +62,8 @@ public class LhcAtsModelDefinitionFactory extends AbstractLhcModelDefinitionFact
         
     private OpticDefinitionSet createIp1To30Squeeze() {
         OpticDefinitionSetBuilder builder = OpticDefinitionSetBuilder.newInstance();
-//        builder.addOptic("A1100C1100A1000L1000_2011_ATS_INJ", OpticModelFileBuilder
-//                .createInstance("ATS_V6.503/OPTICS_MD2011/opticsfile.1"));
+        builder.addOptic("A1100C1100A1000L1000_2011_ATS_INJ", OpticModelFileBuilder
+                .createInstance("ATS_V6.503/OPTICS_MD2011/opticsfile.1"));
         builder.addOptic("A1100C1100A1000L1000_2011_ATS", OpticModelFileBuilder
                 .createInstance("ATS_V6.503/OPTICS_MD2011/opticsfile.2"));
         builder.addOptic("A1000C1000A1000L1000_2011_ATS", OpticModelFileBuilder

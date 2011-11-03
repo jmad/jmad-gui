@@ -24,8 +24,10 @@ public class ModelDefCreator {
 
         BasicConfigurator.configure();
 
-        ModelDefinitionFactory[] factories = new ModelDefinitionFactory[] { new LhcNominalModelDefinitionFactory(),
-                new LhcThinModelDefinitionFactory(), new LhcAtsModelDefinitionFactory() };
+        ModelDefinitionFactory[] factories = new ModelDefinitionFactory[] { //
+        /*    */new LhcNominalModelDefinitionFactory(), //
+                new LhcThinModelDefinitionFactory(), //
+                new LhcAtsModelDefinitionFactory() };
 
         ModelDefinitionPersistenceService service = new XmlModelDefinitionPersistenceService();
 
