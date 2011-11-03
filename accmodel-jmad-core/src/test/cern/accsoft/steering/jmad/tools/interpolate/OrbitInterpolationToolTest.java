@@ -66,6 +66,9 @@ public class OrbitInterpolationToolTest extends JMadTestCase {
 
     @Test
     public void testOpticRangeInterpolate() throws JMadException {
+        /* create a new build, which is reused with each iteration */
+        UpdateRequestBuilder builder = new UpdateRequestBuilder(true);
+        
         for (OpticsDefinition opticsDefinition : model.getModelDefinition().getOpticsDefinitions()) {
             model.setActiveOpticsDefinition(opticsDefinition);
             for (RangeDefinition rangeDefinition : model.getModelDefinition().getRangeDefinitions()) {
@@ -76,11 +79,17 @@ public class OrbitInterpolationToolTest extends JMadTestCase {
                 corrector.setHKick(0.000001);
                 corrector.setVKick(0.000001);
 
-                UpdateRequest request = new UpdateRequestBuilder(true)//
-                        .fullUpdate(model.getActiveRange().getElements(),
-                                this.extractMonitors(model.getActiveRange().getElements()), model.getOptics())//
-                        .buildRequest();
-                interpolationTool.update(request);
+                builder.setOptic(model.getOptics());
+
+                List<Element> elements = model.getActiveRange().getElements();
+                builder.setElements(model.getActiveRange().getElements());
+
+                Map<JMadPlane, Set<Element>> monitors = extractMonitors(elements);
+                for (JMadPlane plane : JMadPlane.values()) {
+                    builder.setActiveMonitors(plane, monitors.get(plane));
+                }
+
+                interpolationTool.update(builder.buildRequest());
 
                 OrbitInterpolationRequest interpolationRequest = new OrbitInterpolationRequestImpl(this
                         .createCurrentOrbit());
