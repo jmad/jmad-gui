@@ -46,13 +46,23 @@ public class LhcModelManagerImpl extends AbstractModelManager implements LhcMode
     }
 
     private void initializeModels(String modelDefinitionName) throws JMadModelException {
+        if (getJMadService().getModelManager().getActiveModel() != null && //
+                getJMadService().getModelManager().getActiveModel()//
+                        .getModelDefinition().getName().compareTo(modelDefinitionName) == 0) {
+            return;
+        }
+
         for (BeamNumber beamNumber : BeamNumber.values()) {
             JMadModel model = this.models.put(beamNumber, createBeamModel(modelDefinitionName, LhcUtil
                     .getSequenceName(beamNumber)));
             if (model != null) {
+                /* there was already a model defined for the given beam */
                 model.cleanup();
+                getJMadService().getModelManager().removeModel(model);
             }
         }
+
+        getJMadService().getModelManager().setActiveModel(this.models.get(BeamNumber.BEAM_1));
     }
 
     /**
