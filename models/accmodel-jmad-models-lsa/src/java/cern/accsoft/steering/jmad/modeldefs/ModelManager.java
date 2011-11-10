@@ -1,5 +1,5 @@
 /*
-fro82CERN * $Id $
+ * fro82CERN * $Id $
  * 
  * $Date$ $Revision$ $Author$
  * 
@@ -10,6 +10,7 @@ package cern.accsoft.steering.jmad.modeldefs;
 import java.util.Collection;
 
 import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.model.JMadModelStartupConfiguration;
 import cern.accsoft.steering.jmad.service.JMadService;
 
 /**
@@ -51,4 +52,18 @@ public interface ModelManager {
      *            all available models.
      */
     public void setActiveOptics(String opticName);
+
+    /**
+     * @return the {@link JMadModelStartupConfiguration} used in the {@link ModelManager} for the initialization of the
+     *         jmad models
+     */
+    public abstract JMadModelStartupConfiguration getStartupConfiguration();
+
+    /**
+     * set the {@link JMadModelStartupConfiguration} used in the {@link ModelManager} for the initialization of the jmad
+     * models
+     * 
+     * @param startupConfiguration the {@link JMadModelStartupConfiguration} to use in the {@link ModelManager}
+     */
+    public abstract void setStartupConfiguration(JMadModelStartupConfiguration startupConfiguration);
 }
