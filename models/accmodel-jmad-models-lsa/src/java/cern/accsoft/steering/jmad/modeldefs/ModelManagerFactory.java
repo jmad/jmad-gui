@@ -36,12 +36,21 @@ public class ModelManagerFactory {
     }
 
     /**
+     * Define the behavior of the start-up of the underlying jmad models
+     * 
+     * @param configuration the {@link JMadModelStartupConfiguration} to use
+     */
+    public static void setModelStartUpConfiguration(JMadModelStartupConfiguration configuration) {
+        ContextBeanInjector.putBean(START_UP_CONFIG_BEAN_NAME, configuration, JMadModelStartupConfiguration.class);
+    }
+
+    /**
      * creates a new {@link LhcModelManager}
      * 
      * @return the new {@link LhcModelManager}
      */
     public static LhcModelManager createLhcModelManagerWithStartUpConfig(JMadModelStartupConfiguration startConfig) {
-        ContextBeanInjector.putBean(START_UP_CONFIG_BEAN_NAME, startConfig, startConfig.getClass());
+        ModelManagerFactory.setModelStartUpConfiguration(startConfig);
         return (LhcModelManager) APPLICATION_CONTEXT.getBean("configuredLhcModelManager");
     }
 }
