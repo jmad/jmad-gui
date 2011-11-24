@@ -42,6 +42,12 @@
         <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
       </init-files>
     </optic>
+        <optic name="A150C150L300A300_THIN" overlay="false">
+      <init-files>
+        <call-file path="V6.5.thin.coll_special.3.5TeV_1.5m10.0m1.5m3.0m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
   </optics>
   <default-optic ref-name="A080C080L200A200_THIN"/>
   <sequences>
