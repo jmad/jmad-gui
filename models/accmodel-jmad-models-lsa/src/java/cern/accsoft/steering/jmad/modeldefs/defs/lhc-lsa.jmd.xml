@@ -1433,6 +1433,270 @@
         <call-file location="RESOURCE" path="match-chroma.madx"/>
       </init-files>
     </optic>
+    <optic name="A900C900A900_0.00915L900_0.00949_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_9.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_9.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00949_beta9.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00915_beta9.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A900C900A750_0.00897L750_0.00932_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_9.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_9.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00897_beta7.50m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00932_beta7.50m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A700C700A750_0.00897L750_0.00932_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_7.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_7.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00897_beta7.50m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00932_beta7.50m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A700C700A600_0.00889L600_0.00909_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_7.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_7.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00909_beta6.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta6.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A400C400A500_0.00889L500_0.00900_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_4.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_4.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00900_beta5.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta5.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A500C500A500_0.00889L500_0.00900_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_5.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_5.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00900_beta5.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta5.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A400C400A350_0.00889L375_0.00888_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_4.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_4.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00888_beta3.75m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.50m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A350C350A350_0.00889L350_0.00882_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_3.50m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_3.50m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00882_beta3.50m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.50m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A350C350A350_0.00889L325_0.00878_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_3.50m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_3.50m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00878_beta3.25m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.50m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A300C300A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A250C250A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_2.50m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_2.50m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A200C300A200_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_2.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_2.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A160C160A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.60m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.60m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A150C150A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.50m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.50m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A140C140A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.40m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.40m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A130C130A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.30m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.30m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A120C120A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.20m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.20m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A110C110A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_1.10m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_1.10m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A90C90A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.90m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.90m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A80C80A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.80m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.80m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A70C70A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.70m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.70m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A65C65A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.65m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.56m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A60C60A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.60m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.60m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
+    <optic name="A55C55A300_0.00889L300_0.00875_2011" overlay="false">
+      <init-files>
+        <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
+        <call-file path="IR1/new_ip1_b2_squeeze/IP1_beta_0.55m.str" parse="STRENGTHS"/>
+        <call-file path="IR5/new_ip5_b2_squeeze/IP5_beta_0.55m.str" parse="STRENGTHS"/>
+        <call-file path="IR8/3.5TeV/special/ip8_0.00875_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta3.00m.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="match-chroma.madx"/>
+      </init-files>
+    </optic>
   </optics>
   <default-optic ref-name="A1100C1100A1000L1000_INJ_2011"/>
   <sequences>
