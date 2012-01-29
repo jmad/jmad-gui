@@ -38,7 +38,7 @@ public class ModelDefCreator {
             if (destPath.length() > 0) {
                 filePath = destPath + "/" + fileName;
             } else {
-                filePath = fileName;
+                filePath = "src/java/cern/accsoft/steering/jmad/modeldefs/defs/" + fileName;
             }
             File file = new File(filePath);
             System.out.println("Writing file '" + file.getAbsolutePath() + "'.");

@@ -116,8 +116,8 @@ public class LhcAtsModelDefinitionFactory extends AbstractLhcModelDefinitionFact
                 .createInstance("ATS_V6.503/OPTICS_MD2011/opticsfile.26"));
         builder.addOptic("A1100C1100A1000L1000_2011_ATS_INJ_OLD", new OpticModelFileBuilder[] {
                 OpticModelFileBuilder.createInstance("ATS_V6.503/ats_V6.503.inj.str"),
-                OpticModelFileBuilder.createInstance("ATS_V6.503/errors/Presetandknob_B1_inj_450.madx"),
-                OpticModelFileBuilder.createInstance("ATS_V6.503/errors/Presetandknob_B2_inj_450.madx"),
+                OpticModelFileBuilder.createInstance("ATS_V6.503/errors/Knob/Presetandknob_B1_inj_450.madx"),
+                OpticModelFileBuilder.createInstance("ATS_V6.503/errors/Knob/Presetandknob_B2_inj_450.madx"),
                 OpticModelFileBuilder.createInstance("tc_re-match_inj.madx").isResource().doNotParse() });
 
         return builder.build();

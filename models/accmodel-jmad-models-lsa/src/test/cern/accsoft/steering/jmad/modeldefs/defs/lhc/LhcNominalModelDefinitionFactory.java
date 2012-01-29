@@ -724,8 +724,8 @@ public class LhcNominalModelDefinitionFactory extends AbstractLhcModelDefinition
         builder.addOptic("A900C900A750_0.00897L750_0.00932_2011", new OpticModelFileBuilder[] {
             OpticModelFileBuilder.createInstance("IR1/IP1_beta_9.00.str"),
             OpticModelFileBuilder.createInstance("IR5/IP5_beta_9.00.str"),
-            OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00897_beta7.50m.str"),
-            OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00932_beta7.50m.str") });    
+            OpticModelFileBuilder.createInstance("IR8/3.5TeV/special/ip8_0.00932_beta7.50m.str"),
+            OpticModelFileBuilder.createInstance("IR2/3.5TeV/special/ip2_0.00897_beta7.50m.str") });    
         builder.addOptic("A700C700A750_0.00897L750_0.00932_2011", new OpticModelFileBuilder[] {
             OpticModelFileBuilder.createInstance("IR1/IP1_beta_7.00.str"),
             OpticModelFileBuilder.createInstance("IR5/IP5_beta_7.00.str"),
