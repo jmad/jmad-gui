@@ -1733,8 +1733,8 @@
     <optic name="A300C300A500_0.00889L375_0.00888_2011" overlay="false">
       <init-files>
         <call-file path="V6.5.inj_special.str" parse="STRENGTHS"/>
-        <call-file path="IR1/IP1_beta_4.00.str" parse="STRENGTHS"/>
-        <call-file path="IR5/IP5_beta_4.00.str" parse="STRENGTHS"/>
+        <call-file path="IR1/IP1_beta_3.00.str" parse="STRENGTHS"/>
+        <call-file path="IR5/IP5_beta_3.00.str" parse="STRENGTHS"/>
         <call-file path="IR8/3.5TeV/special/ip8_0.00888_beta3.75m.str" parse="STRENGTHS"/>
         <call-file path="IR2/3.5TeV/special/ip2_0.00889_beta5.00m.str" parse="STRENGTHS"/>
         <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
