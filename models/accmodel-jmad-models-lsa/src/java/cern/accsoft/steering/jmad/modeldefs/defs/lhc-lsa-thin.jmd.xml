@@ -8,7 +8,7 @@
     </optic>
     <optic name="A110C110L200A200_THIN" overlay="false">
       <init-files>
-        <call-file path="V6.5.thin.coll_special.3.5TeV_1m2m1m2m.str" parse="STRENGTHS"/>
+        <call-file path="V6.5.thin.coll_special.3.5TeV_1.1m2m1.1m2m.str" parse="STRENGTHS"/>
         <call-file location="RESOURCE" path="ac-dipole.str" parse="STRENGTHS"/>
       </init-files>
     </optic>

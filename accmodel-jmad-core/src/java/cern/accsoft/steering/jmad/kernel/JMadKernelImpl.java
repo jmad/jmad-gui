@@ -321,7 +321,7 @@ public class JMadKernelImpl implements JMadKernel, JMadKernelConfig {
             return timedout;
         }
 
-        writeCommand("system, \"echo > " + readyFile.getAbsolutePath() + "\"; // wait until ready\n");
+        writeCommand("\nsystem, \"echo > " + readyFile.getAbsolutePath() + "\"; // wait until ready\n");
 
         /* wait for the file, which tells us, that madx finished */
         FileMonitor fileMonitor = new FileMonitor(readyFile, process);

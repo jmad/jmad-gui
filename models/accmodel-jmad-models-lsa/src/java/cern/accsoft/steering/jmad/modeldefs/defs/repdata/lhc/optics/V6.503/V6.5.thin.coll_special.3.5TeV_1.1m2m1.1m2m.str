@@ -42,6 +42,11 @@ on_o8                :=  0 ;
 on_a2                :=  0 ;
 on_a8                :=  0 ;
 
+
+on_sol_atlas         :=  0 ;
+on_sol_alice         :=  0 ;
+on_sol_cms           :=  0 ;
+
 abas                 :=  2.0*clight/(7e12)*on_atlas ;
 abls                 :=  6.05/12.1*clight/(7E12)*on_sol_alice;
 abcs                 :=  4.0*clight/(7e12)*on_cms ;
@@ -148,6 +153,14 @@ kb.a56               :=  ab.a56/l.mb ;
 kb.a67               :=  ab.a67/l.mb ;
 kb.a78               :=  ab.a78/l.mb ;
 kb.a81               :=  ab.a81/l.mb ;
+
+
+
+kqf                  :=  0.008815890403 ;
+kqd                  := -0.008430544103 ;
+
+
+
 kqd.a12              :=  kqd ;
 kqd.a23              :=  kqd ;
 kqd.a34              :=  kqd ;
@@ -167,6 +180,11 @@ kqf.a56              :=  kqf ;
 kqf.a67              :=  kqf ;
 kqf.a78              :=  kqf ;
 kqf.a81              :=  kqf ;
+
+
+kqtd.b1              :=  0.0 ;
+kqtd.b2              :=  0.0 ;
+
 kqtd.a12b1           :=  kqtd.b1 ;
 kqtd.a12b2           :=  kqtd.b2 ;
 kqtd.a23b1           :=  kqtd.b1 ;
@@ -183,8 +201,12 @@ kqtd.a78b1           :=  kqtd.b1 ;
 kqtd.a78b2           :=  kqtd.b2 ;
 kqtd.a81b1           :=  kqtd.b1 ;
 kqtd.a81b2           :=  kqtd.b2 ;
-kqtd.b1              :=  0.0 ;
-kqtd.b2              :=  0.0 ;
+
+
+
+kqtf.b1              :=  0.0 ;
+kqtf.b2              :=  0.0 ;
+
 kqtf.a12b1           :=  kqtf.b1 ;
 kqtf.a12b2           :=  kqtf.b2 ;
 kqtf.a23b1           :=  kqtf.b1 ;
@@ -201,8 +223,20 @@ kqtf.a78b1           :=  kqtf.b1 ;
 kqtf.a78b2           :=  kqtf.b2 ;
 kqtf.a81b1           :=  kqtf.b1 ;
 kqtf.a81b2           :=  kqtf.b2 ;
-kqtf.b1              :=  0.0 ;
-kqtf.b2              :=  0.0 ;
+
+
+
+
+
+
+ ksf.b1 =     0.096317686976 ; // dQ1=2 and dQ2=2 for beam 1
+ ksd.b1 =    -0.156690974807 ;
+
+ ksf.b2 =     0.096171887913 ; // dQ1=2 and dQ2=2 for beam 2
+ ksd.b2 =    -0.158071042882 ;
+
+
+
 ksd1.a12b1           :=  ksd.b1 ;
 ksd1.a12b2           :=  ksd.b2 ;
 ksd1.a23b1           :=  ksd.b1 ;
@@ -235,15 +269,6 @@ ksd2.a78b1           :=  ksd.b1 ;
 ksd2.a78b2           :=  ksd.b2 ;
 ksd2.a81b1           :=  ksd.b1 ;
 ksd2.a81b2           :=  ksd.b2 ;
-
-
-
- ksf.b1 =     0.096317686976 ; // dQ1=2 and dQ2=2 for beam 1
- ksd.b1 =    -0.156690974807 ;
-
- ksf.b2 =     0.096171887913 ; // dQ1=2 and dQ2=2 for beam 2
- ksd.b2 =    -0.158071042882 ;
-
 
 
 
@@ -281,8 +306,8 @@ ksf2.a81b1           :=  ksf.b1 ;
 ksf2.a81b2           :=  ksf.b2 ;
 
 kd1.lr1              :=  ad1.lr1/l.mbxw ;
-kd2.l1               :=  ad2.l5/l.mbrc ;
-kd2.r1               :=  ad2.r5/l.mbrc ;
+kd2.l1               :=  ad2.l1/l.mbrc ;
+kd2.r1               :=  ad2.r1/l.mbrc ;
 ktqx1.l1             :=  0 ;
 ktqx1.r1             :=  0 ;
 
@@ -333,14 +358,7 @@ ablw.r8              := -0.000180681598453109894*on_lhcb ;
 abxws.r8             :=  0.000045681598453109894*on_lhcb ;
 
 
-kqx.r5               := -kqx.l5 ;
-kqx.r1               := -kqx.l1 ;
-kqx.r2               := -kqx.l2 ;
-kqx.r8               := -kqx.l8 ;
 
-
-kqf                  :=  0.008815890403 ;
-kqd                  := -0.008430544103 ;
 
 
 
@@ -826,7 +844,8 @@ acbcv6.r2b2          :=  0.00000000000000 ;
 
 
  kqx.l8               :=     0.008719735423000 ;
- kqx.r8               :=    -0.008719735423000 ;
+ kqx.r8               :=    -kqx.l8;
+
  kqt13.l8b1           :=     0.006616374453157 ;
  kqt12.l8b1           :=    -0.002130629932724 ;
  kqtl11.l8b1          :=     0.000751223372876 ;

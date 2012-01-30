@@ -54,12 +54,24 @@ public class TrackStartCommand extends AbstractCommand {
     @Override
     public List<Parameter> getParameters() {
         List<Parameter> parameters = new ArrayList<Parameter>();
-        parameters.add(new GenericParameter<Double>("x", this.relatvieParticleCoordinate.getXRelatviePosition()));
-        parameters.add(new GenericParameter<Double>("px", this.relatvieParticleCoordinate.getXRelativeMomentum()));
-        parameters.add(new GenericParameter<Double>("y", this.relatvieParticleCoordinate.getYRelativePosition()));
-        parameters.add(new GenericParameter<Double>("py", this.relatvieParticleCoordinate.getYRelatvieMomentum()));
-        parameters.add(new GenericParameter<Double>("t", this.relatvieParticleCoordinate.getRelativeTimeDifference()));
-        parameters.add(new GenericParameter<Double>("pt", this.relatvieParticleCoordinate.getRelativeTimeDifference()));
+        if(this.relatvieParticleCoordinate.isActionAngle())
+        {
+            parameters.add(new GenericParameter<Double>("fx", this.relatvieParticleCoordinate.getXRelatviePosition()));
+            parameters.add(new GenericParameter<Double>("phix", this.relatvieParticleCoordinate.getXRelativeMomentum()));
+            parameters.add(new GenericParameter<Double>("fy", this.relatvieParticleCoordinate.getYRelativePosition()));
+            parameters.add(new GenericParameter<Double>("phiy", this.relatvieParticleCoordinate.getYRelatvieMomentum()));
+            parameters.add(new GenericParameter<Double>("ft", this.relatvieParticleCoordinate.getRelativeTimeDifference()));
+            parameters.add(new GenericParameter<Double>("phit", this.relatvieParticleCoordinate.getRelativeTimeDifference()));
+        }
+        else
+        {
+            parameters.add(new GenericParameter<Double>("x", this.relatvieParticleCoordinate.getXRelatviePosition()));
+            parameters.add(new GenericParameter<Double>("px", this.relatvieParticleCoordinate.getXRelativeMomentum()));
+            parameters.add(new GenericParameter<Double>("y", this.relatvieParticleCoordinate.getYRelativePosition()));
+            parameters.add(new GenericParameter<Double>("py", this.relatvieParticleCoordinate.getYRelatvieMomentum()));
+            parameters.add(new GenericParameter<Double>("t", this.relatvieParticleCoordinate.getRelativeTimeDifference()));
+            parameters.add(new GenericParameter<Double>("pt", this.relatvieParticleCoordinate.getRelativeTimeDifference()));
+        }
 
         return parameters;
     }

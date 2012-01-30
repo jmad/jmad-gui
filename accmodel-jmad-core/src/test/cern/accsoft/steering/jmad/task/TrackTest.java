@@ -29,7 +29,7 @@ import org.junit.Test;
 import cern.accsoft.steering.jmad.domain.result.track.TrackResultRequest;
 import cern.accsoft.steering.jmad.domain.result.track.TrackResultRequestImpl;
 import cern.accsoft.steering.jmad.domain.track.RelativeParticleDistributionImpl;
-import cern.accsoft.steering.jmad.domain.track.RelatvieParticleCoordinateImpl;
+import cern.accsoft.steering.jmad.domain.track.RelativeParticleCoordinateImpl;
 import cern.accsoft.steering.jmad.domain.track.TrackInitialCondition;
 import cern.accsoft.steering.jmad.domain.track.TrackInitialConditionImpl;
 import cern.accsoft.steering.jmad.kernel.task.track.TrackTask;
@@ -49,7 +49,7 @@ public class TrackTest {
         init.setWriteAtEachTurn(true);
 
         RelativeParticleDistributionImpl dist = new RelativeParticleDistributionImpl();
-        dist.add(new RelatvieParticleCoordinateImpl(1.0, 1.0, 1.0, 1.0, 1.0, 1.0));
+        dist.add(new RelativeParticleCoordinateImpl(1.0, 1.0, 1.0, 1.0, 1.0, 1.0));
         TrackResultRequest request = new TrackResultRequestImpl(dist);
         request.setApertureLimited(false);
         request.setPrintFrequency(1);

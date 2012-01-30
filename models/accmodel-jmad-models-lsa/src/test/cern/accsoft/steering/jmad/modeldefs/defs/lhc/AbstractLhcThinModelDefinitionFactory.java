@@ -89,7 +89,7 @@ public abstract class AbstractLhcThinModelDefinitionFactory implements ModelDefi
 
     private enum OpticsDef {
     	A080C080L200A200_THIN(new String[] {"V6.5.thin.coll_special.3.5TeV_0.8m2m0.8m2m.str"}),
-    	A110C110L200A200_THIN(new String[] {"V6.5.thin.coll_special.3.5TeV_1m2m1m2m.str"}),
+    	A110C110L200A200_THIN(new String[] {"V6.5.thin.coll_special.3.5TeV_1.1m2m1.1m2m.str"}),
     	A200C200L200A200_THIN(new String[] {"V6.5.thin.coll_special.3.5TeV_2m.str"}),
     	A350C350L350A350_THIN(new String[] {"V6.5.thin.coll_special.3.5TeV_3.5m.str"}),
     	A055C055L1000A1000_THIN(new String[] {"V6.5.thin.coll.str"}),

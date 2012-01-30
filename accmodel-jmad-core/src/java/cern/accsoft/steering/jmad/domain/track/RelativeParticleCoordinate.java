@@ -71,4 +71,8 @@ public interface RelativeParticleCoordinate {
     void setRelativeTimeDiffence(double t);
 
     void setRelativeEnergyError(double pt);
+
+	void setActionAngle(boolean actionAngle);
+
+	boolean isActionAngle();
 }

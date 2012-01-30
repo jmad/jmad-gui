@@ -47,8 +47,8 @@ import cern.accsoft.steering.jmad.service.JMadServiceFactory;
  * @author muellerg
  */
 @RunWith(value = LabelledParameterized.class)
-public class OpticsTest {
-    private static final Logger LOGGER = Logger.getLogger(OpticsTest.class);
+public class OpticsDebugger {
+    private static final Logger LOGGER = Logger.getLogger(OpticsDebugger.class);
 
     private static JMadModel MODEL;
     private static int MODEL_LOOP_CNT = 0;
@@ -68,9 +68,14 @@ public class OpticsTest {
     static {
         BasicConfigurator.configure();
         JMadService service = JMadServiceFactory.createJMadService();
+
         JMadModelDefinitionManager modelDefinitionManager = service.getModelDefinitionManager();
         JMadModelDefinition modelDefinition = modelDefinitionManager
-                .getModelDefinition(LhcUtil.NOMINAL_MODEL_DEFINITION_NAME);
+                .getModelDefinition(LhcUtil.ATS_MODEL_DEFINITION_NAME);
+        LOGGER.info("Number of ATS optics: " + modelDefinition.getOpticsDefinitions().size());
+
+        modelDefinition = modelDefinitionManager.getModelDefinition(LhcUtil.NOMINAL_MODEL_DEFINITION_NAME);
+        LOGGER.info("Number of nominal optics: " + modelDefinition.getOpticsDefinitions().size());
         MODEL = service.createModel(modelDefinition);
         LOGGER.info("Set-Up");
     }
@@ -117,7 +122,7 @@ public class OpticsTest {
      * 
      * @throws JMadModelException
      */
-    public OpticsTest(String testName, OpticsDefinition opticDefinition, RangeDefinition rangeDefinition,
+    public OpticsDebugger(String testName, OpticsDefinition opticDefinition, RangeDefinition rangeDefinition,
             Double tuneChromaDelta) throws JMadModelException {
 
         LOGGER.info("***********************************  START EXECUTION OF: " + testName);
@@ -127,12 +132,18 @@ public class OpticsTest {
         this.tuneChromaDelta = tuneChromaDelta;
     }
 
+    @Test
+    public void testNotEnable() {
+        /* to enable all tests, uncomment the @Test annotations on the following tests... */
+        LOGGER.info("the test of all optics tune and chroma is not enabled at the moment");
+    }
+
     /**
      * set the optic definition and the range to test in the model and calculate the optics
      * 
      * @throws JMadException
      */
-    @Test
+    // @Test
     public void getOpticsForOpticAndRange() throws JMadException {
         if (MODEL_LOOP_CNT++ > MAX_MODEL_LOOP_CNT) {
             MODEL.reset();
@@ -155,7 +166,7 @@ public class OpticsTest {
      * 
      * @throws JMadModelException
      */
-    @Test
+    // @Test
     public void checkTuneAndChroma() throws JMadModelException {
         TfsSummary tfsSummary = MODEL.calcTwissSummary();
         this.ensureRightSequence(tfsSummary, rangeDefinition);

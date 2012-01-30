@@ -28,7 +28,7 @@ package cern.accsoft.steering.jmad.domain.track;
  * @author xbuffat
  */
 
-public class RelatvieParticleCoordinateImpl implements RelativeParticleCoordinate {
+public class RelativeParticleCoordinateImpl implements RelativeParticleCoordinate {
 
     private double x = 0.0;
     private double px = 0.0;
@@ -36,12 +36,14 @@ public class RelatvieParticleCoordinateImpl implements RelativeParticleCoordinat
     private double py = 0.0;
     private double t = 0.0;
     private double pt = 0.0;
+    
+    private boolean actionAngle = false;
 
-    public RelatvieParticleCoordinateImpl() {
+    public RelativeParticleCoordinateImpl() {
 
     }
 
-    public RelatvieParticleCoordinateImpl(double x, double px, double y, double py, double t, double pt) {
+    public RelativeParticleCoordinateImpl(double x, double px, double y, double py, double t, double pt) {
         this.setXRelatviePosition(x);
         this.setXRelativeMomentum(px);
         this.setYRelativePosition(y);
@@ -115,5 +117,15 @@ public class RelatvieParticleCoordinateImpl implements RelativeParticleCoordinat
         this.py = py;
 
     }
+
+    @Override
+	public void setActionAngle(boolean actionAngle) {
+		this.actionAngle = actionAngle;
+	}
+
+    @Override
+	public boolean isActionAngle() {
+		return actionAngle;
+	}
 
 }

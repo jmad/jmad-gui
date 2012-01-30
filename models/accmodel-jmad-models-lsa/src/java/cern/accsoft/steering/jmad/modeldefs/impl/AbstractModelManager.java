@@ -140,11 +140,13 @@ public abstract class AbstractModelManager implements ModelManager {
         return jmadService;
     }
 
+    @Override
     public void setStartupConfiguration(JMadModelStartupConfiguration startupConfiguration) {
         this.startupConfiguration = startupConfiguration;
     }
 
-    protected JMadModelStartupConfiguration getStartupConfiguration() {
+    @Override
+    public JMadModelStartupConfiguration getStartupConfiguration() {
         return startupConfiguration;
     }
 

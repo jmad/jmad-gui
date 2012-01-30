@@ -46,13 +46,23 @@ public class LhcModelManagerImpl extends AbstractModelManager implements LhcMode
     }
 
     private void initializeModels(String modelDefinitionName) throws JMadModelException {
+        if (getJMadService().getModelManager().getActiveModel() != null && //
+                getJMadService().getModelManager().getActiveModel()//
+                        .getModelDefinition().getName().compareTo(modelDefinitionName) == 0) {
+            return;
+        }
+
         for (BeamNumber beamNumber : BeamNumber.values()) {
             JMadModel model = this.models.put(beamNumber, createBeamModel(modelDefinitionName, LhcUtil
                     .getSequenceName(beamNumber)));
             if (model != null) {
+                /* there was already a model defined for the given beam */
                 model.cleanup();
+                getJMadService().getModelManager().removeModel(model);
             }
         }
+
+        getJMadService().getModelManager().setActiveModel(this.models.get(BeamNumber.BEAM_1));
     }
 
     /**
@@ -71,9 +81,10 @@ public class LhcModelManagerImpl extends AbstractModelManager implements LhcMode
         RangeDefinition rangeDefinition = modelDefinition.getSequenceDefinition(sequenceName).getRangeDefinition(
                 LhcUtil.DEFAULT_RANGE_NAME);
 
-        /* create the model and initialize it */
+        /* create the model, add to model manager and initialize it */
         JMadModel model = getJMadService().createModel(modelDefinition);
         if (super.getStartupConfiguration() != null) {
+            /* transfer the start-up configuration */
             model.getStartupConfiguration().setInitialOpticsDefinition(
                     super.getStartupConfiguration().getInitialOpticsDefinition());
             model.getStartupConfiguration().setLoadDefaultOptics(super.getStartupConfiguration().isLoadDefaultOptics());

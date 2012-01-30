@@ -41,7 +41,7 @@ import cern.accsoft.steering.jmad.domain.result.track.TrackResult;
 import cern.accsoft.steering.jmad.domain.result.track.TrackResultRequest;
 import cern.accsoft.steering.jmad.domain.result.track.TrackResultRequestImpl;
 import cern.accsoft.steering.jmad.domain.track.RelativeParticleDistributionImpl;
-import cern.accsoft.steering.jmad.domain.track.RelatvieParticleCoordinateImpl;
+import cern.accsoft.steering.jmad.domain.track.RelativeParticleCoordinateImpl;
 import cern.accsoft.steering.jmad.domain.track.TrackInitialCondition;
 import cern.accsoft.steering.jmad.domain.track.TrackInitialConditionImpl;
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
@@ -79,10 +79,10 @@ public class JMadThinLensModelTest extends JMadTestCase {
         TrackInitialCondition init = new TrackInitialConditionImpl();
 
         RelativeParticleDistributionImpl dist = new RelativeParticleDistributionImpl();
-        dist.add(new RelatvieParticleCoordinateImpl(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
-        dist.add(new RelatvieParticleCoordinateImpl(1E-6, 0.0, 0.0, 0.0, 0.0, 0.0));
-        dist.add(new RelatvieParticleCoordinateImpl(0.0, 0.0, 1E-6, 0.0, 0.0, 0.0));
-        dist.add(new RelatvieParticleCoordinateImpl(1E-6, 0.0, 1E-6, 0.0, 0.0, 0.0));
+        dist.add(new RelativeParticleCoordinateImpl(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
+        dist.add(new RelativeParticleCoordinateImpl(1E-6, 0.0, 0.0, 0.0, 0.0, 0.0));
+        dist.add(new RelativeParticleCoordinateImpl(0.0, 0.0, 1E-6, 0.0, 0.0, 0.0));
+        dist.add(new RelativeParticleCoordinateImpl(1E-6, 0.0, 1E-6, 0.0, 0.0, 0.0));
         TrackResultRequest request = new TrackResultRequestImpl(dist);
         request.setApertureLimited(false);
         request.setPrintFrequency(1);
@@ -98,10 +98,10 @@ public class JMadThinLensModelTest extends JMadTestCase {
         TrackInitialCondition init = new TrackInitialConditionImpl();
 
         RelativeParticleDistributionImpl dist = new RelativeParticleDistributionImpl();
-        dist.add(new RelatvieParticleCoordinateImpl(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
-        dist.add(new RelatvieParticleCoordinateImpl(1E-6, 0.0, 0.0, 0.0, 0.0, 0.0));
-        dist.add(new RelatvieParticleCoordinateImpl(0.0, 0.0, 1E-6, 0.0, 0.0, 0.0));
-        dist.add(new RelatvieParticleCoordinateImpl(1E-6, 0.0, 1E-6, 0.0, 0.0, 0.0));
+        dist.add(new RelativeParticleCoordinateImpl(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
+        dist.add(new RelativeParticleCoordinateImpl(1E-6, 0.0, 0.0, 0.0, 0.0, 0.0));
+        dist.add(new RelativeParticleCoordinateImpl(0.0, 0.0, 1E-6, 0.0, 0.0, 0.0));
+        dist.add(new RelativeParticleCoordinateImpl(1E-6, 0.0, 1E-6, 0.0, 0.0, 0.0));
         DynapResultRequest request = new DynapResultRequestImpl(dist);
         request.setApertureLimited(false);
         request.setTurns(10);
@@ -117,10 +117,10 @@ public class JMadThinLensModelTest extends JMadTestCase {
         TrackInitialCondition init = new TrackInitialConditionImpl();
 
         RelativeParticleDistributionImpl dist = new RelativeParticleDistributionImpl();
-        dist.add(new RelatvieParticleCoordinateImpl(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
-        dist.add(new RelatvieParticleCoordinateImpl(1E-6, 0.0, 0.0, 0.0, 0.0, 0.0));
-        dist.add(new RelatvieParticleCoordinateImpl(0.0, 0.0, 1E-6, 0.0, 0.0, 0.0));
-        dist.add(new RelatvieParticleCoordinateImpl(1E-6, 0.0, 1E-6, 0.0, 0.0, 0.0));
+        dist.add(new RelativeParticleCoordinateImpl(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
+        dist.add(new RelativeParticleCoordinateImpl(1E-6, 0.0, 0.0, 0.0, 0.0, 0.0));
+        dist.add(new RelativeParticleCoordinateImpl(0.0, 0.0, 1E-6, 0.0, 0.0, 0.0));
+        dist.add(new RelativeParticleCoordinateImpl(1E-6, 0.0, 1E-6, 0.0, 0.0, 0.0));
         DynapResultRequest request = new DynapResultRequestImpl(dist);
         request.setApertureLimited(false);
         request.setTurns(10);

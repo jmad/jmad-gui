@@ -27,6 +27,7 @@ import java.util.List;
 
 import cern.accsoft.steering.jmad.domain.elem.Element;
 import cern.accsoft.steering.jmad.domain.elem.Position;
+import cern.accsoft.steering.jmad.domain.elem.RelativePosition;
 import cern.accsoft.steering.jmad.kernel.cmd.AbstractCommand;
 import cern.accsoft.steering.jmad.kernel.cmd.param.GenericParameter;
 import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
@@ -56,8 +57,8 @@ public class InstallCommand extends AbstractCommand {
         parameters.add(new GenericParameter<String>("element", this.elementName));
         parameters.add(new GenericParameter<String>("class", this.elementClass));
         parameters.add(new GenericParameter<Double>("at", this.elementPosition.getValue()));
-        if (this.elementPosition.isRelative()) {
-            parameters.add(new GenericParameter<String>("from", this.elementPosition.getElement()));
+        if (this.elementPosition instanceof RelativePosition) {
+            parameters.add(new GenericParameter<String>("from", ((RelativePosition) this.elementPosition).getElement()));
         }
 
         return parameters;
