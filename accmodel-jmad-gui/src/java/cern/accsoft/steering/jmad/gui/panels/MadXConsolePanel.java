@@ -26,24 +26,26 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
-import bsh.util.JConsole;
 import cern.accsoft.steering.jmad.kernel.JMadKernelListener;
 import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
 import cern.accsoft.steering.jmad.util.StreamConnector;
+import cern.accsoft.steering.util.gui.script.JConsole;
 
 /**
  * This class provides a panel with a console, where it is possible to interact directly with madx. NOTE: If you
  * manipulate values in madx directly, they are in general not consistent with the java-representation of the model! So
  * use this possibility with care!
+ * <p>
+ * XXX not functional for the moment!
  * 
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class MadXConsolePanel extends JPanel {
     private static final long serialVersionUID = -227501450207198640L;
 
-    private JConsole console;
+    private cern.accsoft.steering.util.gui.script.JConsole console;
 
     private StreamConnector outputConnector = null;
     private StreamConnector inputConnector = null;
@@ -74,7 +76,8 @@ public class MadXConsolePanel extends JPanel {
 
             @Override
             public void changedActiveModel(JMadModel newModel) {
-                newModel.getKernel().addListener(new JMadKernelListener() {
+                newModel.getKernel()
+                        .addListener(new JMadKernelListener() {
 
                     @Override
                     public void startedKernel(Process newProcess) {
@@ -96,11 +99,11 @@ public class MadXConsolePanel extends JPanel {
      * @param process
      */
     private void setProcess(Process process) {
-        this.outputConnector = new StreamConnector(process.getInputStream(), console.getOut());
+        this.outputConnector = new StreamConnector(process.getInputStream(), console.getOutStream());
         this.outputConnector.start();
 
-        this.inputConnector = new StreamConnector(console.getInputStream(), process.getOutputStream());
-        this.inputConnector.start();
+        // this.inputConnector = null;new StreamConnector(console.stream, process.getOutputStream());
+        // this.inputConnector.start();
     }
 
     /**

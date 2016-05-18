@@ -47,7 +47,7 @@ public interface JMadPreferences {
     public String getOutputPath();
 
     /**
-     * @return the base path to the model repository.
+     * @return the base path to the model repository or {@code null} if the property is not set.
      */
     public String getModelRepositoryBasePath();
 

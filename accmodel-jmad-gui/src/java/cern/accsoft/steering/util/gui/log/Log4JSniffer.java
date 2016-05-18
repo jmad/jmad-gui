@@ -83,6 +83,7 @@ public enum Log4JSniffer {
      * returns the actual content of the String-buffer.
      */
     public final synchronized String toString() {
+        this.stringWriter.flush();
         return this.stringWriter.toString();
     }
 

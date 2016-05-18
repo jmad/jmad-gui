@@ -83,16 +83,9 @@ public abstract class PlotCreationPanel extends JPanel implements Titleable, App
     private JPanel delLastYPanel = new JPanel();
 
     /**
-     * simple constructors
-     */
-    public PlotCreationPanel() {
-        initComponents();
-    }
-
-    /**
      * initializes the components.
      */
-    private void initComponents() {
+    public void initComponents() {
         setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(300, 300));
 
@@ -132,11 +125,11 @@ public abstract class PlotCreationPanel extends JPanel implements Titleable, App
         add(varSelTabPane, constraints);
 
         /* for x-axis: only one var selectable */
-        this.xPanel = createVariableSelectionPanel(VarSelectionMode.SINGLE, MadxTwissVariable.S);
+        this.xPanel = createAnotherVariableSelectionPanel(VarSelectionMode.SINGLE, MadxTwissVariable.S);
         varSelTabPane.addTab("x", xPanel);
 
         /* per default: create one y-panel */
-        AllVarSelectionPanel yPanel = createVariableSelectionPanel(VarSelectionMode.MULTIPLE, null);
+        AllVarSelectionPanel yPanel = createAnotherVariableSelectionPanel(VarSelectionMode.MULTIPLE, null);
         this.yPanels.add(yPanel);
         varSelTabPane.addTab("y", yPanel);
 
@@ -194,7 +187,7 @@ public abstract class PlotCreationPanel extends JPanel implements Titleable, App
                 varSelTabPane.addTab("y1", this.yPanels.get(0));
             }
 
-            yPanel = createVariableSelectionPanel(VarSelectionMode.MULTIPLE, null);
+            yPanel = createAnotherVariableSelectionPanel(VarSelectionMode.MULTIPLE, null);
             this.yPanels.add(yPanel);
             varSelTabPane.addTab("y" + this.yPanels.size(), yPanel);
         } else {
@@ -232,7 +225,7 @@ public abstract class PlotCreationPanel extends JPanel implements Titleable, App
 
     }
 
-    private AllVarSelectionPanel createVariableSelectionPanel(VarSelectionMode varSelectionMode,
+    private AllVarSelectionPanel createAnotherVariableSelectionPanel(VarSelectionMode varSelectionMode,
             TwissVariable defaultVariable) {
 
         SelectedVarManager selectedVarManager = new SelectedVarManagerImpl();
@@ -280,12 +273,13 @@ public abstract class PlotCreationPanel extends JPanel implements Titleable, App
         Map<Integer, Collection<TwissVariable>> yVars = new HashMap<Integer, Collection<TwissVariable>>();
 
         for (int yAxis = 0; yAxis < yPanels.size(); yAxis++) {
-            MadxVarSelector ySelector = this.yPanels.get(yAxis).getSelectedVarManager();
+            MadxVarSelector ySelector = this.yPanels.get(yAxis)
+                    .getSelectedVarManager();
             yVars.put(yAxis, ySelector.getSelectedVariables());
         }
 
-        tfsDataSetManager.createDataSets(txtName.getText(), xPanel.getSelectedVarManager().getSelectedVariable(),
-                yVars, (TfsResultDataSetType) cboTfsDataSetType.getSelectedItem());
+        tfsDataSetManager.createDataSets(txtName.getText(), xPanel.getSelectedVarManager()
+                .getSelectedVariable(), yVars, (TfsResultDataSetType) cboTfsDataSetType.getSelectedItem());
 
         return true;
     }

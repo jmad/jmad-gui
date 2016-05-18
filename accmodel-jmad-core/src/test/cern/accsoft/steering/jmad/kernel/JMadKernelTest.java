@@ -75,7 +75,6 @@ public class JMadKernelTest extends cern.accsoft.steering.jmad.util.LoggedTestCa
         assertEquals("Call of MadX with empty file should return correctly.", 0, exitValue);
     }
 
-    // @Ignore("Takes to long")
     @Test
     public void testWaitUntilReady() throws JMadException {
         kernel.start();
@@ -84,13 +83,11 @@ public class JMadKernelTest extends cern.accsoft.steering.jmad.util.LoggedTestCa
         assertTrue("madx should have created a file.", file.exists());
     }
 
-    // @Ignore("Takes to long")
-    @Test
+    @Test(expected = WaitForMadxTimedOutException.class)
     public void testWaitUntilReadyTimeout() throws JMadException {
         kernel.start();
         kernel.setTimeout((long) 0);
         kernel.writeCommand("System \"echo > " + file.getAbsolutePath() + "\";");
-        boolean timedout = kernel.waitUntilReady();
-        assertTrue("madx should not have been that fast in creating the file.", timedout);
+        kernel.waitUntilReady();
     }
 }

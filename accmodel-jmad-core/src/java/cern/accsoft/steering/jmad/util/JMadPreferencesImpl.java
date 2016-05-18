@@ -50,8 +50,7 @@ public class JMadPreferencesImpl implements JMadPreferences {
 
 	/** The name of the system-property for the model repository base path */
 	private static final String PROP_REPOSITORY_BASE_PATH = "cern.jmad.repository.base.path";
-	/** the base path to model repositories */
-	private static final String DEFAULT_REPOSITORY_BASE_PATH = ".";
+
 	/**
 	 * the repository base path if set. Defaults to null so the system property
 	 * value is returned.
@@ -109,8 +108,7 @@ public class JMadPreferencesImpl implements JMadPreferences {
 		if (this.repositoryBasePath != null) {
 			return this.repositoryBasePath;
 		}
-		return System.getProperty(PROP_REPOSITORY_BASE_PATH,
-				DEFAULT_REPOSITORY_BASE_PATH);
+		return System.getProperty(PROP_REPOSITORY_BASE_PATH);
 	}
 
 	@Override

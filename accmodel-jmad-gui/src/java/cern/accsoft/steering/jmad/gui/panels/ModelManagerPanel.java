@@ -25,14 +25,22 @@ package cern.accsoft.steering.jmad.gui.panels;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
+import cern.accsoft.commons.util.Assert;
 import cern.accsoft.steering.jmad.gui.manage.ChooseActionFactory;
 import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
@@ -59,6 +67,8 @@ public class ModelManagerPanel extends JPanel {
     /** The table for the models */
     private JTable table;
 
+    private ComparisonPanel comparisonPanel;
+
     private JMadModelManagerListener modelManagerListener = new JMadModelManagerListener() {
 
         @Override
@@ -81,6 +91,7 @@ public class ModelManagerPanel extends JPanel {
      * init method called by spring
      */
     public void init() {
+        Assert.argNotNull(comparisonPanel, "comparisonPanel");
         initComponents();
     }
 
@@ -95,20 +106,60 @@ public class ModelManagerPanel extends JPanel {
         this.table = new JTable(this.tableModel);
         setSelectedModel(getModelManager().getActiveModel());
 
-        this.table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        this.table.addMouseListener(new MouseAdapter() {
 
             @Override
-            public void valueChanged(ListSelectionEvent evt) {
+            public void mouseReleased(MouseEvent e) {
                 int modelIndex = table.convertRowIndexToModel(table.getSelectedRow());
                 if (modelIndex < 0) {
                     return;
                 }
-                JMadModel newActiveModel = tableModel.getModel(modelIndex);
-                if ((newActiveModel != null) && (!newActiveModel.equals(getModelManager().getActiveModel()))) {
-                    getModelManager().setActiveModel(newActiveModel);
+                final JMadModel selectedModel = tableModel.getModel(modelIndex);
+
+                if (e.getButton() == (MouseEvent.BUTTON3)) {
+
+                    JMenuItem switchToActive = new JMenuItem("Set as active model");
+                    switchToActive.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            setAsActiveModel(selectedModel);
+                        }
+                    });
+
+                    JMenuItem compareToActive = new JMenuItem("Compare to the active model");
+                    compareToActive.addActionListener(new ActionListener() {
+
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            JMadModel activeModel = modelManager.getActiveModel();
+                            comparisonPanel.compareTwoModels(activeModel, selectedModel);
+                            JFrame frame = new JFrame("Comparison for models");
+                            frame.add(comparisonPanel);
+                            frame.setSize(800, 600);
+                            frame.setVisible(true);
+                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        }
+                    });
+
+                    JPopupMenu menu = new JPopupMenu();
+                    menu.setVisible(true);
+                    menu.add(switchToActive);
+                    menu.add(compareToActive);
+                    menu.show(e.getComponent(), e.getX(), e.getY());
+                }
+
+                if (e.getButton() == (MouseEvent.BUTTON1) && e.getClickCount() > 1) {
+                    setAsActiveModel(selectedModel);
+                }
+            }
+
+            protected void setAsActiveModel(final JMadModel selectedModel) {
+                if ((selectedModel != null) && (!selectedModel.equals(getModelManager().getActiveModel()))) {
+                    getModelManager().setActiveModel(selectedModel);
                 }
             }
         });
+
         getModelManager().addListener(modelManagerListener);
         this.add(CompUtils.createScrollPane(table), BorderLayout.CENTER);
 
@@ -129,7 +180,6 @@ public class ModelManagerPanel extends JPanel {
         buttonPanel.add(btn, constraints);
 
         add(buttonPanel, BorderLayout.SOUTH);
-
     }
 
     /**
@@ -243,6 +293,10 @@ public class ModelManagerPanel extends JPanel {
 
     private ChooseActionFactory getChooseActionFactory() {
         return chooseActionFactory;
+    }
+
+    public void setComparisonPanel(ComparisonPanel comparisonPanel) {
+        this.comparisonPanel = comparisonPanel;
     }
 
 }

@@ -44,7 +44,7 @@ public class JMadGuiPreferencesImpl implements JMadGuiPreferences {
      * the default value for the edit-command when property is not set. TODO some solution needed that works for both
      * windows and linux!?
      */
-    private final static String DEFAULT_EDIT_COMMAND = null;
+    private final static String DEFAULT_EDIT_COMMAND = "nedit";
 
     /** true, if the change of the model is allowed */
     private boolean enabledChangeModel = true;

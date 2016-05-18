@@ -158,18 +158,22 @@ public abstract class AbstractElement implements Element {
      * simple getters and setters.
      */
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public Position getPosition() {
         return position;
     }
 
+    @Override
     public void setPosition(double position) {
         this.position = new Position(position);
     }
 
+    @Override
     public void setPosition(Position position) {
         this.position = position;
     }
@@ -204,8 +208,14 @@ public abstract class AbstractElement implements Element {
         this.attributesReader = attributesReader;
     }
 
-    private ElementAttributeReader getAttributesReader() {
+    @Override
+    public ElementAttributeReader getAttributesReader() {
         return attributesReader;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [name=" + name + ", madxElementType=" + madxElementType + "]";
     }
 
 }

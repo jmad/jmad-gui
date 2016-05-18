@@ -13,21 +13,24 @@
 	<property name="cmmnbuild.targets" location="${cmmnbuild.home}/targets.xml" />
 	<import file="${cmmnbuild.targets}" />
  
+	
+	<!-- add callback to download madx binaries before compilation -->
+	<property name="callback.before.compile" value="fetch-madx-bin-all"/>
+	
 	<!-- 
 		enable the callback to unsign the cglib
 	-->
-	<property name="callback.after.getjars" value="unsign-cglib" />
+	<property name="callback.after.getjars" value="unsign-spring" />
 	<!--
-					this target unsigns the cglib - jar.
+					this target unsigns the spring - jars.
 					This is necessary because cglib does not work when in jar, because it
 					is signed and cannot work together with unsigned code.
 					This target must be executed after getting the jars.
 	-->
-	<property name="name.cglib.jar" value="cglib-nodep" />
-	<target name="unsign-cglib">
-		<echo message="unsigning cglib" />
+	<target name="unsign-spring">
+		<echo message="unsigning spring jars" />
 		<antcall target="unsignjars">
-			<param name="jar" value="${name.cglib.jar}" />
+			<param name="jar" value="spring*" />
 		</antcall>
 	</target>
 

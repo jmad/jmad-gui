@@ -74,6 +74,9 @@ public class DataViewerPanel extends JPanel implements DataSetManagerListener {
     /** the user interactor to show the dialog */
     private UserInteractor userInteractor;
 
+    /** The action which allows to save a twiss to a file */
+    private Action saveTwissAction;
+
     /**
      * the action to show the dialog for creating new plots
      */
@@ -91,14 +94,10 @@ public class DataViewerPanel extends JPanel implements DataSetManagerListener {
         }
     };
 
-    public DataViewerPanel() {
-        initComponents();
-    }
-
     /**
      * creates all contained components
      */
-    private void initComponents() {
+    public void initComponents() {
         setLayout(new BorderLayout());
 
         /*
@@ -157,6 +156,12 @@ public class DataViewerPanel extends JPanel implements DataSetManagerListener {
         constraints.weightx = 0;
         constraints.gridx++;
         buttonPanel.add(btn, constraints);
+
+        JButton saveTwissButton = new JButton(saveTwissAction);
+        constraints.weightx = 0;
+        constraints.gridx++;
+        buttonPanel.add(saveTwissButton, constraints);
+
     }
 
     /**
@@ -190,12 +195,16 @@ public class DataViewerPanel extends JPanel implements DataSetManagerListener {
             if (chart == null) {
                 chart = getChartFactory().createMarkablePolyLineChart(dataSource);
                 chart.setName(name);
-                chart.getXScale().setTitle(xLabel);
-                chart.getYScale().setTitle(yAxisTitle);
+                chart.getXScale()
+                        .setTitle(xLabel);
+                chart.getYScale()
+                        .setTitle(yAxisTitle);
             } else {
                 chart.addYAxis(true, false);
-                chart.getYScale(axisCount).setTitle(yAxisTitle);
-                chart.getYScale(axisCount).synchronizeWith(chart.getYScale(), true);
+                chart.getYScale(axisCount)
+                        .setTitle(yAxisTitle);
+                chart.getYScale(axisCount)
+                        .synchronizeWith(chart.getYScale(), true);
                 chart.addRenderer(axisCount, getChartFactory().createPolyLineRenderer(dataSource));
             }
 
@@ -274,6 +283,10 @@ public class DataViewerPanel extends JPanel implements DataSetManagerListener {
     @Override
     public void twissCalculated(TfsResult tfsResult) {
         /* nothing to do ss */
+    }
+
+    public void setSaveTwissAction(Action saveTwissAction) {
+        this.saveTwissAction = saveTwissAction;
     }
 
 }

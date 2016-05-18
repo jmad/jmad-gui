@@ -22,13 +22,11 @@
 
 package cern.accsoft.steering.jmad.task;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import cern.accsoft.steering.jmad.domain.machine.RangeDefinition;
 import cern.accsoft.steering.jmad.domain.machine.RangeDefinitionImpl;
 import cern.accsoft.steering.jmad.domain.machine.SequenceDefinition;
 import cern.accsoft.steering.jmad.domain.machine.SequenceDefinitionImpl;

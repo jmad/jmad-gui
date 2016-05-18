@@ -1,22 +1,11 @@
 // @formatter:off
- /*******************************************************************************
- *
- * This file is part of JMad.
- * 
- * Copyright (c) 2008-2011, CERN. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+/*******************************************************************************
+ * This file is part of JMad. Copyright (c) 2008-2011, CERN. All rights reserved. Licensed under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in
+ * writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  ******************************************************************************/
 // @formatter:on
 
@@ -42,10 +31,13 @@ import cern.accsoft.steering.jmad.io.StrengthFileParser;
 import cern.accsoft.steering.jmad.io.TfsFileParser;
 import cern.accsoft.steering.jmad.io.TrackOutputParser;
 import cern.accsoft.steering.jmad.util.FileMonitor;
+import cern.accsoft.steering.jmad.util.FileMonitor.ProcessTerminatedUnexpectedlyException;
+import cern.accsoft.steering.jmad.util.FileUtil;
 import cern.accsoft.steering.jmad.util.JMadPreferences;
 import cern.accsoft.steering.jmad.util.ProcTools;
 import cern.accsoft.steering.jmad.util.ProcessTerminationMonitor;
 import cern.accsoft.steering.jmad.util.StreamLogger;
+import cern.accsoft.steering.jmad.util.StringUtil;
 import cern.accsoft.steering.jmad.util.TempFileUtil;
 
 /**
@@ -54,6 +46,8 @@ import cern.accsoft.steering.jmad.util.TempFileUtil;
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadKernelImpl implements JMadKernel, JMadKernelConfig {
+
+    private static final int MAX_ERROR_LINES = 10;
 
     /** the logger for the class */
     private static final Logger LOGGER = Logger.getLogger(JMadKernelImpl.class);
@@ -77,9 +71,12 @@ public class JMadKernelImpl implements JMadKernel, JMadKernelConfig {
 
     private File readyFile = null;
     private File resultFile = null;
+    private File madxInputLogFile = null;
+    private File madxOutputLogFile = null;
+    private File madxErrorLogFile = null;
 
     /** wait this amount of ms, when deletion failed and retry */
-    private static final int RETRY_DELAY = 100;
+    private static final int RETRY_DELAY_IN_MILLISECONDS = 100;
 
     /** how often to retry deleting a file before throwing an exception? */
     private static final int RETRY_ATTEMPTS = 3;
@@ -134,13 +131,11 @@ public class JMadKernelImpl implements JMadKernel, JMadKernelConfig {
          */
         readyFile = getFileUtil().getOutputFile(this, FILENAME_READY);
         resultFile = getFileUtil().getOutputFile(this, FILENAME_RESULT);
-        File madxInputLogFile = getFileUtil().getOutputFile(this, FILENAME_LOG_IN);
-        File madxOutputLogFile = getFileUtil().getOutputFile(this, FILENAME_LOG_OUT);
-        File madxErrorLogFile = getFileUtil().getOutputFile(this, FILENAME_LOG_ERROR);
+        madxInputLogFile = getFileUtil().getOutputFile(this, FILENAME_LOG_IN);
+        madxOutputLogFile = getFileUtil().getOutputFile(this, FILENAME_LOG_OUT);
+        madxErrorLogFile = getFileUtil().getOutputFile(this, FILENAME_LOG_ERROR);
 
-        if (!readyFile.delete()) {
-            /* ignore, may not exist */
-        }
+        deleteReadyFile();
 
         if (!madxInputLogFile.delete()) {
             /* ignore, may not exist */
@@ -172,7 +167,6 @@ public class JMadKernelImpl implements JMadKernel, JMadKernelConfig {
             if (timeout == null) {
                 LOGGER.debug("No timeout set. Waiting until madx-process terminates.");
                 exitValue = process.waitFor();
-
             } else {
                 ProcessTerminationMonitor processTerminationMonitor = new ProcessTerminationMonitor(process);
                 processTerminationMonitor.start();
@@ -195,15 +189,10 @@ public class JMadKernelImpl implements JMadKernel, JMadKernelConfig {
                 LOGGER.warn("madx terminated with exit-value " + exitValue + ".");
             }
 
-            if (!readyFile.delete()) {
-                /* ignore, may not exist. */
-            }
-            inputLogWriter.flush();
-            inputLogWriter.close();
+            deleteReadyFile();
+            closeInputLogger();
         } catch (InterruptedException e) {
             throw new JMadException("Error while trying to stop MadX", e);
-        } catch (IOException e) {
-            throw new JMadException("Error while logging commands.", e);
         }
 
         /* delete the dir corresponding to the kernel. */
@@ -215,6 +204,21 @@ public class JMadKernelImpl implements JMadKernel, JMadKernelConfig {
         return exitValue;
     }
 
+    private void deleteReadyFile() {
+        if (!readyFile.delete()) {
+            /* ignore, may not exist. */
+        }
+    }
+
+    private void closeInputLogger() {
+        try {
+            inputLogWriter.flush();
+            inputLogWriter.close();
+        } catch (IOException e) {
+            LOGGER.error("Error while flushing input logger.", e);
+        }
+    }
+
     @Override
     public Result execute(JMadExecutable executable) throws JMadException {
         if (!resultFile.delete()) {
@@ -224,11 +228,7 @@ public class JMadKernelImpl implements JMadKernel, JMadKernelConfig {
 
         /* execute the commands and wait. */
         writeCommand(executable.compose());
-        boolean timedout = waitUntilReady();
-
-        if (timedout) {
-            throw new JMadException("Waiting for madx timed out!");
-        }
+        waitUntilReady();
 
         /* parse result */
         Result result = null;
@@ -314,31 +314,48 @@ public class JMadKernelImpl implements JMadKernel, JMadKernelConfig {
      * @throws JMadException
      */
     /* package visibility for testing! */
-    boolean waitUntilReady() throws JMadException { // NOPMD by kaifox on 6/25/10 4:01 PM
-        boolean timedout = false;
+    void waitUntilReady() throws JMadException { // NOPMD by kaifox on 6/25/10 4:01 PM
         if (!isMadxRunning()) {
-            LOGGER.warn("MadX is not running!");
-            return timedout;
+            throw new JMadException("MadX is not running!");
         }
 
         writeCommand("\nsystem, \"echo > " + readyFile.getAbsolutePath() + "\"; // wait until ready\n");
 
         /* wait for the file, which tells us, that madx finished */
         FileMonitor fileMonitor = new FileMonitor(readyFile, process);
-        boolean fileCreated = fileMonitor.waitForFile(timeout);
 
-        if (!fileCreated) {
-            timedout = true;
-            LOGGER.warn("Madx-command timed out! (timeout=" + timeout + "ms).");
+        boolean fileCreated = false;
+        try {
+            fileCreated = fileMonitor.waitForFile(timeout);
+        } catch (ProcessTerminatedUnexpectedlyException e) {
+            closeInputLogger();
+            throwTerminatedException(e);
         }
 
-        if ((!readyFile.delete()) && (!timedout)) {
+        if (!fileCreated) {
+            throw new WaitForMadxTimedOutException("Madx-command timed out! (timeout=" + timeout + "ms).");
+        }
+
+        deleteReadyFileWithRetries();
+    }
+
+    private void throwTerminatedException(ProcessTerminatedUnexpectedlyException e) throws MadxTerminatedException {
+        List<String> lastMadxErrorLines = FileUtil.tail(madxErrorLogFile, MAX_ERROR_LINES);
+        throw new MadxTerminatedException("Madx terminated unexpectedly.\n\n" + "MadX error output (Max last "
+                + MAX_ERROR_LINES + " lines):\n---\n'" + StringUtil.join(lastMadxErrorLines, "\n") + "'.\n---\n"
+                + "\nFull MadX Input Log: '" + madxInputLogFile.getAbsolutePath() + "'" + "\nFull MadX Output Log: '"
+                + madxOutputLogFile.getAbsolutePath() + "'" + "\nFull MadX Error Log: '"
+                + madxErrorLogFile.getAbsolutePath() + "'\n", e);
+    }
+
+    private void deleteReadyFileWithRetries() throws JMadException {
+        if ((!readyFile.delete())) {
             boolean deleted = false;
             for (int i = 0; i < RETRY_ATTEMPTS; i++) {
-                LOGGER.warn("deletion of file '" + readyFile.getAbsolutePath() + "' failed. Retrying again in "
-                        + RETRY_DELAY + "ms");
+                LOGGER.debug("deletion of file '" + readyFile.getAbsolutePath() + "' failed. Retrying again in "
+                        + RETRY_DELAY_IN_MILLISECONDS + "ms");
                 try {
-                    Thread.sleep(RETRY_DELAY);
+                    Thread.sleep(RETRY_DELAY_IN_MILLISECONDS);
                 } catch (InterruptedException e) {
                     LOGGER.error("Error while waiting for retry ...", e);
                 }
@@ -351,7 +368,6 @@ public class JMadKernelImpl implements JMadKernel, JMadKernelConfig {
                 throw new JMadException("error while deleting file '" + readyFile.getAbsolutePath() + "'");
             }
         }
-        return timedout;
     }
 
     /**
@@ -373,12 +389,6 @@ public class JMadKernelImpl implements JMadKernel, JMadKernelConfig {
         super.finalize();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see cern.accsoft.steering.jmad.kernel.JMadKernel#addListener(cern.accsoft
-     * .steering.jmad.kernel.MadXKernelListener)
-     */
     @Override
     public void addListener(JMadKernelListener listener) {
         this.listeners.add(listener);

@@ -24,6 +24,9 @@ package cern.accsoft.steering.jmad.gui.log;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
@@ -39,8 +42,10 @@ public class Log4JSnifferTest {
     /** The logger which we use for testing the sniffer */
     private final static Logger logger = Logger.getLogger(Log4JSnifferTest.class);
 
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    
     @Test
-    public void testLog4JSniffing() {
+    public void testLog4JSniffing() throws InterruptedException {
         /* start the recording by the sniffer. */
         Log4JSniffer.INSTANCE.setRecording(true);
 
@@ -48,7 +53,7 @@ public class Log4JSnifferTest {
          * log a few messages and retrieve the result.
          */
         logTestMessages();
-        String result = Log4JSniffer.INSTANCE.toString();
+        String result = waitAndGet();
         System.out.println("Sniffer returned:\n" + result);
         assertEquals("Only info, warn and error messge, because default minLevel=INFO", "ERROR - error message"
                 + LINESEP + "WARN - warn message" + LINESEP + "INFO - info message" + LINESEP + "", result);
@@ -57,7 +62,7 @@ public class Log4JSnifferTest {
          * reset the sniffer
          */
         Log4JSniffer.INSTANCE.reset();
-        result = Log4JSniffer.INSTANCE.toString();
+        result = waitAndGet();
         System.out.println("Sniffer returned:\n" + result);
         assertEquals("should return empty string", "", result);
 
@@ -66,7 +71,7 @@ public class Log4JSnifferTest {
          */
         Log4JSniffer.INSTANCE.setMinLevel(Level.DEBUG);
         logTestMessages();
-        result = Log4JSniffer.INSTANCE.toString();
+        result = waitAndGet();
         System.out.println("Sniffer returned:\n" + result);
         assertEquals("Only debug to error messages, because minLevel=DEBUG", "ERROR - error message" + LINESEP
                 + "WARN - warn message" + LINESEP + "INFO - info message" + LINESEP + "DEBUG - debug message" + LINESEP
@@ -80,14 +85,14 @@ public class Log4JSnifferTest {
         /* switch off recording */
         Log4JSniffer.INSTANCE.setRecording(false);
         logTestMessages();
-        result = Log4JSniffer.INSTANCE.toString();
+        result = waitAndGet();
         System.out.println("Sniffer returned:\n" + result);
         assertEquals("should return empty string because recording was set to false", "", result);
 
         /* switch back on */
         Log4JSniffer.INSTANCE.setRecording(true);
         logTestMessages();
-        result = Log4JSniffer.INSTANCE.toString();
+        result = waitAndGet();
         System.out.println("Sniffer returned:\n" + result);
 
         assertEquals("Only debug to error messages, because minLevel=DEBUG", "ERROR - error message" + LINESEP
@@ -95,8 +100,13 @@ public class Log4JSnifferTest {
                 + "", result);
     }
 
+    private String waitAndGet() throws InterruptedException {
+        Thread.sleep(2000);
+        return Log4JSniffer.INSTANCE.toString();
+    }
+
     @Test
-    public void testChangeLayout() {
+    public void testChangeLayout() throws InterruptedException {
         /*
          * change the layout of the instance
          */
@@ -104,7 +114,7 @@ public class Log4JSnifferTest {
         Log4JSniffer.INSTANCE.setMinLevel(Level.ERROR);
         Log4JSniffer.INSTANCE.getAppender().setLayout(new PatternLayout("%p:%c{1}:%m" + LINESEP + ""));
         logTestMessages();
-        String result = Log4JSniffer.INSTANCE.toString();
+        String result = waitAndGet();
         System.out.println("Sniffer returned:n" + result);
         assertEquals("Only error message, because minLevel=ERROR", "ERROR:Log4JSnifferTest:error message" + LINESEP
                 + "", result);
@@ -113,19 +123,26 @@ public class Log4JSnifferTest {
         Log4JSniffer.INSTANCE.reset();
         Log4JSniffer.INSTANCE.getAppender().setLayout(new PatternLayout("%p:%d{ISO8601}:%c{1}:%m" + LINESEP + ""));
         logTestMessages();
-        result = Log4JSniffer.INSTANCE.toString();
+        result = waitAndGet();
         System.out.println("Sniffer returned:" + LINESEP + "" + result);
     }
 
     private void logTestMessages() {
-        /*
-         * one message of each level
-         */
-        logger.error("error message");
-        logger.warn("warn message");
-        logger.info("info message");
-        logger.debug("debug message");
-        logger.trace("trace message");
+        
+        executorService.execute(new Runnable() {
+
+            @Override
+            public void run() {
+                /*
+                 * one message of each level
+                 */
+                logger.error("error message");
+                logger.warn("warn message");
+                logger.info("info message");
+                logger.debug("debug message");
+                logger.trace("trace message");         
+            }});
+        
     }
 
 }

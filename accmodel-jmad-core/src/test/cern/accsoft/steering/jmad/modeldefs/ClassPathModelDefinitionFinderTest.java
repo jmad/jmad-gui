@@ -23,7 +23,6 @@
 package cern.accsoft.steering.jmad.modeldefs;
 
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 

@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import javax.swing.JButton;
-
 import cern.jdve.Chart;
 import cern.jdve.ChartRenderer;
 import cern.jdve.Scale;

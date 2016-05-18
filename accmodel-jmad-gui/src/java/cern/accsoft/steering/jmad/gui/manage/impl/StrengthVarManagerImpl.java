@@ -35,6 +35,7 @@ import cern.accsoft.steering.jmad.gui.manage.StrengthVarManager;
 import cern.accsoft.steering.jmad.gui.manage.StrengthVarManagerListener;
 import cern.accsoft.steering.jmad.io.StrengthFileParser;
 import cern.accsoft.steering.jmad.io.StrengthFileParserException;
+import cern.accsoft.steering.jmad.io.StrengthFileParserNew;
 
 /**
  * This is the default implementation of a {@link StrengthVarManager}
@@ -67,7 +68,7 @@ public class StrengthVarManagerImpl implements StrengthVarManager {
             return;
         }
 
-        StrengthFileParser parser = new StrengthFileParser(file);
+        StrengthFileParserNew parser = new StrengthFileParserNew(file);
         try {
             parser.parse();
         } catch (StrengthFileParserException e) {

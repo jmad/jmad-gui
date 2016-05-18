@@ -29,8 +29,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
+
+import cern.accsoft.steering.util.io.TextFileParser;
+import cern.accsoft.steering.util.io.TextFileParserException;
+import cern.accsoft.steering.util.io.impl.TextFileParserImpl;
 
 /**
  * This class contains some useful static methods for handling files
@@ -107,4 +113,28 @@ public final class FileUtil {
         outFile.close();
     }
 
+    /**
+     * Returns the last N lines of the given file. If the file has less lines than the requested ones, it will return
+     * all the lines of the file. Thus, the returned list can also be empty.
+     * 
+     * @param file the file from which to retrieve the last lines
+     * @param requestedNumberOfLines the number of lines to retrieve
+     * @return the last lines, as requested.
+     */
+    public static List<String> tail(File file, int requestedNumberOfLines) {
+        TextFileParser parser = new TextFileParserImpl();
+        List<String> lines;
+        try {
+            lines = parser.parse(file);
+        } catch (TextFileParserException e) {
+            throw new RuntimeException("Error while loading file", e);
+        }
+
+        int numberOfLines = lines.size();
+        if (numberOfLines > requestedNumberOfLines) {
+            return new ArrayList<String>(lines.subList(numberOfLines - requestedNumberOfLines, numberOfLines));
+        } else {
+            return new ArrayList<String>(lines);
+        }
+    }
 }

@@ -1,5 +1,5 @@
 // @formatter:off
- /*******************************************************************************
+/*******************************************************************************
  *
  * This file is part of JMad.
  * 
@@ -67,7 +67,6 @@ public class TfsFileParser {
     public void parse() throws TfsFileParserException {
 
         TextFileParser parser = new TextFileParserImpl();
-
         List<String> lines;
         try {
             lines = parser.parse(file);
@@ -80,10 +79,22 @@ public class TfsFileParser {
         TfsSummaryImpl summary = new TfsSummaryImpl();
         result.setTfsSummary(summary);
 
-        for (int i = 0; i < lines.size(); i++) {
+        goThroughTheLines(lines, summary);
 
-            String line = lines.get(i);
-            String[] tokens = splitString(line).toArray(new String[] {});
+        try {
+            result.convert();
+            result.verify();
+            summary.convert();
+        } catch (TfsResultException e) {
+            throw new TfsFileParserException("Conversion or Verification of result (file='" + file.getAbsolutePath()
+                    + "') failed!", e);
+        }
+    }
+
+    protected void goThroughTheLines(List<String> lines, TfsSummaryImpl summary) throws TfsFileParserException {
+        for (String line : lines) {
+            List<String> splitString = splitString(line);
+            String[] tokens = splitString.toArray(new String[splitString.size()]);
 
             if ((tokens.length > 2) && (tokens[0].equalsIgnoreCase("@"))) {
                 MadxVarType type = MadxVarType.getVarType(tokens[2].trim());
@@ -110,15 +121,6 @@ public class TfsFileParser {
                     result.addRow(values);
                 }
             }
-        }
-
-        try {
-            result.convert();
-            result.verify();
-            summary.convert();
-        } catch (TfsResultException e) {
-            throw new TfsFileParserException("Conversion or Verification of result (file='" + file.getAbsolutePath()
-                    + "') failed!", e);
         }
     }
 

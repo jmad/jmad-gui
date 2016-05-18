@@ -1,0 +1,144 @@
+rfi: rfp;
+ex00000rfp : rfp;
+
+ex00000mst : mst, ANGLE = 0.055019759339869245, E1 = 0.055019759339869245/2., E2 = 0.055019759339869245/2;
+ex00001mse : firstmse;
+ex00002mse : othermse;
+ex00003mse : othermse;
+ex00000sfx: sfx;
+ex00000mch: mche, hkick := ex00000mchhkick;
+ex00000mqf: mqze, K1 := ex00000mqfk1;
+ex00001mcv: mcve, vkick := ex00001mcvvkick;
+ex00001mqd: mqze, K1 := ex00001mqdk1;
+ex00000vvg: vvgh;
+ex00002mqf: mqze, K1 := ex00002mqfk1;
+ex00000mkc: mkc, hkick := mkckick;
+ex01000mbh: mbhe;
+ex01000mkc: mkc, hkick := -mkckick;
+ex01000qpm: qpm;
+ex01000bdc: bdc;
+ex01001mkc: mkc, hkick := -mkckick;
+ex01001mbh: mbhe;
+ex01002mkc: mkc, hkick := mkckick;
+ex01000mqd: mqze, K1 := ex01000mqdk1;
+ex01000sfx: sfx;
+ex01001mqf: mqze, K1 := ex01001mqfk1;
+ex01000mch: mche, hkick := ex01000mchhkick;
+ex01002mqd: mqze, K1 := ex01002mqdk1;
+ex01001mcv: mcve, vkick := ex01001mcvvkick;
+ex01000vvg: vvgr;
+
+ex01001sfx: sfx;
+rfj: rfp;
+ex01000rfp: rfp;
+
+ex01001vvg: vvgr;
+ex01003mqy: mqze, K1 := ex01003mqyk1;
+ex01000iss: iss;
+ex01004mqy: mqze, K1 := ex01004mqyk1;
+ex01002sfx: sfx;
+ex01005mqy: mqze, K1 := ex01005mqyk1;
+ex01002mch: mche, hkick := ex01002mchhkick;
+ex01003mcv: mcve, vkick := ex01003mcvvkick;
+ex01006mqy: mqze, K1 := ex01006mqyk1;
+ex01007mqy: mqze, K1 := ex01007mqyk1;
+ex01008mqy: mqze, K1 := ex01008mqyk1;
+ex01003sfx: sfx;
+
+rfk: rfp;
+ex01001rfp: rfp;
+
+ex01004mcv: mcve, vkick := ex01004mcvvkick;
+ex01009mqf: mqze, K1 := ex01009mqfk1;
+ex01005mch: mche, hkick := ex01005mchhkick;
+ex01010mqd: mqze, K1 := ex01010mqdk1;
+ex02000mbh: mbhestraight;
+ex02000vvg: vvgr;
+ex02000sfx: sfx;
+ex02000mqf: mqze, K1 := ex02000mqfk1;
+ex02001mqd: mqze, K1 := ex02001mqdk1;
+ex02002mqf: mqze, K1 := ex02000mqfk1;
+ex02000mcv: mcve, vkick := ex02000mcvvkick;
+ex02001mch: mche, hkick := ex02001mchhkick;
+ex02003mqd: mqze, K1 := ex02003mqdk1;
+ex02004mqf: mqze, K1 := ex02004mqfk1;
+ex02001sfx: sfx;
+
+rfl: rfp;
+ex02000rfp: rfp;
+
+ex02002mcv: mcve, vkick := ex02002mcvvkick;
+ex02005mqf: mqze, K1 := ex02005mqfk1;
+ex02003mch: mche, hkick := ex02003mchhkick;
+ex02006mqd: mqze, K1 := ex02006mqdk1;
+
+ex03000mbh: mbhestraight;
+
+ex03000vvg: vvgr;
+ex03000sfx: sfx;
+ex03000mqf: mqze, K1 := ex03000mqfk1;
+ex03001mqd: mqze, K1 := ex03001mqdk1;
+ex03002mqf: mqze, K1 := ex03000mqfk1;
+ex03000mcv: mcve, vkick := ex03000mcvvkick;
+ex03001mch: mche, hkick := ex03001mchhkick;
+ex03003mqd: mqze, K1 := ex03003mqdk1;
+ex03004mqf: mqze, K1 := ex03004mqfk1;
+
+rfm: rfp;
+ex03000rfp: rfp;
+
+ex03001sfx: sfx;
+ex03002mcv: mcve, vkick := ex03002mcvvkick;
+ex03005mqf: mqze, K1 := ex03005mqfk1;
+ex03003mch: mche, hkick := ex03003mchhkick;
+ex03006mqd: mqze, K1 := ex03006mqdk1;
+
+ex04000mbh: mbhestraight;
+
+ex04000vvg: vvgr;
+ex04000sfx: sfx;
+ex04000mqf: mqze, K1 := ex04000mqfk1;
+ex04001mqd: mqze, K1 := ex04001mqdk1;
+ex04002mqf: mqze, K1 := ex04002mqfk1;
+ex04000mcv: mcve, vkick := ex04000mcvvkick;
+ex04001mch: mche, hkick := ex04001mchhkick;
+ex04003mqd: mqze, K1 := ex04003mqdk1;
+ex04004mqf: mqze, K1 := ex04004mqfk1;
+ex04001sfx: sfx;
+
+rfn: rfp;
+ex04000rfp: rfp;
+
+ex04005mqr: mqze, K1 := mqr1k1;
+ex04006mqr: mqze, K1 := mqr2k1;
+ex04007mqr: mqze, K1 := mqr3k1;
+ex04008mqr: mqze, K1 := ex04008mqrk1;
+ex04009mqr: mqze, K1 := mqr3k1;
+ex04010mqr: mqze, K1 := mqr2k1; 
+ex04011mqr: mqze, K1 := mqr1k1;
+
+rfo: rfp;
+ex04001rfp: rfp;
+
+ex04002sfx: sfx;
+ex04002mcv: mcve, vkick := ex04002mcvvkick;
+ex04012mqf: mqze, K1 := ex04012mqfk1;
+ex04003mch: mche, hkick := ex04003mchhkick;
+ex04013mqd: mqze, K1 := ex04013mqdk1;
+ex05000mbh: mbhcstraight;
+ex05000vvg: vvgr;
+ex05000sfx: sfx;
+ex05000mqf: mqze, K1 := ex05000mqfk1;
+ex05001mqd: mqze, K1 := ex05001mqdk1;
+ex05002mqf: mqze, K1 := ex05002mqfk1;
+ex05000mcv: mcve, vkick := ex05000mcvvkick;
+ex05001mch: mche, hkick := ex05001mchhkick;
+ex05003mqd: mqze, K1 := ex05003mqdk1;
+ex05004mqf: mqze, K1 := ex05004mqfk1;
+ex05001sfx: sfx;
+rfp: rfp;
+ex05000rfp: rfp;
+ex05000vwi: vwi;
+ex05000bde: bde;
+rfq: rfp;
+ex05001rfp: rfp;

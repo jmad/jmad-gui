@@ -30,7 +30,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import Jama.Matrix;
-
 import cern.accsoft.steering.jmad.JMadTestCase;
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;

@@ -34,9 +34,9 @@ import cern.accsoft.steering.jmad.domain.elem.impl.AbstractElement;
 import cern.accsoft.steering.jmad.domain.elem.impl.ElementFactory;
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.domain.file.CallableModelFile;
+import cern.accsoft.steering.jmad.domain.file.CallableModelFile.ParseType;
 import cern.accsoft.steering.jmad.domain.file.ModelFile;
 import cern.accsoft.steering.jmad.domain.file.TableModelFile;
-import cern.accsoft.steering.jmad.domain.file.CallableModelFile.ParseType;
 import cern.accsoft.steering.jmad.domain.knob.AbstractKnob;
 import cern.accsoft.steering.jmad.domain.knob.Knob;
 import cern.accsoft.steering.jmad.domain.knob.KnobListener;
@@ -78,6 +78,8 @@ import cern.accsoft.steering.jmad.domain.twiss.TwissInitialConditionsImpl;
 import cern.accsoft.steering.jmad.domain.twiss.TwissListener;
 import cern.accsoft.steering.jmad.domain.var.custom.StrengthVarSet;
 import cern.accsoft.steering.jmad.domain.var.custom.StrengthVarSetImpl;
+import cern.accsoft.steering.jmad.domain.var.enums.EalignVariables;
+import cern.accsoft.steering.jmad.domain.var.enums.MadxGlobalVariable;
 import cern.accsoft.steering.jmad.domain.var.enums.MadxTwissVariable;
 import cern.accsoft.steering.jmad.io.ApertureReader;
 import cern.accsoft.steering.jmad.io.ApertureReaderImpl;
@@ -97,11 +99,12 @@ import cern.accsoft.steering.jmad.kernel.cmd.ptc.PtcEndCommand;
 import cern.accsoft.steering.jmad.kernel.cmd.table.ReadMyTableCommand;
 import cern.accsoft.steering.jmad.kernel.cmd.table.ReadTableCommand;
 import cern.accsoft.steering.jmad.kernel.task.CycleSequence;
+import cern.accsoft.steering.jmad.kernel.task.GetMisalignmentsTask;
 import cern.accsoft.steering.jmad.kernel.task.GetValues;
 import cern.accsoft.steering.jmad.kernel.task.RunMatch;
 import cern.accsoft.steering.jmad.kernel.task.RunTwiss;
 import cern.accsoft.steering.jmad.kernel.task.SetBeam;
-import cern.accsoft.steering.jmad.kernel.task.SetMisalignment;
+import cern.accsoft.steering.jmad.kernel.task.SetMisalignmentsTask;
 import cern.accsoft.steering.jmad.kernel.task.ptc.InitPtcTask;
 import cern.accsoft.steering.jmad.kernel.task.ptc.RunPtcTwiss;
 import cern.accsoft.steering.jmad.kernel.task.track.DynapTask;
@@ -267,7 +270,7 @@ public class JMadModelImpl implements JMadModel, ElementAttributeReader {
                 try {
                     getKernel().execute(new SetBeam(beam));
                 } catch (JMadException e) {
-                    LOGGER.error("Error defining beam for sequence [" + sequenceDefinition.getName()
+                    throw new JMadModelException("Error defining beam for sequence [" + sequenceDefinition.getName()
                             + "] during model initialization.", e);
                 }
             }
@@ -551,13 +554,13 @@ public class JMadModelImpl implements JMadModel, ElementAttributeReader {
     /**
      * sends the misalignment-commands to madx
      * 
-     * @param misalignmentConfiguration the misalignment-configuration from which to create the commands
+     * @param misalignmentConfigurations the misalignment-configurations from which to create the commands
      */
-    protected void setMisalignment(MisalignmentConfiguration misalignmentConfiguration) {
+    protected void setMisalignments(List<MisalignmentConfiguration> misalignmentConfigurations) {
 
         if (getKernel().isMadxRunning()) {
             try {
-                getKernel().execute(new SetMisalignment(misalignmentConfiguration));
+                getKernel().execute(new SetMisalignmentsTask(misalignmentConfigurations));
             } catch (JMadException e) {
                 LOGGER.error("Error while setting Misalignment.", e);
             }
@@ -714,21 +717,25 @@ public class JMadModelImpl implements JMadModel, ElementAttributeReader {
         super.finalize();
     }
 
+    @Override
     public Optic getOptics() throws JMadModelException {
         calcOpticsIfDirty();
         return optics;
     }
 
+    @Override
     public void calcOpticsIfDirty() throws JMadModelException {
         if (dirtyModel) {
             calcOptics();
         }
     }
 
+    @Override
     public KnobManager getKnobManager() {
         return this.knobManager;
     }
 
+    @Override
     public String getName() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(this.getModelDefinition().getName());
@@ -769,6 +776,7 @@ public class JMadModelImpl implements JMadModel, ElementAttributeReader {
         fireOpticsDefinitionChanged();
     }
 
+    @Override
     public OpticsDefinition getActiveOpticsDefinition() {
         return activeOpticsDefinition;
     }
@@ -794,16 +802,16 @@ public class JMadModelImpl implements JMadModel, ElementAttributeReader {
                     getKernel().execute(new CycleSequence(rangeDefinition));
                 }
 
-                getKernel().execute(
-                        new UseCommand(rangeDefinition.getSequenceDefinition().getName(), rangeDefinition
-                                .getMadxRange()));
+                getKernel().execute(new UseCommand(rangeDefinition.getSequenceDefinition().getName(),
+                        rangeDefinition.getMadxRange()));
                 /* ensure, that the ealigns are not added together */
                 getKernel().execute(new EOptionCommand(null, false));
 
                 processModelFiles(rangeDefinition.getPostUseFiles());
 
             } catch (JMadException e) {
-                throw new JMadModelException("could not set active Range to '" + range.getName() + "'.", e);
+                throw new JMadModelException(
+                        "could not set active Range to '" + range.getName() + "' in model '" + this + "'.", e);
             }
         }
 
@@ -825,11 +833,16 @@ public class JMadModelImpl implements JMadModel, ElementAttributeReader {
 
                     @Override
                     public void changedMisalignmentValues(MisalignmentConfiguration changedMisalignmentConfiguration) {
-                        setMisalignment(changedMisalignmentConfiguration);
+                        setMisalignments(Collections.singletonList(changedMisalignmentConfiguration));
 
                     }
                 });
-                setMisalignment(misalignmentConfiguration);
+                setMisalignments(Collections.singletonList(misalignmentConfiguration));
+            }
+
+            @Override
+            public void addedMisalignments(List<MisalignmentConfiguration> misalignmentConfigurations) {
+                setMisalignments(misalignmentConfigurations);
             }
         });
 
@@ -844,7 +857,7 @@ public class JMadModelImpl implements JMadModel, ElementAttributeReader {
         fireRangeChanged(activeRange);
     }
 
-    private void setTwissInitialConditions(TwissInitialConditions twissInitialConditions) {
+    public void setTwissInitialConditions(TwissInitialConditions twissInitialConditions) {
         this.twissInitialConditions.removeListener(this.twissListener);
         this.twissInitialConditions = twissInitialConditions;
         this.twissInitialConditions.addListener(this.twissListener);
@@ -1003,8 +1016,8 @@ public class JMadModelImpl implements JMadModel, ElementAttributeReader {
         for (MatchConstraint mC : resultRequest.getMatchConstraints()) {
             if (mC.isGlobal()) {
                 for (String gP : mC.getParameterSettings().keySet()) {
-                    MatchConstraintResultGlobal mCrG = new MatchConstraintResultGlobal(gP, twissSummary
-                            .getDoubleValue(gP));
+                    MatchConstraintResultGlobal mCrG = new MatchConstraintResultGlobal(gP,
+                            twissSummary.getDoubleValue(gP));
                     mCrG.setTargetValue(mC.getParameterSettings().get(gP));
                     matchResult.addConstrainParameterResult(mCrG);
                 }
@@ -1048,8 +1061,8 @@ public class JMadModelImpl implements JMadModel, ElementAttributeReader {
                 for (Entry<String, Double> entry : gP.getValue().entrySet()) {
                     MadxTwissVariable newVar = MadxTwissVariable.fromMadxName(entry.getKey());
 
-                    MatchConstraintResultLocal mCrL = new MatchConstraintResultLocal(gP + Element.ATTR_SEPARATOR
-                            + entry.getKey(), //
+                    MatchConstraintResultLocal mCrL = new MatchConstraintResultLocal(
+                            gP + Element.ATTR_SEPARATOR + entry.getKey(), //
                             twissResult.getDoubleData(newVar).get(elIdx));
                     mCrL.setTargetValue(entry.getValue());
 
@@ -1200,5 +1213,76 @@ public class JMadModelImpl implements JMadModel, ElementAttributeReader {
     @Override
     public void setTitel(String title) {
         this.execute("title,\"" + title + "\";");
+    }
+
+    @Override
+    public List<MisalignmentConfiguration> getMisalignments() {
+        // TODO
+        List<MisalignmentConfiguration> toReturn = new ArrayList<>();
+        try {
+            TfsResult misalignmentsRaw = getMisalignmentsRaw();
+            toReturn = convertToMisalignments(misalignmentsRaw);
+        } catch (JMadModelException e) {
+            LOGGER.warn("Cannot complete the misalignment retrival task due: ", e);
+        }
+        return toReturn;
+    }
+
+    private TfsResult getMisalignmentsRaw() throws JMadModelException {
+        ensureInit();
+
+        TfsResult valuesResult = null;
+        try {
+            // XXX first approach ONLY QUADRUPOLES information is extracted!
+            Result result = getKernel().execute(new GetMisalignmentsTask("MQ.*"));
+            if (ResultType.TFS_RESULT != result.getResultType()) {
+                throw new JMadModelException("GetValues returned wrong type of result!");
+            }
+            valuesResult = (TfsResult) result;
+        } catch (JMadException e) {
+            LOGGER.warn("Cannot complete the misalignment retrival task due: ", e);
+        }
+        return valuesResult;
+    }
+
+    private List<MisalignmentConfiguration> convertToMisalignments(TfsResult misalignmentsRaw) {
+        List<MisalignmentConfiguration> toReturn = new ArrayList<>();
+        for (String oneElement : misalignmentsRaw.getStringData(MadxGlobalVariable.NAME)) {
+            Integer elementIndex = misalignmentsRaw.getElementIndex(oneElement);
+            MisalignmentConfiguration misalignmentConfiguration = new MisalignmentConfiguration(oneElement);
+            misalignmentConfiguration.getMisalignment()
+                    .setDeltaY(getVariableValue(misalignmentsRaw, elementIndex, EalignVariables.DX));
+            misalignmentConfiguration.getMisalignment()
+                    .setDeltaX(getVariableValue(misalignmentsRaw, elementIndex, EalignVariables.DY));
+            misalignmentConfiguration.getMisalignment()
+                    .setDeltaS(getVariableValue(misalignmentsRaw, elementIndex, EalignVariables.DS));
+            misalignmentConfiguration.getMisalignment()
+                    .setDeltaPhi(getVariableValue(misalignmentsRaw, elementIndex, EalignVariables.DPHI));
+            misalignmentConfiguration.getMisalignment()
+                    .setDeltaPsi(getVariableValue(misalignmentsRaw, elementIndex, EalignVariables.DPSI));
+            misalignmentConfiguration.getMisalignment()
+                    .setDeltaTheta(getVariableValue(misalignmentsRaw, elementIndex, EalignVariables.DTHETA));
+            misalignmentConfiguration.getMisalignment()
+                    .setMonitorReadErrorX(getVariableValue(misalignmentsRaw, elementIndex, EalignVariables.MREX));
+            misalignmentConfiguration.getMisalignment()
+                    .setMonitorReadErrorY(getVariableValue(misalignmentsRaw, elementIndex, EalignVariables.MREY));
+            misalignmentConfiguration.getMisalignment()
+                    .setApertureErrorX(getVariableValue(misalignmentsRaw, elementIndex, EalignVariables.AREX));
+            misalignmentConfiguration.getMisalignment()
+                    .setApertureErrorY(getVariableValue(misalignmentsRaw, elementIndex, EalignVariables.AREY));
+            toReturn.add(misalignmentConfiguration);
+        }
+
+        return toReturn;
+    }
+
+    /**
+     * @param misalignmentsRaw
+     * @param elementIndex
+     * @param variable
+     * @return
+     */
+    protected Double getVariableValue(TfsResult misalignmentsRaw, Integer elementIndex, EalignVariables variable) {
+        return misalignmentsRaw.getDoubleData(variable).get(elementIndex);
     }
 }

@@ -45,6 +45,7 @@ public enum MadxElementType {
     KICKER(JMadElementType.CORRECTOR), //
     VKICKER(JMadElementType.CORRECTOR), //
     HKICKER(JMadElementType.CORRECTOR), //
+    TKICKER(JMadElementType.CORRECTOR), //
     MONITOR(JMadElementType.MONITOR), //
     VMONITOR(JMadElementType.MONITOR), //
     HMONITOR(JMadElementType.MONITOR), //
@@ -62,7 +63,6 @@ public enum MadxElementType {
     MULTIPOLE(JMadElementType.UNKNOWN), //
     RFCAVITY(JMadElementType.UNKNOWN), //
     RCOLLIMATOR(JMadElementType.UNKNOWN), //
-    TKICKER(JMadElementType.UNKNOWN), //
     SOLENOID(JMadElementType.UNKNOWN), //
 
     /*

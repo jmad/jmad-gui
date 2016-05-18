@@ -1,0 +1,149 @@
+ex: sequence, l = 113.267273288;
+    ex00000rfp, at = 0.0;
+    ex00000mst, at = 0.29625;
+    ex00001mse, at = 1.744370615;
+    ex00002mse, at = 3.339493814;
+    ex00003mse, at = 4.440782954;
+    ex00000mch, at = 5.25;
+    ex00000sfx, at = 5.85;
+    ex00000mqf, at = 6.470862141;
+    ex00001mcv, at = 7.0;
+    ex00001mqd, at = 7.544777636;
+    ex00000vvg, at = 8.1317353835;
+    ex00002mqf, at = 8.618693131;
+    ex00000mkc, at = 9.27706222;
+    ex01000mbh, at = 10.7484704371;
+    ex01000mkc, at = 12.2198786342;
+    ex01000qpm, at = 12.6666953142;
+    ex01000bdc, at = 0.1165, from = ex01000qpm;
+    ex01001mkc, at = 13.2854036142;
+    ex01001mbh, at = 14.7568118313;
+    ex01002mkc, at = 16.2282200284;
+    ex01000mqd, at = 16.8865891384;
+    ex01000sfx, at = 17.4485;
+    ex01001mqf, at = 17.9605046384;
+    ex01000mch, at = 18.4974623834;
+    ex01002mqd, at = 19.0344201284;
+    ex01001mcv, at = 19.7938759884;
+    ex01000vvg, at = 20.4938759884;
+    ex01001vvg, at =  23.0739;
+    ex01001sfx, at = 23.4438950384;
+    ex01000iss, at = 24.4089; 
+    ex01003mqy, at = 25.1188950384;
+    ex01004mqy, at = 26.7188950384;
+    ex01002sfx, at = 27.5188950384;
+    ex01005mqy, at = 28.3188950384;
+    ex01002mch, at = 28.8938759884;
+    ex01003mcv, at = 29.3938759884;
+    ex01006mqy, at = 29.9188950384;
+    ex01007mqy, at = 31.5188950384;
+    ex01008mqy, at = 33.1188950384;
+    ex01003sfx, at = 34.6069950384;
+    
+    ex01001rfp, at = 34.7938950384;
+
+    ex01004mcv, at = 0.4131, from = ex01001rfp;
+    ex01009mqf, at = 35.8069950384;
+    ex01005mch, at = 0.7, from = ex01009mqf;
+    ex01010mqd, at = 37.1569950384;
+                     
+    ex02000mbh, at = 38.882029539999998;
+
+    ex02000vvg, at = 40.3173341954;
+    ex02000sfx, at = 40.687334195;
+    ex02000mqf, at = 41.1938950384;
+    ex02001mqd, at = 42.2938950384;
+    ex02002mqf, at = 43.3938950384;
+    ex02000mcv, at = 44.0938950384;
+    ex02001mch, at = 44.6938950384;
+    ex02003mqd, at = 47.4307950384;
+    ex02004mqf, at = 48.7807950384;
+    ex02001sfx, at = 49.6069950384;
+
+    ex02000rfp, at = 49.7938950384;
+
+    ex02002mcv, at = 0.4131, from = ex02000rfp;
+    ex02005mqf, at = 50.8069950384;
+    ex02003mch, at = 0.7, from = ex02005mqf;
+    ex02006mqd, at = 52.1569950384;
+
+    ex03000mbh, at = 53.882029549999999;
+
+    ex03000vvg, at = 55.3173341954;
+    ex03000sfx, at = 55.6873341954;
+    ex03000mqf, at = 56.1938950384;
+    ex03001mqd, at = 57.2938950384;
+    ex03002mqf, at = 58.3938950384;
+    ex03000mcv, at = 59.0938950384;
+    ex03001mch, at = 59.6938950384;
+    ex03003mqd, at = 62.4307950384;
+    ex03004mqf, at = 63.7807950384;
+    ex03001sfx, at = 64.6069950384;
+
+    ex03000rfp, at = 64.7938950384;
+    
+    ex03002mcv, at = 0.4131, from = ex03000rfp;
+    ex03005mqf, at = 65.8069950384;
+    ex03003mch, at = 0.7, from = ex03005mqf;
+    ex03006mqd, at = 67.1569950384;
+    ex04000mbh, at = 68.882029549999999;
+
+    ex04000vvg, at = 70.31733419540001;
+    ex04000sfx, at = 70.6873341954;
+    ex04000mqf, at = 71.1938950384;
+    ex04001mqd, at = 72.2938950384;
+    ex04002mqf, at = 73.3938950384;
+    ex04000mcv, at = 74.0938950384;
+    ex04001mch, at = 74.6938950384;
+    ex04003mqd, at = 77.4307950384;
+    ex04004mqf, at = 78.7807950384;
+    ex04001sfx, at = 79.5688950384;
+
+    ex04000rfp, at = 79.7938950384;
+
+    ex04005mqr, at = 80.5688950384;
+    ex04006mqr, at = 81.4188950384;
+    ex04007mqr, at = 82.8688950384;
+    ex04008mqr, at = 84.4938950384;
+    ex04009mqr, at = 86.1188950384;
+    ex04010mqr, at = 87.5688950384;
+    ex04011mqr, at = 88.4188950384;
+
+    ex04001rfp, at = 89.1938950384;
+
+    ex04002sfx, at = 0.225, from = ex04001rfp;
+    ex04002mcv, at = 1.57498095, from = ex04002sfx;
+    ex04012mqf, at = 91.8136841884;
+    ex04003mch, at = 0.675, from = ex04012mqf;
+    ex04013mqd, at = 93.1636841884;
+
+    ex05000mbh, at = 94.89088538;
+
+    ex05000vvg, at = 96.2136841884;
+    ex05000sfx, at = 96.5836841884;
+    ex05000mqf, at = 97.2005841884;
+    ex05001mqd, at = 98.4805841884;
+    ex05002mqf, at = 99.7605841884;
+    ex05000mcv, at = 100.460584188;
+    ex05001mch, at = 101.060584188;
+    ex05003mqd, at = 103.797484188;
+    ex05004mqf, at = 105.147484188;
+    ex05001sfx, at = 107.542273288;
+    
+    ex05000rfp, at = 107.767273288;
+    ex05000vwi, at = 110.39;
+    ex05000bde, at = 113.017273288;
+
+    ex05001rfp, at = 113.267273288;
+
+endsequence;
+
+
+
+//define some subsequences
+extract, sequence = ex, from = ex00000rfp, to = ex01001sfx, newname = dispersionsuppressor;
+extract, sequence = ex, from = ex01001sfx, to = ex01001rfp, newname = phasestepper;
+extract, sequence = ex, from = ex01001rfp, to = ex05001rfp, newname = afterphasestepper;
+extract, sequence = ex, from = ex04000rfp, to = ex04001rfp, newname = rotator;
+extract, sequence = ex, from = ex01001rfp, to = ex02000rfp, newname = standardstraighttelescope;
+extract, sequence = ex, from = ex04000rfp, to = ex05000rfp, newname = rottoend;

@@ -33,9 +33,9 @@
 						This target must be executed after getting the jars.
 		-->
 	<target name="unsign-my-jars">
-		<echo message="unsigning cglib" />
+		<echo message="unsigning spring" />
 		<antcall target="unsignjars">
-			<param name="jar" value="cglib-nodep" />
+			<param name="jar" value="spring*" />
 		</antcall>
 		<echo message="unsigning jmad" />
 		<antcall target="unsignjars">

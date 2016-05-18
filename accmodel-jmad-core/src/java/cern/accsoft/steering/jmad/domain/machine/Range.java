@@ -23,6 +23,7 @@
 package cern.accsoft.steering.jmad.domain.machine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +83,15 @@ public class Range {
      */
     public void addMisalignment(MisalignmentConfiguration misalignmentConfiguration) {
         this.misalignments.add(misalignmentConfiguration);
-        fireAddedMisalignments(misalignmentConfiguration);
+        fireAddedMisalignments(Collections.singletonList(misalignmentConfiguration));
+    }
+
+    /**
+     * @param misalignmentConfigurations
+     */
+    public void addMisalignments(List<MisalignmentConfiguration> misalignmentConfigurations) {
+        misalignmentConfigurations.addAll(misalignmentConfigurations);
+        fireAddedMisalignments(misalignmentConfigurations);
     }
 
     /**
@@ -131,6 +140,7 @@ public class Range {
      * 
      * @return all elements
      */
+
     public List<Element> getElements() {
         return elements;
     }
@@ -140,7 +150,9 @@ public class Range {
      * 
      * @param type the type of the elements to retrieve.
      * @return a Collection of the elements.
+     * @deprecated Use getElements(Element.class)
      */
+    @Deprecated
     public List<Element> getElements(JMadElementType type) {
         ArrayList<Element> selectedElements = new ArrayList<Element>();
 
@@ -150,6 +162,24 @@ public class Range {
             }
         }
 
+        return selectedElements;
+    }
+
+    /**
+     * @param elemtClass
+     * @param <C>
+     * @return
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public <C extends Element> List<C> getElements(Class<C> elemtClass) {
+        List<C> selectedElements = new ArrayList<C>();
+
+        for (Element element : elements) {
+            if (element.getClass().equals(elemtClass)) {
+                selectedElements.add((C) element);
+            }
+        }
         return selectedElements;
     }
 
@@ -216,6 +246,12 @@ public class Range {
         }
     }
 
+    private void fireAddedMisalignments(List<MisalignmentConfiguration> configs) {
+        for (RangeListener listener : this.listeners) {
+            listener.addedMisalignments(configs);
+        }
+    }
+
     /**
      * @param listener the listener to add
      */
@@ -229,4 +265,5 @@ public class Range {
     public void removeListener(RangeListener listener) {
         this.listeners.remove(listener);
     }
+
 }

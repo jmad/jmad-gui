@@ -91,6 +91,13 @@ public class ModelMisalignmentsPanel extends JPanel {
 
                 @Override
                 public void addedMisalignments(MisalignmentConfiguration misalignmentConfiguration) {
+                    /* XXX never called */
+                    misalignmentsTableModel.fireTableDataChanged();
+                    validate();
+                }
+
+                @Override
+                public void addedMisalignments(List<MisalignmentConfiguration> arg0) {
                     misalignmentsTableModel.fireTableDataChanged();
                     validate();
                 }

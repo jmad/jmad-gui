@@ -27,10 +27,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import cern.accsoft.steering.jmad.util.FileMonitor.WaitingFailedException;
+import cern.accsoft.steering.jmad.JMadException;
 
 public class FileMonitorTest extends LoggedTestCase {
     private FileMonitor fileMonitor = null;
@@ -44,14 +45,21 @@ public class FileMonitorTest extends LoggedTestCase {
         fileMonitor = new FileMonitor(new File(TEST_FILE_NAME));
     }
 
+    @After
+    public void cleanUp() {
+        if (testFile != null) {
+            this.testFile.delete();
+        }
+    }
+
     @Test
-    public void testNoFile() throws WaitingFailedException {
+    public void testNoFile() throws JMadException {
         boolean fileExists = fileMonitor.waitForFile(WAIT_MILLISEC);
         assertFalse("filemonitor should time out, because there exists no file.", fileExists);
     }
 
     @Test
-    public void testFileExistsAtStart() throws WaitingFailedException {
+    public void testFileExistsAtStart() throws JMadException {
         testFile = new TestFile(TEST_FILE_NAME);
         testFile.write("");
         boolean fileExists = fileMonitor.waitForFile(WAIT_MILLISEC);

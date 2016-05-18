@@ -30,10 +30,6 @@ import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 
-import cern.accsoft.steering.jmad.domain.twiss.TwissInitialConditions;
-import cern.accsoft.steering.jmad.domain.twiss.TwissInitialConditionsImpl;
-import cern.accsoft.steering.jmad.domain.twiss.TwissListener;
-
 /**
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */

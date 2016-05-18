@@ -39,7 +39,7 @@ public final class ElementFactory {
     }
 
     /**
-     * factory method for an element of the according type. This has to be overridden by each enum-instance.
+     * factory method for an element of the according type. 
      * 
      * @param madxElementType the type of the element as represented in madx itself
      * @param elementName the name of the new element

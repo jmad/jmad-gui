@@ -5,7 +5,6 @@
 		<dependencies>
 			<dep product="log4j"/>
 			<dep product="spring"/>
-			<dep product="cglib2"/>
 			<dep product="accmodel-jmad-core"/>
 			<dep product="accmodel-jmad-models-lsa"/>
 			<dep product="accmodel-jmad-models-default"/>

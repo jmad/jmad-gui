@@ -10,20 +10,25 @@ import cern.accsoft.steering.jmad.modeldefs.io.ModelDefinitionPersistenceService
 import cern.accsoft.steering.jmad.modeldefs.io.impl.ModelDefinitionUtil;
 import cern.accsoft.steering.jmad.modeldefs.io.impl.XmlModelDefinitionPersistenceService;
 import cern.accsoft.steering.jmad.util.xml.PersistenceServiceException;
-import cern.jmad.modeldefs.defs.MedAustronModelDefinitionFactory;
+import cern.jmad.modeldefs.defs.MedAustronMainRingModelDefinitionFactory;
+import cern.jmad.modeldefs.defs.MedAustronMebtVar3ModelDefinitionFactory;
+import cern.jmad.modeldefs.defs.MedAustronNominalHebtModelDefinitionFactory;
+import cern.jmad.modeldefs.defs.MedAustronNominalMebtModelDefinitionFactory;
 
 public class ModelDefCreator {
 
     public final static void main(String[] args) {
 
-        String destPath = "";
+        String destPath = "src/java/cern/accsoft/steering/jmad/modeldefs/defs";
         if (args.length > 0) {
             destPath = args[0];
         }
 
         BasicConfigurator.configure();
 
-        ModelDefinitionFactory[] factories = new ModelDefinitionFactory[] { new MedAustronModelDefinitionFactory() };
+        ModelDefinitionFactory[] factories = new ModelDefinitionFactory[] {
+                new MedAustronMainRingModelDefinitionFactory(), new MedAustronNominalMebtModelDefinitionFactory(),
+                new MedAustronMebtVar3ModelDefinitionFactory(), new MedAustronNominalHebtModelDefinitionFactory() };
 
         ModelDefinitionPersistenceService service = new XmlModelDefinitionPersistenceService();
 

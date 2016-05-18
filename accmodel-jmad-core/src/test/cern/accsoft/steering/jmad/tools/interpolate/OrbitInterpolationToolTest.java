@@ -11,13 +11,14 @@
 
 package cern.accsoft.steering.jmad.tools.interpolate;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static junit.framework.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;

@@ -47,6 +47,8 @@ public interface Element {
     public Double getAttribute(String attributeName);
 
     public List<String> getAttributeNames();
+    
+    public ElementAttributeReader getAttributesReader();
 
     /**
      * @return the exact element type as defined in the madx sequence of this element as enum

@@ -36,7 +36,7 @@ import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
 
 /**
  * Represents an orbit corrector in JMad. This represents all the element of the types <a
- * href="http://mad.web.cern.ch/mad/Introduction/kickers.html">HKICKER, VKICKER and KICKER</a> in MadX.
+ * href="http://mad.web.cern.ch/mad/Introduction/kickers.html">HKICKER, VKICKER, KICKER and TKICKER</a> in MadX.
  * 
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */

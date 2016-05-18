@@ -39,9 +39,9 @@ import java.util.zip.ZipFile;
 import org.apache.log4j.Logger;
 
 import cern.accsoft.steering.jmad.domain.file.ModelFile;
+import cern.accsoft.steering.jmad.domain.file.ModelFile.ModelFileLocation;
 import cern.accsoft.steering.jmad.domain.file.ModelPathOffsets;
 import cern.accsoft.steering.jmad.domain.file.ModelPathOffsetsImpl;
-import cern.accsoft.steering.jmad.domain.file.ModelFile.ModelFileLocation;
 import cern.accsoft.steering.jmad.modeldefs.domain.SourceInformation;
 import cern.accsoft.steering.jmad.modeldefs.domain.SourceInformation.SourceType;
 import cern.accsoft.steering.jmad.modeldefs.io.ModelFileFinder;
@@ -55,6 +55,8 @@ import cern.accsoft.steering.jmad.util.TempFileUtil;
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ModelFileFinderImpl implements ModelFileFinder {
+
+    private static final String DEFAULT_REPOSITORY_BASEPATH = ".";
 
     /** the logger for the class */
     private static final Logger LOGGER = Logger.getLogger(ModelFileFinderImpl.class);
@@ -233,8 +235,19 @@ public class ModelFileFinderImpl implements ModelFileFinder {
     public String getRepositoryPath(ModelFile modelFile) {
         String repoPath = modelFile.getName();
         repoPath = prependPathOffset(repoPath, getRepositoryPathOffset());
-        repoPath = getPreferences().getModelRepositoryBasePath() + File.separator + repoPath;
+        repoPath = getRepositoryBasePath() + File.separator + repoPath;
         return repoPath;
+    }
+
+    private String getRepositoryBasePath() {
+        String basePath = getPreferences().getModelRepositoryBasePath();
+        if ((basePath == null) && (sourceInformation != null) && (SourceType.FILE.equals(sourceInformation.getSourceType()))) {
+            basePath = sourceInformation.getRootPath().getAbsolutePath();
+        } 
+        if (basePath == null) {
+            basePath = DEFAULT_REPOSITORY_BASEPATH;
+        }
+        return basePath;
     }
 
     private String getRepositoryPathOffset() {

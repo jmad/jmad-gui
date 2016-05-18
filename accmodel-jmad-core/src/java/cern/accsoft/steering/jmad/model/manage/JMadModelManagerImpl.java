@@ -34,8 +34,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import cern.accsoft.steering.jmad.domain.elem.Element;
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.service.JMadModelComparator;
+import cern.accsoft.steering.jmad.service.SequenceElementFilter;
 
 /**
  * simplest possible implementation of a {@link JMadModelManager}.
@@ -55,6 +58,8 @@ public class JMadModelManagerImpl implements JMadModelManager {
 
     /** all the available models */
     private final List<JMadModel> models = new ArrayList<JMadModel>();
+
+    private JMadModelComparator jMadModelComparator;
 
     //
     // methods for interface ModelManager
@@ -145,6 +150,15 @@ public class JMadModelManagerImpl implements JMadModelManager {
                 LOGGER.error("Error while cleaning up model.", e);
             }
         }
+    }
+
+    public void setjMadModelComparator(JMadModelComparator jMadModelComparator) {
+        this.jMadModelComparator = jMadModelComparator;
+    }
+
+    @Override
+    public List<Element> getCommonSequenceElements(JMadModel model1, JMadModel model2, SequenceElementFilter filter) {
+        return jMadModelComparator.getCommonSequenceElements(model1, model2, filter);
     }
 
 }

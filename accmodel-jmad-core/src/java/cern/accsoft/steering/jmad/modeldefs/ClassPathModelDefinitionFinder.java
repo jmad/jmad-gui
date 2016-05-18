@@ -35,8 +35,8 @@ import org.apache.log4j.Logger;
 import cern.accmodel.commons.util.ResourceUtil;
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinitionImpl;
-import cern.accsoft.steering.jmad.modeldefs.domain.SourceInformationImpl;
 import cern.accsoft.steering.jmad.modeldefs.domain.SourceInformation.SourceType;
+import cern.accsoft.steering.jmad.modeldefs.domain.SourceInformationImpl;
 import cern.accsoft.steering.jmad.modeldefs.io.ModelDefinitionPersistenceService;
 import cern.accsoft.steering.jmad.modeldefs.io.impl.ModelDefinitionUtil;
 import cern.accsoft.steering.jmad.util.xml.PersistenceServiceException;
@@ -68,7 +68,7 @@ public class ClassPathModelDefinitionFinder implements ModelDefinitionFinder {
             try {
                 modelDefinition = getPersistenceService().load(inputStream);
             } catch (PersistenceServiceException e) {
-                LOGGER.error("could not load model definition from resource '" + resourcePath + "' relative to class "
+                LOGGER.error("could not load model definition from resource '" + resourceName + "' relative to class "
                         + ModelDefinitionUtil.BASE_CLASS.getCanonicalName(), e);
             }
             if (modelDefinition instanceof JMadModelDefinitionImpl) {
@@ -87,12 +87,19 @@ public class ClassPathModelDefinitionFinder implements ModelDefinitionFinder {
         String packageName = ModelDefinitionUtil.BASE_CLASS.getPackage().getName() + "."
                 + ModelDefinitionUtil.PACKAGE_OFFSET;
 
-        Collection<String> packageFileNames = ResourceUtil.getResourceNames(packageName);
+        /*
+         * the names directly in the package.
+         */
+        List<String> definitionFileNames = filterForXmlFiles(packageName, ResourceUtil.getResourceNames(packageName));
+        return definitionFileNames;
+    }
+
+    private List<String> filterForXmlFiles(String packageName, Collection<String> packageFileNames) {
         List<String> definitionFileNames = new ArrayList<String>();
         for (String fileName : packageFileNames) {
             if (ModelDefinitionUtil.isXmlFileName(fileName)) {
                 definitionFileNames.add(fileName);
-                LOGGER.debug("Found model definition file '" + fileName + "' in package '" + packageName + "'");
+                LOGGER.debug("Found model definition file '" + fileName + "' in package '" + packageName + "'.");
             }
         }
         return definitionFileNames;

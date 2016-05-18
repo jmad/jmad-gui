@@ -47,7 +47,7 @@ public class FileMonitor {
      * @return true, if it exists finally, false, if the monitored process was interrupted
      * @throws WaitingFailedException if something goes wrong during waiting
      */
-    public boolean waitForFile() throws WaitingFailedException {
+    public boolean waitForFile() throws JMadException {
         return waitForFile(null);
     }
 
@@ -58,12 +58,12 @@ public class FileMonitor {
      * @return true, if the file finally exists, false, if the monitored process was interrupted or we timed out.
      * @throws WaitingFailedException if something goes wrong during the waiting
      */
-    public synchronized boolean waitForFile(Long timeout) throws WaitingFailedException {
+    public synchronized boolean waitForFile(Long timeout) throws JMadException {
         long startTime = System.currentTimeMillis();
         while (!file.exists()) {
             /* interrupt if the process has stopped meanwhile. */
             if ((process != null) && (!ProcTools.isRunning(process))) {
-                throw new WaitingFailedException("process '" + process.toString()
+                throw new ProcessTerminatedUnexpectedlyException("process '" + process.toString()
                         + "' terminated while waiting for file '" + file.getAbsolutePath()
                         + "' - maybe there was some error!");
             }
@@ -116,4 +116,18 @@ public class FileMonitor {
         }
 
     }
+
+    public static class ProcessTerminatedUnexpectedlyException extends JMadException {
+        private static final long serialVersionUID = 1L;
+
+        public ProcessTerminatedUnexpectedlyException(String message) {
+            super(message);
+        }
+
+        public ProcessTerminatedUnexpectedlyException(String message, Throwable cause) {
+            super(message, cause);
+        }
+
+    }
+
 }

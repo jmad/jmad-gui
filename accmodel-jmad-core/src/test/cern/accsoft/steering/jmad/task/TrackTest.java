@@ -22,14 +22,14 @@
 
 package cern.accsoft.steering.jmad.task;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 import cern.accsoft.steering.jmad.domain.result.track.TrackResultRequest;
 import cern.accsoft.steering.jmad.domain.result.track.TrackResultRequestImpl;
-import cern.accsoft.steering.jmad.domain.track.RelativeParticleDistributionImpl;
 import cern.accsoft.steering.jmad.domain.track.RelativeParticleCoordinateImpl;
+import cern.accsoft.steering.jmad.domain.track.RelativeParticleDistributionImpl;
 import cern.accsoft.steering.jmad.domain.track.TrackInitialCondition;
 import cern.accsoft.steering.jmad.domain.track.TrackInitialConditionImpl;
 import cern.accsoft.steering.jmad.kernel.task.track.TrackTask;

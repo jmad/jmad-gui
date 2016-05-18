@@ -28,8 +28,12 @@
 	-->
 	<target name="unsign-my-jars" if="${unsign.my.jars.enabled}">
 		<echo message="unsigning cglib" />
+				<antcall target="unsignjars">
+					<param name="jar" value="cglib-nodep" />
+				</antcall>
+		<echo message="unsigning spring" />
 		<antcall target="unsignjars">
-			<param name="jar" value="cglib-nodep" />
+			<param name="jar" value="spring*" />
 		</antcall>
 		<echo message="unsigning jmad" />
 		<antcall target="unsignjars">

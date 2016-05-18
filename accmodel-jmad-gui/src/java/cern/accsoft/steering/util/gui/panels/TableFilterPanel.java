@@ -47,7 +47,12 @@ public class TableFilterPanel extends JPanel {
     /**
      * the table on which this filter will act.
      */
-    private JTable table;
+    private final JTable table;
+
+    /**
+     * A string which represents a regular expression, which shall be put as an initial value to the filter field.
+     */
+    private final String initialExpression;
 
     /**
      * the constructor. enforces to provide a table, which to attach to.
@@ -55,7 +60,19 @@ public class TableFilterPanel extends JPanel {
      * @param table the table on which we act.
      */
     public TableFilterPanel(JTable table) {
+        this(table, null);
+    }
+
+    /**
+     * A constructor, which requires the obligatory table and an additional string which will be set as initial value to
+     * the filter field.
+     * 
+     * @param table the table on which the filter will be applied
+     * @param initialExpression the initial expression which shall be set to the text field
+     */
+    public TableFilterPanel(JTable table, String initialExpression) {
         this.table = table;
+        this.initialExpression = initialExpression;
         initComponents();
     }
 
@@ -74,7 +91,13 @@ public class TableFilterPanel extends JPanel {
         table.setAutoCreateRowSorter(true);
         final TableRowSorter<? extends TableModel> elementsSorter = (TableRowSorter<? extends TableModel>) this.table
                 .getRowSorter();
+
         final JTextField filterText = new JTextField();
+        if (initialExpression != null) {
+            filterText.setText(initialExpression);
+            elementsSorter.setRowFilter(RowFilter.regexFilter(initialExpression));
+        }
+
         filterText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {

@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cern.accsoft.steering.jmad.domain.misalign.Misalignment;
+import cern.accsoft.steering.jmad.domain.var.enums.EalignVariables;
 import cern.accsoft.steering.jmad.kernel.cmd.param.GenericParameter;
 import cern.accsoft.steering.jmad.kernel.cmd.param.Parameter;
 
@@ -77,18 +78,22 @@ public class EalignCommand extends AbstractCommand {
          * EALIGN, DX=real,DY=real,DS=real, DPHI=real,DTHETA=real,DPSI=real, MREX=real,MREY=real,
          * MSCALX=real,MSCALY=real, AREX=real,AREY=real;
          */
-        parameters.add(new GenericParameter<Double>("dx", misalignment.getDeltaX()));
-        parameters.add(new GenericParameter<Double>("dy", misalignment.getDeltaY()));
-        parameters.add(new GenericParameter<Double>("ds", misalignment.getDeltaS()));
-        parameters.add(new GenericParameter<Double>("dphi", misalignment.getDeltaPhi()));
-        parameters.add(new GenericParameter<Double>("dtheta", misalignment.getDeltaTheta()));
-        parameters.add(new GenericParameter<Double>("dpsi", misalignment.getDeltaPsi()));
-        parameters.add(new GenericParameter<Double>("mrex", misalignment.getMonitorReadErrorX()));
-        parameters.add(new GenericParameter<Double>("mrey", misalignment.getMonitorReadErrorY()));
-        parameters.add(new GenericParameter<Double>("mscalx", misalignment.getMonitorScalingErrorX()));
-        parameters.add(new GenericParameter<Double>("mscaly", misalignment.getMonitorScalingErrorY()));
-        parameters.add(new GenericParameter<Double>("arex", misalignment.getApertureErrorX()));
-        parameters.add(new GenericParameter<Double>("arey", misalignment.getApertureErrorY()));
+        parameters.add(new GenericParameter<Double>(EalignVariables.DX.getName(), misalignment.getDeltaX()));
+        parameters.add(new GenericParameter<Double>(EalignVariables.DY.getName(), misalignment.getDeltaY()));
+        parameters.add(new GenericParameter<Double>(EalignVariables.DS.getName(), misalignment.getDeltaS()));
+        parameters.add(new GenericParameter<Double>(EalignVariables.DPHI.getName(), misalignment.getDeltaPhi()));
+        parameters.add(new GenericParameter<Double>(EalignVariables.DTHETA.getName(), misalignment.getDeltaTheta()));
+        parameters.add(new GenericParameter<Double>(EalignVariables.DPSI.getName(), misalignment.getDeltaPsi()));
+        parameters
+                .add(new GenericParameter<Double>(EalignVariables.MREX.getName(), misalignment.getMonitorReadErrorX()));
+        parameters
+                .add(new GenericParameter<Double>(EalignVariables.MREY.getName(), misalignment.getMonitorReadErrorY()));
+        parameters.add(new GenericParameter<Double>(EalignVariables.MSCALX.getName(), misalignment
+                .getMonitorScalingErrorX()));
+        parameters.add(new GenericParameter<Double>(EalignVariables.MSCALY.getName(), misalignment
+                .getMonitorScalingErrorY()));
+        parameters.add(new GenericParameter<Double>(EalignVariables.AREX.getName(), misalignment.getApertureErrorX()));
+        parameters.add(new GenericParameter<Double>(EalignVariables.AREY.getName(), misalignment.getApertureErrorY()));
 
         return parameters;
     }

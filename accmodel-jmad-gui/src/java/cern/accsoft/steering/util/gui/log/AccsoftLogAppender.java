@@ -22,14 +22,14 @@
 
 package cern.accsoft.steering.util.gui.log;
 
-import org.apache.commons.logging.Log;
 import org.apache.log4j.Level;
 import org.apache.log4j.WriterAppender;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.RootLogger;
+import org.slf4j.Logger;
 
-import cern.accsoft.commons.core.StatusLine;
 import cern.accsoft.gui.frame.MessageManager;
+import cern.accsoft.gui.frame.StatusLine;
 
 /**
  * This class is a simple implementation of a log4j - appender, that forwards the log-calls to the accsoft log-panel and
@@ -41,7 +41,7 @@ import cern.accsoft.gui.frame.MessageManager;
 public class AccsoftLogAppender extends WriterAppender {
 
     /* the log-panel of the main frame. There we will send all messages to. */
-    private Log logger;
+    private Logger logger;
 
     /* The statusline of the mainfram. There we will send some messages to. */
     private StatusLine statusLine;
@@ -57,7 +57,7 @@ public class AccsoftLogAppender extends WriterAppender {
      * @param logger
      * @param statusLine
      */
-    public AccsoftLogAppender(Log logger, StatusLine statusLine) {
+    public AccsoftLogAppender(Logger logger, StatusLine statusLine) {
         this.logger = logger;
         this.statusLine = statusLine;
         /*
@@ -105,7 +105,7 @@ public class AccsoftLogAppender extends WriterAppender {
         } else if (Level.ERROR.equals(level)) {
             logger.error(message);
         } else if (Level.FATAL.equals(level)) {
-            logger.fatal(message);
+            logger.error(message);
         }
     }
 

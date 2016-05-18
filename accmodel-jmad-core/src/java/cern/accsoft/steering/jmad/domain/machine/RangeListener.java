@@ -29,6 +29,8 @@
  */
 package cern.accsoft.steering.jmad.domain.machine;
 
+import java.util.List;
+
 import cern.accsoft.steering.jmad.domain.misalign.MisalignmentConfiguration;
 
 /**
@@ -43,6 +45,14 @@ public interface RangeListener {
      * 
      * @param misalignmentConfiguration the misalignement configuration which was added.
      */
+    @Deprecated
     public void addedMisalignments(MisalignmentConfiguration misalignmentConfiguration);
+
+    /**
+     * fired when a misalignment is added or removed.
+     * 
+     * @param misalignmentConfigurations
+     */
+    public void addedMisalignments(List<MisalignmentConfiguration> misalignmentConfigurations);
 
 }

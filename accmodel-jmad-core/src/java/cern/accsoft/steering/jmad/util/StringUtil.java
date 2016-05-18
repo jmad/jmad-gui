@@ -25,6 +25,10 @@
  */
 package cern.accsoft.steering.jmad.util;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.Collection;
+
 /**
  * some utils to handle strings
  * 
@@ -51,5 +55,27 @@ public final class StringUtil {
             }
         }
         return true;
+    }
+
+    /**
+     * Joins the objects (using their toString method) using the given separator into one string.
+     * 
+     * @param objects the objects that should be joined together
+     * @param separator the separator to use between the object-string representations
+     * @return a string, containing the string representations of all given objects, joined together by the use of the
+     *         given separator.
+     */
+    public static String join(Collection<?> objects, String separator) {
+        requireNonNull(objects, "Collection of objects to join must not be null!");
+        requireNonNull(separator, "Separator must not be null!");
+        StringBuilder builder = new StringBuilder();
+        for (Object object : objects) {
+            builder.append(object);
+            builder.append(separator);
+        }
+        if (builder.length() >= separator.length()) {
+            builder.delete(builder.length() - separator.length(), builder.length());
+        }
+        return builder.toString();
     }
 }

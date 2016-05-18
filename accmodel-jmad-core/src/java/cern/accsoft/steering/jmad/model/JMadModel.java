@@ -31,6 +31,7 @@ import cern.accsoft.steering.jmad.domain.aperture.Aperture;
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.domain.machine.Range;
 import cern.accsoft.steering.jmad.domain.machine.RangeDefinition;
+import cern.accsoft.steering.jmad.domain.misalign.MisalignmentConfiguration;
 import cern.accsoft.steering.jmad.domain.optics.Optic;
 import cern.accsoft.steering.jmad.domain.result.match.MatchResult;
 import cern.accsoft.steering.jmad.domain.result.match.MatchResultRequest;
@@ -234,7 +235,7 @@ public interface JMadModel {
      * @throws JMadModelException if the command fails
      */
     public DynapResult dynap(DynapResultRequest dynapResultRequest, TrackInitialCondition trackInitialCondition)
-            throws JMadModelException;;
+            throws JMadModelException;
 
     /**
      * Calculate the optics if the model became dirty.
@@ -429,4 +430,12 @@ public interface JMadModel {
      * @param title the title to set in MadX for the following twiss-commands
      */
     public void setTitel(String title);
+
+    /**
+     * NOTE: due to incubation form of this method ONLY QUADRUPOLE elements are extracted!
+     * 
+     * @return a complete list of an actual machine imperfections accordingly to the requested definition (see: {@link Range}
+     *         addMisalignments(), addMisalignment())
+     */
+    List<MisalignmentConfiguration> getMisalignments();
 }

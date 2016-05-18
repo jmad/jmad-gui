@@ -40,8 +40,8 @@ import org.apache.log4j.Logger;
 
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinitionImpl;
-import cern.accsoft.steering.jmad.modeldefs.domain.SourceInformationImpl;
 import cern.accsoft.steering.jmad.modeldefs.domain.SourceInformation.SourceType;
+import cern.accsoft.steering.jmad.modeldefs.domain.SourceInformationImpl;
 import cern.accsoft.steering.jmad.modeldefs.io.JMadModelDefinitionImporter;
 import cern.accsoft.steering.jmad.modeldefs.io.ModelDefinitionPersistenceService;
 import cern.accsoft.steering.jmad.util.xml.PersistenceServiceException;

@@ -1,0 +1,24 @@
+me00000mqdk1 =        -8.381908285;
+me00001mqfk1 =      6.047244288 ;
+me00002mqdk1 =      -1.353028805 ;
+me00003mqf, k1 :=me00003mqfk1; 
+me00003mqfk1=  0.8390618344;
+me00004mqd, k1 :=  me00004mqdk1;
+me00004mqdk1=    -0.7445111504  ;
+me00005mqfk1 =    1.572871683 ;
+me00006mqdk1 =     -3.464711286;
+me00007mqfk1 =         2.121155747;
+me02000mqfk1 =  3.009916912;
+me03000mqfk1 =    1.688913345;
+
+! for beam energy of 6.804 MeV, in A taking into account the sign configurations
+!me00000mqd :        -42.07 ;
+!me00001mqf :        31.23 ;
+!me00002mqd :       -6.44;
+!me00003mqf : 3.78 ;
+!me00004mqd : -3.28 ;
+!me00005mqf : 7.61 ;
+!me00006mqd :  -17.21;
+!me00007mqf : 10.38 ;
+!me02000mqf : 8.18 ;
+!me03000mqf : 14.89 ;

@@ -68,6 +68,8 @@ public enum MadxTwissVariable implements TwissVariable {
     K2SL("k2sl"), // sextupole
     K3SL("k3sl"), // ocupole
     K4SL("k4sl"), // decapole
+    
+    ANGLE("angle"), //the angle = K0L
 
     HKICK("hkick"), VKICK("vkick"), // kickers...
     POLARITY("polarity"), // and the assigned polarity

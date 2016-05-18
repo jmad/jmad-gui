@@ -63,7 +63,8 @@ public class SimpleStrength extends AbstractKnob implements Strength {
 
     @Override
     public String getKey() {
-        return getName().trim().toLowerCase();
+        return getName().trim()
+                .toLowerCase();
     }
 
     @Override
@@ -74,6 +75,11 @@ public class SimpleStrength extends AbstractKnob implements Strength {
     @Override
     public String getMadxName() {
         return getName();
+    }
+
+    @Override
+    public String toString() {
+        return "SimpleStrength [name=" + name + ", totalValue=" + totalValue + ", description=" + description + "]";
     }
 
 }

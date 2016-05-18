@@ -73,8 +73,12 @@ public class DynapOutputParser {
                     keys = tokens.subList(1, tokens.size());
                 } else if (keys != null && !tokens.get(0).equalsIgnoreCase("$")) {
                     for (int j = 0; j < tokens.size(); ++j) {
-                        this.dynapResult.add(MadxDynapVariable.getVariableFromName(keys.get(j)),
-                                Double.parseDouble(tokens.get(j)));
+                    	try{
+                    		this.dynapResult.add(MadxDynapVariable.getVariableFromName(keys.get(j)),
+                    				Double.parseDouble(tokens.get(j)));
+                    	}catch (NumberFormatException exception) {
+                    		throw new DynapParserException("Error while parsing dynap output : "+exception.getMessage(), exception);
+                    	}
                     }
                 }
             }

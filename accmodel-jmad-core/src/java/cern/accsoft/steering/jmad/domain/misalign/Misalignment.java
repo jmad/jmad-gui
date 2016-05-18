@@ -353,7 +353,8 @@ public class Misalignment implements NamedBean {
 
     @Override
     public String toString() {
-        return getName();
+        return "Misalignment [deltaX=" + deltaX + ", deltaY=" + deltaY + ", deltaS=" + deltaS + ", monitorReadErrorX="
+                + monitorReadErrorX + ", monitorReadErrorY=" + monitorReadErrorY + ", name=" + name + "]";
     }
 
 }

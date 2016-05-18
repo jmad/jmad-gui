@@ -66,6 +66,11 @@ public abstract class AbstractResultSelectableTask extends AbstractTask {
                 select.setElementClass(elemClass);
                 commands.add(select);
             }
+            /* The default behavior when NO particular class or NO particular pattern for elements is selected */
+            if (resultRequest.getElementClasses().isEmpty() && resultRequest.getElementPattern().isEmpty()) {
+                select = createColumnsSelectCommand(selectFlag);
+                commands.add(select);
+            }
         }
 
         return commands;

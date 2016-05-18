@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<!-- The find mechanism for model definitions: -->
-	<bean id="xmlModelDefinitionPersistenceService"
-		class="cern.accsoft.steering.jmad.modeldefs.io.impl.XmlModelDefinitionPersistenceService" />
-	<bean id="jsonModelDefinitionPersistenceService"
-		class="cern.accsoft.steering.jmad.modeldefs.io.impl.JsonModelDefinitionPersistenceService" />
-	<bean id="classPathModelDefinitionFinder"
-		class="cern.accsoft.steering.jmad.modeldefs.ClassPathModelDefinitionFinder">
+	<bean id="xmlModelDefinitionPersistenceService" class="cern.accsoft.steering.jmad.modeldefs.io.impl.XmlModelDefinitionPersistenceService" />
+	<bean id="jsonModelDefinitionPersistenceService" class="cern.accsoft.steering.jmad.modeldefs.io.impl.JsonModelDefinitionPersistenceService" />
+	<bean id="classPathModelDefinitionFinder" class="cern.accsoft.steering.jmad.modeldefs.ClassPathModelDefinitionFinder">
 		<property name="persistenceService" ref="xmlModelDefinitionPersistenceService" />
 	</bean>
-	<bean id="jmadModelDefinitionManager"
-		class="cern.accsoft.steering.jmad.modeldefs.JMadModelDefinitionManagerImpl">
+	<bean id="jmadModelDefinitionManager" class="cern.accsoft.steering.jmad.modeldefs.JMadModelDefinitionManagerImpl">
 		<property name="finders">
 			<list>
 				<ref local="classPathModelDefinitionFinder" />
@@ -23,22 +19,22 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		</property>
 		<lookup-method name="createModelFileFinder" bean="modelFileFinder" />
 	</bean>
-	<bean id="jmadModelDefinitionExporter"
-		class="cern.accsoft.steering.jmad.modeldefs.io.impl.JMadModelDefinitionExporterImpl">
+	<bean id="jmadModelDefinitionExporter" class="cern.accsoft.steering.jmad.modeldefs.io.impl.JMadModelDefinitionExporterImpl">
 		<property name="persistenceServices">
 			<list>
-				<ref bean="xmlModelDefinitionPersistenceService"/>
-				<ref bean="jsonModelDefinitionPersistenceService"/>
+				<ref bean="xmlModelDefinitionPersistenceService" />
+				<ref bean="jsonModelDefinitionPersistenceService" />
 			</list>
 		</property>
 		<property name="fileFinderManager" ref="jmadModelDefinitionManager" />
 	</bean>
-	<bean id="jmadModelDefinitionImporter"
-		class="cern.accsoft.steering.jmad.modeldefs.io.impl.JMadModelDefinitionImporterImpl">
+	<bean id="jmadModelDefinitionImporter" class="cern.accsoft.steering.jmad.modeldefs.io.impl.JMadModelDefinitionImporterImpl">
 		<property name="persistenceService" ref="xmlModelDefinitionPersistenceService" />
 	</bean>
-	<bean id="jmadModelManager"
-		class="cern.accsoft.steering.jmad.model.manage.JMadModelManagerImpl" />
+
+	<bean id="jmadModelManager" class="cern.accsoft.steering.jmad.model.manage.JMadModelManagerImpl">
+		<property name="jMadModelComparator" ref="modelComparator" />
+	</bean>
 
 	<bean id="jmadPreferences" class="cern.accsoft.steering.jmad.util.JMadPreferencesImpl" />
 	<bean id="jmadModelFactory" class="cern.accsoft.steering.jmad.factory.JMadModelFactoryImpl">
@@ -53,34 +49,32 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<property name="modelDefinitionImporter" ref="jmadModelDefinitionImporter" />
 	</bean>
 
-	<bean id="tempFileUtil" class="cern.accsoft.steering.jmad.util.TempFileUtilImpl"
-		init-method="init">
+	<bean id="tempFileUtil" class="cern.accsoft.steering.jmad.util.TempFileUtilImpl" init-method="init">
 		<property name="preferences" ref="jmadPreferences" />
 	</bean>
-	<bean id="madxBin" class="cern.accsoft.steering.jmad.bin.MadxBinImpl"
-		init-method="init">
+	<bean id="madxBin" class="cern.accsoft.steering.jmad.bin.MadxBinImpl" init-method="init">
 		<property name="fileUtil" ref="tempFileUtil" />
 	</bean>
 
 	<!-- prototypes: In principle all these beans are created once per model -->
-	<bean id="modelFileFinder"
-		class="cern.accsoft.steering.jmad.modeldefs.io.impl.ModelFileFinderImpl"
-		scope="prototype">
+	<bean id="modelFileFinder" class="cern.accsoft.steering.jmad.modeldefs.io.impl.ModelFileFinderImpl" scope="prototype">
 		<property name="preferences" ref="jmadPreferences" />
 		<property name="fileUtil" ref="tempFileUtil" />
 	</bean>
 
-	<bean id="jmadKernel" class="cern.accsoft.steering.jmad.kernel.JMadKernelImpl"
-		scope="prototype">
+	<bean id="jmadKernel" class="cern.accsoft.steering.jmad.kernel.JMadKernelImpl" scope="prototype">
 		<property name="preferences" ref="jmadPreferences" />
 		<property name="fileUtil" ref="tempFileUtil" />
 		<property name="madxBin" ref="madxBin" />
 	</bean>
 
-	<bean id="jmadModel" class="cern.accsoft.steering.jmad.model.JMadModelImpl"
-		scope="prototype">
+	<bean id="jmadModel" class="cern.accsoft.steering.jmad.model.JMadModelImpl" scope="prototype">
 		<property name="modelFileFinderManager" ref="jmadModelDefinitionManager" />
 		<property name="kernel" ref="jmadKernel" />
+	</bean>
+
+
+	<bean id="modelComparator" class="cern.accsoft.steering.jmad.service.JMadModelSeqElementOnNameComparator">
 	</bean>
 
 </beans>

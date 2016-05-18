@@ -30,6 +30,7 @@ import cern.accsoft.steering.jmad.domain.optics.OpticImpl;
 import cern.accsoft.steering.jmad.domain.optics.OpticPoint;
 import cern.accsoft.steering.jmad.domain.optics.OpticPointImpl;
 import cern.accsoft.steering.jmad.domain.result.tfs.TfsResult;
+import cern.accsoft.steering.jmad.domain.result.tfs.TfsResultRequest;
 import cern.accsoft.steering.jmad.domain.result.tfs.TfsResultRequestImpl;
 import cern.accsoft.steering.jmad.domain.var.enums.MadxTwissVariable;
 
@@ -45,28 +46,32 @@ public final class OpticUtil {
     }
 
     public static Optic calcOptic(JMadModel model) throws JMadModelException {
-        /* request all elements */
+        TfsResultRequest resultRequest = fullOpticsRequest();
+        TfsResult tfsResult = model.twiss(resultRequest);
+        List<MadxTwissVariable> variables = allOpticsVariables();
+        return createOptic(tfsResult, variables.toArray(new MadxTwissVariable[variables.size()]));
+    }
+
+    /**
+     * Creates a Tfs request which will contain all elements and all Madx twiss variables which are required for the
+     * optics.
+     * 
+     * @return the result request which can be used for a twiss.
+     */
+    public static final TfsResultRequest fullOpticsRequest() {
         TfsResultRequestImpl resultRequest = new TfsResultRequestImpl();
         resultRequest.addElementFilter(".*");
 
-        /*
-         * request optics variables both planes.
-         */
-        List<MadxTwissVariable> variables = OpticPointImpl.MADX_VARIABLES;
         resultRequest.addVariable(MadxTwissVariable.NAME);
+        List<MadxTwissVariable> variables = allOpticsVariables();
         for (MadxTwissVariable var : variables) {
             resultRequest.addVariable(var);
         }
+        return resultRequest;
+    }
 
-        /*
-         * perform the twiss
-         */
-        TfsResult tfsResult = model.twiss(resultRequest);
-
-        /*
-         * create and return the Optic
-         */
-        return createOptic(tfsResult, variables.toArray(new MadxTwissVariable[variables.size()]));
+    private static List<MadxTwissVariable> allOpticsVariables() {
+        return OpticPointImpl.MADX_VARIABLES;
     }
 
     public static Optic createOptic(TfsResult tfsResult, MadxTwissVariable... variables) {
@@ -89,7 +94,8 @@ public final class OpticUtil {
             String name = names.get(i);
             OpticPoint point = new OpticPointImpl(name);
             for (MadxTwissVariable var : variables) {
-                ((OpticPointImpl) point).setValue(var, optic.getAllValues(var).get(i));
+                ((OpticPointImpl) point).setValue(var, optic.getAllValues(var)
+                        .get(i));
             }
             optic.add(point);
         }

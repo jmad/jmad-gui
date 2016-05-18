@@ -1,22 +1,11 @@
 // @formatter:off
- /*******************************************************************************
- *
- * This file is part of JMad.
- * 
- * Copyright (c) 2008-2011, CERN. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+/*******************************************************************************
+ * This file is part of JMad. Copyright (c) 2008-2011, CERN. All rights reserved. Licensed under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in
+ * writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  ******************************************************************************/
 // @formatter:on
 
@@ -35,6 +24,9 @@ public class TwissInitialConditionsXmlConverter implements Converter {
     /** The name off the attribute value */
     private static final String ATTR_NAME_VALUE = "value";
 
+    /**
+     * @param ctx unused
+     */
     @Override
     public void marshal(Object object, HierarchicalStreamWriter writer, MarshallingContext ctx) {
 
@@ -64,6 +56,9 @@ public class TwissInitialConditionsXmlConverter implements Converter {
 
     }
 
+    /**
+     * @param ctx unused
+     */
     @Override
     public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext ctx) {
 
@@ -74,11 +69,11 @@ public class TwissInitialConditionsXmlConverter implements Converter {
             reader.moveDown();
             String nodeName = reader.getNodeName();
             if ("chrom".equals(nodeName)) {
-                retVal.setCalcChromaticFunctions(Boolean.getBoolean(reader.getAttribute(ATTR_NAME_VALUE)));
+                retVal.setCalcChromaticFunctions(Boolean.valueOf(reader.getAttribute(ATTR_NAME_VALUE)));
             } else if ("closed-orbit".equals(nodeName)) {
-                retVal.setClosedOrbit(Boolean.getBoolean(reader.getAttribute(ATTR_NAME_VALUE)));
+                retVal.setClosedOrbit(Boolean.valueOf(reader.getAttribute(ATTR_NAME_VALUE)));
             } else if ("centre".equals(nodeName)) {
-                retVal.setCalcAtCenter(Boolean.getBoolean(reader.getAttribute(ATTR_NAME_VALUE)));
+                retVal.setCalcAtCenter(Boolean.valueOf(reader.getAttribute(ATTR_NAME_VALUE)));
             } else {
                 MadxTwissVariable twissVariable = MadxTwissVariable.fromMadxName(nodeName);
                 if (retVal.getMadxVariables().contains(twissVariable)) {
@@ -91,7 +86,7 @@ public class TwissInitialConditionsXmlConverter implements Converter {
     }
 
     @Override
-    public boolean canConvert(@SuppressWarnings("rawtypes") Class clazz) {
+    public boolean canConvert(Class clazz) {
         return clazz.equals(TwissInitialConditionsImpl.class);
     }
 }

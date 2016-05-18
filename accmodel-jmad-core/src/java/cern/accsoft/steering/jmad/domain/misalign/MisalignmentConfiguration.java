@@ -110,4 +110,9 @@ public class MisalignmentConfiguration {
     public void removeListener(MisalignmentConfigurationListener listener) {
         this.listeners.remove(listener);
     }
+
+    @Override
+    public String toString() {
+        return "MisalignmentConfiguration [elementName=" + elementName + ", misalignment=" + misalignment + "]";
+    }
 }

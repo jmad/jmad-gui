@@ -1,0 +1,57 @@
+<jmad-model-definition name="MedAustron MEBT (var3)">
+  <optics>
+    <optic name="me-var3-ver0-awastl" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="me/me-var3-ver0-awastl.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="me/me-corrector.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="me-var3-ver0-aga" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="me/me-var3-ver0-aga.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="me/me-corrector.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="me-var3-ver1" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="me/me-var3-ver1.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="me/me-corrector.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+  </optics>
+  <default-optic ref-name="me-var3-ver0-awastl"/>
+  <sequences>
+    <sequence name="me">
+      <beam/>
+      <ranges>
+        <range name="ALL">
+          <madx-range first="#s" last="#e"/>
+          <twiss-initial-conditions name="unnamed twiss">
+            <chrom value="true"/>
+            <closed-orbit value="false"/>
+            <centre value="false"/>
+            <betx value="0.6"/>
+            <bety value="0.7"/>
+            <alfx value="0.0"/>
+            <alfy value="0.0"/>
+            <dx value="0.0"/>
+            <dy value="0.0"/>
+            <dpx value="0.0"/>
+            <dpy value="0.0"/>
+          </twiss-initial-conditions>
+        </range>
+      </ranges>
+      <default-range ref-name="ALL"/>
+    </sequence>
+  </sequences>
+  <default-sequence ref-name="me"/>
+  <init-files>
+    <call-file location="RESOURCE" path="common/elements.def"/>
+    <call-file location="RESOURCE" path="me/me.def"/>
+    <call-file location="RESOURCE" path="me/me.seq"/>
+  </init-files>
+  <path-offsets>
+    <resource-offset value="ma"/>
+  </path-offsets>
+  <svn-revision>$Revision$</svn-revision>
+</jmad-model-definition>

@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.selectors.BaseSelector;
 
@@ -51,6 +52,8 @@ import cern.accsoft.steering.jmad.modeldefs.io.impl.XmlModelDefinitionPersistenc
  */
 public class JMadModelFileSelector extends BaseSelector {
 
+    private static final Logger LOGGER = Logger.getLogger(JMadModelFileSelector.class);
+    
     /** The required file-names */
     private Set<String> fileNames = new HashSet<String>();
 
@@ -63,7 +66,7 @@ public class JMadModelFileSelector extends BaseSelector {
         JMadModelDefinitionImporterImpl importer = new JMadModelDefinitionImporterImpl();
         importer.setPersistenceService(xmlModelDefinitionPersistenceService);
         this.fileNames = getModelRepositoryFileNames(importer.importModelDefinitions(new File(defDir)));
-        System.out.println(this.fileNames.size() + " required model files detected.");
+        LOGGER.info (this.fileNames.size() + " required model files detected.");
     }
 
     @Override

@@ -31,7 +31,9 @@ package cern.accsoft.steering.jmad.model.manage;
 
 import java.util.List;
 
+import cern.accsoft.steering.jmad.domain.elem.Element;
 import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.service.SequenceElementFilter;
 
 /**
  * this interface defines basic methods to keep track of the actual model. There is always exactly one active model.
@@ -89,5 +91,7 @@ public interface JMadModelManager {
      * cleans up each model. Does not remove anything from the Model-manager
      */
     public void cleanup();
+
+    public List<Element> getCommonSequenceElements(JMadModel model1, JMadModel model2, SequenceElementFilter filter);
 
 }

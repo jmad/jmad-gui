@@ -140,4 +140,10 @@ public class TfsSummaryImpl implements TfsSummary {
     public MadxVarType getVarType(GlobalVariable variable) {
         return getVarType(variable.getMadxName());
     }
+
+    @Override
+    public String toString() {
+        return "TfsSummaryImpl [stringValues=" + stringValues + ", valueTypes=" + valueTypes + ", doubleValues="
+                + doubleValues + "]";
+    }
 }

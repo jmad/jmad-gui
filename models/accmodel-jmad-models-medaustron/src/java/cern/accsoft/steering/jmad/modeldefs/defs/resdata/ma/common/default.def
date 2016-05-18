@@ -1,0 +1,91 @@
+// default initial MEBT twiss parameters
+// in me.matx, me-twiss.madx
+me.betx := 0.2; // default: 0.2
+me.alfx := 0; // default: 0
+me.dx := 0; // default: 0
+me.dpx := 0; // default: 0
+
+me.bety := 0.2; // default: 0.2
+me.alfy := 0; // default: 0
+me.dy := 0; // default: 0
+me.dpy := 0; // default: 0
+
+// default initial HEBT (EX) twiss parameters
+// in ex.matx, ex-twiss.madx
+ex.betx := 20.809181; // default: 20.809181
+ex.alfx := -1.016865; // default: -1.016865
+ex.dx := -4.465579; // default: -4.465579
+ex.dpx := -0.48949; // default: -0.48949
+
+ex.bety := 3.558261; // default: 3.558261
+ex.alfy := 0.723021; // default: 0.723021
+ex.dy := 0; // default: 0
+ex.dpy := 0; // default: 0
+
+// default initial HEBT (T1) twiss parameters
+// in t1.matx, t1-twiss.madx
+// CAVE: t1-rf1-bety2m remains with hardcoded 'bety = 2.0'
+t1.betx = 3; // default: 3
+t1.alfx = 0; // default: 0
+t1.dx = 0; // default: 0
+t1.dpx = 0; // default: 0
+t1.bety = 3; // default: 3
+t1.alfy = 0; // default: 0
+t1.dy = 0; // default: 0
+t1.dpy = 0; // default: 0
+
+// default initial HEBT (T2) twiss parameters
+// in t2.matx, t2-twiss.madx
+t2.betx = 3; // default: 3
+t2.alfx = 0; // default: 0
+t2.dx = 0; // default: 0
+t2.dpx = 0; // default: 0
+t2.bety = 3; // default: 3
+t2.alfy = 0; // default: 0
+t2.dy = 0; // default: 0
+t2.dpy = 0; // default: 0
+
+// default initial HEBT (H2) twiss parameters
+// in h2.matx, h2-twiss.madx
+h2.betx = 3; // default: 3
+h2.alfx = 0; // default: 0
+h2.dx = 0; // default: 0
+h2.dpx = 0; // default: 0
+h2.bety = 3; // default: 3
+h2.alfy = 0; // default: 0
+h2.dy = 0; // default: 0
+h2.dpy = 0; // default: 0
+
+// default initial HEBT (V2) twiss parameters
+// in v2.matx, v2-twiss.madx
+v2.betx = 3; // default: 3
+v2.alfx = 0; // default: 0
+v2.dx = 0; // default: 0
+v2.dpx = 0; // default: 0
+v2.bety = 3; // default: 3
+v2.alfy = 0; // default: 0
+v2.dy = 0; // default: 0
+v2.dpy = 0; // default: 0
+
+// default initial HEBT (T3) twiss parameters
+// in t3.matx, t3-twiss.madx, t3-bety2m-twiss.madx
+// CAVE: t3-bety2m remains with hardcoded 'bety = 2.0'
+t3.betx = 3; // default: 3
+t3.alfx = 0; // default: 0
+t3.dx = 0; // default: 0
+t3.dpx = 0; // default: 0
+t3.bety = 3; // default: 3
+t3.alfy = 0; // default: 0
+t3.dy = 0; // default: 0
+t3.dpy = 0; // default: 0
+
+// default initial HEBT (T4) twiss parameters
+// in t4.matx, t4-twiss.madx, t4-bend.matx, t4-grantry.matx
+t4.betx = 3; // default: 3
+t4.alfx = 0; // default: 0
+t4.dx = 0; // default: 0
+t4.dpx = 0; // default: 0
+t4.bety = 3; // default: 3
+t4.alfy = 0; // default: 0
+t4.dy = 0; // default: 0
+t4.dpy = 0; // default: 0
