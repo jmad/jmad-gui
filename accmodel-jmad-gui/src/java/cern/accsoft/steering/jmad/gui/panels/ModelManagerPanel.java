@@ -91,7 +91,7 @@ public class ModelManagerPanel extends JPanel {
      * init method called by spring
      */
     public void init() {
-        Assert.argNotNull(comparisonPanel, "comparisonPanel");
+     //   Assert.argNotNull(comparisonPanel, "comparisonPanel");
         initComponents();
     }
 
@@ -144,7 +144,7 @@ public class ModelManagerPanel extends JPanel {
                     JPopupMenu menu = new JPopupMenu();
                     menu.setVisible(true);
                     menu.add(switchToActive);
-                    menu.add(compareToActive);
+                 //   menu.add(compareToActive);
                     menu.show(e.getComponent(), e.getX(), e.getY());
                 }
 
@@ -287,13 +287,13 @@ public class ModelManagerPanel extends JPanel {
         return modelManager;
     }
 
-    public void setChooseActionFactory(ChooseActionFactory chooseActionFactory) {
-        this.chooseActionFactory = chooseActionFactory;
-    }
+	public void setChooseActionFactory(ChooseActionFactory chooseActionFactory) {
+		this.chooseActionFactory = chooseActionFactory;
+	}
 
-    private ChooseActionFactory getChooseActionFactory() {
-        return chooseActionFactory;
-    }
+	private ChooseActionFactory getChooseActionFactory() {
+		return chooseActionFactory;
+	}
 
     public void setComparisonPanel(ComparisonPanel comparisonPanel) {
         this.comparisonPanel = comparisonPanel;

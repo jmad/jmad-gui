@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
@@ -13,7 +13,8 @@
 	<bean id="markedElementsManager" class="cern.accsoft.steering.jmad.gui.JMadContextInjector" />
 
 	<!-- beans derived from them -->
-	<bean id="modelDefinitionManager" factory-bean="jmadService" factory-method="getModelDefinitionManager" />
+	<bean id="modelDefinitionManager" factory-bean="jmadService"
+		factory-method="getModelDefinitionManager" />
 
 	<!-- DataSet - management -->
 	<bean id="tfsDataSetManager" class="cern.accsoft.steering.jmad.gui.manage.TfsDataSetManager">
@@ -22,16 +23,20 @@
 	</bean>
 
 	<!-- Variables-file management -->
-	<bean id="strengthVarManager" class="cern.accsoft.steering.jmad.gui.manage.impl.StrengthVarManagerImpl" />
+	<bean id="strengthVarManager"
+		class="cern.accsoft.steering.jmad.gui.manage.impl.StrengthVarManagerImpl" />
 
 	<!-- Custom files management -->
-	<bean id="customFileManager" class="cern.accsoft.steering.jmad.gui.manage.impl.CustomFileManagerImpl" />
+	<bean id="customFileManager"
+		class="cern.accsoft.steering.jmad.gui.manage.impl.CustomFileManagerImpl" />
 
 	<!-- Keeps track of currently selected elements -->
-	<bean id="elementSelectionManager" class="cern.accsoft.steering.jmad.gui.manage.impl.ElementSelectionManagerImpl" />
+	<bean id="elementSelectionManager"
+		class="cern.accsoft.steering.jmad.gui.manage.impl.ElementSelectionManagerImpl" />
 
 	<!-- Charts & factory -->
-	<bean id="markableChart" class="cern.accsoft.steering.jmad.gui.dv.MarkableChart" scope="prototype">
+	<bean id="markableChart" class="cern.accsoft.steering.jmad.gui.dv.MarkableChart"
+		scope="prototype">
 		<property name="markedElementsManager" ref="markedElementsManager" />
 	</bean>
 	<bean id="madxChartFactory" class="cern.accsoft.steering.jmad.gui.dv.ChartFactory">
@@ -40,7 +45,8 @@
 
 
 	<!-- Menus and toolbar -->
-	<bean id="chooseActionFactory" class="cern.accsoft.steering.jmad.gui.manage.impl.SwingModelDefinitionChooser"
+	<bean id="chooseActionFactory"
+		class="cern.accsoft.steering.jmad.gui.manage.impl.SwingModelDefinitionChooser"
 		init-method="init">
 		<property name="userInteractor" ref="userInteractor" />
 		<property name="rangeSelectionPanel" ref="rangeSelectionPanel" />
@@ -55,52 +61,64 @@
 	</bean>
 
 
-	<bean id="rangeSelectionPanel" class="cern.accsoft.steering.jmad.gui.panels.RangeSelectionPanel" init-method="init">
+	<bean id="rangeSelectionPanel"
+		class="cern.accsoft.steering.jmad.gui.panels.RangeSelectionPanel"
+		init-method="init">
 		<property name="modelManager" ref="modelManager" />
 	</bean>
-	<bean id="opticsSelectionPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelOpticsSelectionPanel"
+	<bean id="opticsSelectionPanel"
+		class="cern.accsoft.steering.jmad.gui.panels.ModelOpticsSelectionPanel"
 		init-method="init">
 		<property name="modelManager" ref="modelManager" />
 	</bean>
 
 	<!-- The model-Operations-panel with all subpanels (prototypes!) -->
 
-	<bean id="modelInfoPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelInfoPanel" init-method="init" scope="prototype">
+	<bean id="modelInfoPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelInfoPanel"
+		init-method="init" scope="prototype">
 		<property name="modelManager" ref="modelManager" />
 	</bean>
-	<bean id="modelStrengthsPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelStrengthsPanel" init-method="init"
+	<bean id="modelStrengthsPanel"
+		class="cern.accsoft.steering.jmad.gui.panels.ModelStrengthsPanel"
+		init-method="init" scope="prototype">
+		<property name="modelManager" ref="modelManager" />
+	</bean>
+	<bean id="modelElementsPanel"
+		class="cern.accsoft.steering.jmad.gui.panels.ModelElementsPanel"
 		scope="prototype">
-		<property name="modelManager" ref="modelManager" />
-	</bean>
-	<bean id="modelElementsPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelElementsPanel" scope="prototype">
 		<property name="modelManager" ref="modelManager" />
 		<property name="markedElementsManager" ref="markedElementsManager" />
 		<property name="elementSelectionManager" ref="elementSelectionManager" />
 	</bean>
-	<bean id="modelTwissInititalConditionsPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelTwissPanel" scope="prototype">
-		<property name="modelManager" ref="modelManager" />
-	</bean>
-	<bean id="modelMisalignmentsPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelMisalignmentsPanel"
-		init-method="init" scope="prototype">
-		<property name="modelManager" ref="modelManager" />
-	</bean>
-	<bean id="modelCustomKnobsPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelCustomKnobsPanel" init-method="init"
+	<bean id="modelTwissInititalConditionsPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelTwissPanel"
 		scope="prototype">
 		<property name="modelManager" ref="modelManager" />
 	</bean>
-	<bean id="customFileManagerPanel" class="cern.accsoft.steering.jmad.gui.panels.CustomFileManagerPanel" scope="prototype">
+	<bean id="modelMisalignmentsPanel"
+		class="cern.accsoft.steering.jmad.gui.panels.ModelMisalignmentsPanel"
+		init-method="init" scope="prototype">
+		<property name="modelManager" ref="modelManager" />
+	</bean>
+	<bean id="modelCustomKnobsPanel"
+		class="cern.accsoft.steering.jmad.gui.panels.ModelCustomKnobsPanel"
+		init-method="init" scope="prototype">
+		<property name="modelManager" ref="modelManager" />
+	</bean>
+	<bean id="customFileManagerPanel"
+		class="cern.accsoft.steering.jmad.gui.panels.CustomFileManagerPanel"
+		scope="prototype">
 		<property name="customFileManager" ref="customFileManager" />
 		<property name="jmadGuiPreferences" ref="jmadGuiPreferences" />
 		<property name="modelManager" ref="modelManager" />
 		<property name="strengthVarManager" ref="strengthVarManager" />
 	</bean>
-	<bean id="modelOptionsPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelOptionsPanel" init-method="init"
-		scope="prototype">
+	<bean id="modelOptionsPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelOptionsPanel"
+		init-method="init" scope="prototype">
 		<property name="modelManager" ref="modelManager" />
 	</bean>
 	<!-- finally the model-operations panel -->
-	<bean id="modelOperationPanel" class="cern.accsoft.steering.jmad.gui.panels.TabbedPanePanel" init-method="init"
-		scope="prototype">
+	<bean id="modelOperationPanel" class="cern.accsoft.steering.jmad.gui.panels.TabbedPanePanel"
+		init-method="init" scope="prototype">
 		<property name="tabbedPaneComponents">
 			<map>
 				<entry key="Twiss" value-ref="modelTwissInititalConditionsPanel" />
@@ -115,25 +133,31 @@
 		</property>
 	</bean>
 
-	<bean id="modelComparePanel" class="cern.accsoft.steering.jmad.gui.panels.ComparisonPanel" init-method="init">
+	<bean id="modelComparePanel" class="cern.accsoft.steering.jmad.gui.panels.ComparisonPanel"
+		init-method="init">
 		<property name="jMadModelManager" ref="modelManager" />
 	</bean>
 
 
 	<!-- All the components of the output-panel and the output panel itself -->
 
-	<bean id="tfsSummaryPanel" class="cern.accsoft.steering.jmad.gui.panels.TfsSummaryPanel" init-method="init">
+	<bean id="tfsSummaryPanel" class="cern.accsoft.steering.jmad.gui.panels.TfsSummaryPanel"
+		init-method="init">
 		<property name="dataSetManager" ref="tfsDataSetManager" />
 	</bean>
-	<bean id="tuneDiagramPanel" class="cern.accsoft.steering.jmad.gui.panels.TuneDiagramPanel" init-method="init">
+	<bean id="tuneDiagramPanel" class="cern.accsoft.steering.jmad.gui.panels.TuneDiagramPanel"
+		init-method="init">
 		<property name="dataSetManager" ref="tfsDataSetManager" />
 	</bean>
-	<bean id="phaseSpacePanel" class="cern.accsoft.steering.jmad.gui.panels.elements.PhaseSpacePanel" init-method="init">
+	<bean id="phaseSpacePanel"
+		class="cern.accsoft.steering.jmad.gui.panels.elements.PhaseSpacePanel"
+		init-method="init">
 		<property name="chartFactory" ref="madxChartFactory" />
 		<property name="elementSelectionManager" ref="elementSelectionManager" />
 		<property name="modelManager" ref="modelManager" />
 	</bean>
-	<bean id="outputPanel" class="cern.accsoft.steering.jmad.gui.panels.TabbedPanePanel" init-method="init">
+	<bean id="outputPanel" class="cern.accsoft.steering.jmad.gui.panels.TabbedPanePanel"
+		init-method="init">
 		<property name="tabbedPaneComponents">
 			<map>
 				<entry key="tune-diagram" value-ref="tuneDiagramPanel" />
@@ -147,67 +171,84 @@
 		<lookup-method name="createModelOperationsPanel" bean="modelOperationPanel" />
 	</bean>
 
-	<bean id="plotCreationPanel" class="cern.accsoft.steering.jmad.gui.panels.PlotCreationPanel" init-method="initComponents">
+	<bean id="plotCreationPanel" class="cern.accsoft.steering.jmad.gui.panels.PlotCreationPanel"
+		init-method="initComponents">
 		<property name="tfsDataSetManager" ref="tfsDataSetManager" />
 		<lookup-method name="createVariableSelectionPanel" bean="allVarSelectionPanel" />
 	</bean>
-	<bean id="dataViewerPanel" class="cern.accsoft.steering.jmad.gui.panels.DataViewerPanel" init-method="initComponents">
+	<bean id="dataViewerPanel" class="cern.accsoft.steering.jmad.gui.panels.DataViewerPanel"
+		init-method="initComponents">
 		<property name="tfsDataSetManager" ref="tfsDataSetManager" />
 		<property name="chartFactory" ref="madxChartFactory" />
 		<property name="plotCreationPanel" ref="plotCreationPanel" />
 		<property name="userInteractor" ref="userInteractor" />
 		<property name="saveTwissAction" ref="saveTwissToFileAtion" />
 	</bean>
-	<bean id="modelManagerPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelManagerPanel" init-method="init">
+	<bean id="modelManagerPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelManagerPanel"
+		init-method="init">
 		<property name="modelManager" ref="modelManager" />
 		<property name="chooseActionFactory" ref="chooseActionFactory" />
 		<property name="comparisonPanel" ref="modelComparePanel" />
 	</bean>
 
-	<bean id="saveTwissToFileAtion" class="cern.accsoft.steering.jmad.gui.actions.SaveTwissAction" init-method="init">
+	<bean id="saveTwissToFileAtion" class="cern.accsoft.steering.jmad.gui.actions.SaveTwissAction"
+		init-method="init">
 		<property name="modelManager" ref="modelManager" />
 	</bean>
 
 	<!-- panels for variable selection -->
 	<!-- init called in code! -->
-	<bean id="madxTwissVarSelectionTableModel" class="cern.accsoft.steering.jmad.gui.panels.var.MadxTwissVarSelectionTableModel"
+	<bean id="madxTwissVarSelectionTableModel"
+		class="cern.accsoft.steering.jmad.gui.panels.var.MadxTwissVarSelectionTableModel"
 		scope="prototype" />
 
 	<!-- init called in code! -->
-	<bean id="ptcTwissVarSelectionTableModel" class="cern.accsoft.steering.jmad.gui.panels.var.PtcTwissVarSelectionTableModel"
+	<bean id="ptcTwissVarSelectionTableModel"
+		class="cern.accsoft.steering.jmad.gui.panels.var.PtcTwissVarSelectionTableModel"
 		scope="prototype" />
 
 	<!-- init called in code! -->
-	<bean id="madxApertureVarSelectionTableModel" class="cern.accsoft.steering.jmad.gui.panels.var.MadxApertureVarSelectionTableModel"
+	<bean id="madxApertureVarSelectionTableModel"
+		class="cern.accsoft.steering.jmad.gui.panels.var.MadxApertureVarSelectionTableModel"
 		scope="prototype" />
 
 	<!-- init called in code! -->
-	<bean id="customVarSelectionTableModel" class="cern.accsoft.steering.jmad.gui.panels.var.CustomVarSelectionTableModel"
+	<bean id="customVarSelectionTableModel"
+		class="cern.accsoft.steering.jmad.gui.panels.var.CustomVarSelectionTableModel"
 		scope="prototype">
 		<property name="variableFileManager" ref="strengthVarManager" />
 	</bean>
 
 	<!-- init called in code! -->
-	<bean id="madxTwissVarSelectionPanel" class="cern.accsoft.steering.jmad.gui.panels.var.VarSelectionPanel" scope="prototype">
+	<bean id="madxTwissVarSelectionPanel"
+		class="cern.accsoft.steering.jmad.gui.panels.var.VarSelectionPanel"
+		scope="prototype">
 		<property name="tableModel" ref="madxTwissVarSelectionTableModel" />
 	</bean>
 
-	<bean id="ptcTwissVarSelectionPanel" class="cern.accsoft.steering.jmad.gui.panels.var.VarSelectionPanel" scope="prototype">
+	<bean id="ptcTwissVarSelectionPanel"
+		class="cern.accsoft.steering.jmad.gui.panels.var.VarSelectionPanel"
+		scope="prototype">
 		<property name="tableModel" ref="ptcTwissVarSelectionTableModel" />
 	</bean>
 
-	<bean id="madxApertureVarSelectionPanel" class="cern.accsoft.steering.jmad.gui.panels.var.VarSelectionPanel"
+	<bean id="madxApertureVarSelectionPanel"
+		class="cern.accsoft.steering.jmad.gui.panels.var.VarSelectionPanel"
 		scope="prototype">
 		<property name="tableModel" ref="madxApertureVarSelectionTableModel" />
 	</bean>
 
 	<!-- init called in code! -->
-	<bean id="customVarSelectionPanel" class="cern.accsoft.steering.jmad.gui.panels.var.VarSelectionPanel" scope="prototype">
+	<bean id="customVarSelectionPanel"
+		class="cern.accsoft.steering.jmad.gui.panels.var.VarSelectionPanel"
+		scope="prototype">
 		<property name="tableModel" ref="customVarSelectionTableModel" />
 	</bean>
 
 	<!-- init called in code! -->
-	<bean id="allVarSelectionPanel" class="cern.accsoft.steering.jmad.gui.panels.var.AllVarSelectionPanel" scope="prototype">
+	<bean id="allVarSelectionPanel"
+		class="cern.accsoft.steering.jmad.gui.panels.var.AllVarSelectionPanel"
+		scope="prototype">
 		<property name="panels">
 			<map>
 				<entry key="twiss" value-ref="madxTwissVarSelectionPanel" />
@@ -218,8 +259,11 @@
 		</property>
 	</bean>
 
-	<!-- just a class to provide all possible variables. ALl table models with variables have to be added here! -->
-	<bean id="allVarManager" class="cern.accsoft.steering.jmad.gui.manage.impl.AllVarManagerImpl" init-method="init">
+	<!-- just a class to provide all possible variables. ALl table models with 
+		variables have to be added here! -->
+	<bean id="allVarManager"
+		class="cern.accsoft.steering.jmad.gui.manage.impl.AllVarManagerImpl"
+		init-method="init">
 		<property name="variableProviders">
 			<list>
 				<ref bean="madxTwissVarSelectionTableModel" />
@@ -230,7 +274,8 @@
 		</property>
 	</bean>
 	<!-- the main panel -->
-	<bean id="jmadMainPanel" class="cern.accsoft.steering.jmad.gui.panels.MainPanel" init-method="init">
+	<bean id="jmadMainPanel" class="cern.accsoft.steering.jmad.gui.panels.MainPanel"
+		init-method="init">
 		<property name="modelManagerPanel" ref="modelManagerPanel" />
 		<property name="dataViewerPanel" ref="dataViewerPanel" />
 		<property name="modelOperationPanel" ref="modelOperationPanel" />
@@ -238,10 +283,14 @@
 	</bean>
 
 	<!-- the gui -->
-	<bean id="splashScreen" class="cern.accsoft.steering.jmad.gui.manage.SplashFactory" factory-method="getSplashScreen" />
-	<bean id="jmadToolBar" factory-bean="jmadMenuFactory" factory-method="createToolBar" />
-	<bean id="jmadMenuBar" factory-bean="jmadMenuFactory" factory-method="createMenuBar" />
-	<bean id="jmadGui" class="cern.accsoft.steering.jmad.gui.JMadGui" init-method="init">
+	<bean id="splashScreen" class="cern.accsoft.steering.jmad.gui.manage.SplashFactory"
+		factory-method="getSplashScreen" />
+	<bean id="jmadToolBar" factory-bean="jmadMenuFactory"
+		factory-method="createToolBar" />
+	<bean id="jmadMenuBar" factory-bean="jmadMenuFactory"
+		factory-method="createMenuBar" />
+	<bean id="jmadGui" class="cern.accsoft.steering.jmad.gui.JMadGui"
+		init-method="init">
 		<property name="title" value="jmad" />
 		<property name="splashScreen" ref="splashScreen" />
 		<property name="mainPanel" ref="jmadMainPanel" />
@@ -257,7 +306,8 @@
 		<property name="mainFrame" ref="jmadMainFrame" />
 	</bean>
 
-	<bean id="pymadServiceStarter" class="cern.accsoft.steering.jmad.gui.PyMadServiceStarter" init-method="init">
+	<bean id="pymadServiceStarter" class="cern.accsoft.steering.jmad.gui.PyMadServiceStarter"
+		init-method="init">
 		<property name="jmadService" ref="jmadService" />
 	</bean>
 </beans>
