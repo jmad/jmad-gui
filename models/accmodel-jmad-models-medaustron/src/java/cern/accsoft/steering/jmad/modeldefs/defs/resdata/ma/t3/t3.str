@@ -5,7 +5,7 @@ t300001mqdk1 := -0.899893289/0.45;
 t300002mqfk1 := 0.7777684208/0.45;
 t301000mqdk1 := -0.4459863174/0.45;
 t301001mqfk1 := 0.6094060959/0.45;
-t301002mqdk1 := 0/0.45;    ! for 62.4 MeV. In any case, check machine model! 
+t301002mqdk1 := -0.557513024/0.45;    ! for 62.4 MeV. In any case, check machine model! 
 // t301002mqdk1 := -0.574238415/0.45; ! for 252.7 MeV. In any case, check machine model!
 
 
