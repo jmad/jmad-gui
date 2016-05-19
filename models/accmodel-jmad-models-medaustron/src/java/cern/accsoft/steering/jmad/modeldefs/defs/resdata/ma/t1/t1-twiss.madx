@@ -1,0 +1,21 @@
+USE, sequence = t1;
+SELECT,flag = twiss,clear;
+SELECT, flag = twiss, column = name, keyword, s, l, betx, bety, alfx, alfy, dx, dpx, dy, dpy, mux, muy, angle, k1l, k2l, tilt, x, px, y, py, hkick, vkick, e1, e2;
+TWISS, save, file = "t1.twiss",betx = t1.betx, alfx = t1.alfx, dx = t1.dx, dpx = t1.dpx, bety = t1.bety, alfy = t1.alfy, dy = t1.dy, dpy = t1.dpy;
+SURVEY, x0 = -18.41377081, y0 = 1.25, z0 = 25.398123272228347, theta0 = 0, phi0 = 0, psi0 = 0, file="t1.svy", sequence = t1;
+
+RETURN;
+
+call, file = C:\optics\lattices\t1\t1-rf1-bety2m.str;
+USE, sequence = t1;
+SELECT, flag = twiss, clear;
+SELECT, flag = twiss, column = name, keyword, s, l, betx, bety, alfx, alfy, dx, dpx, dy, dpy, mux, muy, angle, k1l, k2l, tilt, x, px, y, py, hkick, vkick, e1, e2;
+TWISS, save, file = "t1-rf1-bety2m.twiss",betx = t1.betx, alfx = t1.alfx, dx = t1.dx, dpx = t1.dpx, bety = 2.0, alfy = t1.alfy, dy = t1.dy, dpy = t1.dpy;
+
+call, file = C:\optics\lattices\t1\t1-rf2.str;
+USE, sequence=t1;
+SELECT,flag=twiss,clear;
+SELECT, flag = twiss, column = name, keyword, s, l, betx, bety, alfx, alfy, dx, dpx, dy, dpy, mux, muy, angle, k1l, k2l, tilt, x, px, y, py, hkick, vkick, e1, e2;
+TWISS, save, file="t1-rf2.twiss",betx = t1.betx, alfx = t1.alfx, dx = t1.dx, dpx = t1.dpx, bety = t1.bety, alfy = t1.alfy, dy = t1.dy, dpy = t1.dpy;
+
+

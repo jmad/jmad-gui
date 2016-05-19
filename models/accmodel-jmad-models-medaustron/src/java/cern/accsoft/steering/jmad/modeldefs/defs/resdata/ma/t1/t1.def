@@ -1,0 +1,37 @@
+ex01001rfp : rfp;
+
+ex01004mcv: mcve, vkick := ex01004mcvvkick;
+ex01009mqf : mqze, k1 := ex01009mqfk1;
+ex01005mch: mche, hkick := ex01005mchhkick;
+ex01010mqd : mqze, k1 := ex01010mqdk1;
+ex02000mbh : mbhe;
+
+t100000vvg: vvgr;
+t100000mqf : mqze, k1 := t100000mqfk1;
+t100000sfx : sfx;
+t100001mqd : mqze, k1 := t100001mqdk1;
+t100000mcv : mcve, vkick := t100000mcvvkick;
+t100002mqf : mqze, k1 := t100000mqfk1;
+t100000bst : bst;
+t101000mbh : mbhe;
+t101000mqd : mqze, k1 := t101000mqdk1;
+t101000mch : mche, hkick := t101000mchhkick;
+t101001mqf : mqze, k1 := t101001mqfk1;
+t101000sfx : sfx;
+t101002mqd : mqze, k1 := t101002mqdk1;
+
+t101000msv : msve, vkick := t101000msvvkick;
+t101001msh : mshe, hkick := t101001mshhkick;
+
+t101000wal : wal;
+t101001wal : wal;
+
+t101001sfx : sfx;
+
+t101000vwi : vwi;
+
+t101000rhe : rhe;
+
+t101000rfp : rfp;
+
+t101001rfp : rfp;

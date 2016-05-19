@@ -1,0 +1,13 @@
+TITLE "t1 8:10:58 AM";
+BEAM;
+
+// betyin replaced by /common/default.def - t1.bety
+// betyin := 3.0;
+
+call, file = /home/aw2/svn/lattices/common/elements.def;
+call, file = /home/aw2/svn/lattices/common/default.def;
+call, file = /home/aw2/svn/lattices/t1/t1-rf1.str;
+call, file = /home/aw2/svn/lattices/t1/t1-corrector.str;
+call, file = /home/aw2/svn/lattices/t1/t1.def;
+call, file = /home/aw2/svn/lattices/t1/t1.seq;
+call, file = /home/aw2/svn/lattices/t1/t1-twiss.madx;

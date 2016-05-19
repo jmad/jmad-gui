@@ -1,0 +1,39 @@
+call, file = C:\optics\lattices\t1\t1.madx;
+call, file = C:\optics\lattices\t1\t1-rf1.str;
+
+match, sequence = t1,betx = t1.betx, alfx = t1.alfx, dx = t1.dx, dpx = t1.dpx, bety = t1.bety, alfy = t1.alfy, dy = t1.dy, dpy = t1.dpy, use_macro;
+
+  vary, name = t100000mqfk1, step = 1E-6;
+  vary, name = ex01009mqfk1, step = 1E-6;
+  vary, name = ex01010mqdk1, step = 1E-6;
+  vary, name = t100001mqdk1, step = 1E-6;
+  vary, name = t101001mqfk1, step = 1E-6;
+  vary, name = t101002mqdk1, step = 1E-6;
+
+  m1: macro = {use, sequence = t1; twiss,betx = t1.betx, alfx = t1.alfx, dx = t1.dx, dpx = t1.dpx, bety = t1.bety, alfy = t1.alfy, dy = t1.dy, dpy = t1.dpy;};
+
+  constraint, expr = table(summ, betxmax) < 47;
+  constraint, expr = table(summ, betymax) < 59;
+  constraint, expr = table(twiss, t101002mqd, bety) < 25.0;
+  constraint, expr = table(twiss, t101002mqd, bety) < 25.0;
+
+
+  constraint, expr = table(twiss, t101000rfp, muy) = 1.0;
+
+  constraint, expr = table(twiss, t101000rfp, Dx) = 0.0;
+  constraint, expr = table(twiss, t101000rfp, Dpx) = 0.0;
+
+  constraint, expr = table(twiss, t101000rfp, betx) = 7.2;
+  constraint, expr = table(twiss, t101000rfp, alfx) = 0.0;
+  constraint, expr = table(twiss, t101000rfp, alfy) = 0.0;
+
+  Jacobian, calls = 300, tolerance = 1E-23;
+endmatch;
+
+USE, sequence = t1;
+SELECT, flag = twiss, clear;
+SELECT, flag = twiss, column = name, keyword, s, l, betx, bety, alfx, alfy, dx, dpx, dy, dpy, mux, muy, angle, k1l, k2l, tilt, x, y;
+TWISS, save, file = "t1.twiss",betx = t1.betx, alfx = t1.alfx, dx = t1.dx, dpx = t1.dpx, bety = t1.bety, alfy = t1.alfy, dy = t1.dy, dpy = t1.dpy;
+
+value, tar;
+RETURN;

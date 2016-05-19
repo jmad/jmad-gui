@@ -1,0 +1,7 @@
+ex01004mcvvkick := 0.0;
+ex01005mchhkick := 0.0;
+
+t100000mcvvkick := 0.0;
+t101000mchhkick := 0.0;
+t101000msvvkick := 0.0;
+t101001mshhkick := 0.0;

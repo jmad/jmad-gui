@@ -14,6 +14,7 @@ import cern.jmad.modeldefs.defs.MedAustronMainRingModelDefinitionFactory;
 import cern.jmad.modeldefs.defs.MedAustronMebtVar3ModelDefinitionFactory;
 import cern.jmad.modeldefs.defs.MedAustronNominalHebtModelDefinitionFactory;
 import cern.jmad.modeldefs.defs.MedAustronNominalMebtModelDefinitionFactory;
+import cern.jmad.modeldefs.defs.MedAustronNominalT1ModelDefinitionFactory;
 import cern.jmad.modeldefs.defs.MedAustronNominalT3ModelDefinitionFactory;
 
 public class ModelDefCreator {
@@ -30,7 +31,7 @@ public class ModelDefCreator {
 		ModelDefinitionFactory[] factories = new ModelDefinitionFactory[] {
 				new MedAustronMainRingModelDefinitionFactory(), new MedAustronNominalMebtModelDefinitionFactory(),
 				new MedAustronMebtVar3ModelDefinitionFactory(), new MedAustronNominalHebtModelDefinitionFactory(),
-				new MedAustronNominalT3ModelDefinitionFactory() };
+				new MedAustronNominalT3ModelDefinitionFactory(), new MedAustronNominalT1ModelDefinitionFactory() };
 
 		ModelDefinitionPersistenceService service = new XmlModelDefinitionPersistenceService();
 
