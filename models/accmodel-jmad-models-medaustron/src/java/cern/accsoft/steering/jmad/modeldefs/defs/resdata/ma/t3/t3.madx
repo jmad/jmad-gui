@@ -1,0 +1,17 @@
+TITLE "T3";
+BEAM;
+
+// betyin replaced by \common\default.def - t3.bety
+// betyin := 3.0;
+
+call, file = C:\optics\lattices\common\elements.def;
+call, file = C:\optics\lattices\common\default.def;
+call, file = C:\optics\lattices\t3\t3.str;
+call, file = C:\optics\lattices\t3\t3-corrector.str;
+call, file = C:\optics\lattices\t3\t3.def;
+call, file = C:\optics\lattices\t3\t3.seq;
+call, file = C:\optics\lattices\t3\t3-twiss.madx;
+
+
+RETURN;
+

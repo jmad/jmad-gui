@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry including="**/*.java" kind="src" output="build/classes" path="src/java"/>
-	<classpathentry including="**/*.java" kind="src" output="build/test-classes" path="src/test"/>
+	<classpathentry including="**/*" kind="src" output="build/classes" path="src/java"/>
+	<classpathentry including="**/*" kind="src" output="build/test-classes" path="src/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/accmodel-commons-util.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/accmodel-jmad-core.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/accsoft-commons-core.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/accsoft-commons-util.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/accsoft-gui-frame.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/accsoft-steering-commons.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/aopalliance.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/bsh.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/bzip2.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/commons-logging.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/guava.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/Jama.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/jdataviewer.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/junit.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/log4j.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/org.hamcrest-core.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/slf4j-api.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/spring-aop.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/spring-beans.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/spring-context.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/spring-core.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/spring-expression.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/swingx.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/xpp3_min.jar"/>
+	<classpathentry kind="lib" path="C:/work/lib/for-jmad-gui/xstream.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

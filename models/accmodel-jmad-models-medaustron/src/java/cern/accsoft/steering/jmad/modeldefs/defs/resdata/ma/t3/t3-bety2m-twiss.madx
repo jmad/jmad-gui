@@ -1,0 +1,14 @@
+TITLE, 't3-bety2m-twiss.madx';
+BEAM;
+
+call, file = C:\optics\lattices\common\elements.def;
+call, file = C:\optics\lattices\common\default.def;
+call, file = C:\optics\lattices\t3\t3.def;
+call, file = C:\optics\lattices\t3\t3.seq;
+call, file = C:\optics\lattices\t3\t3-bety2m.str;
+
+
+USE, sequence = t3;
+SELECT,flag = twiss,clear;
+SELECT, flag = twiss, column = name, keyword, s, l, betx, bety, alfx, alfy, dx, dpx, dy, dpy, mux, muy, angle, k1l, k2l, tilt, x, y;
+TWISS, save, file = "t3-bety2m.twiss", betx = t3.betx, alfx = t3.alfx, dx = t3.dx, dpx = t3.dpx, bety = 2.0, alfy = t3.alfy, dy = t3.dy, dpy = t3.dpy;
