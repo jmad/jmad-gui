@@ -12,6 +12,24 @@
         <call-file location="RESOURCE" path="t1/t1-corrector.str" parse="STRENGTHS"/>
       </init-files>
     </optic>
+    <optic name="Alt1" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="t1/t1-rf1_alt1.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="t1/t1-corrector.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="Alt2" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="t1/t1-rf1_alt2.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="t1/t1-corrector.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
+    <optic name="Alt3" overlay="false">
+      <init-files>
+        <call-file location="RESOURCE" path="t1/t1-rf1_alt3.str" parse="STRENGTHS"/>
+        <call-file location="RESOURCE" path="t1/t1-corrector.str" parse="STRENGTHS"/>
+      </init-files>
+    </optic>
   </optics>
   <default-optic ref-name="nominal"/>
   <sequences>

@@ -52,6 +52,21 @@ public class MedAustronNominalT1ModelDefinitionFactory implements ModelDefinitio
 						new CallableModelFileImpl("t1/t1-corrector.str", RESOURCE, STRENGTHS) });
 		modelDefinition.addOpticsDefinition(opticsRf2);
 
+		OpticsDefinition opticsRf3 = new OpticsDefinitionImpl("Alt1",
+				new ModelFile[] { new CallableModelFileImpl("t1/t1-rf1_alt1.str", RESOURCE, STRENGTHS),
+						new CallableModelFileImpl("t1/t1-corrector.str", RESOURCE, STRENGTHS) });
+		modelDefinition.addOpticsDefinition(opticsRf3);
+
+		OpticsDefinition opticsRf4 = new OpticsDefinitionImpl("Alt2",
+				new ModelFile[] { new CallableModelFileImpl("t1/t1-rf1_alt2.str", RESOURCE, STRENGTHS),
+						new CallableModelFileImpl("t1/t1-corrector.str", RESOURCE, STRENGTHS) });
+		modelDefinition.addOpticsDefinition(opticsRf4);
+
+		OpticsDefinition opticsRf5 = new OpticsDefinitionImpl("Alt3",
+				new ModelFile[] { new CallableModelFileImpl("t1/t1-rf1_alt3.str", RESOURCE, STRENGTHS),
+						new CallableModelFileImpl("t1/t1-corrector.str", RESOURCE, STRENGTHS) });
+		modelDefinition.addOpticsDefinition(opticsRf5);
+
 		/*
 		 * SEQUENCE
 		 */
