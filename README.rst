@@ -1,9 +1,11 @@
 This repository is deprecated. Work is underway to split this repo into several smaller ones. New contributions should go into the split repos.
 
 The following parts are already pulled out:
+
 * jmad-core
 
 Still to do:
+
 * jmad-gui
 * doc
 
