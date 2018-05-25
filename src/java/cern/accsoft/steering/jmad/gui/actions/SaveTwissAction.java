@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Preconditions;
 
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
-import cern.accsoft.steering.jmad.domain.result.tfs.TfsResultRequestImpl;
 import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.OpticUtil;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;

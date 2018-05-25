@@ -13,11 +13,14 @@ package cern.accsoft.steering.jmad.gui.dialog;
 
 import java.awt.Frame;
 import java.io.File;
+import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
-import org.apache.log4j.Logger;
+import javafx.application.Platform;
 
 import cern.accsoft.steering.jmad.gui.panels.ModelDefinitionSelectionPanel;
 import cern.accsoft.steering.jmad.model.JMadModel;
@@ -26,6 +29,11 @@ import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
 import cern.accsoft.steering.jmad.modeldefs.io.impl.ModelDefinitionUtil;
 import cern.accsoft.steering.jmad.service.JMadService;
 import cern.accsoft.steering.util.gui.dialog.PanelDialog;
+import javafx.scene.control.Dialog;
+import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
+import org.jmad.modelpack.gui.domain.JMadModelSelection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is a collection of utility methods to show dialogs related to
@@ -35,7 +43,7 @@ import cern.accsoft.steering.util.gui.dialog.PanelDialog;
  */
 public class JMadOptionPane {
 
-	private final static Logger LOGGER = Logger.getLogger(JMadOptionPane.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(JMadOptionPane.class);
 
 	private final static JFileChooser FILECHOOSER = new JFileChooser();
 	static {
@@ -69,21 +77,30 @@ public class JMadOptionPane {
 		/* no instantiation */
 	}
 
-	public final static JMadModel showCreateModelDialog(Frame parent,
-			JMadService jmadService) {
-		ModelDefinitionSelectionPanel modelSelectionPanel = new ModelDefinitionSelectionPanel(
-				true);
-		modelSelectionPanel.setJmadService(jmadService);
-		modelSelectionPanel.init();
-		if (PanelDialog.show(modelSelectionPanel, parent)) {
-			JMadModelStartupConfiguration startupConfiguration = modelSelectionPanel
-					.getStartupConfiguration();
-			return createModel(jmadService,
-					modelSelectionPanel.getActiveModelDefinition(),
-					startupConfiguration);
-		} else {
-			return null;
+	public final static JMadModel showCreateModelDialog(JMadModelSelectionDialogFactory modelpackDialogFactory, JMadService jmadService) {
+		CountDownLatch latch = new CountDownLatch(1);
+		AtomicReference<JMadModel> selectedModel = new AtomicReference<>();
+
+        Dialog<JMadModelSelection> jMadModelSelectionDialog = modelpackDialogFactory.selectionDialog();
+
+        Platform.runLater(() -> {
+            Optional<JMadModelSelection> selection = jMadModelSelectionDialog.showAndWait();
+
+			if (selection.isPresent()) {
+                JMadModelDefinition modelDefinition = selection.get().modelDefinition();
+                JMadModelStartupConfiguration startupConfiguration = selection.get().startupConfiguration();
+                selectedModel.set(createModel(jmadService, modelDefinition, startupConfiguration));
+            }
+
+			latch.countDown();
+		});
+
+		try {
+			latch.await();
+		} catch (InterruptedException e) {
+		    throw new RuntimeException("Interrupted while waiting for user model selection");
 		}
+		return selectedModel.get();
 	}
 
 	private final static JMadModel createModel(JMadService jmadService,

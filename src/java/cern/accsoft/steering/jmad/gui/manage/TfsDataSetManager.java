@@ -28,8 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.domain.result.tfs.TfsResult;
 import cern.accsoft.steering.jmad.domain.result.tfs.TfsResultRequestImpl;
@@ -42,6 +40,8 @@ import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManagerListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * creates DataSets for JMad-Results and stores the therefore required Variables. So all the DataSets can then be
@@ -50,7 +50,7 @@ import cern.accsoft.steering.jmad.model.manage.JMadModelManagerListener;
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TfsDataSetManager implements DataSetManager {
-    private final static Logger logger = Logger.getLogger(TfsDataSetManager.class);
+    private final static Logger logger = LoggerFactory.getLogger(TfsDataSetManager.class);
 
     /** the model - manager from which to get the model */
     private JMadModelManager modelManager = null;

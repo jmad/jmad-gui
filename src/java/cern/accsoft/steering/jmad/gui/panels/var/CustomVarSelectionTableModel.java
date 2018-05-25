@@ -23,12 +23,15 @@
 package cern.accsoft.steering.jmad.gui.panels.var;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import cern.accsoft.steering.jmad.domain.var.TwissVariable;
 import cern.accsoft.steering.jmad.domain.var.custom.CustomVariable;
-import cern.accsoft.steering.jmad.gui.manage.StrengthVarManager;
-import cern.accsoft.steering.jmad.gui.manage.StrengthVarManagerListener;
+import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerListener;
+import cern.accsoft.steering.jmad.model.manage.StrengthVarManagerListener;
 
 /**
  * This panel allows to parse a variable-file and add these variables to the twiss results.
@@ -39,8 +42,7 @@ public class CustomVarSelectionTableModel extends AbstractVarSelectionTableModel
 
     private static final long serialVersionUID = 1630862227442352343L;
 
-    /** the {@link StrengthVarManager} */
-    private StrengthVarManager strengthVarManager = null;
+    private JMadModelManager modelManager;
 
     private int columnCount;
     {
@@ -54,22 +56,19 @@ public class CustomVarSelectionTableModel extends AbstractVarSelectionTableModel
     /** All the variables to display */
     private List<CustomVariable> variables = new ArrayList<CustomVariable>();
 
-    /**
-     * method used by spring to inject the {@link StrengthVarManager}
-     * 
-     * @param variableFileManager the {@link StrengthVarManager} to set
-     */
-    public void setVariableFileManager(StrengthVarManager variableFileManager) {
-        this.strengthVarManager = variableFileManager;
-        this.strengthVarManager.addListener(new StrengthVarManagerListener() {
+    StrengthVarManagerListener strengthVarListener = new StrengthVarManagerListener() {
 
-            @Override
-            public void changedVariables(List<CustomVariable> newVariables) {
-                variables = newVariables;
-                fireTableDataChanged();
+        @Override
+        public void changedData() {
+            JMadModel model = modelManager.getActiveModel();
+            if (model != null) {
+                variables = model.getStrengthsAndVars().getVariables();
+            } else {
+                variables = Collections.emptyList();
             }
-        });
-    }
+            fireTableDataChanged();
+        }
+    };
 
     @Override
     public int getColumnCount() {
@@ -161,6 +160,28 @@ public class CustomVarSelectionTableModel extends AbstractVarSelectionTableModel
     @Override
     protected void updateColumnCounts() {
         columnCount = axesCount + 3;
+    }
+
+    public void setModelManager(JMadModelManager modelManager) {
+        this.modelManager = modelManager;
+        modelManager.addListener(new JMadModelManagerListener() {
+
+            @Override
+            public void removedModel(JMadModel removedModel) {
+                /* nothing to do */
+            }
+
+            @Override
+            public void changedActiveModel(JMadModel newActiveModel) {
+                newActiveModel.getStrengthVarManager().addListener(strengthVarListener);
+                ;
+            }
+
+            @Override
+            public void addedModel(JMadModel newModel) {
+                /* Nothing to do */
+            }
+        });
     }
 
 }

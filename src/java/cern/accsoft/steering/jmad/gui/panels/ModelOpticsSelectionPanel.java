@@ -31,8 +31,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.gui.components.DoubleTableCellRenderer;
 import cern.accsoft.steering.jmad.model.JMadModel;
@@ -46,17 +44,18 @@ import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
 import cern.accsoft.steering.util.gui.panels.Titleable;
 import cern.accsoft.steering.util.gui.table.SelectionSetTableModel;
 import cern.accsoft.steering.util.gui.table.TableModelSelectionAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * this class represents the panel, which allows to view all strengths of a model (that is the content of the
- * strength-file) and in addition it provides the possibility to select certain strengths (if a EditHandler is set).
+ * this class represents the panel, which allows to view all optics of a model and select one
  * 
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class ModelOpticsSelectionPanel extends JPanel implements Titleable, Applyable {
     private static final long serialVersionUID = 1733380183463632497L;
 
-    private static final Logger LOGGER = Logger.getLogger(ModelOpticsSelectionPanel.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModelOpticsSelectionPanel.class);
 
     /** the table model for the display */
     private ModelOpticsDefinitionTableModel tableModel;

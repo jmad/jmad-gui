@@ -25,16 +25,12 @@ package cern.accsoft.steering.util.fit;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-// import org.freehep.math.minuit.FCNBase;
-// import org.freehep.math.minuit.FunctionMinimum;
-// import org.freehep.math.minuit.MnMigrad;
-// import org.freehep.math.minuit.MnUserParameters;
-
 import cern.jdve.data.DataSet;
 import cern.jdve.data.DefaultDataSet;
 import cern.jdve.utils.DataRange;
 import cern.jdve.utils.DisplayPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is the sine-function used for fitting.
@@ -45,7 +41,7 @@ import cern.jdve.utils.DisplayPoint;
 public class SineFit implements DataViewerFit {
 
     /** the logger for the class */
-    private final static Logger logger = Logger.getLogger(SineFit.class);
+    private final static Logger logger = LoggerFactory.getLogger(SineFit.class);
 
     /*
      * the name of the used parameters

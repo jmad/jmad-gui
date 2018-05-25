@@ -23,8 +23,8 @@
 package cern.accsoft.steering.util.gui;
 
 import javax.swing.JOptionPane;
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Some util-methods for simple user interaction.
@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class AskUtils {
-    private final static Logger logger = Logger.getLogger(AskUtils.class);
+    private final static Logger logger = LoggerFactory.getLogger(AskUtils.class);
 
     /**
      * private constructor, no instantiation

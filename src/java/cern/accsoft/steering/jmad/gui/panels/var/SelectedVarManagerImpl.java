@@ -26,9 +26,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.jmad.domain.var.TwissVariable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * the simplest implementation of a class collecting variables.
@@ -38,7 +38,7 @@ import cern.accsoft.steering.jmad.domain.var.TwissVariable;
 public class SelectedVarManagerImpl implements SelectedVarManager {
 
     /** The logger for the class */
-    private final static Logger logger = Logger.getLogger(SelectedVarManagerImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(SelectedVarManagerImpl.class);
 
     /** how many variables may be selected */
     private VarSelectionMode varSelectionMode = VarSelectionMode.MULTIPLE;

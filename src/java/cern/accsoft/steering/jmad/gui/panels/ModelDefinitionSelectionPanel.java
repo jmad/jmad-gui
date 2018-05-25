@@ -32,8 +32,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.jmad.domain.machine.RangeDefinition;
 import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.JMadModelStartupConfiguration;
@@ -44,9 +42,11 @@ import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
 import cern.accsoft.steering.jmad.service.JMadService;
 import cern.accsoft.steering.util.gui.panels.Applyable;
 import cern.accsoft.steering.util.gui.panels.Titleable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ModelDefinitionSelectionPanel extends JPanel implements Titleable, Applyable {
-    private final static Logger logger = Logger.getLogger(ModelDefinitionSelectionPanel.class);
+    private final static Logger logger = LoggerFactory.getLogger(ModelDefinitionSelectionPanel.class);
 
     private static final long serialVersionUID = -3095464304653777882L;
 

@@ -34,12 +34,11 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Level;
-
 import cern.accsoft.gui.beans.spi.SplashScreen;
 import cern.accsoft.gui.frame.ExternalFrame;
 import cern.accsoft.gui.frame.FrameManager;
 import cern.accsoft.steering.util.gui.log.AccsoftLogAppender;
+import org.apache.log4j.Level;
 
 /**
  * This class combines the main elements of the gui: lsa-frame and custom panels.

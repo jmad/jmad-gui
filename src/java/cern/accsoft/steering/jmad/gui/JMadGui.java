@@ -28,8 +28,6 @@ import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.domain.machine.Range;
 import cern.accsoft.steering.jmad.gui.icons.Icon;
@@ -39,6 +37,8 @@ import cern.accsoft.steering.jmad.model.JMadModelListener;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
 import cern.accsoft.steering.util.gui.DefaultAccsoftGui;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * this class represents the main frame for the jmad-gui standalone application
@@ -48,7 +48,7 @@ import cern.accsoft.steering.util.gui.DefaultAccsoftGui;
 public class JMadGui extends DefaultAccsoftGui {
     private static final long serialVersionUID = -8292677890152652172L;
 
-    private static Logger logger = Logger.getLogger(DefaultAccsoftGui.class);
+    private static Logger logger = LoggerFactory.getLogger(DefaultAccsoftGui.class);
 
     /** the model manager, necessary for a final cleanup */
     private JMadModelManager modelManager = null;

@@ -28,8 +28,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.gui.frame.Task;
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.gui.dialog.JMadOptionPane;
@@ -44,6 +42,9 @@ import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
 import cern.accsoft.steering.jmad.service.JMadService;
 import cern.accsoft.steering.util.gui.NamedAction;
 import cern.accsoft.steering.util.gui.UserInteractor;
+import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The swing-implementation of the {@link ModelDefinitionChooser}
@@ -53,7 +54,7 @@ import cern.accsoft.steering.util.gui.UserInteractor;
 public class SwingModelDefinitionChooser implements ModelDefinitionChooser, ChooseActionFactory {
 
     /** The logger for the class */
-    private final static Logger LOGGER = Logger.getLogger(SwingModelDefinitionChooser.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(SwingModelDefinitionChooser.class);
 
     /** The class to communicate with the user */
     private UserInteractor userInteractor;
@@ -75,6 +76,8 @@ public class SwingModelDefinitionChooser implements ModelDefinitionChooser, Choo
 
     /** The preferences to activate/deactivate the actions */
     private JMadGuiPreferences jmadGuiPreferences;
+
+    private JMadModelSelectionDialogFactory modelpackDialogFactory;
 
     //
     // actions
@@ -190,7 +193,7 @@ public class SwingModelDefinitionChooser implements ModelDefinitionChooser, Choo
 
     @Override
     public void showModelChooseDialog() {
-        final JMadModel model = JMadOptionPane.showCreateModelDialog(frame, jmadService);
+        final JMadModel model = JMadOptionPane.showCreateModelDialog(modelpackDialogFactory, jmadService);
         if (model != null) {
             Task task = new Task() {
                 @Override
@@ -339,4 +342,7 @@ public class SwingModelDefinitionChooser implements ModelDefinitionChooser, Choo
         return jmadService;
     }
 
+    public void setModelpackDialogFactory(JMadModelSelectionDialogFactory modelpackDialogFactory) {
+        this.modelpackDialogFactory = modelpackDialogFactory;
+    }
 }

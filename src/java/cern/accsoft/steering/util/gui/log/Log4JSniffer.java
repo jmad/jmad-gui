@@ -11,14 +11,14 @@
 
 package cern.accsoft.steering.util.gui.log;
 
-import java.io.StringWriter;
-
 import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.WriterAppender;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.RootLogger;
+
+import java.io.StringWriter;
 
 /**
  * This is singleton, which appends itself to the Log4j system and provides methods to readout the logged stream.

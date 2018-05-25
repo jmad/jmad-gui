@@ -42,14 +42,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.util.gui.menu.MousePopupListener;
 import cern.accsoft.steering.util.gui.menu.TablePopupMenu;
 import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
 import cern.accsoft.steering.util.gui.table.SelectionSetTableModel;
 import cern.accsoft.steering.util.gui.table.TableModelSelectionAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A simple dialog to browse through yasp files in a directory and preview the contents.
@@ -60,7 +59,7 @@ public class YaspFileBrowser extends JDialog {
     private static final long serialVersionUID = 8936666262913943289L;
 
     /** The logger for the class */
-    private final static Logger logger = Logger.getLogger(YaspFileBrowser.class);
+    private final static Logger logger = LoggerFactory.getLogger(YaspFileBrowser.class);
 
     /** the table model for the files */
     private FileTableModel tableModel = new FileTableModel();
@@ -232,9 +231,6 @@ public class YaspFileBrowser extends JDialog {
      * @param args
      */
     public static void main(String[] args) {
-        /* configure the log4j - system */
-        BasicConfigurator.configure();
-
         File dir = null;
         if (args.length > 0) {
             dir = new File(args[0].trim());

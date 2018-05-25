@@ -27,6 +27,7 @@ import java.util.List;
 
 import cern.accsoft.steering.jmad.domain.knob.Knob;
 import cern.accsoft.steering.jmad.model.JMadModelListener;
+import cern.accsoft.steering.jmad.model.manage.StrengthVarManagerListener;
 
 /**
  * this panel lists all knobs of the model, displays their values and allows to set new ones
@@ -47,6 +48,11 @@ public class ModelCustomKnobsPanel extends AbstractKnobsPanel {
 
     @Override
     protected JMadModelListener getModelListener() {
+        return null;
+    }
+
+    @Override
+    protected StrengthVarManagerListener getStrengthVarManagerListener() {
         return null;
     }
 }

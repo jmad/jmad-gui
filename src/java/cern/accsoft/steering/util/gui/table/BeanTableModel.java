@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * this class is a simple table model, which enables the display of an object, that provides java-bean like properties
@@ -42,7 +42,7 @@ public class BeanTableModel extends AbstractTableModel {
     private static final long serialVersionUID = -7282333473638238414L;
 
     /** the logger for the class */
-    private final static Logger logger = Logger.getLogger(BeanTableModel.class);
+    private final static Logger logger = LoggerFactory.getLogger(BeanTableModel.class);
 
     /** the amount of Columns */
     private final static int COL_COUNT = 3;

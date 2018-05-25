@@ -38,6 +38,7 @@ import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.JMadModelListener;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
+import cern.accsoft.steering.jmad.model.manage.StrengthVarManagerListener;
 import cern.accsoft.steering.util.gui.menu.ActionProvider;
 import cern.accsoft.steering.util.gui.menu.Checkable;
 import cern.accsoft.steering.util.gui.menu.MousePopupListener;
@@ -323,12 +324,18 @@ public abstract class AbstractKnobsPanel extends JPanel implements EditHandlerUs
      */
     protected abstract JMadModelListener getModelListener();
 
+    protected abstract StrengthVarManagerListener getStrengthVarManagerListener();
+
     private void setModel(JMadModel model) {
         this.model = model;
         if (model != null) {
             JMadModelListener listener = getModelListener();
             if (listener != null) {
-                this.model.addListener(listener);
+                model.addListener(listener);
+            }
+            StrengthVarManagerListener strengthVarManagerListener = getStrengthVarManagerListener();
+            if (strengthVarManagerListener != null) {
+                model.getStrengthVarManager().addListener(strengthVarManagerListener);
             }
         }
     }

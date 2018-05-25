@@ -32,8 +32,6 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.util.acc.BeamNumber;
 import cern.accsoft.steering.util.gui.dv.ds.AbstractJmadDataSet;
 import cern.accsoft.steering.util.gui.dv.ds.Aloha2DChart;
@@ -52,6 +50,8 @@ import cern.jdve.data.DefaultDataSource;
 import cern.jdve.viewer.DVView;
 import cern.jdve.viewer.DataView;
 import cern.jdve.viewer.DataViewer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The panel to display the yasp-traj data
@@ -62,7 +62,7 @@ public class DataViewerPanel extends JPanel {
     private static final long serialVersionUID = -8543734363603875904L;
 
     /** the logger for this class */
-    private final static Logger logger = Logger.getLogger(DataViewerPanel.class);
+    private final static Logger logger = LoggerFactory.getLogger(DataViewerPanel.class);
 
     private ReadingDataReader reader = new YaspFileReader();
 

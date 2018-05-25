@@ -1,0 +1,9 @@
+repositories {
+    maven { url "https://dl.bintray.com/jmad/jmad-repo" }
+}
+
+
+dependencies {
+    compile group: 'jmad', name: 'jmad-modelpack-fx', version: '0.1.0'
+    compile group: 'jmad', name: 'jmad-modelpack-service', version: '0.2.0'
+}

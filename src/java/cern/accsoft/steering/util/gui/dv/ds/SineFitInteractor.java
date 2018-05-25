@@ -31,8 +31,6 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.util.fit.DataViewerFit;
 import cern.accsoft.steering.util.fit.SineFit;
 import cern.accsoft.steering.util.gui.icons.Icon;
@@ -40,6 +38,8 @@ import cern.jdve.data.DataSet;
 import cern.jdve.interactor.EditInteractor;
 import cern.jdve.utils.DataRange;
 import cern.jdve.utils.DisplayPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * this class provides methods to create a fit on a dataset of a dataviewer, using selected points
@@ -47,7 +47,7 @@ import cern.jdve.utils.DisplayPoint;
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public abstract class SineFitInteractor extends EditInteractor {
-    private final static Logger logger = Logger.getLogger(SineFitInteractor.class);
+    private final static Logger logger = LoggerFactory.getLogger(SineFitInteractor.class);
 
     /** the minimum of points that must be selected */
     private final static int MIN_POINTS_SELECTED = 1;

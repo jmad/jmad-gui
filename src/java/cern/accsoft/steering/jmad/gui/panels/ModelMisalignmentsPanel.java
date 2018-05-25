@@ -37,8 +37,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.jmad.domain.machine.Range;
 import cern.accsoft.steering.jmad.domain.machine.RangeListener;
 import cern.accsoft.steering.jmad.domain.misalign.Misalignment;
@@ -55,6 +53,8 @@ import cern.accsoft.steering.util.gui.table.BeanTableEditHandler;
 import cern.accsoft.steering.util.gui.table.BeanTableModel;
 import cern.accsoft.steering.util.gui.table.SelectionSetTableModel;
 import cern.accsoft.steering.util.gui.table.TableModelSelectionAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
@@ -63,7 +63,7 @@ public class ModelMisalignmentsPanel extends JPanel {
     private static final long serialVersionUID = -2761017481167940042L;
 
     /** the logger for the class */
-    private final static Logger logger = Logger.getLogger(ModelMisalignmentsPanel.class);
+    private final static Logger logger = LoggerFactory.getLogger(ModelMisalignmentsPanel.class);
 
     /**
      * The initial location of the devider between elements-table and element-table.

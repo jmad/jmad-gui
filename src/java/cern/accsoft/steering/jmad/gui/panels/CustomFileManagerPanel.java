@@ -48,15 +48,15 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.AbstractTableModel;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.jmad.gui.manage.CustomFileManager;
 import cern.accsoft.steering.jmad.gui.manage.CustomFileManagerListener;
 import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
-import cern.accsoft.steering.jmad.gui.manage.StrengthVarManager;
 import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.model.manage.StrengthVarManager;
 import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This panel allows to parse a variable-file and add these variables to the twiss results.
@@ -69,7 +69,7 @@ public class CustomFileManagerPanel extends JPanel {
     /**
      * the logger for the class
      */
-    private final static Logger logger = Logger.getLogger(CustomFileManagerPanel.class);
+    private final static Logger logger = LoggerFactory.getLogger(CustomFileManagerPanel.class);
 
     /** the size of the table */
     private final static Dimension PREFERRED_TABLE_SIZE = new Dimension(200, 200);
@@ -91,11 +91,6 @@ public class CustomFileManagerPanel extends JPanel {
      * the class which keeps track of the actually selected model
      */
     private JMadModelManager modelManager;
-
-    /**
-     * The manager, which keeps track of all available variables and strengthes from the custom files.
-     */
-    private StrengthVarManager strengthVarManager;
 
     /**
      * if this is set, then the file which is run is also parsed by the {@link StrengthVarManager} in order to be able
@@ -268,11 +263,7 @@ public class CustomFileManagerPanel extends JPanel {
                 model.call(selectedFile);
 
                 if (parseWhenRunning) {
-                    if (strengthVarManager == null) {
-                        logger.warn("No StrengthVarManager set.");
-                        return;
-                    }
-                    strengthVarManager.load(selectedFile);
+                    model.getStrengthVarManager().load(selectedFile);
                 }
             }
         };
@@ -422,8 +413,8 @@ public class CustomFileManagerPanel extends JPanel {
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        CustomFileManagerPanel.this.tableModel.setFiles(CustomFileManagerPanel.this.customFileManager
-                                .getFiles());
+                        CustomFileManagerPanel.this.tableModel
+                                .setFiles(CustomFileManagerPanel.this.customFileManager.getFiles());
                     }
                 });
             }
@@ -461,10 +452,6 @@ public class CustomFileManagerPanel extends JPanel {
             return null;
         }
         return modelManager.getActiveModel();
-    }
-
-    public void setStrengthVarManager(StrengthVarManager strengthVarManager) {
-        this.strengthVarManager = strengthVarManager;
     }
 
 }

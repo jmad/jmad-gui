@@ -25,8 +25,6 @@ package cern.accsoft.steering.jmad.gui.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.jmad.domain.result.tfs.TfsResult;
 import cern.accsoft.steering.jmad.domain.var.MadxVariable;
 import cern.accsoft.steering.jmad.domain.var.TwissVariable;
@@ -34,11 +32,12 @@ import cern.accsoft.steering.jmad.domain.var.enums.MadxTwissVariable;
 import cern.accsoft.steering.jmad.gui.mark.MarkerXProvider;
 import cern.jdve.data.AbstractDataSet;
 import cern.jdve.event.DataSetEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TfsResultDataSet extends AbstractDataSet implements
 		MarkerXProvider {
-	private final static Logger logger = Logger
-			.getLogger(TfsResultDataSet.class);
+	private final static Logger logger = LoggerFactory.getLogger(TfsResultDataSet.class);
 
 	public final static MadxTwissVariable LABEL_VAR = MadxTwissVariable.NAME;
 

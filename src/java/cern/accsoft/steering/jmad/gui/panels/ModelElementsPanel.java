@@ -41,8 +41,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.jmad.domain.elem.Element;
 import cern.accsoft.steering.jmad.domain.elem.JMadElementType;
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
@@ -66,6 +64,8 @@ import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
 import cern.accsoft.steering.util.gui.table.BeanTableModel;
 import cern.accsoft.steering.util.gui.table.SelectionSetTableModel;
 import cern.accsoft.steering.util.gui.table.TableModelSelectionAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * this class represents a panel, which enables the display of all elements of a model including the details of the
@@ -78,7 +78,7 @@ public class ModelElementsPanel extends JPanel implements EditHandlerUser<ModelE
     private static final long serialVersionUID = 1L;
 
     /** the logger for the class */
-    private final static Logger logger = Logger.getLogger(ModelElementsPanel.class);
+    private final static Logger logger = LoggerFactory.getLogger(ModelElementsPanel.class);
 
     /**
      * The initial location of the divider between elements-table and element-table.

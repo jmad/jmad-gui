@@ -2,9 +2,9 @@ package cern.accsoft.steering.jmad.gui;
 
 import java.lang.reflect.Method;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.jmad.service.JMadService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides methods to initialize a PyMadService, in case the PyMadService is in the classpath. If this is not the case,
@@ -13,7 +13,7 @@ import cern.accsoft.steering.jmad.service.JMadService;
  * @author kfuchsbe
  */
 public class PyMadServiceStarter {
-    private final static Logger LOGGER = Logger.getLogger(PyMadServiceStarter.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(PyMadServiceStarter.class);
 
     private final static String PYMAD_SERVICE_CLASS_NAME = "cern.accmodel.jmad.pymadservice.PyMadService";
 

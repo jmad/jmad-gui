@@ -33,12 +33,12 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
-
 import cern.accsoft.steering.util.gui.panels.Applyable;
 import cern.accsoft.steering.util.gui.panels.PanelProvider;
 import cern.accsoft.steering.util.gui.panels.Titleable;
 import cern.accsoft.steering.util.gui.panels.ValidateApplyable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A dialog, which contains a panel.
@@ -49,7 +49,7 @@ public class PanelDialog extends JDialog {
     private static final long serialVersionUID = 67399462987558666L;
 
     /** the logger for the class */
-    private final static Logger logger = Logger.getLogger(PanelDialog.class);
+    private final static Logger logger = LoggerFactory.getLogger(PanelDialog.class);
 
     /** the content, which we display */
     private Object content;
