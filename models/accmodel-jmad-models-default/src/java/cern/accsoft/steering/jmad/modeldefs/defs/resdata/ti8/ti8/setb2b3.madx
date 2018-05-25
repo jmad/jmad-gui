@@ -1,7 +1,0 @@
-//
-// this script sets the relative errors in the main bends of ti8
-//
-
-select, flag=error, class=MBI;
-efcomp, order:=0, radius:=0.025, dknr:={0,1.35e-4,-4.7e-4};
-SELECT,FLAG=ERROR, class=mbi;

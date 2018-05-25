@@ -1,5 +1,0 @@
-USE, sequence = t3;
-SELECT, flag = twiss,clear;
-SELECT, flag = twiss, column = name, keyword, s, l, betx, bety, alfx, alfy, dx, dpx, dy, dpy, mux, muy, angle, k1l, k2l, tilt, x, y, px, py, hkick, vkick, e1, e2;
-TWISS, save, file = "t3.twiss", betx = t3.betx, alfx = t3.alfx, dx = t3.dx, dpx = t3.dpx, bety = t3.bety, alfy = t3.alfy, dy = t3.dy, dpy = t3.dpy;
-SURVEY, x0 = -18.41377081, y0 = 1.25, z0 = 55.398123274137298, theta0 = 0.0, phi0 = 0.0, psi0 = 0, file = "t3.svy", sequence = t3;
