@@ -23,6 +23,8 @@
 package cern.accsoft.steering.jmad.gui.manage.impl;
 
 import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 /**
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
@@ -47,60 +49,85 @@ public class JMadGuiPreferencesImpl implements JMadGuiPreferences {
     private final static String DEFAULT_EDIT_COMMAND = "nedit";
 
     /** true, if the change of the model is allowed */
-    private boolean enabledChangeModel = true;
+    private BooleanProperty enabledChangeModel = new SimpleBooleanProperty(true);
 
     /** true, if the change of the range is allowed */
-    private boolean enabledChangeRange = true;
+    private BooleanProperty enabledChangeRange = new SimpleBooleanProperty(true);
 
     /** true, if the change of the optic is allowed */
-    private boolean enabledChangeOptic = true;
+    private BooleanProperty enabledChangeOptic = new SimpleBooleanProperty(true);
 
     /** true, if the model should be cleaned up on close. */
-    private boolean cleanupOnClose = true;
+    private BooleanProperty cleanupOnClose = new SimpleBooleanProperty(true);
 
     /** true, if the program should exit, when window is closed. */
-    private boolean exitOnClose = true;
+    private BooleanProperty exitOnClose = new SimpleBooleanProperty(true);
 
     /** Open JMad frame as main-frame */
-    private boolean mainFrame = true;
+    private BooleanProperty mainFrame = new SimpleBooleanProperty(true);
 
     public boolean isEnabledChangeModel() {
-        return enabledChangeModel;
+        return enabledChangeModel.getValue();
     }
 
     public void setEnabledChangeModel(boolean enabledChangeModel) {
-        this.enabledChangeModel = enabledChangeModel;
+        this.enabledChangeModel.setValue(enabledChangeModel);
+    }
+
+    @Override
+    public BooleanProperty enabledChangeModelProperty() {
+        return enabledChangeModel;
     }
 
     public boolean isEnabledChangeRange() {
-        return enabledChangeRange;
+        return enabledChangeRange.getValue();
     }
 
     public void setEnabledChangeRange(boolean enabledChangeRange) {
-        this.enabledChangeRange = enabledChangeRange;
+        this.enabledChangeRange.setValue(enabledChangeRange);
+    }
+
+    @Override
+    public BooleanProperty enabledChangeRangeProperty() {
+        return enabledChangeRange;
     }
 
     public boolean isEnabledChangeOptic() {
-        return enabledChangeOptic;
+        return enabledChangeOptic.getValue();
     }
 
     public void setEnabledChangeOptic(boolean enabledChangeOptic) {
-        this.enabledChangeOptic = enabledChangeOptic;
+        this.enabledChangeOptic.setValue(enabledChangeOptic);
+    }
+
+    @Override
+    public BooleanProperty enabledChangeOpticProperty() {
+        return enabledChangeOptic;
     }
 
     public void setCleanupOnClose(boolean cleanupOnClose) {
-        this.cleanupOnClose = cleanupOnClose;
+        this.cleanupOnClose.setValue(cleanupOnClose);
     }
 
     public boolean isCleanupOnClose() {
+        return cleanupOnClose.getValue();
+    }
+
+    @Override
+    public BooleanProperty cleanupOnCloseProperty() {
         return cleanupOnClose;
     }
 
     public void setExitOnClose(boolean exitOnClose) {
-        this.exitOnClose = exitOnClose;
+        this.exitOnClose.setValue(exitOnClose);
     }
 
     public boolean isExitOnClose() {
+        return exitOnClose.getValue();
+    }
+
+    @Override
+    public BooleanProperty exitOnCloseProperty() {
         return exitOnClose;
     }
 
@@ -124,12 +151,17 @@ public class JMadGuiPreferencesImpl implements JMadGuiPreferences {
 
     @Override
     public boolean isMainFrame() {
-        return this.mainFrame;
+        return this.mainFrame.getValue();
     }
 
     @Override
     public void setMainFrame(boolean mainFrame) {
-        this.mainFrame = mainFrame;
+        this.mainFrame.setValue(mainFrame);
+    }
+
+    @Override
+    public BooleanProperty useMainFrameProperty() {
+        return mainFrame;
     }
 
 }

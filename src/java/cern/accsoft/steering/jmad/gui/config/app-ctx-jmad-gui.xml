@@ -46,7 +46,7 @@
 		<property name="jmadGuiPreferences" ref="jmadGuiPreferences" />
 		<property name="frame" ref="jmadMainFrame" />
 		<property name="jmadService" ref="jmadService" />
-		<property name="modelpackDialogFactory" ref="modelpackDialogFactory" />
+		<property name="jmadModelSelectionDialogFactory" ref="jmadModelSelectionDialogFactory" />
 	</bean>
 	<bean id="jmadMenuFactory" class="cern.accsoft.steering.jmad.gui.menu.JMadMenuFactoryImpl">
 		<property name="chooseActionFactory" ref="chooseActionFactory" />
@@ -235,19 +235,20 @@
 	</bean>
 
 	<!-- the gui -->
-	<bean id="splashScreen" class="cern.accsoft.steering.jmad.gui.manage.SplashFactory" factory-method="getSplashScreen" />
+	<!--<bean id="splashScreen" class="cern.accsoft.steering.jmad.gui.manage.SplashFactory" factory-method="getSplashScreen" />-->
 	<bean id="jmadToolBar" factory-bean="jmadMenuFactory" factory-method="createToolBar" />
 	<bean id="jmadMenuBar" factory-bean="jmadMenuFactory" factory-method="createMenuBar" />
 	<bean id="jmadGui" class="cern.accsoft.steering.jmad.gui.JMadGui" init-method="init">
 		<property name="title" value="jmad" />
-		<property name="splashScreen" ref="splashScreen" />
+		<!--<property name="splashScreen" ref="splashScreen" />-->
 		<property name="mainPanel" ref="jmadMainPanel" />
 		<property name="modelManager" ref="modelManager" />
 		<property name="toolBar" ref="jmadToolBar" />
 		<property name="menuBar" ref="jmadMenuBar" />
-		<property name="jmadGuiPreferences" ref="jmadGuiPreferences" />
 		<property name="consoleLogLevel" value="DEBUG" />
 	</bean>
+
+	<bean id="jmadGuiPreferences" factory-bean="jmadGui" factory-method="getJmadGuiPreferences" />
 
 	<bean id="jmadMainFrame" factory-bean="jmadGui" factory-method="getJFrame" />
 	<bean id="userInteractor" class="cern.accsoft.steering.util.gui.SwingUserInteractor">

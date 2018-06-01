@@ -22,39 +22,53 @@
 
 package cern.accsoft.steering.jmad.gui.manage;
 
+import javafx.beans.property.BooleanProperty;
+
 public interface JMadGuiPreferences {
 
-    public abstract boolean isEnabledChangeModel();
+    boolean isEnabledChangeModel();
 
-    public abstract void setEnabledChangeModel(boolean enabledChangeModel);
+    void setEnabledChangeModel(boolean enabledChangeModel);
 
-    public abstract boolean isEnabledChangeRange();
+    BooleanProperty enabledChangeModelProperty();
 
-    public abstract void setEnabledChangeRange(boolean enabledChangeRange);
+    boolean isEnabledChangeRange();
 
-    public abstract boolean isEnabledChangeOptic();
+    void setEnabledChangeRange(boolean enabledChangeRange);
 
-    public abstract void setEnabledChangeOptic(boolean enabledChangeOptic);
+    BooleanProperty enabledChangeRangeProperty();
 
-    public void setCleanupOnClose(boolean cleanupOnClose);
+    boolean isEnabledChangeOptic();
 
-    public boolean isCleanupOnClose();
+    void setEnabledChangeOptic(boolean enabledChangeOptic);
 
-    public void setExitOnClose(boolean exitOnClose);
+    BooleanProperty enabledChangeOpticProperty();
 
-    public boolean isExitOnClose();
+    void setCleanupOnClose(boolean cleanupOnClose);
 
-    public boolean isMainFrame();
+    boolean isCleanupOnClose();
 
-    public void setMainFrame(boolean mainFrame);
+    BooleanProperty cleanupOnCloseProperty();
 
-    public String getWorkingDir();
+    void setExitOnClose(boolean exitOnClose);
+
+    boolean isExitOnClose();
+
+    BooleanProperty exitOnCloseProperty();
+
+    boolean isMainFrame();
+
+    void setMainFrame(boolean mainFrame);
+
+    BooleanProperty useMainFrameProperty();
+
+    String getWorkingDir();
 
     /**
      * returns a string that can start an external text editor.
      * 
      * @return the command String.
      */
-    public String getEditorCommand();
+    String getEditorCommand();
 
 }

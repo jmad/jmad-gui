@@ -1,9 +1,159 @@
-repositories {
-    maven { url "https://dl.bintray.com/jmad/jmad-repo" }
+buildscript {
+    project.ext.CERN_VM = System.getProperty('CERN_TECHNET_VM') ?: System.getenv('CERN_TECHNET_VM') ?: false
+    project.ext.DEPLOYMENT = System.getProperty('deployment') ?: false
+    project.ext.VCS_TAG = System.getProperty('TRAVIS_TAG') ?: System.getenv('TRAVIS_TAG') ?: System.getProperty('VCS_TAG')
+    project.ext.POM = [
+            groupId    : 'jmad',
+            artifactId : 'jmad-gui',
+            description: 'GUI application for the JMad project.'
+    ]
+    project.ext.INFO = [
+            repo            : 'https://github.com/jmad/jmad-gui.git',
+            url             : 'https://jmad.github.io/',
+            github          : 'https://github.com/jmad/jmad-gui',
+            githubIssues    : 'https://github.com/jmad/jmad-gui/issues',
+            licenseNameShort: 'Apache-2.0',
+            licenseName     : 'The Apache License, Version 2.0',
+            licenseUrl      : 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    ]
+    project.ext.BINTRAY = [
+            repo        : 'jmad-repo',
+            name        : 'jmad-gui',
+            organization: 'jmad',
+            userName    : System.getProperty('BINTRAY_USER') ?: System.getenv('BINTRAY_USER'),
+            apiToken    : System.getProperty('BINTRAY_API_TOKEN') ?: System.getenv('BINTRAY_API_TOKEN')
+    ]
+
+    repositories {
+        if (CERN_VM) {
+            maven { url 'http://artifactory.cern.ch/gradle-plugins' }
+            maven { url 'http://artifactory.cern.ch/ds-jcenter' }
+            maven { url 'http://artifactory.cern.ch/development' }
+        } else {
+            mavenCentral()
+            /* Repo for gradle-bintray-plugin */
+            maven { url "http://repo.spring.io/plugins-release" }
+        }
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+    }
 }
 
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+//group = 'cern.accmodel.jmad'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+if (DEPLOYMENT) {
+    println 'Applying deployment scripts'
+    apply from: './scripts/bintray-deploy.gradle'
+}
+
+repositories {
+    if (CERN_VM) {
+        maven { url 'http://artifactory.cern.ch/ds-jcenter' }
+        maven { url 'http://artifactory.cern.ch/development' }
+    } else {
+        mavenCentral()
+        maven { url "https://dl.bintray.com/jmad/jmad-repo" }
+        /* Temporaty workaround for internal CERN dependencies */
+        ivy {
+            url "http://jmad.web.cern.ch/jmad/static/ws/lib/"
+            layout "pattern", { artifact "[artifact].[ext]" }
+            metadataSources { artifact() }
+        }
+    }
+}
 
 dependencies {
-    compile group: 'jmad', name: 'jmad-modelpack-fx', version: '0.1.0'
-    compile group: 'jmad', name: 'jmad-modelpack-service', version: '0.2.0'
+    compile group: 'cern.accsoft.gui', name: 'accsoft-gui-frame', version: '4.2.11'
+    compile group: 'cern.accsoft.steering', name: 'accsoft-steering-commons', version: '0.1.4'
+    compile group: 'cern.accsoft.commons', name: 'accsoft-commons-util', version: '3.4.10'
+    compile group: 'cern.dm', name: 'jdataviewer', version: '1.8.3'
+    compile group: 'org.swinglabs', name: 'swingx', version: '0.9.3'
+
+    compile group: 'jmad', name: 'jmad-modelpack-fx', version: '0.1.1'
+    compile group: 'com.google.guava', name: 'guava', version: '19.0'
+
+    compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.14'
+
+    compile group: 'org.springframework', name: 'spring-core', version: '4.3.13.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version: '4.3.13.RELEASE'
+    compile group: 'org.springframework', name: 'spring-beans', version: '4.3.13.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aop', version: '4.3.13.RELEASE'
+    compile group: 'org.springframework', name: 'spring-expression', version: '4.3.13.RELEASE'
+
+    compile group: 'io.projectreactor', name: 'reactor-core', version: '3.1.7.RELEASE'
+    compile group: 'com.github.shadskii', name: 'reactorfx', version: '1.8.0'
+
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+
+    testCompile group: 'org.springframework', name: 'spring-test', version: '4.3.13.RELEASE'
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.1'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.testfx', name: 'testfx-core', version: '4.0.13-alpha'
+    testCompile group: 'org.testfx', name: 'testfx-junit', version: '4.0.13-alpha'
+    testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.7'
+}
+
+sourceSets {
+    main {
+        java { srcDirs = ['src/java'] }
+        resources { srcDirs = ['src/java'] }
+    }
+
+    test {
+        java { srcDirs = ['src/test'] }
+        resources { srcDirs = ['src/test'] }
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        xml.destination file("$buildDir/reports/jacoco/report.xml")
+        html.enabled true
+        csv.enabled false
+    }
+}
+
+javadoc { options.encoding = "UTF-8" }
+
+if(!project.tasks.findByName("javadocJar")) {
+    task javadocJar(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
+}
+
+if(!project.tasks.findByName("sourcesJar")) {
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+}
+
+eclipse {
+    classpath {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
 }

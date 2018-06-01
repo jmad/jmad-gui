@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.log4j.BasicConfigurator;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import cern.accsoft.steering.jmad.domain.beam.Beam;
@@ -31,6 +32,7 @@ import cern.accsoft.steering.jmad.service.JMadServiceFactory;
  * 
  * @author kfuchsbe
  */
+@Ignore
 public class ModelDefinitionLoadRegressionTest {
 
     private static final String LHC_2016_MODEL_NAME = "LHC 2016";

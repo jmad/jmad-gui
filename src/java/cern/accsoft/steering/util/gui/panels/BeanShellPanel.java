@@ -118,9 +118,6 @@ public class BeanShellPanel extends JPanel implements ApplicationContextAware {
         this.scriptEngineManager.put(BSH_APPCONTEXT_NAME, applicationContext);
     }
 
-    /**
-     * @param beanShellObjects the beanShellObjects to set
-     */
     public void setContextObjects(Map<String, Object> contextObjects) {
         scriptEngineManager.getBindings().putAll(contextObjects);
     }

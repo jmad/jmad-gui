@@ -108,7 +108,7 @@ public class ListDataSet extends AbstractJmadDataSet implements ErrorDataSet {
     }
 
     /**
-     * @param xValues the yValues to set
+     * @param yValues the yValues to set
      */
     public void setYValues(List<Double> yValues) {
         this.yValues = yValues;

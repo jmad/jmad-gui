@@ -100,9 +100,9 @@ public class DefaultAccsoftGui {
         callbackBeforeInit();
 
         if (this.mainFrame) {
-            this.frame = FrameManager.getInstance().getMainFrame();
+            this.frame = FrameManager.getInstance(this).getMainFrame();
         } else {
-            this.frame = FrameManager.getInstance().createExternalFrame();
+            this.frame = FrameManager.getInstance(this).createExternalFrame();
         }
 
         WindowListener wndListener = getWindowListener();
@@ -239,6 +239,10 @@ public class DefaultAccsoftGui {
      */
     public final void setSplashScreen(SplashScreen splashScreen) {
         this.splashScreen = splashScreen;
+    }
+
+    public final SplashScreen getSplashScreen() {
+        return this.splashScreen;
     }
 
     /**

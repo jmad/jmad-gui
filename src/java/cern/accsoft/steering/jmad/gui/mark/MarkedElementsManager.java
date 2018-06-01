@@ -34,7 +34,7 @@ public interface MarkedElementsManager {
     /**
      * adds an the given elementName to the marked elements
      * 
-     * @param marker
+     * @param elementName
      */
     public void addElementName(String elementName);
 

@@ -148,8 +148,6 @@ public class ModelDefinitionSelectionPanel extends JPanel implements Titleable, 
 
     /**
      * sets the active model and initializes the Combo-boxes accordingly.
-     * 
-     * @param model
      */
     public void setActiveModelDefinition(JMadModelDefinition modelDefinition) {
         cboModel.setSelectedItem(modelDefinition);

@@ -1,8 +1,8 @@
 // @formatter:off
- /*******************************************************************************
+/*******************************************************************************
  *
  * This file is part of JMad.
- * 
+ *
  * Copyright (c) 2008-2011, CERN. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,109 +16,89 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  ******************************************************************************/
 // @formatter:on
 
 package cern.accsoft.steering.jmad.gui;
 
-import cern.accsoft.steering.jmad.conf.JMadServiceConfiguration;
-import cern.accsoft.steering.jmad.gui.config.JMadGuiConfiguration;
+import cern.accsoft.gui.beans.spi.SplashScreen;
 import cern.accsoft.steering.jmad.gui.config.JMadGuiStandaloneConfiguration;
-import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
+import cern.accsoft.steering.jmad.gui.dialog.JMadOptionPane;
 import cern.accsoft.steering.jmad.gui.manage.SplashFactory;
-import cern.accsoft.steering.jmad.gui.manage.impl.JMadGuiPreferencesImpl;
 import cern.accsoft.steering.jmad.gui.mark.MarkedElementsManager;
-import cern.accsoft.steering.jmad.gui.mark.MarkedElementsManagerImpl;
+import cern.accsoft.steering.jmad.gui.panels.JMadPanelFactory;
+import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
 import cern.accsoft.steering.jmad.service.JMadService;
-import cern.accsoft.steering.jmad.service.JMadServiceFactory;
+import cern.accsoft.steering.jmad.util.JMadPreferences;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.RootLogger;
-import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogConfiguration;
-import org.jmad.modelpack.service.JMadModelPackageService;
-import org.jmad.modelpack.service.conf.JMadModelPackageServiceConfiguration;
+import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.GenericApplicationContext;
 
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import java.awt.Frame;
 
 public class JMad {
 
-    private final JMadGui jmadGui;
-    private final JMadModelManager jmadModelManager;
+    private static final Supplier<ApplicationContext> CONTEXT_SUPPLIER = Suppliers.memoize(() -> new AnnotationConfigApplicationContext(JMadGuiStandaloneConfiguration.class));
+    private static final Supplier<JMadGui> JMAD_GUI = Suppliers.memoize(() -> CONTEXT_SUPPLIER.get().getBean(JMadGui.class));;
+    private static final Supplier<MarkedElementsManager> MARKED_ELEMENTS_MANAGER = Suppliers.memoize(() -> CONTEXT_SUPPLIER.get().getBean(MarkedElementsManager.class));;
+    private static final Supplier<JMadModelSelectionDialogFactory> MODELPACK_DIALOG_FACTORY = Suppliers.memoize(() -> CONTEXT_SUPPLIER.get().getBean(JMadModelSelectionDialogFactory.class));;
+    private static final Supplier<JMadService> JMAD_SERVICE = Suppliers.memoize(() -> CONTEXT_SUPPLIER.get().getBean(JMadService.class));;
 
-    public JMad(JMadService service, JMadModelPackageService modelPackageService, JMadGuiPreferences guiPref, MarkedElementsManager elementsManager) {
-        this(createBaseCtx(service, modelPackageService, guiPref, elementsManager));
+    public static JMadModel showCreateModelDialog() {
+        return JMadOptionPane.showCreateModelDialog(MODELPACK_DIALOG_FACTORY.get(), JMAD_SERVICE.get());
     }
 
-    public JMad(JMadService service, JMadGuiPreferences guiPref, MarkedElementsManager elementsManager) {
-        this(createBaseCtx(service, guiPref, elementsManager));
+    public static void showExportModelDefinitionDialog(Frame frame) {
+        JMadOptionPane.showExportModelDefinitionDialog(frame, JMAD_SERVICE.get());
     }
 
-    public JMad() {
-        this(createBaseCtx());
+    public static JMadModel showImportModelDefinitionDialog(Frame frame) {
+        return JMadOptionPane.showImportModelDefinitionDialog(frame, JMAD_SERVICE.get());
     }
 
-    private JMad(ApplicationContext baseCtx) {
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-        ctx.setParent(baseCtx);
-        ctx.register(JMadGuiConfiguration.class, JMadModelSelectionDialogConfiguration.class);
-        ctx.refresh();
-
-        jmadGui = ctx.getBean(JMadGui.class);
-        jmadModelManager = ctx.getBean(JMadModelManager.class);
+    public static JMadService getJMadService() {
+        return JMAD_SERVICE.get();
     }
 
-    private static ApplicationContext createBaseCtx() {
-        AnnotationConfigApplicationContext fullServiceCtx = new AnnotationConfigApplicationContext(JMadServiceConfiguration.class, JMadModelPackageServiceConfiguration.class);
-        JMadService service = fullServiceCtx.getBean(JMadService.class);
-        JMadModelPackageService modelpackService = fullServiceCtx.getBean(JMadModelPackageService.class);
-        fullServiceCtx.close();
-
-        return createBaseCtx(service, modelpackService, new JMadGuiPreferencesImpl(), new MarkedElementsManagerImpl());
+    public static JMadModelManager getModelManager() {
+        return JMAD_SERVICE.get().getModelManager();
     }
 
-    private static ApplicationContext createBaseCtx(JMadService service, JMadGuiPreferences guiPref, MarkedElementsManager elementsManager) {
-        AnnotationConfigApplicationContext modelpackCtx = new AnnotationConfigApplicationContext();
-        modelpackCtx.registerBean("jmadService", JMadService.class, () -> service);
-        modelpackCtx.register(JMadModelPackageServiceConfiguration.class);
-        modelpackCtx.refresh();
-        JMadModelPackageService modelPackageService = modelpackCtx.getBean(JMadModelPackageService.class);
-        modelpackCtx.close();
-
-        return createBaseCtx(service, modelPackageService, guiPref, elementsManager);
+    public static MarkedElementsManager getMarkedElementsManager() {
+        return MARKED_ELEMENTS_MANAGER.get();
     }
 
-    private static ApplicationContext createBaseCtx(JMadService service, JMadModelPackageService modelPackageService, JMadGuiPreferences guiPref, MarkedElementsManager elementsManager) {
-        GenericApplicationContext ctx = new GenericApplicationContext();
-        ctx.registerBean("jmadService", JMadService.class, () -> service);
-        ctx.registerBean("modelManager", JMadModelManager.class, service::getModelManager);
-        ctx.registerBean("jmadGuiPreferences", JMadGuiPreferences.class, () -> guiPref);
-        ctx.registerBean("markedElementsManager", MarkedElementsManager.class, () -> elementsManager);
-        ctx.registerBean("jmadModelPackageService", JMadModelPackageService.class, () -> modelPackageService);
-        ctx.refresh();
-        return ctx;
+    public static JMadPreferences getJMadPreferences() {
+        return JMAD_SERVICE.get().getPreferences();
     }
 
-    public JMadModelManager getModelManager() {
-        return jmadModelManager;
+    public static JMadPanelFactory getJMadPanelFactory() {
+        return CONTEXT_SUPPLIER.get().getBean(JMadPanelFactory.class);
     }
 
-    public void show() {
-        SwingUtilities.invokeLater(jmadGui::show);
+    public static SplashScreen getJMadGuiSplashScreen() {
+        return SplashFactory.getSplashScreen();
+    }
+
+    public static JMadGui getJMadGui() {
+        return JMAD_GUI.get();
     }
 
     public static void main(String[] args) {
         configureLogger();
         setupLookAndFeel();
 
-        SplashFactory.getSplashScreen();
-        new JMad(JMadServiceFactory.createJMadService(), new JMadGuiPreferencesImpl(), null).show();
+        SplashScreen splashScreen = JMad.getJMadGuiSplashScreen();
+        JMad.getJMadGui().show();
     }
 
     private static void configureLogger() {

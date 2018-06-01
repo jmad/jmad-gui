@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -19,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import cern.accsoft.commons.util.Assert;
 import cern.accsoft.gui.frame.Task;
 import cern.accsoft.steering.jmad.domain.elem.Element;
 import cern.accsoft.steering.jmad.domain.elem.MadxElementType;
@@ -48,7 +48,7 @@ public class ComparisonPanel extends JPanel {
     private JLabel labelModel1;
 
     public void init() {
-        Assert.argNotNull(jMadModelManager, "jMadModelManager");
+        Objects.requireNonNull(jMadModelManager, "jMadModelManager");
         buildGui();
     }
 

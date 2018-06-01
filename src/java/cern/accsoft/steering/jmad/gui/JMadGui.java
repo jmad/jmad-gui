@@ -27,11 +27,13 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.WindowConstants;
 
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.domain.machine.Range;
 import cern.accsoft.steering.jmad.gui.icons.Icon;
 import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
+import cern.accsoft.steering.jmad.gui.manage.impl.JMadGuiPreferencesImpl;
 import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.JMadModelListener;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
@@ -54,7 +56,7 @@ public class JMadGui extends DefaultAccsoftGui {
     private JMadModelManager modelManager = null;
 
     /** the preferences */
-    private JMadGuiPreferences jmadGuiPreferences;
+    private final JMadGuiPreferences jmadGuiPreferences = new JMadGuiPreferencesImpl();
 
     private final static String TITLE_BASE = "jmad ";
 
@@ -170,11 +172,7 @@ public class JMadGui extends DefaultAccsoftGui {
         return Icon.JMAD.getImageIcon();
     }
 
-    public void setJmadGuiPreferences(JMadGuiPreferences jmadGuiPreferences) {
-        this.jmadGuiPreferences = jmadGuiPreferences;
-    }
-
-    protected JMadGuiPreferences getJmadGuiPreferences() {
+    public JMadGuiPreferences getJmadGuiPreferences() {
         return jmadGuiPreferences;
     }
 
@@ -185,4 +183,13 @@ public class JMadGui extends DefaultAccsoftGui {
         }
     }
 
+    @Override
+    protected void callbackAfterInit() {
+        getJmadGuiPreferences().exitOnCloseProperty().addListener((obs, oldVal, close) -> setFrameCloseOperation(getJmadGuiPreferences().isExitOnClose()));
+        setFrameCloseOperation(getJmadGuiPreferences().isExitOnClose());
+    }
+
+    private void setFrameCloseOperation(boolean close) {
+        getJFrame().setDefaultCloseOperation(close ? WindowConstants.EXIT_ON_CLOSE : WindowConstants.HIDE_ON_CLOSE);
+    }
 }

@@ -67,7 +67,7 @@ public class SaveTwissAction extends AbstractAction {
      * Has to be called as soon as all the collaborators are injected. It checks that they are correctly set and
      * configures listeners to them as needed.
      * 
-     * @throws if one of the collaborators is not correctly set
+     * @throws IllegalStateException if one of the collaborators is not correctly set
      */
     public void init() {
         Preconditions.checkState(modelManager != null,

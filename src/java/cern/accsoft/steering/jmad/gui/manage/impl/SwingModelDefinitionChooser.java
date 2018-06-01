@@ -77,7 +77,7 @@ public class SwingModelDefinitionChooser implements ModelDefinitionChooser, Choo
     /** The preferences to activate/deactivate the actions */
     private JMadGuiPreferences jmadGuiPreferences;
 
-    private JMadModelSelectionDialogFactory modelpackDialogFactory;
+    private JMadModelSelectionDialogFactory jmadModelSelectionDialogFactory;
 
     //
     // actions
@@ -184,16 +184,26 @@ public class SwingModelDefinitionChooser implements ModelDefinitionChooser, Choo
      * init method called by spring
      */
     public void init() {
+        getJmadGuiPreferences().enabledChangeModelProperty().addListener((obs, old, enabled) -> {
+            newModelAction.setEnabled(enabled);
+            closeActiveModelAction.setEnabled(enabled);
+        });
         newModelAction.setEnabled(getJmadGuiPreferences().isEnabledChangeModel());
         closeActiveModelAction.setEnabled(getJmadGuiPreferences().isEnabledChangeModel());
+
+        getJmadGuiPreferences().enabledChangeRangeProperty().addListener((obs, old, enabled) -> chooseRangeAction.setEnabled(enabled));
         chooseRangeAction.setEnabled(getJmadGuiPreferences().isEnabledChangeRange());
+
+        getJmadGuiPreferences().enabledChangeOpticProperty().addListener((obs, old, enabled) -> chooseOpticsAction.setEnabled(enabled));
         chooseOpticsAction.setEnabled(getJmadGuiPreferences().isEnabledChangeOptic());
+
+        getJmadGuiPreferences().exitOnCloseProperty().addListener((obs, old, exit) -> exitAction.setEnabled(exit));
         exitAction.setEnabled(getJmadGuiPreferences().isExitOnClose());
     }
 
     @Override
     public void showModelChooseDialog() {
-        final JMadModel model = JMadOptionPane.showCreateModelDialog(modelpackDialogFactory, jmadService);
+        final JMadModel model = JMadOptionPane.showCreateModelDialog(jmadModelSelectionDialogFactory, jmadService);
         if (model != null) {
             Task task = new Task() {
                 @Override
@@ -342,7 +352,7 @@ public class SwingModelDefinitionChooser implements ModelDefinitionChooser, Choo
         return jmadService;
     }
 
-    public void setModelpackDialogFactory(JMadModelSelectionDialogFactory modelpackDialogFactory) {
-        this.modelpackDialogFactory = modelpackDialogFactory;
+    public void setJmadModelSelectionDialogFactory(JMadModelSelectionDialogFactory jmadModelSelectionDialogFactory) {
+        this.jmadModelSelectionDialogFactory = jmadModelSelectionDialogFactory;
     }
 }

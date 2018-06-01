@@ -170,7 +170,7 @@ public class TfsDataSetManager implements DataSetManager {
      * @param name the name to be displayed for these datasets
      * @param xVar
      * @param yVars
-     * @param relative
+     * @param type
      */
     public void createDataSets(String name, TwissVariable xVar, Map<Integer, Collection<TwissVariable>> yVars,
             TfsResultDataSetType type) {

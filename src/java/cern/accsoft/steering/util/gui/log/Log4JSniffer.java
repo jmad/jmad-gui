@@ -24,15 +24,15 @@ import java.io.StringWriter;
  * This is singleton, which appends itself to the Log4j system and provides methods to readout the logged stream.
  * <p>
  * simplest usage: <blockquote> <code>
- * Log4JSniffer.INSTANCE.setRecording(true);<p>
+ * Log4JSniffer.INSTANCE.setRecording(true);
  * </code> ... then log some messages and in the end retrieve the string by calling:
  * <p>
  * <code>
- * String result = Log4JSniffer.INSTANCE.toString();<p>
+ * String result = Log4JSniffer.INSTANCE.toString();
  * </code> and stop the recording, if not needed:
  * <p>
  * <code>
- * Log4JSniffer.INSTANCE.setRecording(true);<p>
+ * Log4JSniffer.INSTANCE.setRecording(true);
  * </code> </blockquote>
  * 
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
