@@ -38,6 +38,8 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.RootLogger;
 import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
+import org.jmad.modelpack.service.JMadModelPackageRepositoryManager;
+import org.jmad.modelpack.service.JMadModelPackageService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -51,7 +53,9 @@ public class JMad {
     private static final Supplier<JMadGui> JMAD_GUI = Suppliers.memoize(() -> CONTEXT_SUPPLIER.get().getBean(JMadGui.class));;
     private static final Supplier<MarkedElementsManager> MARKED_ELEMENTS_MANAGER = Suppliers.memoize(() -> CONTEXT_SUPPLIER.get().getBean(MarkedElementsManager.class));;
     private static final Supplier<JMadModelSelectionDialogFactory> MODELPACK_DIALOG_FACTORY = Suppliers.memoize(() -> CONTEXT_SUPPLIER.get().getBean(JMadModelSelectionDialogFactory.class));;
-    private static final Supplier<JMadService> JMAD_SERVICE = Suppliers.memoize(() -> CONTEXT_SUPPLIER.get().getBean(JMadService.class));;
+    private static final Supplier<JMadService> JMAD_SERVICE = Suppliers.memoize(() -> CONTEXT_SUPPLIER.get().getBean(JMadService.class));
+    private static final Supplier<JMadModelPackageRepositoryManager> JMAD_MODEL_PACKAGE_REPOSITORY_MANAGER = Suppliers.memoize(() -> CONTEXT_SUPPLIER.get().getBean(JMadModelPackageRepositoryManager.class));;
+    private static final Supplier<JMadModelPackageService> JMAD_MODEL_PACKAGE_SERVICE = Suppliers.memoize(() -> CONTEXT_SUPPLIER.get().getBean(JMadModelPackageService.class));;
 
     public static JMadModel showCreateModelDialog() {
         return JMadOptionPane.showCreateModelDialog(MODELPACK_DIALOG_FACTORY.get(), JMAD_SERVICE.get());
@@ -63,6 +67,14 @@ public class JMad {
 
     public static JMadModel showImportModelDefinitionDialog(Frame frame) {
         return JMadOptionPane.showImportModelDefinitionDialog(frame, JMAD_SERVICE.get());
+    }
+
+    public static JMadModelPackageRepositoryManager getJMadModelPackageRepositoryManager() {
+        return JMAD_MODEL_PACKAGE_REPOSITORY_MANAGER.get();
+    }
+
+    public static JMadModelPackageService getJMadModelPackageService() {
+        return JMAD_MODEL_PACKAGE_SERVICE.get();
     }
 
     public static JMadService getJMadService() {
@@ -97,7 +109,8 @@ public class JMad {
         configureLogger();
         setupLookAndFeel();
 
-        SplashScreen splashScreen = JMad.getJMadGuiSplashScreen();
+        /* Workaround. With this version of accsoft-gui-frame, the splashscreen will never go away... */
+        // JMad.getJMadGuiSplashScreen();
         JMad.getJMadGui().show();
     }
 
