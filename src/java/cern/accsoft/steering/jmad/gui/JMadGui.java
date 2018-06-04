@@ -22,6 +22,7 @@
 
 package cern.accsoft.steering.jmad.gui;
 
+import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -31,6 +32,7 @@ import javax.swing.WindowConstants;
 
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.domain.machine.Range;
+import cern.accsoft.steering.jmad.gui.dialog.JMadOptionPane;
 import cern.accsoft.steering.jmad.gui.icons.Icon;
 import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
 import cern.accsoft.steering.jmad.gui.manage.impl.JMadGuiPreferencesImpl;
@@ -38,7 +40,9 @@ import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.JMadModelListener;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
+import cern.accsoft.steering.jmad.service.JMadService;
 import cern.accsoft.steering.util.gui.DefaultAccsoftGui;
+import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +55,8 @@ public class JMadGui extends DefaultAccsoftGui {
     private static final long serialVersionUID = -8292677890152652172L;
 
     private static Logger logger = LoggerFactory.getLogger(DefaultAccsoftGui.class);
+    private JMadService jMadService;
+    private JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory;
 
     /** the model manager, necessary for a final cleanup */
     private JMadModelManager modelManager = null;
@@ -189,7 +195,28 @@ public class JMadGui extends DefaultAccsoftGui {
         setFrameCloseOperation(getJmadGuiPreferences().isExitOnClose());
     }
 
+    public JMadModel showCreateModelDialog() {
+        return JMadOptionPane.showCreateModelDialog(jMadModelSelectionDialogFactory, jMadService);
+    }
+
+    public void showExportModelDefinitionDialog(Frame frame) {
+        JMadOptionPane.showExportModelDefinitionDialog(frame, jMadService);
+    }
+
+    public JMadModel showImportModelDefinitionDialog(Frame frame) {
+        return JMadOptionPane.showImportModelDefinitionDialog(frame, jMadService);
+    }
+
     private void setFrameCloseOperation(boolean close) {
         getJFrame().setDefaultCloseOperation(close ? WindowConstants.EXIT_ON_CLOSE : WindowConstants.HIDE_ON_CLOSE);
     }
+
+    public void setJMadService(JMadService jMadService) {
+        this.jMadService = jMadService;
+    }
+
+    public void setJMadModelSelectionDialogFactory(JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory) {
+        this.jMadModelSelectionDialogFactory = jMadModelSelectionDialogFactory;
+    }
+
 }

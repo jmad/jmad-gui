@@ -3,7 +3,7 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
 
 	<!-- the predefined beans -->
@@ -246,6 +246,8 @@
 		<property name="toolBar" ref="jmadToolBar" />
 		<property name="menuBar" ref="jmadMenuBar" />
 		<property name="consoleLogLevel" value="DEBUG" />
+		<property name="jMadService" ref="jmadService" />
+		<property name="jMadModelSelectionDialogFactory" ref="jmadModelSelectionDialogFactory" />
 	</bean>
 
 	<bean id="jmadGuiPreferences" factory-bean="jmadGui" factory-method="getJmadGuiPreferences" />
