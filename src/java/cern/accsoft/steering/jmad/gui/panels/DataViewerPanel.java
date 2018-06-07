@@ -38,6 +38,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import cern.accsoft.steering.jmad.domain.result.tfs.TfsResult;
+import cern.accsoft.steering.jmad.gui.actions.JMadGuiActions;
 import cern.accsoft.steering.jmad.gui.data.TfsResultDataSet;
 import cern.accsoft.steering.jmad.gui.dv.ChartFactory;
 import cern.accsoft.steering.jmad.gui.icons.Icon;
@@ -74,8 +75,7 @@ public class DataViewerPanel extends JPanel implements DataSetManagerListener {
     /** the user interactor to show the dialog */
     private UserInteractor userInteractor;
 
-    /** The action which allows to save a twiss to a file */
-    private Action saveTwissAction;
+    private JMadGuiActions jmadGuiActions;
 
     /**
      * the action to show the dialog for creating new plots
@@ -90,7 +90,7 @@ public class DataViewerPanel extends JPanel implements DataSetManagerListener {
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-            getUserInteractor().showPanelDialog(getPlotCreationPanel());
+            getUserInteractor().showPanelDialog(getPlotCreationPanel(), DataViewerPanel.this);
         }
     };
 
@@ -157,7 +157,7 @@ public class DataViewerPanel extends JPanel implements DataSetManagerListener {
         constraints.gridx++;
         buttonPanel.add(btn, constraints);
 
-        JButton saveTwissButton = new JButton(saveTwissAction);
+        JButton saveTwissButton = new JButton(jmadGuiActions.getSaveTwissAction());
         constraints.weightx = 0;
         constraints.gridx++;
         buttonPanel.add(saveTwissButton, constraints);
@@ -168,8 +168,8 @@ public class DataViewerPanel extends JPanel implements DataSetManagerListener {
      * creates a new chart and adds it to the dataviewer.
      * 
      * @param name the name of the new chart
-     * @param xVar the madx-variable for x-coordinates
-     * @param yVars the madx-variables for y-coordinates
+     * @param xLabel
+     * @param dataSets
      */
     private void createChart(String name, String xLabel, Map<Integer, List<TfsResultDataSet>> dataSets) {
         if (getChartFactory() == null) {
@@ -285,8 +285,7 @@ public class DataViewerPanel extends JPanel implements DataSetManagerListener {
         /* nothing to do ss */
     }
 
-    public void setSaveTwissAction(Action saveTwissAction) {
-        this.saveTwissAction = saveTwissAction;
+    public void setJmadGuiActions(JMadGuiActions jmadGuiActions) {
+        this.jmadGuiActions = jmadGuiActions;
     }
-
 }

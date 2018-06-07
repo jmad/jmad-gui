@@ -39,7 +39,7 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import cern.accsoft.commons.util.Assert;
-import cern.accsoft.steering.jmad.gui.manage.ChooseActionFactory;
+import cern.accsoft.steering.jmad.gui.actions.JMadGuiActions;
 import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManagerListener;
@@ -59,8 +59,7 @@ public class ModelManagerPanel extends JPanel {
     /** The table model to provide all the information on the models */
     private ModelManagerTableModel tableModel;
 
-    /** The factory that has the actions for the buttons */
-    private ChooseActionFactory chooseActionFactory;
+    private JMadGuiActions jmadGuiActions;
 
     /** The table for the models */
     private JTable table;
@@ -168,14 +167,14 @@ public class ModelManagerPanel extends JPanel {
         constraints.gridx = 0;
         constraints.gridy = 0;
 
-        JButton btn = new JButton(getChooseActionFactory().getNewModelAction());
-        btn.setText(null);
-        buttonPanel.add(btn, constraints);
+        JButton newModelBtn = new JButton(jmadGuiActions.getNewModelAction());
+        newModelBtn.setText(null);
+        buttonPanel.add(newModelBtn, constraints);
 
         constraints.gridx++;
-        btn = new JButton(getChooseActionFactory().getCloseActiveModelAction());
-        btn.setText(null);
-        buttonPanel.add(btn, constraints);
+        JButton closeActiveModelBtn = new JButton(jmadGuiActions.getCloseActiveModelAction());
+        closeActiveModelBtn.setText(null);
+        buttonPanel.add(closeActiveModelBtn, constraints);
 
         add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -285,16 +284,11 @@ public class ModelManagerPanel extends JPanel {
         return modelManager;
     }
 
-    public void setChooseActionFactory(ChooseActionFactory chooseActionFactory) {
-        this.chooseActionFactory = chooseActionFactory;
-    }
-
-    private ChooseActionFactory getChooseActionFactory() {
-        return chooseActionFactory;
-    }
-
     public void setComparisonPanel(ComparisonPanel comparisonPanel) {
         this.comparisonPanel = comparisonPanel;
     }
 
+    public void setJmadGuiActions(JMadGuiActions jmadGuiActions) {
+        this.jmadGuiActions = jmadGuiActions;
+    }
 }

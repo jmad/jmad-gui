@@ -26,6 +26,8 @@ import javax.swing.JPanel;
 
 import cern.accsoft.steering.util.gui.panels.PanelProvider;
 
+import java.awt.Component;
+
 /**
  * this interface provides some simple methods for user-interaction.
  * 
@@ -37,28 +39,30 @@ public interface UserInteractor {
      * @param question the the String, which describes to the user, what to enter.
      * @return the answer. Null, if aborted
      */
-    public String askForString(String question);
+    String askForString(String question);
 
     /**
      * @param question the the String, which describes to the user, what to enter.
      * @param defaultInput the string to display as default for the input
      * @return the answer. Null, if aborted
      */
-    public String askForString(String question, String defaultInput);
+    String askForString(String question, String defaultInput);
 
     /**
      * opens a dialog with the given panel
      * 
      * @param panel the panel to show in the dialog
+     * @param parent the parent of the dialog
      * @return true, if the ok-button was pressed, false if not
      */
-    public boolean showPanelDialog(JPanel panel);
+    boolean showPanelDialog(JPanel panel, Component parent);
 
     /**
      * opens a dialog with the panel of the given panelProvider
-     * 
+     *
      * @param panelProvider the panelProvider which provides the panel to show
+     * @param parent the parent of the dialog
      * @return true, if the ok button was pressed, false otherwise
      */
-    public boolean showPanelDialog(PanelProvider panelProvider);
+    boolean showPanelDialog(PanelProvider panelProvider, Component parent);
 }

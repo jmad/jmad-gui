@@ -22,20 +22,14 @@
 
 package cern.accsoft.steering.jmad.gui.menu;
 
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
+import cern.accsoft.steering.jmad.gui.actions.JMadGuiActions;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JToolBar;
-
-import cern.accsoft.gui.beans.AboutBox;
-import cern.accsoft.gui.frame.FrameManager;
-import cern.accsoft.steering.jmad.gui.icons.Icon;
-import cern.accsoft.steering.jmad.gui.manage.ChooseActionFactory;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This class creates the actual instances of the toolbar and the menuBar for JMad.
@@ -44,46 +38,24 @@ import cern.accsoft.steering.jmad.gui.manage.ChooseActionFactory;
  */
 public class JMadMenuFactoryImpl implements JMadMenuFactory {
 
-    /** The action-factory */
-    private ChooseActionFactory chooseActionFactory;
-
-    /**
-     * The action to show the About-box
-     */
-    private Action showAboutBoxAction = new AbstractAction("About") {
-        private static final long serialVersionUID = -1695054883852564439L;
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            AboutBox aboutBox = new AboutBox(FrameManager.getInstance().getMainFrame().getJFrame());
-            aboutBox.setIcon(Icon.SPLASH.getImageIcon());
-            aboutBox.setText("JMad GUI", "cern-accsoft-steering-jmad-gui",
-                    "(C) Copyright CERN 2008-2010  Kajetan Fuchsberger AB-OP-SPS", null);
-            aboutBox.setVisible(true);
-        }
-    };
+    private JMadGuiActions jmadGuiActions;
 
     @Override
     public JToolBar createToolBar() {
         JToolBar toolBar = new JToolBar();
-        toolBar.add(getChooseActionFactory().getNewModelAction());
-        toolBar.add(getChooseActionFactory().getCloseActiveModelAction());
+        toolBar.add(jmadGuiActions.getNewModelAction());
+        toolBar.add(jmadGuiActions.getCloseActiveModelAction());
         toolBar.addSeparator();
-        toolBar.add(getChooseActionFactory().getImportAction());
-        toolBar.add(getChooseActionFactory().getExportAction());
+        toolBar.add(jmadGuiActions.getImportModelAction());
+        toolBar.add(jmadGuiActions.getExportModelAction());
         toolBar.addSeparator();
-        toolBar.add(getChooseActionFactory().getChooseRangeAction());
-        toolBar.add(getChooseActionFactory().getChooseOpticsAction());
+        toolBar.add(jmadGuiActions.getChooseRangeAction());
+        toolBar.add(jmadGuiActions.getChooseOpticsAction());
         toolBar.addSeparator();
-        toolBar.add(getChooseActionFactory().getExitAction());
+        toolBar.add(jmadGuiActions.getExitAction());
         return toolBar;
     }
 
-    /**
-     * creates the whole menu bar for the jmad-gui.
-     * 
-     * @return the new menuBar
-     */
     @Override
     public JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
@@ -91,16 +63,16 @@ public class JMadMenuFactoryImpl implements JMadMenuFactory {
         JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
 
-        fileMenu.add(getChooseActionFactory().getNewModelAction());
-        fileMenu.add(getChooseActionFactory().getCloseActiveModelAction());
+        fileMenu.add(jmadGuiActions.getNewModelAction());
+        fileMenu.add(jmadGuiActions.getCloseActiveModelAction());
         fileMenu.addSeparator();
-        fileMenu.add(getChooseActionFactory().getImportAction());
-        fileMenu.add(getChooseActionFactory().getExportAction());
+        fileMenu.add(jmadGuiActions.getImportModelAction());
+        fileMenu.add(jmadGuiActions.getExportModelAction());
         fileMenu.addSeparator();
-        fileMenu.add(getChooseActionFactory().getExitAction());
+        fileMenu.add(jmadGuiActions.getExitAction());
 
         JMenu helpMenu = new JMenu("Help");
-        helpMenu.add(this.showAboutBoxAction);
+        helpMenu.add(jmadGuiActions.getShowAboutBoxAction());
         menuBar.add(helpMenu);
 
         return menuBar;
@@ -108,17 +80,11 @@ public class JMadMenuFactoryImpl implements JMadMenuFactory {
 
     @Override
     public List<Action> getToolBarActions() {
-        List<Action> actions = new ArrayList<Action>();
-
-        return actions;
+        /* Original implementation returned empty here.. */
+        return Collections.emptyList();
     }
 
-    public void setChooseActionFactory(ChooseActionFactory chooseActionFactory) {
-        this.chooseActionFactory = chooseActionFactory;
+    public void setJmadGuiActions(JMadGuiActions jmadGuiActions) {
+        this.jmadGuiActions = jmadGuiActions;
     }
-
-    private ChooseActionFactory getChooseActionFactory() {
-        return chooseActionFactory;
-    }
-
 }

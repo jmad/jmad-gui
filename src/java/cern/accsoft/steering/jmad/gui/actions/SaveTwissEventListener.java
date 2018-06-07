@@ -4,16 +4,14 @@
 
 package cern.accsoft.steering.jmad.gui.actions;
 
-import static cern.accsoft.steering.jmad.gui.icons.Icon.SAVE;
-
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.Optional;
 
-import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 
+import cern.accsoft.steering.jmad.gui.actions.event.SaveTwissEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,17 +22,17 @@ import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.OpticUtil;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManagerListener;
+import org.springframework.context.event.EventListener;
 
 /**
  * An action which shows a dialog to select a file and then saves the twiss of the actual model to the selected file.
  * 
  * @author kfuchsbe
  */
-public class SaveTwissAction extends AbstractAction {
-    private static final long serialVersionUID = 1L;
+public class SaveTwissEventListener {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SaveTwissEventListener.class);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SaveTwissAction.class);
-
+    private JMadGuiActions jmadGuiActions;
     private JMadModelManager modelManager;
     private JMadModelManagerListener modelManagerListener = new JMadModelManagerListener() {
 
@@ -55,15 +53,6 @@ public class SaveTwissAction extends AbstractAction {
     };
 
     /**
-     * Default constructor to create the action
-     */
-    public SaveTwissAction() {
-        super("Save Twiss");
-        putValue(SHORT_DESCRIPTION, "Saves the actual twiss to a file.");
-        putValue(SMALL_ICON, SAVE.getImageIcon());
-    }
-
-    /**
      * Has to be called as soon as all the collaborators are injected. It checks that they are correctly set and
      * configures listeners to them as needed.
      * 
@@ -76,8 +65,12 @@ public class SaveTwissAction extends AbstractAction {
         updateEnabled(modelManager.getActiveModel());
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    @EventListener(SaveTwissEvent.class)
+    public void saveTwissEventListener() {
+        SwingUtilities.invokeLater(this::saveTwiss);
+    }
+
+    private void saveTwiss() {
         JMadModel activeModel = modelManager.getActiveModel();
         checkNonNullActiveModel(activeModel);
         Optional<File> file = askUserForTargetFile();
@@ -131,11 +124,15 @@ public class SaveTwissAction extends AbstractAction {
     }
 
     private void updateEnabled(JMadModel model) {
-        setEnabled(model != null);
+        /* It does not look very good to do it here.. */
+        jmadGuiActions.getSaveTwissAction().setEnabled(model != null);
     }
 
     public void setModelManager(JMadModelManager modelManager) {
         this.modelManager = modelManager;
     }
 
+    public void setJmadGuiActions(JMadGuiActions jmadGuiActions) {
+        this.jmadGuiActions = jmadGuiActions;
+    }
 }

@@ -22,10 +22,12 @@
 
 package cern.accsoft.steering.util.gui;
 
-import java.awt.Frame;
+import java.awt.Component;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import cern.accsoft.steering.util.gui.dialog.PanelDialog;
 import cern.accsoft.steering.util.gui.panels.PanelProvider;
@@ -37,41 +39,30 @@ import cern.accsoft.steering.util.gui.panels.PanelProvider;
  */
 public class SwingUserInteractor implements UserInteractor {
 
-    /** the mainPanel as parent for all dialogs */
-    private Frame mainFrame;
-
     @Override
     public String askForString(String question, String defaultInput) {
-        return JOptionPane.showInputDialog(getMainFrame(), question, defaultInput);
+        return askForString(question, defaultInput, null);
+    }
+
+    public String askForString(String question, String defaultInput, Component parent) {
+        return JOptionPane.showInputDialog(parent, question, defaultInput);
     }
 
     @Override
     public String askForString(String question) {
-        return JOptionPane.showInputDialog(getMainFrame(), question);
+        return askForString(question, null, null);
     }
 
     @Override
-    public boolean showPanelDialog(JPanel panel) {
-        return PanelDialog.show(panel, getMainFrame());
+    public boolean showPanelDialog(JPanel panel, Component parent) {
+        JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, parent);
+        return PanelDialog.show(panel, frame);
     }
 
     @Override
-    public boolean showPanelDialog(PanelProvider panelProvider) {
-        return PanelDialog.show(panelProvider, getMainFrame());
-    }
-
-    /**
-     * @param mainFrame the mainFrame to set
-     */
-    public void setMainFrame(Frame mainFrame) {
-        this.mainFrame = mainFrame;
-    }
-
-    /**
-     * @return the mainFrame
-     */
-    public Frame getMainFrame() {
-        return mainFrame;
+    public boolean showPanelDialog(PanelProvider panelProvider, Component parent) {
+        JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, parent);
+        return PanelDialog.show(panelProvider, frame);
     }
 
 }

@@ -3,7 +3,7 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" default-lazy-init="true">
 
 
 	<!-- the predefined beans -->
@@ -37,19 +37,17 @@
 
 
 	<!-- Menus and toolbar -->
-	<bean id="chooseActionFactory" class="cern.accsoft.steering.jmad.gui.manage.impl.SwingModelDefinitionChooser"
-		init-method="init">
-		<property name="userInteractor" ref="userInteractor" />
-		<property name="rangeSelectionPanel" ref="rangeSelectionPanel" />
-		<property name="modelOpticsSelectionPanel" ref="opticsSelectionPanel" />
-		<property name="modelManager" ref="modelManager" />
-		<property name="jmadGuiPreferences" ref="jmadGuiPreferences" />
-		<property name="frame" ref="jmadMainFrame" />
-		<property name="jmadService" ref="jmadService" />
-		<property name="jmadModelSelectionDialogFactory" ref="jmadModelSelectionDialogFactory" />
-	</bean>
+	<!--<bean id="chooseActionFactory" class="cern.accsoft.steering.jmad.gui.manage.impl.SwingModelDefinitionChooser"-->
+		<!--init-method="init">-->
+		<!--<property name="userInteractor" ref="userInteractor" />-->
+		<!--<property name="rangeSelectionPanel" ref="rangeSelectionPanel" />-->
+		<!--<property name="modelOpticsSelectionPanel" ref="opticsSelectionPanel" />-->
+		<!--<property name="modelManager" ref="modelManager" />-->
+		<!--<property name="jmadGuiPreferences" ref="jmadGuiPreferences" />-->
+		<!--<property name="jmadGui" ref="jmadGui" />-->
+	<!--</bean>-->
 	<bean id="jmadMenuFactory" class="cern.accsoft.steering.jmad.gui.menu.JMadMenuFactoryImpl">
-		<property name="chooseActionFactory" ref="chooseActionFactory" />
+		<property name="jmadGuiActions" ref="jmadGuiActions" />
 	</bean>
 
 
@@ -153,17 +151,15 @@
 		<property name="chartFactory" ref="madxChartFactory" />
 		<property name="plotCreationPanel" ref="plotCreationPanel" />
 		<property name="userInteractor" ref="userInteractor" />
-		<property name="saveTwissAction" ref="saveTwissToFileAtion" />
+		<property name="jmadGuiActions" ref="jmadGuiActions" />
 	</bean>
 	<bean id="modelManagerPanel" class="cern.accsoft.steering.jmad.gui.panels.ModelManagerPanel" init-method="init">
 		<property name="modelManager" ref="modelManager" />
-		<property name="chooseActionFactory" ref="chooseActionFactory" />
+		<property name="jmadGuiActions" ref="jmadGuiActions" />
 		<property name="comparisonPanel" ref="modelComparePanel" />
 	</bean>
 
-	<bean id="saveTwissToFileAtion" class="cern.accsoft.steering.jmad.gui.actions.SaveTwissAction" init-method="init">
-		<property name="modelManager" ref="modelManager" />
-	</bean>
+	<bean id="saveTwissListener" class="cern.accsoft.steering.jmad.gui.actions.SaveTwissEventListener" init-method="init" />
 
 	<!-- panels for variable selection -->
 	<!-- init called in code! -->
@@ -248,16 +244,18 @@
 		<property name="consoleLogLevel" value="DEBUG" />
 		<property name="jMadService" ref="jmadService" />
 		<property name="jMadModelSelectionDialogFactory" ref="jmadModelSelectionDialogFactory" />
+		<property name="rangeSelectionPanel" ref="rangeSelectionPanel" />
+		<property name="modelOpticsSelectionPanel" ref="opticsSelectionPanel" />
+		<property name="userInteractor" ref="userInteractor" />
 	</bean>
 
 	<bean id="jmadGuiPreferences" factory-bean="jmadGui" factory-method="getJmadGuiPreferences" />
 
-	<bean id="jmadMainFrame" factory-bean="jmadGui" factory-method="getJFrame" />
-	<bean id="userInteractor" class="cern.accsoft.steering.util.gui.SwingUserInteractor">
-		<property name="mainFrame" ref="jmadMainFrame" />
-	</bean>
+	<bean id="userInteractor" class="cern.accsoft.steering.util.gui.SwingUserInteractor" />
 
 	<bean id="pymadServiceStarter" class="cern.accsoft.steering.jmad.gui.PyMadServiceStarter" init-method="init">
 		<property name="jmadService" ref="jmadService" />
 	</bean>
+
+	<bean id="jmadGuiActions" class="cern.accsoft.steering.jmad.gui.actions.JMadGuiActions" />
 </beans>
