@@ -3,7 +3,7 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" default-lazy-init="true">
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" default-lazy-init="false">
 
 
 	<!-- the predefined beans -->
@@ -159,7 +159,10 @@
 		<property name="comparisonPanel" ref="modelComparePanel" />
 	</bean>
 
-	<bean id="saveTwissListener" class="cern.accsoft.steering.jmad.gui.actions.SaveTwissEventListener" init-method="init" />
+	<bean id="saveTwissListener" class="cern.accsoft.steering.jmad.gui.actions.SaveTwissEventListener" init-method="init" >
+        <property name="modelManager" ref="modelManager" />
+        <property name="jmadGuiActions" ref="jmadGuiActions" />
+    </bean>
 
 	<!-- panels for variable selection -->
 	<!-- init called in code! -->

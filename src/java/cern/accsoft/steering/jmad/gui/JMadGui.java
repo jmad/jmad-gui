@@ -22,19 +22,10 @@
 
 package cern.accsoft.steering.jmad.gui;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
-
 import cern.accsoft.gui.beans.AboutBox;
 import cern.accsoft.gui.frame.Task;
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.domain.machine.Range;
-import cern.accsoft.steering.jmad.gui.actions.JMadGuiActions;
 import cern.accsoft.steering.jmad.gui.actions.event.ChooseOpticsEvent;
 import cern.accsoft.steering.jmad.gui.actions.event.ChooseRangeEvent;
 import cern.accsoft.steering.jmad.gui.actions.event.CloseActiveModelEvent;
@@ -49,17 +40,25 @@ import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
 import cern.accsoft.steering.jmad.gui.manage.impl.JMadGuiPreferencesImpl;
 import cern.accsoft.steering.jmad.gui.panels.ModelOpticsSelectionPanel;
 import cern.accsoft.steering.jmad.gui.panels.RangeSelectionPanel;
+import cern.accsoft.steering.jmad.model.AbstractJMadModelListener;
 import cern.accsoft.steering.jmad.model.JMadModel;
-import cern.accsoft.steering.jmad.model.JMadModelListener;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
 import cern.accsoft.steering.jmad.service.JMadService;
 import cern.accsoft.steering.util.gui.DefaultAccsoftGui;
 import cern.accsoft.steering.util.gui.SwingUserInteractor;
+import cern.accsoft.steering.util.gui.UserInteractor;
 import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 /**
  * this class represents the main frame for the jmad-gui standalone application
@@ -71,15 +70,11 @@ public class JMadGui extends DefaultAccsoftGui {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAccsoftGui.class);
     private final static String TITLE_BASE = "jmad ";
 
+    private final JMadGuiPreferences jmadGuiPreferences = new JMadGuiPreferencesImpl();
     private JMadService jMadService;
     private JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory;
-
-    /** the model manager, necessary for a final cleanup */
-    private JMadModelManager modelManager = null;
-
-    /** the preferences */
-    private final JMadGuiPreferences jmadGuiPreferences = new JMadGuiPreferencesImpl();
-    private SwingUserInteractor userInteractor;
+    private JMadModelManager modelManager;
+    private UserInteractor userInteractor;
     private RangeSelectionPanel rangeSelectionPanel;
     private ModelOpticsSelectionPanel modelOpticsSelectionPanel;
 
@@ -97,6 +92,17 @@ public class JMadGui extends DefaultAccsoftGui {
         };
     }
 
+    @Override
+    protected void callbackBeforeInit() {
+        setMainFrame(jmadGuiPreferences.isMainFrame());
+    }
+
+    @Override
+    protected void callbackAfterInit() {
+        jmadGuiPreferences.exitOnCloseProperty().addListener((obs, oldVal, close) -> setFrameCloseOperation(close));
+        setFrameCloseOperation(jmadGuiPreferences.isExitOnClose());
+    }
+
     protected void cleanup() {
         if (this.modelManager != null) {
             JMadModel model = this.modelManager.getActiveModel();
@@ -110,40 +116,9 @@ public class JMadGui extends DefaultAccsoftGui {
         }
     }
 
-    public void setModelManager(JMadModelManager modelManager) {
-        this.modelManager = modelManager;
-
-        this.modelManager.addListener(new JMadModelManagerAdapter() {
-            @Override
-            public void changedActiveModel(JMadModel newModel) {
-                setModel(newModel);
-            }
-        });
-
-        if (modelManager.getActiveModel() != null) {
-            setModel(modelManager.getActiveModel());
-        }
-    }
-
-    protected void setModel(JMadModel model) {
+    protected void updateTitleAccordingTo(JMadModel model) {
         if (model != null) {
-            model.addListener(new JMadModelListener() {
-
-                @Override
-                public void becameDirty() {
-                    /* nothing to do */
-                }
-
-                @Override
-                public void elementsChanged() {
-                    /* nothing to do */
-                }
-
-                @Override
-                public void opticsChanged() {
-                    /* nothing to do */
-                }
-
+            model.addListener(new AbstractJMadModelListener() {
                 @Override
                 public void opticsDefinitionChanged() {
                     updateTitle();
@@ -153,7 +128,6 @@ public class JMadGui extends DefaultAccsoftGui {
                 public void rangeChanged(@SuppressWarnings("unused") Range newRange) {
                     updateTitle();
                 }
-
             });
         }
         updateTitle();
@@ -178,21 +152,6 @@ public class JMadGui extends DefaultAccsoftGui {
         return Icon.JMAD.getImageIcon();
     }
 
-    public JMadGuiPreferences getJmadGuiPreferences() {
-        return jmadGuiPreferences;
-    }
-
-    @Override
-    protected void callbackBeforeInit() {
-        setMainFrame(jmadGuiPreferences.isMainFrame());
-    }
-
-    @Override
-    protected void callbackAfterInit() {
-        jmadGuiPreferences.exitOnCloseProperty().addListener((obs, oldVal, close) -> setFrameCloseOperation(jmadGuiPreferences.isExitOnClose()));
-        setFrameCloseOperation(jmadGuiPreferences.isExitOnClose());
-    }
-
     public JMadModel showCreateModelDialog() {
         return JMadOptionPane.showCreateModelDialog(jMadModelSelectionDialogFactory, jMadService);
     }
@@ -205,16 +164,36 @@ public class JMadGui extends DefaultAccsoftGui {
         return JMadOptionPane.showImportModelDefinitionDialog(getJFrame(), jMadService);
     }
 
-    private void setFrameCloseOperation(boolean close) {
-        getJFrame().setDefaultCloseOperation(close ? WindowConstants.EXIT_ON_CLOSE : WindowConstants.HIDE_ON_CLOSE);
+    public void showRangeDefinitionChooseDialog() {
+        userInteractor.showPanelDialog(rangeSelectionPanel, getJFrame());
     }
 
-    public void setJMadService(JMadService jMadService) {
-        this.jMadService = jMadService;
+    public void showOpticsDefinitionChooseDialog() {
+        userInteractor.showPanelDialog(modelOpticsSelectionPanel, getJFrame());
     }
 
-    public void setJMadModelSelectionDialogFactory(JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory) {
-        this.jMadModelSelectionDialogFactory = jMadModelSelectionDialogFactory;
+    public void showCreateNewModelDialog() {
+        final JMadModel model = showCreateModelDialog();
+        if (model != null) {
+            Task task = new Task() {
+                @Override
+                protected Object construct() {
+                    LOGGER.info("Starting Initialization of model '" + model.getName() + "'");
+                    try {
+                        model.reset();
+                    } catch (JMadModelException e) {
+                        LOGGER.error("Error while initializing Model '" + model.getName() + "'.", e);
+                        return null;
+                    }
+                    LOGGER.info("Initialization of model '" + model.getName() + "' finished.");
+                    return model;
+                }
+
+            };
+            task.setName("Initializing model '" + model.getName() + "'");
+            task.setCancellable(false);
+            task.start();
+        }
     }
 
     @EventListener(NewModelEvent.class)
@@ -257,42 +236,13 @@ public class JMadGui extends DefaultAccsoftGui {
         SwingUtilities.invokeLater(this::showAboutBox);
     }
 
-    public void showRangeDefinitionChooseDialog() {
-        userInteractor.showPanelDialog(rangeSelectionPanel, getJFrame());
+    private void setFrameCloseOperation(boolean close) {
+        getJFrame().setDefaultCloseOperation(close ? WindowConstants.EXIT_ON_CLOSE : WindowConstants.HIDE_ON_CLOSE);
     }
 
     private void exitJMad() {
         modelManager.cleanup();
         System.exit(0);
-    }
-
-    public void showOpticsDefinitionChooseDialog() {
-        userInteractor.showPanelDialog(modelOpticsSelectionPanel, getJFrame());
-    }
-
-    public void showCreateNewModelDialog() {
-        final JMadModel model = showCreateModelDialog();
-        if (model != null) {
-            Task task = new Task() {
-                @Override
-                protected Object construct() {
-                    LOGGER.info("Starting Initialization of model '" + model.getName() + "'");
-                    try {
-                        model.reset();
-                    } catch (JMadModelException e) {
-                        LOGGER.error("Error while initializing Model '" + model.getName() + "'.", e);
-                        return null;
-                    }
-                    LOGGER.info("Initialization of model '" + model.getName() + "' finished.");
-                    return model;
-                }
-
-            };
-            task.setName("Initializing model '" + model.getName() + "'");
-            task.setCancellable(false);
-            task.start();
-        }
-
     }
 
     private void closeActiveModel() {
@@ -308,6 +258,14 @@ public class JMadGui extends DefaultAccsoftGui {
         modelManager.removeModel(model);
     }
 
+    private void showAboutBox() {
+        AboutBox aboutBox = new AboutBox(getJFrame());
+        aboutBox.setIcon(Icon.SPLASH.getImageIcon());
+        aboutBox.setText("JMad GUI", "cern-accsoft-steering-jmad-gui",
+                "(C) Copyright CERN 2008-2010  Kajetan Fuchsberger AB-OP-SPS", null);
+        aboutBox.setVisible(true);
+    }
+
     public void setRangeSelectionPanel(RangeSelectionPanel rangeSelectionPanel) {
         this.rangeSelectionPanel = rangeSelectionPanel;
     }
@@ -320,12 +278,31 @@ public class JMadGui extends DefaultAccsoftGui {
         this.userInteractor = userInteractor;
     }
 
-    private void showAboutBox() {
-        AboutBox aboutBox = new AboutBox(getJFrame());
-        aboutBox.setIcon(Icon.SPLASH.getImageIcon());
-        aboutBox.setText("JMad GUI", "cern-accsoft-steering-jmad-gui",
-                "(C) Copyright CERN 2008-2010  Kajetan Fuchsberger AB-OP-SPS", null);
-        aboutBox.setVisible(true);
+    public void setJMadService(JMadService jMadService) {
+        this.jMadService = jMadService;
+    }
+
+    public void setJMadModelSelectionDialogFactory(JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory) {
+        this.jMadModelSelectionDialogFactory = jMadModelSelectionDialogFactory;
+    }
+
+    public void setModelManager(JMadModelManager modelManager) {
+        this.modelManager = modelManager;
+
+        this.modelManager.addListener(new JMadModelManagerAdapter() {
+            @Override
+            public void changedActiveModel(JMadModel newModel) {
+                updateTitleAccordingTo(newModel);
+            }
+        });
+
+        if (modelManager.getActiveModel() != null) {
+            updateTitleAccordingTo(modelManager.getActiveModel());
+        }
+    }
+
+    public JMadGuiPreferences getJmadGuiPreferences() {
+        return jmadGuiPreferences;
     }
 
 }
