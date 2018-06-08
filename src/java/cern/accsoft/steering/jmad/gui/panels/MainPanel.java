@@ -26,92 +26,62 @@ import java.awt.BorderLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.border.BevelBorder;
 
-import cern.accsoft.gui.beans.MultiSplitLayout;
-import cern.accsoft.gui.beans.MultiSplitPane;
+import static java.util.Objects.requireNonNull;
 
 public class MainPanel extends JPanel {
     private static final long serialVersionUID = -8292677890152652172L;
 
-    /* the three panels */
-    private JPanel modelOperationPanel = null;
-    private JPanel dataViewerPanel = null;
-    private JPanel outputPanel = null;
-    private JPanel modelManagerPanel = null;
+    private JPanel modelOperationPanel;
+    private JPanel dataViewerPanel;
+    private JPanel outputPanel;
+    private JPanel modelManagerPanel;
 
-    /**
-     * init-method may be used by spring
-     */
     public void init() {
-        initComponents();
-    }
+        requireNonNull(modelOperationPanel, "modelOperationPanel cannot be null. Configuration problem");
+        requireNonNull(dataViewerPanel, "dataViewerPanel cannot be null. Configuration problem");
+        requireNonNull(outputPanel, "outputPanel cannot be null. Configuration problem");
+        requireNonNull(modelManagerPanel, "modelManagerPanel cannot be null. Configuration problem");
 
-    /**
-     * initializes the components.
-     */
-    private void initComponents() {
+
+        JPanel modelManagerBox = new JPanel(new BorderLayout());
+        modelManagerBox.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        modelManagerBox.add(new JLabel("Models"), BorderLayout.NORTH);
+        modelManagerBox.add(modelManagerPanel, BorderLayout.CENTER);
+
+        modelOperationPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+
+        dataViewerPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+
+        JPanel outputBox = new JPanel(new BorderLayout());
+        outputBox.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        outputBox.add(new JLabel("Output"), BorderLayout.NORTH);
+        outputBox.add(outputPanel, BorderLayout.CENTER);
+
+        JSplitPane topTwoLeftPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, modelManagerBox, modelOperationPanel);
+        JSplitPane topPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, topTwoLeftPane, outputBox);
+        JSplitPane fullPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPane, dataViewerPanel);
+
         setLayout(new BorderLayout());
-
-        /*
-         * The multisplit layout and the multisplit-pane, which contains all others.
-         */
-        String layoutDef = "(COLUMN (ROW weight=0.5 (LEAF name=left weight=0.2) (LEAF name=middle weight=0.5) (LEAF name=right weight=0.3)) (LEAF name=bottom weight=0.5))";
-        MultiSplitLayout.Node layoutModel = MultiSplitLayout.parseModel(layoutDef);
-        MultiSplitPane multiSplitPane = new MultiSplitPane();
-        multiSplitPane.getMultiSplitLayout().setModel(layoutModel);
-        multiSplitPane.getMultiSplitLayout().setDividerSize(5);
-        add(multiSplitPane, BorderLayout.CENTER);
-
-        /*
-         * left panel: all the available models
-         */
-        if (getModelManagerPanel() != null) {
-            JPanel panel = new JPanel(new BorderLayout());
-            panel.setBorder(new BevelBorder(BevelBorder.LOWERED));
-            panel.add(new JLabel("Models"), BorderLayout.NORTH);
-            panel.add(getModelManagerPanel(), BorderLayout.CENTER);
-            multiSplitPane.add(panel, "left");
-        }
-
-        /*
-         * the middle panel: TABBED-panes
-         */
-        if (modelOperationPanel != null) {
-            modelOperationPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
-            multiSplitPane.add(modelOperationPanel, "middle");
-        }
-
-        /*
-         * the panel for the dataviewer views
-         */
-        if (dataViewerPanel != null) {
-            dataViewerPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
-            multiSplitPane.add(dataViewerPanel, "bottom");
-        }
-
-        if (outputPanel != null) {
-            JPanel panel = new JPanel(new BorderLayout());
-            panel.setBorder(new BevelBorder(BevelBorder.LOWERED));
-            panel.add(new JLabel("Output"), BorderLayout.NORTH);
-            panel.add(outputPanel, BorderLayout.CENTER);
-            multiSplitPane.add(panel, "right");
-        }
-
-        multiSplitPane.validate();
+        add(fullPane);
         validate();
+
+        /* Weird Swing magic numbers */
+        topTwoLeftPane.setDividerLocation(0.35);
+        topTwoLeftPane.setResizeWeight(0.35);
+        topPane.setDividerLocation(0.66);
+        topPane.setResizeWeight(0.66);
+
+        fullPane.setDividerLocation(0.5);
+        fullPane.setResizeWeight(0.5);
     }
 
-    /**
-     * @param modelOperationPanel the modelOperationPanel to set
-     */
     public final void setModelOperationPanel(JPanel modelOperationPanel) {
         this.modelOperationPanel = modelOperationPanel;
     }
 
-    /**
-     * @param dataViewerPanel the dataViewerPanel to set
-     */
     public final void setDataViewerPanel(JPanel dataViewerPanel) {
         this.dataViewerPanel = dataViewerPanel;
     }
@@ -122,10 +92,6 @@ public class MainPanel extends JPanel {
 
     public void setModelManagerPanel(JPanel modelManagerPanel) {
         this.modelManagerPanel = modelManagerPanel;
-    }
-
-    private JPanel getModelManagerPanel() {
-        return modelManagerPanel;
     }
 
 }

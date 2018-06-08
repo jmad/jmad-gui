@@ -1,7 +1,15 @@
 package cern.accsoft.steering.jmad.gui.config;
 
+import cern.accsoft.steering.jmad.gui.panels.GuiLogPanel;
+import org.apache.log4j.Appender;
+import org.apache.log4j.AsyncAppender;
+import org.apache.log4j.spi.RootLogger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 
 /**
  * Spring configuration for the jmad-gui beans. It expects the other necessary beans already in the context.
@@ -11,4 +19,24 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource("cern/accsoft/steering/jmad/gui/config/app-ctx-jmad-gui.xml")
 public class JMadGuiConfiguration {
     /* Java configuration for hiding the xml */
+
+    @Bean("guiLogPanel")
+    public GuiLogPanel guiLogPanel() {
+        return new GuiLogPanel();
+    }
+
+    @Bean
+    public Appender guiLogAppender(GuiLogPanel guiLogPanel) {
+        Appender guiLogAppender = guiLogPanel.getGuiLogAppender();
+        AsyncAppender asyncAppender = new AsyncAppender();
+        asyncAppender.addAppender(guiLogAppender);
+        return asyncAppender;
+    }
+
+    @EventListener
+    public void setupLog4jLoggersAfterInit(ContextRefreshedEvent evt) {
+        evt.getApplicationContext().getBeansOfType(Appender.class).values().forEach(a -> RootLogger.getRootLogger().addAppender(a));
+        LoggerFactory.getLogger(JMadGuiConfiguration.class).info("Context initialized successfully");
+    }
+
 }

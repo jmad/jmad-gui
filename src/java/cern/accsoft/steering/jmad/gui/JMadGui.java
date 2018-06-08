@@ -38,6 +38,7 @@ import cern.accsoft.steering.jmad.gui.dialog.JMadOptionPane;
 import cern.accsoft.steering.jmad.gui.icons.Icon;
 import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
 import cern.accsoft.steering.jmad.gui.manage.impl.JMadGuiPreferencesImpl;
+import cern.accsoft.steering.jmad.gui.panels.GuiLogPanel;
 import cern.accsoft.steering.jmad.gui.panels.ModelOpticsSelectionPanel;
 import cern.accsoft.steering.jmad.gui.panels.RangeSelectionPanel;
 import cern.accsoft.steering.jmad.model.AbstractJMadModelListener;
@@ -45,30 +46,37 @@ import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
 import cern.accsoft.steering.jmad.service.JMadService;
-import cern.accsoft.steering.util.gui.DefaultAccsoftGui;
-import cern.accsoft.steering.util.gui.SwingUserInteractor;
 import cern.accsoft.steering.util.gui.UserInteractor;
 import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
-import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * this class represents the main frame for the jmad-gui standalone application
  * 
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
-public class JMadGui extends DefaultAccsoftGui {
+public class JMadGui extends JFrame {
     private static final long serialVersionUID = -8292677890152652172L;
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAccsoftGui.class);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JMadGui.class);
     private final static String TITLE_BASE = "jmad ";
+    private static final int DEFAULT_WIDTH = 1024;
+    private static final int DEFAULT_HEIGHT = 768;
 
     private final JMadGuiPreferences jmadGuiPreferences = new JMadGuiPreferencesImpl();
     private JMadService jMadService;
@@ -77,10 +85,53 @@ public class JMadGui extends DefaultAccsoftGui {
     private UserInteractor userInteractor;
     private RangeSelectionPanel rangeSelectionPanel;
     private ModelOpticsSelectionPanel modelOpticsSelectionPanel;
+    private JPanel mainPanel;
+    private JMenuBar menuBar;
+    private JToolBar toolBar;
+    private GuiLogPanel guiLogPanel;
+
+    public final void init() {
+        requireNonNull(mainPanel, "mainPanel cannot be null. Configuration problem");
+        setupFramePreferences();
+
+        setLayout(new BorderLayout());
+        setIconImage(Icon.JMAD.getImageIcon().getImage());
+        setContentPane(mainPanel);
+
+        if (menuBar != null) {
+            setJMenuBar(menuBar);
+        }
+        if (toolBar != null) {
+            add(toolBar, BorderLayout.PAGE_START);
+        }
+
+        add(guiLogPanel, BorderLayout.PAGE_END);
+
+        /* This is still important for the aloha GUI.. to be done */
+//        for (String key : getExtraConsoleTabs().keySet()) {
+//            JComponent component = getExtraConsoleTabs().get(key);
+//            frame.getConsoleTabbedPane().addTab(key, component);
+//        }
+
+        setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        pack();
+    }
 
     @Override
-    protected WindowListener getWindowListener() {
-        return new WindowAdapter() {
+    public void validate() {
+        super.validate();
+        setPreferredSize(getSize());
+    }
+
+    public void showGui() {
+        setVisible(true);
+    }
+
+    private void setupFramePreferences() {
+        jmadGuiPreferences.exitOnCloseProperty().addListener((obs, oldVal, close) -> setFrameCloseOperation(close));
+        setFrameCloseOperation(jmadGuiPreferences.isExitOnClose());
+
+        addWindowListener(new WindowAdapter() {
             public void windowClosing(@SuppressWarnings("unused") WindowEvent e) {
                 if (jmadGuiPreferences.isCleanupOnClose()) {
                     cleanup();
@@ -89,21 +140,10 @@ public class JMadGui extends DefaultAccsoftGui {
                     System.exit(0);
                 }
             }
-        };
+        });
     }
 
-    @Override
-    protected void callbackBeforeInit() {
-        setMainFrame(jmadGuiPreferences.isMainFrame());
-    }
-
-    @Override
-    protected void callbackAfterInit() {
-        jmadGuiPreferences.exitOnCloseProperty().addListener((obs, oldVal, close) -> setFrameCloseOperation(close));
-        setFrameCloseOperation(jmadGuiPreferences.isExitOnClose());
-    }
-
-    protected void cleanup() {
+    private void cleanup() {
         if (this.modelManager != null) {
             JMadModel model = this.modelManager.getActiveModel();
             if (model != null) {
@@ -116,7 +156,7 @@ public class JMadGui extends DefaultAccsoftGui {
         }
     }
 
-    protected void updateTitleAccordingTo(JMadModel model) {
+    private void updateTitleAccordingTo(JMadModel model) {
         if (model != null) {
             model.addListener(new AbstractJMadModelListener() {
                 @Override
@@ -133,7 +173,7 @@ public class JMadGui extends DefaultAccsoftGui {
         updateTitle();
     }
 
-    protected void updateTitle() {
+    private void updateTitle() {
         if (this.modelManager == null) {
             return;
         }
@@ -147,29 +187,24 @@ public class JMadGui extends DefaultAccsoftGui {
         }
     }
 
-    @Override
-    protected ImageIcon getImageIcon() {
-        return Icon.JMAD.getImageIcon();
-    }
-
     public JMadModel showCreateModelDialog() {
         return JMadOptionPane.showCreateModelDialog(jMadModelSelectionDialogFactory, jMadService);
     }
 
     public void showExportModelDefinitionDialog() {
-        JMadOptionPane.showExportModelDefinitionDialog(getJFrame(), jMadService);
+        JMadOptionPane.showExportModelDefinitionDialog(this, jMadService);
     }
 
     public JMadModel showImportModelDefinitionDialog() {
-        return JMadOptionPane.showImportModelDefinitionDialog(getJFrame(), jMadService);
+        return JMadOptionPane.showImportModelDefinitionDialog(this, jMadService);
     }
 
     public void showRangeDefinitionChooseDialog() {
-        userInteractor.showPanelDialog(rangeSelectionPanel, getJFrame());
+        userInteractor.showPanelDialog(rangeSelectionPanel, this);
     }
 
     public void showOpticsDefinitionChooseDialog() {
-        userInteractor.showPanelDialog(modelOpticsSelectionPanel, getJFrame());
+        userInteractor.showPanelDialog(modelOpticsSelectionPanel, this);
     }
 
     public void showCreateNewModelDialog() {
@@ -237,7 +272,7 @@ public class JMadGui extends DefaultAccsoftGui {
     }
 
     private void setFrameCloseOperation(boolean close) {
-        getJFrame().setDefaultCloseOperation(close ? WindowConstants.EXIT_ON_CLOSE : WindowConstants.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(close ? WindowConstants.EXIT_ON_CLOSE : WindowConstants.HIDE_ON_CLOSE);
     }
 
     private void exitJMad() {
@@ -259,7 +294,7 @@ public class JMadGui extends DefaultAccsoftGui {
     }
 
     private void showAboutBox() {
-        AboutBox aboutBox = new AboutBox(getJFrame());
+        AboutBox aboutBox = new AboutBox(this);
         aboutBox.setIcon(Icon.SPLASH.getImageIcon());
         aboutBox.setText("JMad GUI", "cern-accsoft-steering-jmad-gui",
                 "(C) Copyright CERN 2008-2010  Kajetan Fuchsberger AB-OP-SPS", null);
@@ -274,7 +309,7 @@ public class JMadGui extends DefaultAccsoftGui {
         this.modelOpticsSelectionPanel = modelOpticsSelectionPanel;
     }
 
-    public void setUserInteractor(SwingUserInteractor userInteractor) {
+    public void setUserInteractor(UserInteractor userInteractor) {
         this.userInteractor = userInteractor;
     }
 
@@ -305,4 +340,19 @@ public class JMadGui extends DefaultAccsoftGui {
         return jmadGuiPreferences;
     }
 
+    public void setMainPanel(JPanel mainPanel) {
+        this.mainPanel = mainPanel;
+    }
+
+    public void setJMadMenuBar(JMenuBar menuBar) {
+        this.menuBar = menuBar;
+    }
+
+    public void setJMadToolBar(JToolBar toolBar) {
+        this.toolBar = toolBar;
+    }
+
+    public void setGuiLogPanel(GuiLogPanel guiLogPanel) {
+        this.guiLogPanel = guiLogPanel;
+    }
 }

@@ -53,6 +53,7 @@ public class JMadMenuFactoryImpl implements JMadMenuFactory {
         toolBar.add(jmadGuiActions.getChooseOpticsAction());
         toolBar.addSeparator();
         toolBar.add(jmadGuiActions.getExitAction());
+        toolBar.setFloatable(false);
         return toolBar;
     }
 

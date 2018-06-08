@@ -17,7 +17,7 @@ public class JMadMain {
 
         /* Workaround. With this version of accsoft-gui-frame, the splashscreen will never go away... */
         // JMad.getJMadGuiSplashScreen();
-        JMad.createStandaloneJMad().getJMadGui().show();
+        JMad.createStandaloneJMad().getJMadGui().showGui();
     }
 
     private static void configureLogger() {

@@ -104,7 +104,7 @@ public class DataViewerPanel extends JPanel implements DataSetManagerListener {
          * The DataViewer
          */
         dataViewer = new DataViewer();
-        dataViewer.setPreferredSize(PREFERRED_SIZE_DV);
+        //dataViewer.setPreferredSize(PREFERRED_SIZE_DV);
         dataViewer.setExplorerVisible(true);
         add(dataViewer, BorderLayout.CENTER);
 

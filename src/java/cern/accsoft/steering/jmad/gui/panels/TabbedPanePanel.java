@@ -52,7 +52,7 @@ public class TabbedPanePanel extends JPanel {
      */
     public TabbedPanePanel() {
         super(new BorderLayout());
-        setPreferredSize(PREFERRED_SIZE);
+        //setPreferredSize(PREFERRED_SIZE);
     }
 
     /**

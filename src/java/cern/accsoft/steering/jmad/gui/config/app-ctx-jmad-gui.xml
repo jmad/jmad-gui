@@ -242,14 +242,15 @@
 		<!--<property name="splashScreen" ref="splashScreen" />-->
 		<property name="mainPanel" ref="jmadMainPanel" />
 		<property name="modelManager" ref="modelManager" />
-		<property name="toolBar" ref="jmadToolBar" />
-		<property name="menuBar" ref="jmadMenuBar" />
-		<property name="consoleLogLevel" value="DEBUG" />
+		<property name="jMadToolBar" ref="jmadToolBar" />
+		<property name="jMadMenuBar" ref="jmadMenuBar" />
+		<!--<property name="consoleLogLevel" value="DEBUG" />-->
 		<property name="jMadService" ref="jmadService" />
 		<property name="jMadModelSelectionDialogFactory" ref="jmadModelSelectionDialogFactory" />
 		<property name="rangeSelectionPanel" ref="rangeSelectionPanel" />
 		<property name="modelOpticsSelectionPanel" ref="opticsSelectionPanel" />
 		<property name="userInteractor" ref="userInteractor" />
+		<property name="guiLogPanel" ref="guiLogPanel" />
 	</bean>
 
 	<bean id="jmadGuiPreferences" factory-bean="jmadGui" factory-method="getJmadGuiPreferences" />
