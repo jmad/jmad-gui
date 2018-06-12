@@ -51,7 +51,6 @@ import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
-import sun.swing.SwingUtilities2;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
