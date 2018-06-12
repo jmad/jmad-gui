@@ -25,11 +25,6 @@ import org.springframework.context.annotation.Import;
 @Import({JMadServiceConfiguration.class, JMadModelPackageServiceConfiguration.class, JMadModelSelectionDialogConfiguration.class, JMadGuiConfiguration.class })
 public class JMadGuiStandaloneConfiguration {
 
-    @Bean("modelManager")
-    public JMadModelManager modelManager(JMadService jMadService) {
-        return jMadService.getModelManager();
-    }
-
     @Bean("markedElementsManager")
     public MarkedElementsManager markedElementsManager() {
         return new MarkedElementsManagerImpl();

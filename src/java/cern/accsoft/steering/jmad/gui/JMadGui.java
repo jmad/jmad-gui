@@ -51,6 +51,7 @@ import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
+import sun.swing.SwingUtilities2;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -105,7 +106,9 @@ public class JMadGui extends JFrame {
             add(toolBar, BorderLayout.PAGE_START);
         }
 
-        add(guiLogPanel, BorderLayout.PAGE_END);
+        if(guiLogPanel != null) {
+            add(guiLogPanel, BorderLayout.PAGE_END);
+        }
 
         /* This is still important for the aloha GUI.. to be done */
 //        for (String key : getExtraConsoleTabs().keySet()) {
@@ -114,7 +117,6 @@ public class JMadGui extends JFrame {
 //        }
 
         setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-        pack();
     }
 
     @Override
@@ -124,7 +126,10 @@ public class JMadGui extends JFrame {
     }
 
     public void showGui() {
-        setVisible(true);
+        SwingUtilities.invokeLater(() -> {
+            pack();
+            setVisible(true);
+        });
     }
 
     private void setupFramePreferences() {

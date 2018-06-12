@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
@@ -21,11 +22,13 @@ public class JMadGuiConfiguration {
     /* Java configuration for hiding the xml */
 
     @Bean("guiLogPanel")
+    @Lazy
     public GuiLogPanel guiLogPanel() {
         return new GuiLogPanel();
     }
 
-    @Bean
+    @Bean("guiLogAppender")
+    @Lazy
     public Appender guiLogAppender(GuiLogPanel guiLogPanel) {
         Appender guiLogAppender = guiLogPanel.getGuiLogAppender();
         AsyncAppender asyncAppender = new AsyncAppender();

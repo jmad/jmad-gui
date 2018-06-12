@@ -57,6 +57,7 @@ import cern.accsoft.steering.jmad.model.manage.StrengthVarManager;
 import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Lookup;
 
 /**
  * This panel allows to parse a variable-file and add these variables to the twiss results.
@@ -81,11 +82,6 @@ public class CustomFileManagerPanel extends JPanel {
      * the custom file manager, which keeps track of the files of interest.
      */
     private CustomFileManager customFileManager;
-
-    /**
-     * An instance of a preference class, which provides us with the default path to open files.
-     */
-    private JMadGuiPreferences jmadGuiPreferences;
 
     /**
      * the class which keeps track of the actually selected model
@@ -425,22 +421,18 @@ public class CustomFileManagerPanel extends JPanel {
         return customFileManager;
     }
 
-    public void setJmadGuiPreferences(JMadGuiPreferences jmadGuiPreferences) {
-        this.jmadGuiPreferences = jmadGuiPreferences;
-    }
+    /**
+     * Spring lookup method.. workaround for circular dependency
+     */
+    @Lookup
+    public JMadGuiPreferences getJmadGuiPreferences() { return null; }
 
     private String getWorkingDir() {
-        if (jmadGuiPreferences == null) {
-            return null;
-        }
-        return jmadGuiPreferences.getWorkingDir();
+        return getJmadGuiPreferences().getWorkingDir();
     }
 
     private String getEditorCommand() {
-        if (jmadGuiPreferences == null) {
-            return null;
-        }
-        return jmadGuiPreferences.getEditorCommand();
+        return getJmadGuiPreferences().getEditorCommand();
     }
 
     public void setModelManager(JMadModelManager modelManager) {
