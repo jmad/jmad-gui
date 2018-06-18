@@ -37,7 +37,7 @@ public class MainPanel extends JPanel {
     private JPanel modelOperationPanel;
     private JPanel dataViewerPanel;
     private JPanel outputPanel;
-    private JPanel modelManagerPanel;
+        private JPanel modelManagerPanel;
 
     public void init() {
         requireNonNull(modelOperationPanel, "modelOperationPanel cannot be null. Configuration problem");

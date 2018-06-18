@@ -73,11 +73,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'cern.accsoft.gui', name: 'accsoft-gui-frame', version: '4.2.11'
-    compile group: 'cern.accsoft.steering', name: 'accsoft-steering-commons', version: '0.1.4'
-    compile group: 'cern.accsoft.commons', name: 'accsoft-commons-util', version: '3.4.10'
     compile group: 'cern.dm', name: 'jdataviewer', version: '1.8.3'
-    compile group: 'org.swinglabs', name: 'swingx', version: '0.9.3'
 
     compile group: 'jmad', name: 'jmad-modelpack-fx', version: '0.1.1'
     compile group: 'jmad', name: 'jmad-core', version: '0.2.0'

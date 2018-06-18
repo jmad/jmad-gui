@@ -1,5 +1,6 @@
 package cern.accsoft.steering.jmad.gui.config;
 
+import cern.accsoft.steering.jmad.gui.executor.AsyncExecutor;
 import cern.accsoft.steering.jmad.gui.panels.GuiLogPanel;
 import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
@@ -34,6 +35,11 @@ public class JMadGuiConfiguration {
         AsyncAppender asyncAppender = new AsyncAppender();
         asyncAppender.addAppender(guiLogAppender);
         return asyncAppender;
+    }
+
+    @Bean("asyncExecutor")
+    public AsyncExecutor asyncExecutor() {
+        return new AsyncExecutor();
     }
 
     @EventListener

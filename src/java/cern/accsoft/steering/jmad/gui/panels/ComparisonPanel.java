@@ -7,8 +7,6 @@ package cern.accsoft.steering.jmad.gui.panels;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Objects;
 
 import javax.swing.BorderFactory;
@@ -20,9 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import cern.accsoft.gui.frame.Task;
 import cern.accsoft.steering.jmad.domain.elem.Element;
 import cern.accsoft.steering.jmad.domain.elem.MadxElementType;
+import cern.accsoft.steering.jmad.gui.executor.AsyncExecutor;
 import cern.accsoft.steering.jmad.gui.panels.var.ElementCellRenderer;
 import cern.accsoft.steering.jmad.gui.panels.var.SequenceElementsTableModel;
 import cern.accsoft.steering.jmad.model.JMadModel;
@@ -32,6 +30,8 @@ import cern.accsoft.steering.jmad.service.SequenceElementFilter;
 
 public class ComparisonPanel extends JPanel {
     private static final long serialVersionUID = 1L;
+
+    private AsyncExecutor asyncExecutor;
 
     private SequenceElementsTableModel sequenceElementesModel1 = new SequenceElementsTableModel();
     private SequenceElementsTableModel sequenceElementesModel2 = new SequenceElementsTableModel();
@@ -44,7 +44,6 @@ public class ComparisonPanel extends JPanel {
     private JMadModel model2;
 
     private JLabel labelModel2;
-
     private JLabel labelModel1;
 
     public void init() {
@@ -95,41 +94,33 @@ public class ComparisonPanel extends JPanel {
 
     private Component createButtonsPanel() {
         JPanel jPanel = new JPanel();
-        filterSelection = new JComboBox<MadxElementType>(MadxElementType.values());
+        filterSelection = new JComboBox<>(MadxElementType.values());
 
         jPanel.add(filterSelection);
 
         loadElements = new JButton("Show selected elements...");
         loadElements.setEnabled(false);
-        loadElements.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                fireNewDataArrived();
-            }
-
-            /**
-             * 
-             */
-
-        });
+        loadElements.addActionListener(e -> fireNewDataArrived());
         jPanel.add(loadElements);
         return jPanel;
     }
 
     private void fireNewDataArrived() {
-        new LoadElementsTask(new MutableSequnceFilter((MadxElementType) filterSelection.getSelectedItem())).start();
+        MadxElementType selectedItem = (MadxElementType) filterSelection.getSelectedItem();
+        LoadElementsTask task = new LoadElementsTask(new MutableSequnceFilter(selectedItem));
+        asyncExecutor.submitAsync(task);
     }
 
-    private class LoadElementsTask extends Task<Boolean> {
+    private class LoadElementsTask implements Runnable {
 
-        private SequenceElementFilter filter;
+        private final SequenceElementFilter filter;
 
-        public LoadElementsTask(SequenceElementFilter filter) {
+        private LoadElementsTask(SequenceElementFilter filter) {
             this.filter = filter;
         }
 
         @Override
-        protected Boolean construct() {
+        public void run() {
             elementCellRenderer.setElements(jMadModelManager.getCommonSequenceElements(model1, model2, filter));
             sequenceElementesModel1.updateElements(JMadModelSeqElementOnNameComparator.getFilteredElements(model1
                     .getActiveRange().getElements(), filter));
@@ -137,20 +128,15 @@ public class ComparisonPanel extends JPanel {
             sequenceElementesModel2.updateElements(JMadModelSeqElementOnNameComparator.getFilteredElements(model2
                     .getActiveRange().getElements(), filter));
             sequenceElementesModel2.setModelName(model2.getName());
-            return null;
         }
 
     }
 
-    public void setjMadModelManager(JMadModelManager jMadModelManager) {
-        this.jMadModelManager = jMadModelManager;
-    }
-
     private class MutableSequnceFilter implements SequenceElementFilter {
 
-        private MadxElementType elementType;
+        private final MadxElementType elementType;
 
-        public MutableSequnceFilter(MadxElementType elementType) {
+        private MutableSequnceFilter(MadxElementType elementType) {
             this.elementType = elementType;
         }
 
@@ -164,11 +150,15 @@ public class ComparisonPanel extends JPanel {
                 }
             }
 
-            if (element.getMadxElementType().equals(elementType)) {
-                return true;
-            }
-            return false;
+            return element.getMadxElementType().equals(elementType);
         }
+
+    }
+    public void setAsyncExecutor(AsyncExecutor asyncExecutor) {
+        this.asyncExecutor = asyncExecutor;
     }
 
+    public void setjMadModelManager(JMadModelManager jMadModelManager) {
+        this.jMadModelManager = jMadModelManager;
+    }
 }

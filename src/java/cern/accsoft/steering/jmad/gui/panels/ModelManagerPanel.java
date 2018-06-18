@@ -29,6 +29,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -38,7 +39,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import cern.accsoft.commons.util.Assert;
 import cern.accsoft.steering.jmad.gui.actions.JMadGuiActions;
 import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
@@ -88,7 +88,7 @@ public class ModelManagerPanel extends JPanel {
      * init method called by spring
      */
     public void init() {
-        Assert.argNotNull(comparisonPanel, "comparisonPanel");
+        Objects.requireNonNull(comparisonPanel, "comparisonPanel");
         initComponents();
     }
 

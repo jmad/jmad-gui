@@ -22,7 +22,7 @@
 
 package cern.accsoft.steering.jmad.gui.manage;
 
-import cern.accsoft.gui.beans.spi.SplashScreen;
+//import cern.accsoft.gui.beans.spi.SplashScreen;
 import cern.accsoft.steering.jmad.gui.icons.Icon;
 
 /**
@@ -32,20 +32,20 @@ import cern.accsoft.steering.jmad.gui.icons.Icon;
  */
 public class SplashFactory {
 
-    private final static SplashScreen splashScreen = new SplashScreen(null, Icon.SPLASH.getImageIcon().getImage());
-
-    /**
-     * static block to initialize the splashScreen.
-     */
-    static {
-        splashScreen.setText("JMad");
-        splashScreen.setMessage("... the java MADX integration.");
-    }
-
-    /**
-     * @return the {@link SplashScreen}
-     */
-    public final static SplashScreen getSplashScreen() {
-        return splashScreen;
-    }
+//    private final static SplashScreen splashScreen = new SplashScreen(null, Icon.SPLASH.getImageIcon().getImage());
+//
+//    /**
+//     * static block to initialize the splashScreen.
+//     */
+//    static {
+//        splashScreen.setText("JMad");
+//        splashScreen.setMessage("... the java MADX integration.");
+//    }
+//
+//    /**
+//     * @return the {@link SplashScreen}
+//     */
+//    public final static SplashScreen getSplashScreen() {
+//        return splashScreen;
+//    }
 }

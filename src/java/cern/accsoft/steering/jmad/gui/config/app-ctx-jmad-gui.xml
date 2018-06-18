@@ -240,6 +240,7 @@
 	<bean id="jmadGui" class="cern.accsoft.steering.jmad.gui.JMadGui" init-method="init">
 		<property name="title" value="jmad" />
 		<!--<property name="splashScreen" ref="splashScreen" />-->
+		<property name="asyncExecutor" ref="asyncExecutor" />
 		<property name="mainPanel" ref="jmadMainPanel" />
 		<property name="modelManager" ref="jmadModelManager" />
 		<property name="jMadToolBar" ref="jmadToolBar" />

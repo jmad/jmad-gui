@@ -22,8 +22,6 @@
 
 package cern.accsoft.steering.jmad.gui;
 
-import cern.accsoft.gui.beans.AboutBox;
-import cern.accsoft.gui.frame.Task;
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.domain.machine.Range;
 import cern.accsoft.steering.jmad.gui.actions.event.ChooseOpticsEvent;
@@ -34,7 +32,9 @@ import cern.accsoft.steering.jmad.gui.actions.event.ExportModelEvent;
 import cern.accsoft.steering.jmad.gui.actions.event.ImportModelEvent;
 import cern.accsoft.steering.jmad.gui.actions.event.NewModelEvent;
 import cern.accsoft.steering.jmad.gui.actions.event.ShowAboutBoxEvent;
+import cern.accsoft.steering.jmad.gui.dialog.AboutDialog;
 import cern.accsoft.steering.jmad.gui.dialog.JMadOptionPane;
+import cern.accsoft.steering.jmad.gui.executor.AsyncExecutor;
 import cern.accsoft.steering.jmad.gui.icons.Icon;
 import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
 import cern.accsoft.steering.jmad.gui.manage.impl.JMadGuiPreferencesImpl;
@@ -79,6 +79,7 @@ public class JMadGui extends JFrame {
     private static final int DEFAULT_HEIGHT = 768;
 
     private final JMadGuiPreferences jmadGuiPreferences = new JMadGuiPreferencesImpl();
+    private AsyncExecutor asyncExecutor;
     private JMadService jMadService;
     private JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory;
     private JMadModelManager modelManager;
@@ -214,24 +215,15 @@ public class JMadGui extends JFrame {
     public void showCreateNewModelDialog() {
         final JMadModel model = showCreateModelDialog();
         if (model != null) {
-            Task task = new Task() {
-                @Override
-                protected Object construct() {
-                    LOGGER.info("Starting Initialization of model '" + model.getName() + "'");
-                    try {
-                        model.reset();
-                    } catch (JMadModelException e) {
-                        LOGGER.error("Error while initializing Model '" + model.getName() + "'.", e);
-                        return null;
-                    }
+            asyncExecutor.submitAsync("Initializing model '" + model.getName() + "'", () -> {
+                LOGGER.info("Starting Initialization of model '" + model.getName() + "'");
+                try {
+                    model.reset();
                     LOGGER.info("Initialization of model '" + model.getName() + "' finished.");
-                    return model;
+                } catch (JMadModelException e) {
+                    LOGGER.error("Error while initializing Model '" + model.getName() + "'.", e);
                 }
-
-            };
-            task.setName("Initializing model '" + model.getName() + "'");
-            task.setCancellable(false);
-            task.start();
+            });
         }
     }
 
@@ -298,11 +290,11 @@ public class JMadGui extends JFrame {
     }
 
     private void showAboutBox() {
-        AboutBox aboutBox = new AboutBox(this);
-        aboutBox.setIcon(Icon.SPLASH.getImageIcon());
-        aboutBox.setText("JMad GUI", "cern-accsoft-steering-jmad-gui",
-                "(C) Copyright CERN 2008-2010  Kajetan Fuchsberger AB-OP-SPS", null);
-        aboutBox.setVisible(true);
+        AboutDialog aboutDialog = new AboutDialog(this);
+        aboutDialog.setIcon(Icon.SPLASH.getImageIcon());
+        aboutDialog.setText("JMad GUI", "cern-accsoft-steering-jmad-gui",
+                "(C) Copyright CERN 2008-2010  Kajetan Fuchsberger AB-OP-SPS");
+        aboutDialog.show();
     }
 
     public void setRangeSelectionPanel(RangeSelectionPanel rangeSelectionPanel) {
@@ -358,5 +350,9 @@ public class JMadGui extends JFrame {
 
     public void setGuiLogPanel(GuiLogPanel guiLogPanel) {
         this.guiLogPanel = guiLogPanel;
+    }
+
+    public void setAsyncExecutor(AsyncExecutor asyncExecutor) {
+        this.asyncExecutor = asyncExecutor;
     }
 }
