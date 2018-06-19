@@ -81,14 +81,12 @@ public class JMadOptionPane {
 		CountDownLatch latch = new CountDownLatch(1);
 		AtomicReference<JMadModel> selectedModel = new AtomicReference<>();
 
-        Dialog<JMadModelSelection> jMadModelSelectionDialog = modelpackDialogFactory.selectionDialog();
-
-        Platform.runLater(() -> {
-            Optional<JMadModelSelection> selection = jMadModelSelectionDialog.showAndWait();
+		Platform.runLater(() -> {
+            Optional<JMadModelSelection> selection = modelpackDialogFactory.showAndWaitModelSelection();
 
 			if (selection.isPresent()) {
                 JMadModelDefinition modelDefinition = selection.get().modelDefinition();
-                JMadModelStartupConfiguration startupConfiguration = selection.get().startupConfiguration();
+                JMadModelStartupConfiguration startupConfiguration = selection.get().startupConfiguration().get();
                 selectedModel.set(createModel(jmadService, modelDefinition, startupConfiguration));
             }
 
