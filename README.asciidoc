@@ -1,0 +1,10 @@
+image:https://img.shields.io/github/release/jmad/jmad-gui.svg?maxAge=1000["Latest release", link="https://github.com/jmad/jmad-gui/releases"]
+image:https://travis-ci.com/jmad/jmad-gui.svg?branch=master["Build Status", link="https://travis-ci.com/jmad/jmad-gui"]
+image:https://img.shields.io/github/license/jmad/jmad-gui.svg[]
+image:https://codecov.io/gh/jmad/jmad-gui/branch/master/graph/badge.svg["codecov", link="https://codecov.io/gh/jmad/jmad-gui"]
+image:https://api.codacy.com/project/badge/Grade/b830f8eafc0441199d126967bd87d08c["Codacy code quality", link="https://www.codacy.com/app/jmad/jmad-gui?utm_source=github.com&utm_medium=referral&utm_content=jmad/jmad-gui&utm_campaign=Badge_Grade"]
+
+JMad GUI
+====
+
+Java GUI for the JMad project
