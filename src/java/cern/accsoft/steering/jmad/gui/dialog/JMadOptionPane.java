@@ -78,27 +78,15 @@ public class JMadOptionPane {
 	}
 
 	public final static JMadModel showCreateModelDialog(JMadModelSelectionDialogFactory modelpackDialogFactory, JMadService jmadService) {
-		CountDownLatch latch = new CountDownLatch(1);
-		AtomicReference<JMadModel> selectedModel = new AtomicReference<>();
+		Optional<JMadModelSelection> selection = modelpackDialogFactory.showAndWaitModelSelection();
 
-		Platform.runLater(() -> {
-            Optional<JMadModelSelection> selection = modelpackDialogFactory.showAndWaitModelSelection();
-
-			if (selection.isPresent()) {
-                JMadModelDefinition modelDefinition = selection.get().modelDefinition();
-                JMadModelStartupConfiguration startupConfiguration = selection.get().startupConfiguration().get();
-                selectedModel.set(createModel(jmadService, modelDefinition, startupConfiguration));
-            }
-
-			latch.countDown();
-		});
-
-		try {
-			latch.await();
-		} catch (InterruptedException e) {
-		    throw new RuntimeException("Interrupted while waiting for user model selection");
+		if (selection.isPresent()) {
+			JMadModelDefinition modelDefinition = selection.get().modelDefinition();
+			JMadModelStartupConfiguration startupConfiguration = selection.get().startupConfiguration().get();
+			return createModel(jmadService, modelDefinition, startupConfiguration);
 		}
-		return selectedModel.get();
+
+		return null;
 	}
 
 	private final static JMadModel createModel(JMadService jmadService,
