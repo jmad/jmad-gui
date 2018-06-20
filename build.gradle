@@ -75,7 +75,7 @@ repositories {
 dependencies {
     compile group: 'cern.dm', name: 'jdataviewer', version: '1.8.3'
 
-    compile group: 'jmad', name: 'jmad-modelpack-fx', version: '0.2.0'
+    compile group: 'jmad', name: 'jmad-modelpack-fx', version: '0.2.1'
     compile group: 'jmad', name: 'jmad-core', version: '0.2.0'
     compile group: 'com.google.guava', name: 'guava', version: '19.0'
 
