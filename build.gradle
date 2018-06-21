@@ -79,8 +79,6 @@ dependencies {
     compile group: 'jmad', name: 'jmad-core', version: '0.2.0'
     compile group: 'com.google.guava', name: 'guava', version: '19.0'
 
-    compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.14'
-
     compile group: 'org.springframework', name: 'spring-core', version: '4.3.13.RELEASE'
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.13.RELEASE'
     compile group: 'org.springframework', name: 'spring-beans', version: '4.3.13.RELEASE'
