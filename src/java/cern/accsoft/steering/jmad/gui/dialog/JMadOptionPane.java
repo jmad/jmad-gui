@@ -32,6 +32,7 @@ import cern.accsoft.steering.util.gui.dialog.PanelDialog;
 import javafx.scene.control.Dialog;
 import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
 import org.jmad.modelpack.gui.domain.JMadModelSelection;
+import org.jmad.modelpack.gui.domain.JMadModelSelectionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,11 +79,15 @@ public class JMadOptionPane {
 	}
 
 	public final static JMadModel showCreateModelDialog(JMadModelSelectionDialogFactory modelpackDialogFactory, JMadService jmadService) {
-		Optional<JMadModelSelection> selection = modelpackDialogFactory.showAndWaitModelSelection();
+		return showCreateModelDialog(modelpackDialogFactory, JMadModelSelectionType.ALL, jmadService);
+	}
+
+	public final static JMadModel showCreateModelDialog(JMadModelSelectionDialogFactory modelpackDialogFactory, JMadModelSelectionType selectionType, JMadService jmadService) {
+		Optional<JMadModelSelection> selection = modelpackDialogFactory.showAndWaitModelSelection(selectionType);
 
 		if (selection.isPresent()) {
 			JMadModelDefinition modelDefinition = selection.get().modelDefinition();
-			JMadModelStartupConfiguration startupConfiguration = selection.get().startupConfiguration().get();
+			JMadModelStartupConfiguration startupConfiguration = selection.get().startupConfiguration().orElse(null);
 			return createModel(jmadService, modelDefinition, startupConfiguration);
 		}
 

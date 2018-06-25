@@ -48,6 +48,7 @@ import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
 import cern.accsoft.steering.jmad.service.JMadService;
 import cern.accsoft.steering.util.gui.UserInteractor;
 import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
+import org.jmad.modelpack.gui.domain.JMadModelSelectionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
@@ -190,6 +191,10 @@ public class JMadGui extends JFrame {
         } else {
             setTitle(TITLE_BASE + model.getDescription());
         }
+    }
+
+    public JMadModel showCreateModelDefinitionOnlyDialog() {
+        return JMadOptionPane.showCreateModelDialog(jMadModelSelectionDialogFactory, JMadModelSelectionType.MODEL_DEFINITION_ONLY, jMadService);
     }
 
     public JMadModel showCreateModelDialog() {
