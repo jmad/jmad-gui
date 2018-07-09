@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 
 import cern.accsoft.steering.jmad.gui.actions.event.SaveTwissEvent;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,21 +35,10 @@ public class SaveTwissEventListener {
 
     private JMadGuiActions jmadGuiActions;
     private JMadModelManager modelManager;
-    private JMadModelManagerListener modelManagerListener = new JMadModelManagerListener() {
-
-        @Override
-        public void removedModel(JMadModel model) {
-            /* Nothing to do here */
-        }
-
+    private JMadModelManagerListener modelManagerListener = new JMadModelManagerAdapter() {
         @Override
         public void changedActiveModel(JMadModel model) {
             updateEnabled(model);
-        }
-
-        @Override
-        public void addedModel(JMadModel model) {
-            /* Nothing to do here */
         }
     };
 

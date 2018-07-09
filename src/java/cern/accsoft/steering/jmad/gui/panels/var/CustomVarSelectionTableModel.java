@@ -30,7 +30,7 @@ import cern.accsoft.steering.jmad.domain.var.TwissVariable;
 import cern.accsoft.steering.jmad.domain.var.custom.CustomVariable;
 import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
-import cern.accsoft.steering.jmad.model.manage.JMadModelManagerListener;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
 import cern.accsoft.steering.jmad.model.manage.StrengthVarManagerListener;
 
 /**
@@ -164,22 +164,13 @@ public class CustomVarSelectionTableModel extends AbstractVarSelectionTableModel
 
     public void setModelManager(JMadModelManager modelManager) {
         this.modelManager = modelManager;
-        modelManager.addListener(new JMadModelManagerListener() {
-
-            @Override
-            public void removedModel(JMadModel removedModel) {
-                /* nothing to do */
-            }
-
+        modelManager.addListener(new JMadModelManagerAdapter() {
             @Override
             public void changedActiveModel(JMadModel newActiveModel) {
+                if(newActiveModel == null) {
+                    return;
+                }
                 newActiveModel.getStrengthVarManager().addListener(strengthVarListener);
-                ;
-            }
-
-            @Override
-            public void addedModel(JMadModel newModel) {
-                /* Nothing to do */
             }
         });
     }
