@@ -63,17 +63,17 @@ repositories {
     } else {
         mavenCentral()
         maven { url "https://dl.bintray.com/jmad/jmad-repo" }
-        /* Temporaty workaround for internal CERN dependencies */
-        ivy {
-            url "http://jmad.web.cern.ch/jmad/static/ws/lib/"
-            layout "pattern", { artifact "[artifact].[ext]" }
-            metadataSources { artifact() }
-        }
+//        /* Temporaty workaround for internal CERN dependencies */
+//        ivy {
+//            url "http://jmad.web.cern.ch/jmad/static/ws/lib/"
+//            layout "pattern", { artifact "[artifact].[ext]" }
+//            metadataSources { artifact() }
+//        }
     }
 }
 
 dependencies {
-    compile group: 'cern.dm', name: 'jdataviewer', version: '1.8.3'
+//    compile group: 'cern.dm', name: 'jdataviewer', version: '1.8.3'
 
     compile group: 'jmad', name: 'jmad-modelpack-fx', version: '0.2.3'
     compile group: 'jmad', name: 'jmad-core', version: '0.2.0'
