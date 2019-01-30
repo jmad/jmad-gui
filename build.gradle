@@ -76,7 +76,7 @@ dependencies {
     compile group: 'cern.dm', name: 'jdataviewer', version: '1.8.8'
 
     compile group: 'jmad', name: 'jmad-modelpack-fx', version: '0.2.5'
-    compile group: 'jmad', name: 'jmad-core', version: '0.2.2'
+    compile group: 'jmad', name: 'jmad-core', version: '0.2.3'
     compile group: 'com.google.guava', name: 'guava', version: '19.0'
 
     compile group: 'org.springframework', name: 'spring-core', version: '4.3.13.RELEASE'
