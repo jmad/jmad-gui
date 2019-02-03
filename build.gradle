@@ -75,22 +75,22 @@ repositories {
 dependencies {
     compile group: 'cern.dm', name: 'jdataviewer', version: '1.8.8'
 
-    compile group: 'jmad', name: 'jmad-modelpack-fx', version: '0.2.5'
-    compile group: 'jmad', name: 'jmad-core', version: '0.2.3'
-    compile group: 'com.google.guava', name: 'guava', version: '19.0'
+    compile group: 'jmad', name: 'jmad-modelpack-fx', version: '0.2.5+'
+    compile group: 'jmad', name: 'jmad-core', version: '0.2.2+'
+    compile group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
 
-    compile group: 'org.springframework', name: 'spring-core', version: '4.3.13.RELEASE'
-    compile group: 'org.springframework', name: 'spring-context', version: '4.3.13.RELEASE'
-    compile group: 'org.springframework', name: 'spring-beans', version: '4.3.13.RELEASE'
-    compile group: 'org.springframework', name: 'spring-aop', version: '4.3.13.RELEASE'
-    compile group: 'org.springframework', name: 'spring-expression', version: '4.3.13.RELEASE'
+    compile group: 'org.springframework', name: 'spring-core', version: '5.1.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version: '5.1.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-beans', version: '5.1.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aop', version: '5.1.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-expression', version: '5.1.2.RELEASE'
 
-    compile group: 'io.projectreactor', name: 'reactor-core', version: '3.1.7.RELEASE'
+    compile group: 'io.projectreactor', name: 'reactor-core', version: '3.2.2.RELEASE'
     compile group: 'com.github.shadskii', name: 'reactorfx', version: '1.8.0'
 
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 
-    testCompile group: 'org.springframework', name: 'spring-test', version: '4.3.13.RELEASE'
+    testCompile group: 'org.springframework', name: 'spring-test', version: '5.1.2.RELEASE'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.1'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.testfx', name: 'testfx-core', version: '4.0.13-alpha'
