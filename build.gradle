@@ -33,10 +33,12 @@ buildscript {
             mavenCentral()
             /* Repo for gradle-bintray-plugin */
             maven { url "http://repo.spring.io/plugins-release" }
+            maven { url 'https://plugins.gradle.org/m2/' }
         }
     }
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+        classpath 'com.github.jk1:gradle-license-report:1.5'
     }
 }
 
@@ -150,5 +152,15 @@ idea {
     module {
         downloadJavadoc = true
         downloadSources = true
+    }
+}
+
+if (!project['CERN_VM']) {
+    println 'Applying licensing report'
+    apply plugin: 'com.github.jk1.dependency-license-report'
+
+    licenseReport {
+        renderers = [this.class.classLoader.loadClass('com.github.jk1.license.render.InventoryHtmlReportRenderer').newInstance()]
+        filters = [this.class.classLoader.loadClass('com.github.jk1.license.filter.LicenseBundleNormalizer').newInstance()]
     }
 }
