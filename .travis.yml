@@ -12,9 +12,9 @@ before_deploy:
   - ./gradlew generateLicenseReport
   - ./gradlew javadoc
   - mkdir projectpage
-  - cp -rv build/reports/* projectpage
-  - cp -rv build/docs/* projectpage
-  - cp -rv docs/* projectpage
+  - cp -r build/reports/* projectpage
+  - cp -r build/docs/* projectpage
+  - cp -r docs/* projectpage
 deploy:
   - provider: script
     skip_cleanup: true
