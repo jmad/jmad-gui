@@ -112,14 +112,11 @@ public class JMadOptionPane {
 	}
 
 	public final static void showExportModelDefinitionDialog(Frame frame,
-			JMadService jmadService) {
-		ModelDefinitionSelectionPanel modelSelectionPanel = new ModelDefinitionSelectionPanel(
-				false);
-		modelSelectionPanel.setJmadService(jmadService);
-		modelSelectionPanel.init();
-		if (PanelDialog.show(modelSelectionPanel, frame)) {
-			JMadModelDefinition modelDefinition = modelSelectionPanel
-					.getActiveModelDefinition();
+			JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory, JMadService jmadService) {
+		Optional<JMadModelSelection> jMadModelSelection = jMadModelSelectionDialogFactory
+				.showAndWaitModelSelection(JMadModelSelectionType.MODEL_DEFINITION_ONLY);
+		if (jMadModelSelection.isPresent()) {
+			JMadModelDefinition modelDefinition = jMadModelSelection.get().modelDefinition();
 			int returnValue = FILECHOOSER.showSaveDialog(frame);
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
 				jmadService.getModelDefinitionExporter().export(
