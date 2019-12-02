@@ -1,8 +1,8 @@
 language: java
 sudo: false
 jdk:
-  - openjdk8
-  - openjdk9
+  - oraclejdk8
+  - oraclejdk9
 before_install:
   - chmod +x ./gradlew
 script:
@@ -21,7 +21,7 @@ deploy:
     script: ./gradlew bintrayUpload -Ddeployment=true
     on:
       tags: true
-      jdk: openjdk9
+      jdk: oraclejdk9
   - provider: pages
     skip_cleanup: true
     github-token: $GITHUB_TOKEN
@@ -29,6 +29,6 @@ deploy:
     keep-history: false
     on:
       branch: master
-      jdk: openjdk9
+      jdk: oraclejdk9
 after_success:
   - bash <(curl -s https://codecov.io/bash)
