@@ -202,7 +202,7 @@ public class JMadGui extends JFrame {
     }
 
     public void showExportModelDefinitionDialog() {
-        JMadOptionPane.showExportModelDefinitionDialog(this, jMadService);
+        JMadOptionPane.showExportModelDefinitionDialog(this, jMadModelSelectionDialogFactory, jMadService);
     }
 
     public JMadModel showImportModelDefinitionDialog() {
