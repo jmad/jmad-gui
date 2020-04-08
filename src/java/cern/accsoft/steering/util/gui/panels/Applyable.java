@@ -34,10 +34,10 @@ public interface Applyable {
      * 
      * @return true, if everything is ok, false otherwise
      */
-    public boolean apply();
+    boolean apply();
 
     /**
      * undo the changes
      */
-    public void cancel();
+    void cancel();
 }
