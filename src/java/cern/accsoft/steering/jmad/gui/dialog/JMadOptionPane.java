@@ -32,91 +32,90 @@ import org.slf4j.LoggerFactory;
 /**
  * This is a collection of utility methods to show dialogs related to
  * jmad-models
- * 
+ *
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadOptionPane {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(JMadOptionPane.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(JMadOptionPane.class);
 
-	private final static JFileChooser FILECHOOSER = new JFileChooser();
-	static {
-		FILECHOOSER.addChoosableFileFilter(new FileFilter() {
-			@Override
-			public String getDescription() {
-				return "JMad Model Definition XML files";
-			}
+    private final static JFileChooser FILECHOOSER = new JFileChooser();
 
-			@Override
-			public boolean accept(File f) {
-				return ModelDefinitionUtil.isXmlFileName(f.getName());
-			}
-		});
-		FILECHOOSER.addChoosableFileFilter(new FileFilter() {
+    static {
+        FILECHOOSER.addChoosableFileFilter(new FileFilter() {
+            @Override
+            public String getDescription() {
+                return "JMad Model Definition XML files";
+            }
 
-			@Override
-			public String getDescription() {
-				return "JMad Model Definition ZIP files";
-			}
+            @Override
+            public boolean accept(File f) {
+                return ModelDefinitionUtil.isXmlFileName(f.getName());
+            }
+        });
+        FILECHOOSER.addChoosableFileFilter(new FileFilter() {
 
-			@Override
-			public boolean accept(File f) {
-				return ModelDefinitionUtil.isZipFileName(f.getName());
-			}
-		});
-		FILECHOOSER.setAcceptAllFileFilterUsed(true);
-	}
+            @Override
+            public String getDescription() {
+                return "JMad Model Definition ZIP files";
+            }
 
-	private JMadOptionPane() {
-		/* no instantiation */
-	}
+            @Override
+            public boolean accept(File f) {
+                return ModelDefinitionUtil.isZipFileName(f.getName());
+            }
+        });
+        FILECHOOSER.setAcceptAllFileFilterUsed(true);
+    }
 
-	public static JMadModel showCreateModelDialog(JMadModelSelectionDialogFactory modelpackDialogFactory, JMadService jmadService) {
-		return showCreateModelDialog(modelpackDialogFactory, JMadModelSelectionType.ALL, jmadService);
-	}
+    private JMadOptionPane() {
+        /* no instantiation */
+    }
 
-	public static JMadModel showCreateModelDialog(JMadModelSelectionDialogFactory modelpackDialogFactory, JMadModelSelectionType selectionType, JMadService jmadService) {
-		Optional<JMadModelSelection> selection = modelpackDialogFactory.showAndWaitModelSelection(selectionType);
+    public static JMadModel showCreateModelDialog(JMadModelSelectionDialogFactory modelpackDialogFactory,
+            JMadService jmadService) {
+        return showCreateModelDialog(modelpackDialogFactory, JMadModelSelectionType.ALL, jmadService);
+    }
 
-		if (selection.isPresent()) {
-			JMadModelDefinition modelDefinition = selection.get().modelDefinition();
-			JMadModelStartupConfiguration startupConfiguration = selection.get().startupConfiguration().orElse(null);
-			return jmadService.createModel(modelDefinition, startupConfiguration);
-		}
+    public static JMadModel showCreateModelDialog(JMadModelSelectionDialogFactory modelpackDialogFactory,
+            JMadModelSelectionType selectionType, JMadService jmadService) {
+        Optional<JMadModelSelection> selection = modelpackDialogFactory.showAndWaitModelSelection(selectionType);
 
-		return null;
-	}
+        if (selection.isPresent()) {
+            JMadModelDefinition modelDefinition = selection.get().modelDefinition();
+            JMadModelStartupConfiguration startupConfiguration = selection.get().startupConfiguration().orElse(null);
+            return jmadService.createModel(modelDefinition, startupConfiguration);
+        }
 
+        return null;
+    }
 
-	public static void showExportModelDefinitionDialog(Frame frame,
-			JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory, JMadService jmadService) {
-		Optional<JMadModelSelection> jMadModelSelection = jMadModelSelectionDialogFactory
-				.showAndWaitModelSelection(JMadModelSelectionType.MODEL_DEFINITION_ONLY);
-		if (jMadModelSelection.isPresent()) {
-			JMadModelDefinition modelDefinition = jMadModelSelection.get().modelDefinition();
-			int returnValue = FILECHOOSER.showSaveDialog(frame);
-			if (returnValue == JFileChooser.APPROVE_OPTION) {
-				jmadService.getModelDefinitionExporter().export(
-						modelDefinition, FILECHOOSER.getSelectedFile());
-			} else {
-				LOGGER.debug("Definition export aborted by user.");
-			}
-		} else {
-			LOGGER.debug("Definition export aborted by user.");
-		}
-	}
+    public static void showExportModelDefinitionDialog(Frame frame,
+            JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory, JMadService jmadService) {
+        Optional<JMadModelSelection> jMadModelSelection = jMadModelSelectionDialogFactory
+                .showAndWaitModelSelection(JMadModelSelectionType.MODEL_DEFINITION_ONLY);
+        if (jMadModelSelection.isPresent()) {
+            JMadModelDefinition modelDefinition = jMadModelSelection.get().modelDefinition();
+            int returnValue = FILECHOOSER.showSaveDialog(frame);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                jmadService.getModelDefinitionExporter().export(modelDefinition, FILECHOOSER.getSelectedFile());
+            } else {
+                LOGGER.debug("Definition export aborted by user.");
+            }
+        } else {
+            LOGGER.debug("Definition export aborted by user.");
+        }
+    }
 
-	public static JMadModel showImportModelDefinitionDialog(Frame frame,
-			JMadService jmadService) {
-		int returnValue = FILECHOOSER.showOpenDialog(frame);
-		if (returnValue == JFileChooser.APPROVE_OPTION) {
-			JMadModelDefinition modelDefinition = jmadService
-					.getModelDefinitionImporter().importModelDefinition(
-							FILECHOOSER.getSelectedFile());
-			return jmadService.createModel(modelDefinition, null);
-		} else {
-			LOGGER.debug("Definition import aborted by user.");
-			return null;
-		}
-	}
+    public static JMadModel showImportModelDefinitionDialog(Frame frame, JMadService jmadService) {
+        int returnValue = FILECHOOSER.showOpenDialog(frame);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            JMadModelDefinition modelDefinition = jmadService.getModelDefinitionImporter()
+                    .importModelDefinition(FILECHOOSER.getSelectedFile());
+            return jmadService.createModel(modelDefinition);
+        } else {
+            LOGGER.debug("Definition import aborted by user.");
+            return null;
+        }
+    }
 }
