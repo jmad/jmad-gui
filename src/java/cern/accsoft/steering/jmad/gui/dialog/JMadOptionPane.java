@@ -14,22 +14,15 @@ package cern.accsoft.steering.jmad.gui.dialog;
 import java.awt.Frame;
 import java.io.File;
 import java.util.Optional;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
-import javafx.application.Platform;
-
-import cern.accsoft.steering.jmad.gui.panels.ModelDefinitionSelectionPanel;
 import cern.accsoft.steering.jmad.model.JMadModel;
 import cern.accsoft.steering.jmad.model.JMadModelStartupConfiguration;
 import cern.accsoft.steering.jmad.modeldefs.domain.JMadModelDefinition;
 import cern.accsoft.steering.jmad.modeldefs.io.impl.ModelDefinitionUtil;
 import cern.accsoft.steering.jmad.service.JMadService;
-import cern.accsoft.steering.util.gui.dialog.PanelDialog;
-import javafx.scene.control.Dialog;
 import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
 import org.jmad.modelpack.gui.domain.JMadModelSelection;
 import org.jmad.modelpack.gui.domain.JMadModelSelectionType;
@@ -78,40 +71,24 @@ public class JMadOptionPane {
 		/* no instantiation */
 	}
 
-	public final static JMadModel showCreateModelDialog(JMadModelSelectionDialogFactory modelpackDialogFactory, JMadService jmadService) {
+	public static JMadModel showCreateModelDialog(JMadModelSelectionDialogFactory modelpackDialogFactory, JMadService jmadService) {
 		return showCreateModelDialog(modelpackDialogFactory, JMadModelSelectionType.ALL, jmadService);
 	}
 
-	public final static JMadModel showCreateModelDialog(JMadModelSelectionDialogFactory modelpackDialogFactory, JMadModelSelectionType selectionType, JMadService jmadService) {
+	public static JMadModel showCreateModelDialog(JMadModelSelectionDialogFactory modelpackDialogFactory, JMadModelSelectionType selectionType, JMadService jmadService) {
 		Optional<JMadModelSelection> selection = modelpackDialogFactory.showAndWaitModelSelection(selectionType);
 
 		if (selection.isPresent()) {
 			JMadModelDefinition modelDefinition = selection.get().modelDefinition();
 			JMadModelStartupConfiguration startupConfiguration = selection.get().startupConfiguration().orElse(null);
-			return createModel(jmadService, modelDefinition, startupConfiguration);
+			return jmadService.createModel(modelDefinition, startupConfiguration);
 		}
 
 		return null;
 	}
 
-	private final static JMadModel createModel(JMadService jmadService,
-			JMadModelDefinition modelDefinition,
-			JMadModelStartupConfiguration startupConfiguration) {
 
-		JMadModel model = jmadService.createModel(modelDefinition);
-		if (startupConfiguration != null) {
-			model.setStartupConfiguration(startupConfiguration);
-
-		}
-		// model.reset();
-		if (jmadService.getModelManager() != null) {
-			jmadService.getModelManager().setActiveModel(model);
-		}
-		return model;
-
-	}
-
-	public final static void showExportModelDefinitionDialog(Frame frame,
+	public static void showExportModelDefinitionDialog(Frame frame,
 			JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory, JMadService jmadService) {
 		Optional<JMadModelSelection> jMadModelSelection = jMadModelSelectionDialogFactory
 				.showAndWaitModelSelection(JMadModelSelectionType.MODEL_DEFINITION_ONLY);
@@ -129,14 +106,14 @@ public class JMadOptionPane {
 		}
 	}
 
-	public final static JMadModel showImportModelDefinitionDialog(Frame frame,
+	public static JMadModel showImportModelDefinitionDialog(Frame frame,
 			JMadService jmadService) {
 		int returnValue = FILECHOOSER.showOpenDialog(frame);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			JMadModelDefinition modelDefinition = jmadService
 					.getModelDefinitionImporter().importModelDefinition(
 							FILECHOOSER.getSelectedFile());
-			return createModel(jmadService, modelDefinition, null);
+			return jmadService.createModel(modelDefinition, null);
 		} else {
 			LOGGER.debug("Definition import aborted by user.");
 			return null;

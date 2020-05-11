@@ -2,6 +2,7 @@
 .classpath
 .project
 .gradle
+.idea
 bin
 out
 build
