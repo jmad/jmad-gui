@@ -22,15 +22,24 @@
 
 package cern.accsoft.steering.jmad.gui;
 
+import static java.util.Objects.requireNonNull;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.domain.machine.Range;
 import cern.accsoft.steering.jmad.gui.actions.event.ChooseOpticsEvent;
 import cern.accsoft.steering.jmad.gui.actions.event.ChooseRangeEvent;
 import cern.accsoft.steering.jmad.gui.actions.event.CloseActiveModelEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.CreateModelFromFileEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.CreateModelFromRepositoryEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.CreateModelFromUriEvent;
 import cern.accsoft.steering.jmad.gui.actions.event.ExitEvent;
 import cern.accsoft.steering.jmad.gui.actions.event.ExportModelEvent;
-import cern.accsoft.steering.jmad.gui.actions.event.ImportModelEvent;
-import cern.accsoft.steering.jmad.gui.actions.event.NewModelEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.ExportModelUriEvent;
 import cern.accsoft.steering.jmad.gui.actions.event.ShowAboutBoxEvent;
 import cern.accsoft.steering.jmad.gui.dialog.AboutDialog;
 import cern.accsoft.steering.jmad.gui.dialog.JMadOptionPane;
@@ -48,34 +57,22 @@ import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
 import cern.accsoft.steering.jmad.service.JMadService;
 import cern.accsoft.steering.util.gui.UserInteractor;
 import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
-import org.jmad.modelpack.gui.domain.JMadModelSelectionType;
+import org.jmad.modelpack.service.JMadModelPackageService;
+import org.jmad.modelpack.util.ModelUris;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import static java.util.Objects.requireNonNull;
-
 /**
  * this class represents the main frame for the jmad-gui standalone application
- * 
+ *
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadGui extends JFrame {
-    private static final long serialVersionUID = -8292677890152652172L;
+    private static final long serialVersionUID = 1L;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JMadGui.class);
-    private final static String TITLE_BASE = "jmad ";
+    private static final String TITLE_BASE = "JMad ";
     private static final int DEFAULT_WIDTH = 1024;
     private static final int DEFAULT_HEIGHT = 768;
 
@@ -83,12 +80,13 @@ public class JMadGui extends JFrame {
     private AsyncExecutor asyncExecutor;
     private JMadService jMadService;
     private JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory;
+    private JMadModelPackageService jMadModelPackageService;
     private JMadModelManager modelManager;
     private UserInteractor userInteractor;
     private RangeSelectionPanel rangeSelectionPanel;
     private ModelOpticsSelectionPanel modelOpticsSelectionPanel;
     private JPanel mainPanel;
-    private JMenuBar menuBar;
+    private JMenuBar jmadMenuBar;
     private JToolBar toolBar;
     private GuiLogPanel guiLogPanel;
 
@@ -100,22 +98,16 @@ public class JMadGui extends JFrame {
         setIconImage(Icon.JMAD.getImageIcon().getImage());
         setContentPane(mainPanel);
 
-        if (menuBar != null) {
-            setJMenuBar(menuBar);
+        if (jmadMenuBar != null) {
+            setJMenuBar(jmadMenuBar);
         }
         if (toolBar != null) {
             add(toolBar, BorderLayout.PAGE_START);
         }
 
-        if(guiLogPanel != null) {
+        if (guiLogPanel != null) {
             add(guiLogPanel, BorderLayout.PAGE_END);
         }
-
-        /* This is still important for the aloha GUI.. to be done */
-//        for (String key : getExtraConsoleTabs().keySet()) {
-//            JComponent component = getExtraConsoleTabs().get(key);
-//            frame.getConsoleTabbedPane().addTab(key, component);
-//        }
 
         setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
     }
@@ -193,58 +185,88 @@ public class JMadGui extends JFrame {
         }
     }
 
-    public JMadModel showCreateModelDefinitionOnlyDialog() {
-        return JMadOptionPane.showCreateModelDialog(jMadModelSelectionDialogFactory, JMadModelSelectionType.MODEL_DEFINITION_ONLY, jMadService);
+    private void showExportModelDefinitionDialog() {
+        JMadModel model = modelManager.getActiveModel();
+        if (model == null) {
+            LOGGER.warn("No active model to export!");
+            return;
+        }
+        JMadOptionPane.showExportModelDefinitionDialog(this, model.getModelDefinition(), jMadService);
     }
 
-    public JMadModel showCreateModelDialog() {
-        return JMadOptionPane.showCreateModelDialog(jMadModelSelectionDialogFactory, jMadService);
-    }
-
-    public void showExportModelDefinitionDialog() {
-        JMadOptionPane.showExportModelDefinitionDialog(this, jMadModelSelectionDialogFactory, jMadService);
-    }
-
-    public JMadModel showImportModelDefinitionDialog() {
-        return JMadOptionPane.showImportModelDefinitionDialog(this, jMadService);
-    }
-
-    public void showRangeDefinitionChooseDialog() {
-        userInteractor.showPanelDialog(rangeSelectionPanel, this);
-    }
-
-    public void showOpticsDefinitionChooseDialog() {
-        userInteractor.showPanelDialog(modelOpticsSelectionPanel, this);
-    }
-
-    public void showCreateNewModelDialog() {
-        final JMadModel model = showCreateModelDialog();
-        if (model != null) {
-            asyncExecutor.submitAsync("Initializing model '" + model.getName() + "'", () -> {
-                LOGGER.info("Starting Initialization of model '" + model.getName() + "'");
-                try {
-                    model.reset();
-                    LOGGER.info("Initialization of model '" + model.getName() + "' finished.");
-                } catch (JMadModelException e) {
-                    LOGGER.error("Error while initializing Model '" + model.getName() + "'.", e);
-                }
-            });
+    private void showExportModelUriDialog() {
+        JMadModel model = modelManager.getActiveModel();
+        if (model == null) {
+            LOGGER.warn("No active model to export!");
+            return;
+        }
+        try {
+            String modelUri = ModelUris.modelUri(model).toASCIIString();
+            LOGGER.info("Model URI: {}", modelUri);
+            JOptionPane.showMessageDialog(this, new JTextField(modelUri));
+        } catch (Exception e) {
+            LOGGER.error("Error getting model URI: {}", e.getMessage(), e);
         }
     }
 
-    @EventListener(NewModelEvent.class)
-    public void createNewModelEventListener() {
-        SwingUtilities.invokeLater(this::showCreateNewModelDialog);
+    private void showRangeDefinitionChooseDialog() {
+        userInteractor.showPanelDialog(rangeSelectionPanel, this);
     }
 
-    @EventListener(ImportModelEvent.class)
-    public void importModelEventListener() {
-        SwingUtilities.invokeLater(this::showImportModelDefinitionDialog);
+    private void showOpticsDefinitionChooseDialog() {
+        userInteractor.showPanelDialog(modelOpticsSelectionPanel, this);
+    }
+
+    private void showCreateModelFromRepositoryDialog() {
+        initializeModel(JMadOptionPane.showCreateModelDialog(jMadModelSelectionDialogFactory, jMadService));
+    }
+
+    private void showCreateModelFromFileDialog() {
+        initializeModel(JMadOptionPane.showCreateModelFromFileDialog(this, jMadService));
+    }
+
+    private void showCreateModelFromUriDialog() {
+        initializeModel(JMadOptionPane.showCreateModelFromUriDialog(this, jMadModelPackageService));
+    }
+
+    private void initializeModel(JMadModel model) {
+        if (model == null) {
+            return;
+        }
+        asyncExecutor.submitAsync("Initializing model '" + model.getName() + "'", () -> {
+            LOGGER.info("Starting Initialization of model '{}'", model.getName());
+            try {
+                model.reset();
+                LOGGER.info("Initialization of model '{}' finished.", model.getName());
+            } catch (JMadModelException e) {
+                LOGGER.error("Error while initializing Model '{}'.", model.getName(), e);
+            }
+        });
+    }
+
+    @EventListener(CreateModelFromRepositoryEvent.class)
+    public void createModelFromRepositoryEventListener() {
+        SwingUtilities.invokeLater(this::showCreateModelFromRepositoryDialog);
+    }
+
+    @EventListener(CreateModelFromUriEvent.class)
+    public void createModelFromUriEventListener() {
+        SwingUtilities.invokeLater(this::showCreateModelFromUriDialog);
+    }
+
+    @EventListener(CreateModelFromFileEvent.class)
+    public void createModelFromFileEventListener() {
+        SwingUtilities.invokeLater(this::showCreateModelFromFileDialog);
     }
 
     @EventListener(ExportModelEvent.class)
     public void exportModelEventListener() {
         SwingUtilities.invokeLater(this::showExportModelDefinitionDialog);
+    }
+
+    @EventListener(ExportModelUriEvent.class)
+    public void exportModelUriEventListener() {
+        SwingUtilities.invokeLater(this::showExportModelUriDialog);
     }
 
     @EventListener(CloseActiveModelEvent.class)
@@ -298,7 +320,7 @@ public class JMadGui extends JFrame {
         AboutDialog aboutDialog = new AboutDialog(this);
         aboutDialog.setIcon(Icon.SPLASH.getImageIcon());
         aboutDialog.setText("JMad GUI", "cern-accsoft-steering-jmad-gui",
-                "(C) Copyright CERN 2008-2010  Kajetan Fuchsberger AB-OP-SPS");
+                "(C) Copyright CERN 2008-2020  Kajetan Fuchsberger and the BE-OP-LHC software team.");
         aboutDialog.show();
     }
 
@@ -320,6 +342,10 @@ public class JMadGui extends JFrame {
 
     public void setJMadModelSelectionDialogFactory(JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory) {
         this.jMadModelSelectionDialogFactory = jMadModelSelectionDialogFactory;
+    }
+
+    public void setjMadModelPackageService(JMadModelPackageService jMadModelPackageService) {
+        this.jMadModelPackageService = jMadModelPackageService;
     }
 
     public void setModelManager(JMadModelManager modelManager) {
@@ -346,7 +372,7 @@ public class JMadGui extends JFrame {
     }
 
     public void setJMadMenuBar(JMenuBar menuBar) {
-        this.menuBar = menuBar;
+        this.jmadMenuBar = menuBar;
     }
 
     public void setJMadToolBar(JToolBar toolBar) {

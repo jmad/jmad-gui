@@ -1,10 +1,10 @@
 package cern.accsoft.steering.jmad.gui;
 
+import javax.swing.*;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.RootLogger;
-
-import javax.swing.UIManager;
 
 /**
  * Entry point for JMad as stand alone application
@@ -14,9 +14,6 @@ public class JMadMain {
     public static void main(String[] args) {
         configureLogger();
         setupLookAndFeel();
-
-        /* Workaround. With this version of accsoft-gui-frame, the splashscreen will never go away... */
-        // JMad.getJMadGuiSplashScreen();
         JMad.createStandaloneJMad().getJMadGui().showGui();
     }
 
