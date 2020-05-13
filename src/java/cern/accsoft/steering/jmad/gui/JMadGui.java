@@ -46,7 +46,6 @@ import cern.accsoft.steering.jmad.gui.dialog.JMadOptionPane;
 import cern.accsoft.steering.jmad.gui.executor.AsyncExecutor;
 import cern.accsoft.steering.jmad.gui.icons.Icon;
 import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
-import cern.accsoft.steering.jmad.gui.manage.impl.JMadGuiPreferencesImpl;
 import cern.accsoft.steering.jmad.gui.panels.GuiLogPanel;
 import cern.accsoft.steering.jmad.gui.panels.ModelOpticsSelectionPanel;
 import cern.accsoft.steering.jmad.gui.panels.RangeSelectionPanel;
@@ -76,7 +75,7 @@ public class JMadGui extends JFrame {
     private static final int DEFAULT_WIDTH = 1024;
     private static final int DEFAULT_HEIGHT = 768;
 
-    private final JMadGuiPreferences jmadGuiPreferences = new JMadGuiPreferencesImpl();
+    private final JMadGuiPreferences jmadGuiPreferences;
     private AsyncExecutor asyncExecutor;
     private JMadService jMadService;
     private JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory;
@@ -89,6 +88,10 @@ public class JMadGui extends JFrame {
     private JMenuBar jmadMenuBar;
     private JToolBar toolBar;
     private GuiLogPanel guiLogPanel;
+
+    public JMadGui(JMadGuiPreferences jmadGuiPreferences) {
+        this.jmadGuiPreferences = jmadGuiPreferences;
+    }
 
     public final void init() {
         requireNonNull(mainPanel, "mainPanel cannot be null. Configuration problem");
@@ -276,7 +279,11 @@ public class JMadGui extends JFrame {
 
     @EventListener(ExitEvent.class)
     public void exitEventListener() {
-        SwingUtilities.invokeLater(this::exitJMad);
+        if (jmadGuiPreferences.isExitOnClose()) {
+            SwingUtilities.invokeLater(this::exitJMad);
+        } else {
+            SwingUtilities.invokeLater(() -> setVisible(false));
+        }
     }
 
     @EventListener(ChooseRangeEvent.class)
@@ -386,4 +393,5 @@ public class JMadGui extends JFrame {
     public void setAsyncExecutor(AsyncExecutor asyncExecutor) {
         this.asyncExecutor = asyncExecutor;
     }
+
 }

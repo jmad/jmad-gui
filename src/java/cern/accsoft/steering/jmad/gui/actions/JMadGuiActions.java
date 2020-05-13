@@ -1,6 +1,7 @@
 package cern.accsoft.steering.jmad.gui.actions;
 
 import static cern.accsoft.steering.jmad.gui.icons.Icon.SAVE;
+import static javax.swing.SwingUtilities.invokeLater;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ import cern.accsoft.steering.jmad.gui.actions.event.ExportModelUriEvent;
 import cern.accsoft.steering.jmad.gui.actions.event.SaveTwissEvent;
 import cern.accsoft.steering.jmad.gui.actions.event.ShowAboutBoxEvent;
 import cern.accsoft.steering.jmad.gui.icons.Icon;
+import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
 import cern.accsoft.steering.util.gui.NamedAction;
 import org.springframework.context.ApplicationEventPublisher;
 
@@ -24,7 +26,7 @@ public final class JMadGuiActions {
 
     private final ApplicationEventPublisher publisher;
 
-    private Action createModelAction = new NamedAction("Create Model ...", "Creates a new model ...") {
+    private final Action createModelAction = new NamedAction("Create Model ...", "Creates a new model ...") {
         private static final long serialVersionUID = 1L;
 
         {
@@ -46,7 +48,7 @@ public final class JMadGuiActions {
 
     };
 
-    private Action createModelFromRepositoryAction = new NamedAction("Create Model from Repository",
+    private final Action createModelFromRepositoryAction = new NamedAction("Create Model from Repository",
             "Creates a new model from the repository.") {
         private static final long serialVersionUID = 1L;
 
@@ -61,7 +63,7 @@ public final class JMadGuiActions {
 
     };
 
-    private Action createModelFromFileAction = new NamedAction("Create Model from ZIP File",
+    private final Action createModelFromFileAction = new NamedAction("Create Model from ZIP File",
             "Creates a new model from an local ZIP file.") {
         private static final long serialVersionUID = 1L;
 
@@ -75,7 +77,7 @@ public final class JMadGuiActions {
         }
     };
 
-    private Action createModelFromUriAction = new NamedAction("Create Model from URI",
+    private final Action createModelFromUriAction = new NamedAction("Create Model from URI",
             "Creates a new model from a URI.") {
         private static final long serialVersionUID = 1L;
 
@@ -89,7 +91,7 @@ public final class JMadGuiActions {
         }
     };
 
-    private Action exportModelAction = new NamedAction("Export model definition",
+    private final Action exportModelAction = new NamedAction("Export model definition",
             "Saves the active model definition to a file.") {
         private static final long serialVersionUID = 1L;
 
@@ -103,7 +105,7 @@ public final class JMadGuiActions {
         }
     };
 
-    private Action exportModelUriAction = new NamedAction("Get the active model URI",
+    private final Action exportModelUriAction = new NamedAction("Get the active model URI",
             "Gets an URI of the active model.") {
         private static final long serialVersionUID = 1L;
 
@@ -117,7 +119,7 @@ public final class JMadGuiActions {
         }
     };
 
-    private Action closeActiveModelAction = new NamedAction("Close active model", "Closes the active model") {
+    private final Action closeActiveModelAction = new NamedAction("Close active model", "Closes the active model") {
         private static final long serialVersionUID = 1L;
 
         {
@@ -130,7 +132,7 @@ public final class JMadGuiActions {
         }
     };
 
-    private Action exitAction = new AbstractAction("Exit", Icon.EXIT.getImageIcon()) {
+    private final Action exitAction = new AbstractAction("Exit", Icon.EXIT.getImageIcon()) {
         private static final long serialVersionUID = 1L;
 
         {
@@ -143,7 +145,7 @@ public final class JMadGuiActions {
         }
     };
 
-    private Action chooseRangeAction = new NamedAction("select range",
+    private final Action chooseRangeAction = new NamedAction("select range",
             "Select one of the possible ranges of the model.") {
         private static final long serialVersionUID = 1L;
 
@@ -153,7 +155,8 @@ public final class JMadGuiActions {
         }
     };
 
-    private Action chooseOpticsAction = new NamedAction("select optics", "Select optics definition of the model.") {
+    private final Action chooseOpticsAction = new NamedAction("select optics",
+            "Select optics definition of the model.") {
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -162,7 +165,7 @@ public final class JMadGuiActions {
         }
     };
 
-    private Action saveTwissAction = new NamedAction("Save Twiss", "Saves the actual twiss to a file.") {
+    private final Action saveTwissAction = new NamedAction("Save Twiss", "Saves the actual twiss to a file.") {
         {
             putValue(SMALL_ICON, SAVE.getImageIcon());
         }
@@ -173,7 +176,7 @@ public final class JMadGuiActions {
         }
     };
 
-    private Action showAboutBoxAction = new AbstractAction("About") {
+    private final Action showAboutBoxAction = new AbstractAction("About") {
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -182,8 +185,20 @@ public final class JMadGuiActions {
         }
     };
 
-    public JMadGuiActions(ApplicationEventPublisher publisher) {
+    public JMadGuiActions(ApplicationEventPublisher publisher, JMadGuiPreferences guiPreferences) {
         this.publisher = publisher;
+        guiPreferences.enabledChangeModelProperty().addListener((obs, old, enable) -> invokeLater(() -> {
+            createModelAction.setEnabled(enable);
+            createModelFromFileAction.setEnabled(enable);
+            createModelFromRepositoryAction.setEnabled(enable);
+            createModelFromUriAction.setEnabled(enable);
+            closeActiveModelAction.setEnabled(enable);
+        }));
+        guiPreferences.enabledChangeOpticProperty().addListener((obs, old, enable) -> invokeLater(() -> //
+                chooseOpticsAction.setEnabled(enable)));
+        guiPreferences.enabledChangeRangeProperty().addListener((obs, old, enable) -> invokeLater(() -> //
+
+                chooseRangeAction.setEnabled(enable)));
     }
 
     public Action getCreateModelAction() {

@@ -223,6 +223,7 @@
 	</bean>
 
 	<!-- the gui -->
+	<bean id="jmadGuiPreferences" class="cern.accsoft.steering.jmad.gui.manage.impl.JMadGuiPreferencesImpl" />
 	<!--<bean id="splashScreen" class="cern.accsoft.steering.jmad.gui.manage.SplashFactory" factory-method="getSplashScreen" />-->
 	<bean id="jmadToolBar" factory-bean="jmadMenuFactory" factory-method="createToolBar" />
 	<bean id="jmadMenuBar" factory-bean="jmadMenuFactory" factory-method="createMenuBar" />
