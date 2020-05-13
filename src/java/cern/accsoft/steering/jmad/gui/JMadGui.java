@@ -320,7 +320,7 @@ public class JMadGui extends JFrame {
         AboutDialog aboutDialog = new AboutDialog(this);
         aboutDialog.setIcon(Icon.SPLASH.getImageIcon());
         aboutDialog.setText("JMad GUI", "cern-accsoft-steering-jmad-gui",
-                "(C) Copyright CERN 2008-2020  Kajetan Fuchsberger and the BE-OP-LHC software team.");
+                "(C) Copyright CERN 2008-2020  Kajetan Fuchsberger<br>and the BE-OP-LHC software team.");
         aboutDialog.show();
     }
 
