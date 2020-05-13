@@ -1,5 +1,5 @@
 package cern.accsoft.steering.jmad.gui.actions.event;
 
-public final class ImportModelEvent {
+public final class CreateModelFromFileEvent {
     /* Marker class */
 }

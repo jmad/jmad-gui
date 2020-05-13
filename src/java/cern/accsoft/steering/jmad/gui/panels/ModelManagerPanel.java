@@ -22,22 +22,14 @@
 
 package cern.accsoft.steering.jmad.gui.panels;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
 
 import cern.accsoft.steering.jmad.gui.actions.JMadGuiActions;
 import cern.accsoft.steering.jmad.model.JMadModel;
@@ -167,7 +159,7 @@ public class ModelManagerPanel extends JPanel {
         constraints.gridx = 0;
         constraints.gridy = 0;
 
-        JButton newModelBtn = new JButton(jmadGuiActions.getNewModelAction());
+        JButton newModelBtn = new JButton(jmadGuiActions.getCreateModelAction());
         newModelBtn.setText(null);
         buttonPanel.add(newModelBtn, constraints);
 

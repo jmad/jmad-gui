@@ -22,14 +22,11 @@
 
 package cern.accsoft.steering.jmad.gui.menu;
 
-import cern.accsoft.steering.jmad.gui.actions.JMadGuiActions;
-
-import javax.swing.Action;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JToolBar;
+import javax.swing.*;
 import java.util.Collections;
 import java.util.List;
+
+import cern.accsoft.steering.jmad.gui.actions.JMadGuiActions;
 
 /**
  * This class creates the actual instances of the toolbar and the menuBar for JMad.
@@ -43,11 +40,13 @@ public class JMadMenuFactoryImpl implements JMadMenuFactory {
     @Override
     public JToolBar createToolBar() {
         JToolBar toolBar = new JToolBar();
-        toolBar.add(jmadGuiActions.getNewModelAction());
-        toolBar.add(jmadGuiActions.getCloseActiveModelAction());
+        toolBar.add(jmadGuiActions.getCreateModelFromRepositoryAction());
+        toolBar.add(jmadGuiActions.getCreateModelFromUriAction());
+        toolBar.add(jmadGuiActions.getCreateModelFromFileAction());
         toolBar.addSeparator();
-        toolBar.add(jmadGuiActions.getImportModelAction());
+        toolBar.add(jmadGuiActions.getExportModelUriAction());
         toolBar.add(jmadGuiActions.getExportModelAction());
+        toolBar.add(jmadGuiActions.getCloseActiveModelAction());
         toolBar.addSeparator();
         toolBar.add(jmadGuiActions.getChooseRangeAction());
         toolBar.add(jmadGuiActions.getChooseOpticsAction());
@@ -64,11 +63,13 @@ public class JMadMenuFactoryImpl implements JMadMenuFactory {
         JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
 
-        fileMenu.add(jmadGuiActions.getNewModelAction());
-        fileMenu.add(jmadGuiActions.getCloseActiveModelAction());
+        fileMenu.add(jmadGuiActions.getCreateModelFromRepositoryAction());
+        fileMenu.add(jmadGuiActions.getCreateModelFromUriAction());
+        fileMenu.add(jmadGuiActions.getCreateModelFromFileAction());
         fileMenu.addSeparator();
-        fileMenu.add(jmadGuiActions.getImportModelAction());
+        fileMenu.add(jmadGuiActions.getExportModelUriAction());
         fileMenu.add(jmadGuiActions.getExportModelAction());
+        fileMenu.add(jmadGuiActions.getCloseActiveModelAction());
         fileMenu.addSeparator();
         fileMenu.add(jmadGuiActions.getExitAction());
 
