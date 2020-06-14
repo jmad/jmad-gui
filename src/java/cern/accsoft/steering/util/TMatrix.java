@@ -33,9 +33,9 @@ public class TMatrix<T> {
     public TMatrix(int rows, int columns, T initValue) {
         this.rows = rows;
         this.columns = columns;
-        matrix = new ArrayList<ArrayList<T>>();
+        matrix = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
-            ArrayList<T> rowContent = new ArrayList<T>();
+            ArrayList<T> rowContent = new ArrayList<>();
             for (int j = 0; j < columns; j++) {
                 rowContent.add(initValue);
             }
