@@ -64,7 +64,7 @@ task sourcesJar(type: Jar) {
 
 
 task javadocJar(type: Jar) {
-    from sourceSets.main.allJava
+    from javadoc
     archiveClassifier = "javadoc"
 }
 
