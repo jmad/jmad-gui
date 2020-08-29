@@ -23,6 +23,7 @@
 package cern.accsoft.steering.jmad.gui;
 
 import static java.util.Objects.requireNonNull;
+import static javax.swing.SwingUtilities.invokeLater;
 
 import javax.swing.*;
 import java.awt.*;
@@ -122,14 +123,14 @@ public class JMadGui extends JFrame {
     }
 
     public void showGui() {
-        SwingUtilities.invokeLater(() -> {
+        invokeLater(() -> {
             pack();
             setVisible(true);
         });
     }
 
     private void setupFramePreferences() {
-        jmadGuiPreferences.exitOnCloseProperty().addListener((obs, oldVal, close) -> setFrameCloseOperation(close));
+        jmadGuiPreferences.exitOnCloseProperty().subscribe(close -> invokeLater(() -> setFrameCloseOperation(close)));
         setFrameCloseOperation(jmadGuiPreferences.isExitOnClose());
 
         addWindowListener(new WindowAdapter() {
@@ -249,56 +250,56 @@ public class JMadGui extends JFrame {
 
     @EventListener(CreateModelFromRepositoryEvent.class)
     public void createModelFromRepositoryEventListener() {
-        SwingUtilities.invokeLater(this::showCreateModelFromRepositoryDialog);
+        invokeLater(this::showCreateModelFromRepositoryDialog);
     }
 
     @EventListener(CreateModelFromUriEvent.class)
     public void createModelFromUriEventListener() {
-        SwingUtilities.invokeLater(this::showCreateModelFromUriDialog);
+        invokeLater(this::showCreateModelFromUriDialog);
     }
 
     @EventListener(CreateModelFromFileEvent.class)
     public void createModelFromFileEventListener() {
-        SwingUtilities.invokeLater(this::showCreateModelFromFileDialog);
+        invokeLater(this::showCreateModelFromFileDialog);
     }
 
     @EventListener(ExportModelEvent.class)
     public void exportModelEventListener() {
-        SwingUtilities.invokeLater(this::showExportModelDefinitionDialog);
+        invokeLater(this::showExportModelDefinitionDialog);
     }
 
     @EventListener(ExportModelUriEvent.class)
     public void exportModelUriEventListener() {
-        SwingUtilities.invokeLater(this::showExportModelUriDialog);
+        invokeLater(this::showExportModelUriDialog);
     }
 
     @EventListener(CloseActiveModelEvent.class)
     public void closeActiveModelEventListener() {
-        SwingUtilities.invokeLater(this::closeActiveModel);
+        invokeLater(this::closeActiveModel);
     }
 
     @EventListener(ExitEvent.class)
     public void exitEventListener() {
         if (jmadGuiPreferences.isExitOnClose()) {
-            SwingUtilities.invokeLater(this::exitJMad);
+            invokeLater(this::exitJMad);
         } else {
-            SwingUtilities.invokeLater(() -> setVisible(false));
+            invokeLater(() -> setVisible(false));
         }
     }
 
     @EventListener(ChooseRangeEvent.class)
     public void chooseRangeEventListener() {
-        SwingUtilities.invokeLater(this::showRangeDefinitionChooseDialog);
+        invokeLater(this::showRangeDefinitionChooseDialog);
     }
 
     @EventListener(ChooseOpticsEvent.class)
     public void chooseOpticsEventListener() {
-        SwingUtilities.invokeLater(this::showOpticsDefinitionChooseDialog);
+        invokeLater(this::showOpticsDefinitionChooseDialog);
     }
 
     @EventListener(ShowAboutBoxEvent.class)
     public void showAboutInfoEventListener() {
-        SwingUtilities.invokeLater(this::showAboutBox);
+        invokeLater(this::showAboutBox);
     }
 
     private void setFrameCloseOperation(boolean close) {

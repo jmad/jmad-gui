@@ -22,7 +22,7 @@
 
 package cern.accsoft.steering.jmad.gui.manage;
 
-import javafx.beans.property.BooleanProperty;
+import org.ossgang.commons.properties.Property;
 
 public interface JMadGuiPreferences {
 
@@ -30,37 +30,37 @@ public interface JMadGuiPreferences {
 
     void setEnabledChangeModel(boolean enabledChangeModel);
 
-    BooleanProperty enabledChangeModelProperty();
+    Property<Boolean> enabledChangeModelProperty();
 
     boolean isEnabledChangeRange();
 
     void setEnabledChangeRange(boolean enabledChangeRange);
 
-    BooleanProperty enabledChangeRangeProperty();
+    Property<Boolean> enabledChangeRangeProperty();
 
     boolean isEnabledChangeOptic();
 
     void setEnabledChangeOptic(boolean enabledChangeOptic);
 
-    BooleanProperty enabledChangeOpticProperty();
+    Property<Boolean> enabledChangeOpticProperty();
 
     void setCleanupOnClose(boolean cleanupOnClose);
 
     boolean isCleanupOnClose();
 
-    BooleanProperty cleanupOnCloseProperty();
+    Property<Boolean> cleanupOnCloseProperty();
 
     void setExitOnClose(boolean exitOnClose);
 
     boolean isExitOnClose();
 
-    BooleanProperty exitOnCloseProperty();
+    Property<Boolean> exitOnCloseProperty();
 
     boolean isMainFrame();
 
     void setMainFrame(boolean mainFrame);
 
-    BooleanProperty useMainFrameProperty();
+    Property<Boolean> useMainFrameProperty();
 
     String getWorkingDir();
 

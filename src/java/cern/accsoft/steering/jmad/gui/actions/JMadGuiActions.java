@@ -187,18 +187,17 @@ public final class JMadGuiActions {
 
     public JMadGuiActions(ApplicationEventPublisher publisher, JMadGuiPreferences guiPreferences) {
         this.publisher = publisher;
-        guiPreferences.enabledChangeModelProperty().addListener((obs, old, enable) -> invokeLater(() -> {
+        guiPreferences.enabledChangeModelProperty().subscribe(enable -> invokeLater(() -> {
             createModelAction.setEnabled(enable);
             createModelFromFileAction.setEnabled(enable);
             createModelFromRepositoryAction.setEnabled(enable);
             createModelFromUriAction.setEnabled(enable);
             closeActiveModelAction.setEnabled(enable);
         }));
-        guiPreferences.enabledChangeOpticProperty().addListener((obs, old, enable) -> invokeLater(() -> //
-                chooseOpticsAction.setEnabled(enable)));
-        guiPreferences.enabledChangeRangeProperty().addListener((obs, old, enable) -> invokeLater(() -> //
-
-                chooseRangeAction.setEnabled(enable)));
+        guiPreferences.enabledChangeOpticProperty().subscribe( //
+                enable -> invokeLater(() -> chooseOpticsAction.setEnabled(enable)));
+        guiPreferences.enabledChangeRangeProperty().subscribe( //
+                enable -> invokeLater(() -> chooseRangeAction.setEnabled(enable)));
     }
 
     public Action getCreateModelAction() {

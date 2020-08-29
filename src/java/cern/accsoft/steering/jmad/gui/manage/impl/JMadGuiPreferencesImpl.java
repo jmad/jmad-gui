@@ -22,112 +22,126 @@
 
 package cern.accsoft.steering.jmad.gui.manage.impl;
 
+import static org.ossgang.commons.properties.Properties.property;
+
 import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import org.ossgang.commons.properties.Property;
 
 /**
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class JMadGuiPreferencesImpl implements JMadGuiPreferences {
-
     /**
      * The name of the system-property for the working dir.
      */
     private final static String PROP_WORKDIR_PATH = "cern.jmad.gui.workdir.path";
-    /** the default value for the workingdir when property is not set. */
+    /**
+     * the default value for the workingdir when property is not set.
+     */
     private final static String DEFAULT_WORKDIR_PATH = ".";
 
     /**
      * The name of the property for the edit-command
      */
     private final static String PROP_EDIT_COMMAND = "cern.jmad.gui.edit.cmd";
+
     /**
-     * the default value for the edit-command when property is not set. TODO some solution needed that works for both
-     * windows and linux!?
+     * the default value for the edit-command when property is not set.
      */
     private final static String DEFAULT_EDIT_COMMAND = "nedit";
 
-    /** true, if the change of the model is allowed */
-    private BooleanProperty enabledChangeModel = new SimpleBooleanProperty(true);
+    /**
+     * true, if the change of the model is allowed
+     */
+    private final Property<Boolean> enabledChangeModel = property(true);
 
-    /** true, if the change of the range is allowed */
-    private BooleanProperty enabledChangeRange = new SimpleBooleanProperty(true);
+    /**
+     * true, if the change of the range is allowed
+     */
+    private final Property<Boolean> enabledChangeRange = property(true);
 
-    /** true, if the change of the optic is allowed */
-    private BooleanProperty enabledChangeOptic = new SimpleBooleanProperty(true);
+    /**
+     * true, if the change of the optic is allowed
+     */
+    private final Property<Boolean> enabledChangeOptic = property(true);
 
-    /** true, if the model should be cleaned up on close. */
-    private BooleanProperty cleanupOnClose = new SimpleBooleanProperty(true);
+    /**
+     * true, if the model should be cleaned up on close.
+     */
+    private final Property<Boolean> cleanupOnClose = property(true);
 
-    /** true, if the program should exit, when window is closed. */
-    private BooleanProperty exitOnClose = new SimpleBooleanProperty(true);
+    /**
+     * true, if the program should exit, when window is closed.
+     */
+    private final Property<Boolean> exitOnClose = property(true);
 
-    /** Open JMad frame as main-frame */
-    private BooleanProperty mainFrame = new SimpleBooleanProperty(true);
+    /**
+     * Open JMad frame as main-frame
+     */
+    private final Property<Boolean> mainFrame = property(true);
 
     public boolean isEnabledChangeModel() {
-        return enabledChangeModel.getValue();
+        return enabledChangeModel.get();
     }
 
     public void setEnabledChangeModel(boolean enabledChangeModel) {
-        this.enabledChangeModel.setValue(enabledChangeModel);
+        this.enabledChangeModel.set(enabledChangeModel);
     }
 
     @Override
-    public BooleanProperty enabledChangeModelProperty() {
+    public Property<Boolean> enabledChangeModelProperty() {
         return enabledChangeModel;
     }
 
     public boolean isEnabledChangeRange() {
-        return enabledChangeRange.getValue();
+        return enabledChangeRange.get();
     }
 
     public void setEnabledChangeRange(boolean enabledChangeRange) {
-        this.enabledChangeRange.setValue(enabledChangeRange);
+        this.enabledChangeRange.set(enabledChangeRange);
     }
 
     @Override
-    public BooleanProperty enabledChangeRangeProperty() {
+    public Property<Boolean> enabledChangeRangeProperty() {
         return enabledChangeRange;
     }
 
     public boolean isEnabledChangeOptic() {
-        return enabledChangeOptic.getValue();
+        return enabledChangeOptic.get();
     }
 
     public void setEnabledChangeOptic(boolean enabledChangeOptic) {
-        this.enabledChangeOptic.setValue(enabledChangeOptic);
+        this.enabledChangeOptic.set(enabledChangeOptic);
     }
 
     @Override
-    public BooleanProperty enabledChangeOpticProperty() {
+    public Property<Boolean> enabledChangeOpticProperty() {
         return enabledChangeOptic;
     }
 
     public void setCleanupOnClose(boolean cleanupOnClose) {
-        this.cleanupOnClose.setValue(cleanupOnClose);
+        this.cleanupOnClose.set(cleanupOnClose);
     }
 
     public boolean isCleanupOnClose() {
-        return cleanupOnClose.getValue();
+        return cleanupOnClose.get();
     }
 
     @Override
-    public BooleanProperty cleanupOnCloseProperty() {
+    public Property<Boolean> cleanupOnCloseProperty() {
         return cleanupOnClose;
     }
 
     public void setExitOnClose(boolean exitOnClose) {
-        this.exitOnClose.setValue(exitOnClose);
+        this.exitOnClose.set(exitOnClose);
     }
 
     public boolean isExitOnClose() {
-        return exitOnClose.getValue();
+        return exitOnClose.get();
     }
 
     @Override
-    public BooleanProperty exitOnCloseProperty() {
+    public Property<Boolean> exitOnCloseProperty() {
         return exitOnClose;
     }
 
@@ -151,17 +165,16 @@ public class JMadGuiPreferencesImpl implements JMadGuiPreferences {
 
     @Override
     public boolean isMainFrame() {
-        return this.mainFrame.getValue();
+        return this.mainFrame.get();
     }
 
     @Override
     public void setMainFrame(boolean mainFrame) {
-        this.mainFrame.setValue(mainFrame);
+        this.mainFrame.set(mainFrame);
     }
 
     @Override
-    public BooleanProperty useMainFrameProperty() {
+    public Property<Boolean> useMainFrameProperty() {
         return mainFrame;
     }
-
 }

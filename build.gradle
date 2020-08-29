@@ -64,7 +64,7 @@ repositories {
         maven { url 'http://artifactory.cern.ch/development' }
     } else {
         mavenCentral()
-        maven { url "https://dl.bintray.com/jmad/jmad-repo" }
+        jcenter()
         /* Temporaty workaround for internal CERN dependencies */
         ivy {
             url "http://jmad.web.cern.ch/jmad/static/ws/lib/"
@@ -80,6 +80,7 @@ dependencies {
     compile group: 'io.jmad', name: 'jmad-modelpack-swing', version: '0.1.0'
     compile group: 'io.jmad', name: 'jmad-core', version: '0.5.0'
     compile group: 'com.google.guava', name: 'guava', version: '28.1-jre'
+    compile group: 'org.ossgang', name: 'ossgang-commons', version: '0.14.0'
 
     compile group: 'org.springframework', name: 'spring-core', version: '5.2.0.RELEASE'
     compile group: 'org.springframework', name: 'spring-context', version: '5.2.0.RELEASE'
