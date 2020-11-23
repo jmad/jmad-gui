@@ -22,7 +22,8 @@
 
 package cern.accsoft.steering.jmad.gui.panels;
 
-import java.awt.BorderLayout;
+import java.awt.*;
+import java.util.Optional;
 
 import cern.accsoft.steering.jmad.domain.result.tfs.TfsResult;
 import cern.accsoft.steering.jmad.domain.result.tfs.TfsSummary;
@@ -31,13 +32,15 @@ import cern.accsoft.steering.util.gui.dv.chart.TuneDiagramChart;
 
 /**
  * listens to the TfsResultManager and displays the tune-values in the tune diagram, if the result is updated.
- * 
+ *
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class TuneDiagramPanel extends AbstractTfsDataSetManagerResultPanel {
     private static final long serialVersionUID = 1L;
 
-    /** The special chart for the tune diagram */
+    /**
+     * The special chart for the tune diagram
+     */
     private TuneDiagramChart tuneDiagramChart;
 
     /**
@@ -60,8 +63,8 @@ public class TuneDiagramPanel extends AbstractTfsDataSetManagerResultPanel {
     protected void update(TfsResult tfsResult) {
         TfsSummary tfsSummary = tfsResult.getSummary();
 
-        double qX = tfsSummary.getDoubleValue(MadxGlobalVariable.Q1);
-        double qY = tfsSummary.getDoubleValue(MadxGlobalVariable.Q2);
+        double qX = Optional.ofNullable(tfsSummary.getDoubleValue(MadxGlobalVariable.Q1)).orElse(0.0);
+        double qY = Optional.ofNullable(tfsSummary.getDoubleValue(MadxGlobalVariable.Q2)).orElse(0.0);
 
         this.tuneDiagramChart.setValues(qX, qY);
     }

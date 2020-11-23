@@ -22,12 +22,12 @@
 
 package cern.accsoft.steering.util.gui.table;
 
+import javax.swing.table.AbstractTableModel;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.table.AbstractTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,8 +39,6 @@ import org.slf4j.LoggerFactory;
  * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
  */
 public class BeanTableModel extends AbstractTableModel {
-    private static final long serialVersionUID = -7282333473638238414L;
-
     /** the logger for the class */
     private final static Logger logger = LoggerFactory.getLogger(BeanTableModel.class);
 
@@ -65,13 +63,13 @@ public class BeanTableModel extends AbstractTableModel {
     private Class<?>[] valueClasses = new Class<?>[] { Double.class, double.class };
 
     /** the explicit bean-class to use */
-    private Class<?> beanClass = null;
+    private Class<?> beanClass;
 
     /** the actually displayed bean */
     private Object bean;
 
     /** the names of the getters corresponding to the properties */
-    private List<Method> getters = new ArrayList<Method>();
+    private List<Method> getters = new ArrayList<>();
 
     /** determines, if the values are editable */
     private boolean editable = false;
