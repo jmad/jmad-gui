@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractKnobsPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels</a> &gt; <span class="el_source">AbstractKnobsPanel.java</span></div><h1>AbstractKnobsPanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels;
+
+import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.Action;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+
+import cern.accsoft.steering.jmad.domain.knob.Knob;
+import cern.accsoft.steering.jmad.gui.components.DoubleTableCellRenderer;
+import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.model.JMadModelListener;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
+import cern.accsoft.steering.jmad.model.manage.StrengthVarManagerListener;
+import cern.accsoft.steering.util.gui.menu.ActionProvider;
+import cern.accsoft.steering.util.gui.menu.Checkable;
+import cern.accsoft.steering.util.gui.menu.MousePopupListener;
+import cern.accsoft.steering.util.gui.menu.TablePopupMenu;
+import cern.accsoft.steering.util.gui.menu.ValueSetable;
+import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
+import cern.accsoft.steering.util.gui.table.SelectionSetTableModel;
+import cern.accsoft.steering.util.gui.table.TableModelSelectionAdapter;
+
+/**
+ * this class represents the panel, which allows to view all strengths of a model (that is the content of the
+ * strength-file) and in addition it provides the possibility to select certain strengths (if a EditHandler is set).
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public abstract class AbstractKnobsPanel extends JPanel implements EditHandlerUser&lt;KnobsPanelEditHandler&gt; {
+    private static final long serialVersionUID = 1733380183463632497L;
+
+    /**
+     * the edit handler, which is responsible for selecting/deselecting certain strenghtes.
+     */
+    private KnobsPanelEditHandler editHandler;
+
+    /** the table model for the display */
+    private ModelStrengthesTableModel tableModel;
+
+    /** the actual model */
+    private JMadModel model;
+
+    /** an action provider for the context menu */
+    private ActionProvider actionProvider;
+
+    /**
+     * the constructor
+     */
+    public AbstractKnobsPanel() {
+<span class="fc" id="L78">        super(new BorderLayout());</span>
+<span class="fc" id="L79">    }</span>
+
+    public void init() {
+<span class="fc" id="L82">        initComponents();</span>
+
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if (this.model != null) {</span>
+<span class="nc" id="L85">            refreshDisplay();</span>
+        }
+<span class="fc" id="L87">    }</span>
+
+    /**
+     * Setter method for edit - handler used for DI
+     * 
+     * @param editHandler
+     */
+    @Override
+    public void setEditHandler(TablePanelEditHandler editHandler) {
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (editHandler instanceof KnobsPanelEditHandler) {</span>
+<span class="nc" id="L97">            this.editHandler = (KnobsPanelEditHandler) editHandler;</span>
+        }
+<span class="nc" id="L99">    }</span>
+
+    /**
+     * set the model-manager which determines if e.g. the model changed.
+     * 
+     * @param modelManager the modelManager to set.
+     */
+    public void setModelManager(JMadModelManager modelManager) {
+<span class="fc" id="L107">        modelManager.addListener(new JMadModelManagerAdapter() {</span>
+
+            @Override
+            public void changedActiveModel(JMadModel newModel) {
+<span class="nc" id="L111">                setModel(newModel);</span>
+<span class="nc" id="L112">                refreshDisplay();</span>
+<span class="nc" id="L113">            }</span>
+        });
+
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        if (modelManager.getActiveModel() != null) {</span>
+<span class="nc" id="L117">            setModel(modelManager.getActiveModel());</span>
+        }
+<span class="fc" id="L119">    }</span>
+
+    protected void refreshDisplay() {
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        if (tableModel != null) {</span>
+<span class="nc" id="L123">            tableModel.fireTableDataChanged();</span>
+        }
+<span class="nc" id="L125">    }</span>
+
+    /**
+     * initializes all components
+     */
+    private void initComponents() {
+<span class="fc" id="L131">        tableModel = new ModelStrengthesTableModel();</span>
+
+<span class="fc" id="L133">        JTable table = new JTable(tableModel);</span>
+<span class="fc" id="L134">        table.setDefaultRenderer(Double.class, new DoubleTableCellRenderer());</span>
+<span class="fc" id="L135">        table.setAutoCreateRowSorter(true);</span>
+<span class="fc" id="L136">        table.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);</span>
+
+<span class="fc" id="L138">        new MousePopupListener(table, new TablePopupMenu(tableModel));</span>
+<span class="fc" id="L139">        tableModel.setTableModelSelectionAdapter(new TableModelSelectionAdapter(table));</span>
+
+<span class="fc" id="L141">        JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,</span>
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+<span class="fc" id="L144">        add(new TableFilterPanel(table), BorderLayout.NORTH);</span>
+<span class="fc" id="L145">        add(scrollPane, BorderLayout.CENTER);</span>
+<span class="fc" id="L146">    }</span>
+
+    /**
+     * this inner class is the Table model for the displayed Table.
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+<span class="fc" id="L153">    class ModelStrengthesTableModel extends SelectionSetTableModel implements ValueSetable, Checkable, ActionProvider {</span>
+        private final static int COLUMN_COUNT = 4;
+
+        private final static int COL_SELECT = 0;
+        private final static int COL_NAME = 1;
+        private final static int COL_VALUE = 2;
+        private final static int COL_COMMENT = 3;
+
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public int getColumnCount() {
+<span class="fc" id="L165">            return COLUMN_COUNT;</span>
+        }
+
+        @Override
+        public int getRowCount() {
+<span class="fc" id="L170">            List&lt;? extends Knob&gt; knobs = getKnobs();</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">            if (knobs != null) {</span>
+<span class="fc" id="L172">                return knobs.size();</span>
+            } else {
+<span class="nc" id="L174">                return 0;</span>
+            }
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int col) {
+<span class="nc bnc" id="L180" title="All 2 branches missed.">            if (col == COL_SELECT) {</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">                return (editHandler != null);</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">            } else if (col == COL_VALUE) {</span>
+<span class="nc" id="L183">                return true;</span>
+            } else {
+<span class="nc" id="L185">                return false;</span>
+            }
+        }
+
+        @Override
+        public Object getValueAt(int row, int col) {
+<span class="nc" id="L191">            List&lt;? extends Knob&gt; knobs = getKnobs();</span>
+
+<span class="nc bnc" id="L193" title="All 2 branches missed.">            if (knobs == null) {</span>
+<span class="nc" id="L194">                return null;</span>
+            }
+
+<span class="nc" id="L197">            Knob knob = knobs.get(row);</span>
+<span class="nc bnc" id="L198" title="All 5 branches missed.">            switch (col) {</span>
+            case COL_SELECT:
+<span class="nc bnc" id="L200" title="All 2 branches missed.">                if (editHandler != null) {</span>
+<span class="nc" id="L201">                    return editHandler.getSelectionValue(knob);</span>
+                } else {
+<span class="nc" id="L203">                    return false;</span>
+                }
+            case COL_NAME:
+<span class="nc" id="L206">                return knob.getName();</span>
+            case COL_VALUE:
+<span class="nc" id="L208">                return knob.getValue();</span>
+            case COL_COMMENT:
+<span class="nc" id="L210">                return knob.getDescription();</span>
+            default:
+<span class="nc" id="L212">                return null;</span>
+            }
+        }
+
+        @Override
+        public void setValueAt(Object value, int row, int col) {
+<span class="nc" id="L218">            List&lt;? extends Knob&gt; knobs = getKnobs();</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">            if (knobs == null) {</span>
+<span class="nc" id="L220">                return;</span>
+            }
+
+<span class="nc" id="L223">            Knob modelValue = knobs.get(row);</span>
+<span class="nc bnc" id="L224" title="All 3 branches missed.">            switch (col) {</span>
+            case COL_SELECT:
+<span class="nc bnc" id="L226" title="All 2 branches missed.">                if (editHandler != null) {</span>
+<span class="nc" id="L227">                    editHandler.setSelectionValue(modelValue, (Boolean) value);</span>
+                }
+                break;
+            case COL_VALUE:
+<span class="nc" id="L231">                modelValue.setValue((Double) value);</span>
+                break;
+            }
+<span class="nc" id="L234">        }</span>
+
+        @Override
+        public Class&lt;?&gt; getColumnClass(int col) {
+<span class="nc bnc" id="L238" title="All 5 branches missed.">            switch (col) {</span>
+            case COL_SELECT:
+<span class="nc" id="L240">                return Boolean.class;</span>
+            case COL_NAME:
+<span class="nc" id="L242">                return String.class;</span>
+            case COL_VALUE:
+<span class="nc" id="L244">                return Double.class;</span>
+            case COL_COMMENT:
+<span class="nc" id="L246">                return String.class;</span>
+            default:
+<span class="nc" id="L248">                return null;</span>
+            }
+        }
+
+        @Override
+        public String getColumnName(int col) {
+<span class="pc bpc" id="L254" title="1 of 5 branches missed.">            switch (col) {</span>
+            case COL_SELECT:
+<span class="fc" id="L256">                return &quot;vary&quot;;</span>
+            case COL_NAME:
+<span class="fc" id="L258">                return &quot;strength name&quot;;</span>
+            case COL_VALUE:
+<span class="fc" id="L260">                return &quot;value&quot;;</span>
+            case COL_COMMENT:
+<span class="fc" id="L262">                return &quot;comment&quot;;</span>
+            default:
+<span class="nc" id="L264">                return null;</span>
+            }
+        }
+
+        //
+        // methods for interface ValueSetable
+        //
+
+        @Override
+        public boolean isValueSetEnabled() {
+<span class="nc" id="L274">            return isMultipleRowSetEnabled();</span>
+        }
+
+        @Override
+        public void setValueAllSelected(Double value) {
+<span class="nc" id="L279">            setValueSelectedRows(value, COL_VALUE);</span>
+<span class="nc" id="L280">        }</span>
+
+        @Override
+        public void checkAllSelected() {
+<span class="nc" id="L284">            setValueSelectedRows(true, COL_SELECT);</span>
+<span class="nc" id="L285">        }</span>
+
+        @Override
+        public boolean isCheckUncheckEnabled() {
+<span class="nc" id="L289">            return isMultipleRowSetEnabled();</span>
+        }
+
+        @Override
+        public void uncheckAllSelected() {
+<span class="nc" id="L294">            setValueSelectedRows(false, COL_SELECT);</span>
+<span class="nc" id="L295">        }</span>
+
+        @Override
+        public String getValueName() {
+<span class="fc" id="L299">            return &quot;strength value&quot;;</span>
+        }
+
+        @Override
+        public List&lt;Action&gt; getActions() {
+<span class="pc bpc" id="L304" title="1 of 2 branches missed.">            if (getActionProvider() != null) {</span>
+<span class="nc" id="L305">                return getActionProvider().getActions();</span>
+            } else {
+<span class="fc" id="L307">                return new ArrayList&lt;Action&gt;();</span>
+            }
+        }
+
+    }
+
+    /**
+     * must be overriden by subclass
+     * 
+     * @return the knobs that shall be presented
+     */
+    public abstract List&lt;? extends Knob&gt; getKnobs();
+
+    /**
+     * must return a model listener, to be able to react on changes in the model.
+     * 
+     * @return the model listener
+     */
+    protected abstract JMadModelListener getModelListener();
+
+    protected abstract StrengthVarManagerListener getStrengthVarManagerListener();
+
+    private void setModel(JMadModel model) {
+<span class="nc" id="L330">        this.model = model;</span>
+<span class="nc bnc" id="L331" title="All 2 branches missed.">        if (model != null) {</span>
+<span class="nc" id="L332">            JMadModelListener listener = getModelListener();</span>
+<span class="nc bnc" id="L333" title="All 2 branches missed.">            if (listener != null) {</span>
+<span class="nc" id="L334">                model.addListener(listener);</span>
+            }
+<span class="nc" id="L336">            StrengthVarManagerListener strengthVarManagerListener = getStrengthVarManagerListener();</span>
+<span class="nc bnc" id="L337" title="All 2 branches missed.">            if (strengthVarManagerListener != null) {</span>
+<span class="nc" id="L338">                model.getStrengthVarManager().addListener(strengthVarManagerListener);</span>
+            }
+        }
+<span class="nc" id="L341">    }</span>
+
+    protected JMadModel getModel() {
+<span class="fc" id="L344">        return model;</span>
+    }
+
+    public SelectionSetTableModel getTableModel() {
+<span class="nc" id="L348">        return this.tableModel;</span>
+    }
+
+    public void setActionProvider(ActionProvider actionProvider) {
+<span class="nc" id="L352">        this.actionProvider = actionProvider;</span>
+<span class="nc" id="L353">    }</span>
+
+    public ActionProvider getActionProvider() {
+<span class="fc" id="L356">        return actionProvider;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

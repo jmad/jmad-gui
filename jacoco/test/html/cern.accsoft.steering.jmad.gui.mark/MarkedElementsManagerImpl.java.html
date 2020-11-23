@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MarkedElementsManagerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.mark</a> &gt; <span class="el_source">MarkedElementsManagerImpl.java</span></div><h1>MarkedElementsManagerImpl.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.mark;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * the implementation for managing elements, that shall be displayed as markers in charts.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="fc" id="L36">public class MarkedElementsManagerImpl implements MarkedElementsManager {</span>
+
+    /** this set contains all the names */
+<span class="fc" id="L39">    private Set&lt;String&gt; elementNames = new HashSet&lt;String&gt;();</span>
+
+    /** all the listeners to this manager */
+<span class="fc" id="L42">    private List&lt;MarkedElementsManagerListener&gt; listeners = new ArrayList&lt;MarkedElementsManagerListener&gt;();</span>
+
+    @Override
+    public void addElementName(String elementName) {
+<span class="nc" id="L46">        this.elementNames.add(elementName);</span>
+<span class="nc" id="L47">        fireAddedElementName(elementName);</span>
+<span class="nc" id="L48">    }</span>
+
+    @Override
+    public boolean contains(String elementName) {
+<span class="nc" id="L52">        return this.elementNames.contains(elementName);</span>
+    }
+
+    @Override
+    public Collection&lt;String&gt; getElementNames() {
+<span class="nc" id="L57">        return this.elementNames;</span>
+    }
+
+    @Override
+    public void removeElementName(String elementName) {
+<span class="nc" id="L62">        this.elementNames.remove(elementName);</span>
+<span class="nc" id="L63">        fireRemovedElementName(elementName);</span>
+<span class="nc" id="L64">    }</span>
+
+    /**
+     * notify all listeners, that an elementName has been added
+     * 
+     * @param elementName the elementName that has been added
+     */
+    private void fireAddedElementName(String elementName) {
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        for (MarkedElementsManagerListener listener : listeners) {</span>
+<span class="nc" id="L73">            listener.addedElementName(elementName);</span>
+<span class="nc" id="L74">        }</span>
+<span class="nc" id="L75">    }</span>
+
+    /**
+     * notifies all listeners, that an elemntNames has been removed
+     * 
+     * @param elementName the name of the element that has beeen removed.
+     */
+    private void fireRemovedElementName(String elementName) {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        for (MarkedElementsManagerListener listener : listeners) {</span>
+<span class="nc" id="L84">            listener.removedElementName(elementName);</span>
+<span class="nc" id="L85">        }</span>
+<span class="nc" id="L86">    }</span>
+
+    @Override
+    public void addListener(MarkedElementsManagerListener listener) {
+<span class="fc" id="L90">        this.listeners.add(listener);</span>
+<span class="fc" id="L91">    }</span>
+
+    @Override
+    public void removeListener(MarkedElementsManagerListener listener) {
+<span class="nc" id="L95">        this.listeners.remove(listener);</span>
+<span class="nc" id="L96">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractJmadDataSet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.dv.ds</a> &gt; <span class="el_source">AbstractJmadDataSet.java</span></div><h1>AbstractJmadDataSet.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.dv.ds;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cern.accsoft.steering.jmad.gui.mark.MarkerXProvider;
+import cern.jdve.data.AbstractDataSet;
+import cern.jdve.event.DataSetEvent;
+
+/**
+ * This class is the basic implementation of our DataSets
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public abstract class AbstractJmadDataSet extends AbstractDataSet implements MarkerXProvider {
+
+    /** the labels to be displayed */
+<span class="fc" id="L40">    private List&lt;String&gt; labels = new ArrayList&lt;String&gt;();</span>
+
+    /**
+     * the double-values for the x-values. This is null on purpose. If it is null, then the index is returned as x -
+     * value, otherwise the value in this list.
+     */
+<span class="fc" id="L46">    private List&lt;Double&gt; yValues = null;</span>
+
+    /**
+     * the constructor, which needs the name of the dataset
+     * 
+     * @param name the name of the dataset
+     */
+    protected AbstractJmadDataSet(String name) {
+<span class="fc" id="L54">        super(name);</span>
+<span class="fc" id="L55">    }</span>
+
+    @Override
+    public void add(int arg0, double arg1, double arg2) {
+<span class="nc" id="L59">        throw new UnsupportedOperationException(&quot;Not implemented!&quot;);</span>
+    }
+
+    @Override
+    public void remove(int arg0, int arg1) {
+<span class="nc" id="L64">        throw new UnsupportedOperationException(&quot;Not implemented!&quot;);</span>
+    }
+
+    /**
+     * enforces a refresh.
+     */
+    public void refresh() {
+<span class="nc" id="L71">        fireFullChange();</span>
+<span class="nc" id="L72">    }</span>
+
+    /**
+     * fires a full-change event to all listeners.
+     */
+    protected final void fireFullChange() {
+<span class="nc" id="L78">        setLimitsValid(false);</span>
+<span class="nc" id="L79">        fireDataSetChanged(new DataSetEvent(this, DataSetEvent.FULL_CHANGE));</span>
+<span class="nc" id="L80">    }</span>
+
+    @Override
+    public String getDataLabel(int index) {
+<span class="nc bnc" id="L84" title="All 4 branches missed.">        if ((labels != null) &amp;&amp; (labels.size() &gt; index)) {</span>
+<span class="nc" id="L85">            return labels.get(index);</span>
+        } else {
+<span class="nc" id="L87">            return null;</span>
+        }
+    }
+
+    /**
+     * @param labels the labels, which correspond to the indizes
+     */
+    public void setLabels(List&lt;String&gt; labels) {
+<span class="nc" id="L95">        this.labels = labels;</span>
+<span class="nc" id="L96">    }</span>
+
+    /**
+     * @return the actual data-labels
+     */
+    public List&lt;String&gt; getLabels() {
+<span class="nc" id="L102">        return labels;</span>
+    }
+
+    @Override
+    public double getX(int index) {
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (this.getXValues() != null) {</span>
+<span class="nc" id="L108">            Double value = this.getXValues().get(index);</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">            if (value == null) {</span>
+<span class="nc" id="L110">                return 0;</span>
+            } else {
+<span class="nc" id="L112">                return value;</span>
+            }
+        } else {
+<span class="nc" id="L115">            return index;</span>
+        }
+    }
+
+    @Override
+    public List&lt;Double&gt; getXPositions(String elementName) {
+        /* we assume, that the labels are the element-names */
+<span class="nc" id="L122">        List&lt;Integer&gt; indizes = getLabelIndizes(elementName);</span>
+<span class="nc" id="L123">        List&lt;Double&gt; xValues = new ArrayList&lt;Double&gt;();</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        for (Integer index : indizes) {</span>
+<span class="nc" id="L125">            xValues.add(getX(index));</span>
+<span class="nc" id="L126">        }</span>
+<span class="nc" id="L127">        return xValues;</span>
+    }
+
+    /**
+     * search in the labels and return the indizes of the given label
+     * 
+     * @param label the label for which to search the index
+     * @return the indizes of the label
+     */
+    private List&lt;Integer&gt; getLabelIndizes(String label) {
+<span class="nc" id="L137">        List&lt;Integer&gt; indizes = new ArrayList&lt;Integer&gt;();</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (label == null) {</span>
+<span class="nc" id="L139">            return indizes;</span>
+        }
+
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        for (int i = 0; i &lt; getDataCount(); i++) {</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">            if (label.equals(getDataLabel(i))) {</span>
+<span class="nc" id="L144">                indizes.add(i);</span>
+            }
+        }
+<span class="nc" id="L147">        return indizes;</span>
+    }
+
+    protected void setXValues(List&lt;Double&gt; xValues) {
+<span class="nc" id="L151">        this.yValues = xValues;</span>
+<span class="nc" id="L152">    }</span>
+
+    public final List&lt;Double&gt; getXValues() {
+<span class="nc" id="L155">        return yValues;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

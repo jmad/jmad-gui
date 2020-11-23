@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StrengthVarManagerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.manage.impl</a> &gt; <span class="el_source">StrengthVarManagerImpl.java</span></div><h1>StrengthVarManagerImpl.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.manage.impl;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import cern.accsoft.steering.jmad.domain.var.custom.CustomVariable;
+import cern.accsoft.steering.jmad.domain.var.custom.StrengthVarSet;
+import cern.accsoft.steering.jmad.domain.var.custom.StrengthVarSetImpl;
+import cern.accsoft.steering.jmad.gui.manage.StrengthVarManager;
+import cern.accsoft.steering.jmad.gui.manage.StrengthVarManagerListener;
+import cern.accsoft.steering.jmad.io.StrengthFileParser;
+import cern.accsoft.steering.jmad.io.StrengthFileParserException;
+import cern.accsoft.steering.jmad.io.StrengthFileParserNew;
+
+/**
+ * This is the default implementation of a {@link StrengthVarManager}
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="nc" id="L45">public class StrengthVarManagerImpl implements StrengthVarManager {</span>
+
+    /** The logger for this class */
+<span class="nc" id="L48">    private final static Logger logger = Logger.getLogger(StrengthVarManagerImpl.class);</span>
+
+    /** the variables are kept in a strengthVarSet */
+<span class="nc" id="L51">    private StrengthVarSet strengthVarSet = new StrengthVarSetImpl();</span>
+
+    /** The listeners */
+<span class="nc" id="L54">    private List&lt;StrengthVarManagerListener&gt; listeners = new ArrayList&lt;StrengthVarManagerListener&gt;();</span>
+
+    @Override
+    public StrengthVarSet getStrengthVarSet() {
+<span class="nc" id="L58">        return this.strengthVarSet;</span>
+    }
+
+    /**
+     * perform the file parsing.
+     */
+    @Override
+    public void load(File file) {
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (file == null) {</span>
+<span class="nc" id="L67">            logger.error(&quot;File is null! Nothing to parse.&quot;);</span>
+<span class="nc" id="L68">            return;</span>
+        }
+
+<span class="nc" id="L71">        StrengthFileParserNew parser = new StrengthFileParserNew(file);</span>
+        try {
+<span class="nc" id="L73">            parser.parse();</span>
+<span class="nc" id="L74">        } catch (StrengthFileParserException e) {</span>
+<span class="nc" id="L75">            logger.error(&quot;Could not parse file '&quot; + file.getAbsolutePath() + &quot;'.&quot;, e);</span>
+<span class="nc" id="L76">            return;</span>
+<span class="nc" id="L77">        }</span>
+<span class="nc" id="L78">        this.strengthVarSet.addAllStrengths(parser.getStrengths());</span>
+<span class="nc" id="L79">        this.strengthVarSet.addAllVariables(parser.getVariables());</span>
+<span class="nc" id="L80">        fireChangedVariables();</span>
+<span class="nc" id="L81">    }</span>
+
+    /**
+     * notify the listeners that the data has changed.
+     */
+    private void fireChangedVariables() {
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        for (StrengthVarManagerListener listener : this.listeners) {</span>
+<span class="nc" id="L88">            listener.changedVariables(new ArrayList&lt;CustomVariable&gt;(this.strengthVarSet.getVariables()));</span>
+<span class="nc" id="L89">        }</span>
+<span class="nc" id="L90">    }</span>
+
+    @Override
+    public void addListener(StrengthVarManagerListener listener) {
+<span class="nc" id="L94">        this.listeners.add(listener);</span>
+<span class="nc" id="L95">    }</span>
+
+    @Override
+    public void removeListener(StrengthVarManagerListener listener) {
+<span class="nc" id="L99">        this.listeners.remove(listener);</span>
+<span class="nc" id="L100">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

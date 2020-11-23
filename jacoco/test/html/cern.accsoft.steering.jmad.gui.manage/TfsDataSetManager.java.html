@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TfsDataSetManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.manage</a> &gt; <span class="el_source">TfsDataSetManager.java</span></div><h1>TfsDataSetManager.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.manage;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
+import cern.accsoft.steering.jmad.domain.result.tfs.TfsResult;
+import cern.accsoft.steering.jmad.domain.result.tfs.TfsResultRequestImpl;
+import cern.accsoft.steering.jmad.domain.var.MadxVariable;
+import cern.accsoft.steering.jmad.domain.var.TwissVariable;
+import cern.accsoft.steering.jmad.domain.var.Variable;
+import cern.accsoft.steering.jmad.gui.data.TfsResultDataSet;
+import cern.accsoft.steering.jmad.gui.data.TfsResultDataSet.TfsResultDataSetType;
+import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * creates DataSets for JMad-Results and stores the therefore required Variables. So all the DataSets can then be
+ * refreshed very easily.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="fc" id="L52">public class TfsDataSetManager implements DataSetManager {</span>
+<span class="fc" id="L53">    private final static Logger logger = LoggerFactory.getLogger(TfsDataSetManager.class);</span>
+
+    /** the model - manager from which to get the model */
+<span class="fc" id="L56">    private JMadModelManager modelManager = null;</span>
+
+    /** the listeners */
+<span class="fc" id="L59">    private ArrayList&lt;DataSetManagerListener&gt; listeners = new ArrayList&lt;DataSetManagerListener&gt;();</span>
+
+    /** store all variables we require to query the model */
+<span class="fc" id="L62">    private Map&lt;String, TwissVariable&gt; requiredVariables = new HashMap&lt;String, TwissVariable&gt;();</span>
+
+    /** store all created DataSets to be able to refresh them. */
+<span class="fc" id="L65">    private ArrayList&lt;TfsResultDataSet&gt; dataSets = new ArrayList&lt;TfsResultDataSet&gt;();</span>
+
+    /** The manager which knows about (almost) all selectable variables */
+    private AllVarManager allVarManager;
+
+    /** the actual results */
+<span class="fc" id="L71">    private TfsResult tfsResult = null;</span>
+
+    /** the reference result (if stored) */
+<span class="fc" id="L74">    private TfsResult referenceTfsResult = null;</span>
+
+<span class="fc" id="L76">    private final JMadModelManagerListener modelManagerListener = new JMadModelManagerAdapter() {</span>
+
+        @Override
+        public void changedActiveModel(JMadModel newModel) {
+<span class="nc" id="L80">            resetReference();</span>
+<span class="nc" id="L81">        }</span>
+    };
+
+    /**
+     * sets the modelManager from which to retrieve the actual model
+     * 
+     * @param modelManager
+     */
+    public void setModelManager(JMadModelManager modelManager) {
+<span class="fc" id="L90">        this.modelManager = modelManager;</span>
+<span class="fc" id="L91">        modelManager.addListener(this.modelManagerListener);</span>
+<span class="fc" id="L92">    }</span>
+
+    /**
+     * get the actual model
+     * 
+     * @return the model.
+     */
+    private JMadModel getModel() {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if (this.modelManager != null) {</span>
+<span class="nc" id="L101">            return this.modelManager.getActiveModel();</span>
+        } else {
+<span class="nc" id="L103">            return null;</span>
+        }
+    }
+
+    /**
+     * creates new DataSets for jdataviewer and stores the required variables to be able to refresh the data
+     * efficiently.
+     * 
+     * @param xVar
+     * @param yVars
+     */
+    public Map&lt;Integer, List&lt;TfsResultDataSet&gt;&gt; createDataSets(TwissVariable xVar,
+            Map&lt;Integer, Collection&lt;TwissVariable&gt;&gt; yVars, TfsResultDataSetType type) {
+<span class="nc" id="L116">        requiredVariables.put(xVar.getMadxName(), xVar);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        for (Integer yAxis : yVars.keySet()) {</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">            for (TwissVariable var : yVars.get(yAxis)) {</span>
+<span class="nc" id="L119">                requiredVariables.put(var.getMadxName(), var);</span>
+<span class="nc" id="L120">            }</span>
+<span class="nc" id="L121">        }</span>
+
+        /* make sure, that all variables are available. */
+<span class="nc" id="L124">        refresh();</span>
+
+<span class="nc" id="L126">        Map&lt;Integer, List&lt;TfsResultDataSet&gt;&gt; newDataSets = new HashMap&lt;Integer, List&lt;TfsResultDataSet&gt;&gt;();</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        for (Integer yAxis : yVars.keySet()) {</span>
+<span class="nc" id="L128">            Collection&lt;TwissVariable&gt; variables = yVars.get(yAxis);</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">            if (variables.size() &lt;= 0) {</span>
+<span class="nc" id="L130">                continue;</span>
+            }
+<span class="nc" id="L132">            List&lt;TfsResultDataSet&gt; dsList = new ArrayList&lt;TfsResultDataSet&gt;();</span>
+<span class="nc" id="L133">            newDataSets.put(yAxis, dsList);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">            for (TwissVariable var : variables) {</span>
+<span class="nc" id="L135">                TfsResultDataSet dataSet = createDataSet(xVar, var, type, yAxis);</span>
+<span class="nc" id="L136">                dsList.add(dataSet);</span>
+                /* if it is an aperture, then add another one with factor -1 */
+<span class="nc bnc" id="L138" title="All 2 branches missed.">                if (var.isApertureVariable()) {</span>
+<span class="nc" id="L139">                    dataSet = createDataSet(xVar, var, type, yAxis + 1);</span>
+<span class="nc" id="L140">                    dataSet.setFactor(-1);</span>
+<span class="nc" id="L141">                    dsList.add(dataSet);</span>
+                }
+<span class="nc" id="L143">            }</span>
+<span class="nc" id="L144">        }</span>
+<span class="nc" id="L145">        return newDataSets;</span>
+    }
+
+    /**
+     * creates one dataSet
+     * 
+     * @param xVar
+     * @param yVar
+     * @param type
+     * @param axis
+     * @return
+     */
+    private TfsResultDataSet createDataSet(MadxVariable xVar, TwissVariable yVar, TfsResultDataSetType type,
+            Integer axis) {
+<span class="nc" id="L159">        String dsName = yVar.toString();</span>
+<span class="nc" id="L160">        dsName += &quot; (&quot; + &quot;Y&quot; + (axis + 1) + &quot;)&quot;;</span>
+<span class="nc" id="L161">        TfsResultDataSet dataSet = new TfsResultDataSet(dsName, xVar, yVar, type, this.tfsResult,</span>
+                this.referenceTfsResult);
+<span class="nc" id="L163">        dataSets.add(dataSet);</span>
+<span class="nc" id="L164">        return dataSet;</span>
+    }
+
+    /**
+     * creates the given datasets and fires an event that they were created.
+     * 
+     * @param name the name to be displayed for these datasets
+     * @param xVar
+     * @param yVars
+     * @param type
+     */
+    public void createDataSets(String name, TwissVariable xVar, Map&lt;Integer, Collection&lt;TwissVariable&gt;&gt; yVars,
+            TfsResultDataSetType type) {
+<span class="nc" id="L177">        Map&lt;Integer, List&lt;TfsResultDataSet&gt;&gt; dataSets = createDataSets(xVar, yVars, type);</span>
+
+        /* if no name is given, we construct one */
+<span class="nc bnc" id="L180" title="All 4 branches missed.">        if ((name == null) || (name.length() == 0)) {</span>
+<span class="nc" id="L181">            name = &quot;&quot;;</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">            for (Integer yAxis : yVars.keySet()) {</span>
+<span class="nc" id="L183">                Collection&lt;TwissVariable&gt; vars = yVars.get(yAxis);</span>
+<span class="nc bnc" id="L184" title="All 4 branches missed.">                if ((vars == null) || (vars.size() &lt;= 0)) {</span>
+<span class="nc" id="L185">                    continue;</span>
+                }
+<span class="nc bnc" id="L187" title="All 2 branches missed.">                for (Variable var : vars) {</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">                    if (name.length() &gt; 0) {</span>
+<span class="nc" id="L189">                        name += &quot;, &quot;;</span>
+                    }
+<span class="nc" id="L191">                    name += var.getName() + &quot;(&quot; + xVar.getName() + &quot;)&quot;;</span>
+<span class="nc" id="L192">                }</span>
+<span class="nc" id="L193">            }</span>
+<span class="nc" id="L194">            name += &quot; [&quot; + type.toString() + &quot;]&quot;;</span>
+        }
+
+<span class="nc" id="L197">        String xLabel = xVar.toString();</span>
+
+<span class="nc" id="L199">        fireCreatedDataSets(name, xLabel, dataSets);</span>
+<span class="nc" id="L200">    }</span>
+
+    /**
+     * reads new values from model by twissing and sets the new result to all dataSets.
+     */
+    public void refresh() {
+<span class="nc" id="L206">        tfsResult = runTwiss(requiredVariables.values());</span>
+
+<span class="nc bnc" id="L208" title="All 2 branches missed.">        if (tfsResult != null) {</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">            for (TfsResultDataSet dataSet : dataSets) {</span>
+<span class="nc" id="L210">                dataSet.setTfsResult(tfsResult);</span>
+<span class="nc" id="L211">            }</span>
+        }
+
+<span class="nc" id="L214">        publishTfsResult();</span>
+<span class="nc" id="L215">    }</span>
+
+    /**
+     * notifies all the listeners that a new tfsResult is available
+     */
+    private void publishTfsResult() {
+<span class="nc bnc" id="L221" title="All 2 branches missed.">        if (tfsResult != null) {</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">            for (DataSetManagerListener listener : this.listeners) {</span>
+<span class="nc" id="L223">                listener.twissCalculated(this.tfsResult);</span>
+<span class="nc" id="L224">            }</span>
+        }
+<span class="nc" id="L226">    }</span>
+
+    /**
+     * runs a twiss and stores the result as reference for all datasets.
+     */
+    public void setAsReference() {
+<span class="nc" id="L232">        referenceTfsResult = runTwiss(getAllVarManager().getAllSelectableVariables());</span>
+
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        if (referenceTfsResult != null) {</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">            for (TfsResultDataSet dataSet : dataSets) {</span>
+<span class="nc" id="L236">                dataSet.setReferenceTfsResult(referenceTfsResult);</span>
+<span class="nc" id="L237">            }</span>
+        }
+<span class="nc" id="L239">    }</span>
+
+    /**
+     * reset the reference dataset
+     */
+    public void resetReference() {
+<span class="nc" id="L245">        this.referenceTfsResult = null;</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">        for (TfsResultDataSet dataSet : dataSets) {</span>
+<span class="nc" id="L247">            dataSet.setReferenceTfsResult(null);</span>
+<span class="nc" id="L248">        }</span>
+<span class="nc" id="L249">    }</span>
+
+    /**
+     * runs a twiss on the model and returns a Tfs-Result with all required Variables.
+     * 
+     * @return the Result with all variables
+     */
+    private TfsResult runTwiss(Collection&lt;TwissVariable&gt; variables) {
+<span class="nc bnc" id="L257" title="All 2 branches missed.">        if (getModel() == null) {</span>
+<span class="nc" id="L258">            logger.warn(&quot;Model not set. Cannot refresh datasets!&quot;);</span>
+<span class="nc" id="L259">            return null;</span>
+        }
+
+<span class="nc" id="L262">        TfsResultRequestImpl request = new TfsResultRequestImpl();</span>
+<span class="nc" id="L263">        request.addElementFilter(&quot;.*&quot;);</span>
+<span class="nc" id="L264">        request.addVariable(TfsResultDataSet.LABEL_VAR);</span>
+<span class="nc bnc" id="L265" title="All 2 branches missed.">        for (TwissVariable var : variables) {</span>
+<span class="nc" id="L266">            request.addVariable(var);</span>
+<span class="nc" id="L267">        }</span>
+
+<span class="nc" id="L269">        TfsResult result = null;</span>
+        try {
+<span class="nc" id="L271">            result = getModel().twiss(request);</span>
+<span class="nc" id="L272">        } catch (JMadModelException e) {</span>
+<span class="nc" id="L273">            logger.error(&quot;Error while running Twiss on model.&quot;, e);</span>
+<span class="nc" id="L274">        }</span>
+
+<span class="nc" id="L276">        return result;</span>
+    }
+
+    /**
+     * notifies all listeners, that a new DataSet was created.
+     * 
+     * @param name the name of the list of DataSets
+     * @param dataSets the DataSets
+     */
+    private void fireCreatedDataSets(String name, String xLabel, Map&lt;Integer, List&lt;TfsResultDataSet&gt;&gt; dataSets) {
+<span class="nc bnc" id="L286" title="All 2 branches missed.">        for (DataSetManagerListener listener : listeners) {</span>
+<span class="nc" id="L287">            listener.createdDataSets(name, xLabel, dataSets);</span>
+<span class="nc" id="L288">        }</span>
+<span class="nc" id="L289">    }</span>
+
+    @Override
+    public void addListener(DataSetManagerListener listener) {
+<span class="fc" id="L293">        this.listeners.add(listener);</span>
+<span class="fc" id="L294">    }</span>
+
+    @Override
+    public void removeListener(DataSetManagerListener listener) {
+<span class="nc" id="L298">        this.listeners.remove(listener);</span>
+<span class="nc" id="L299">    }</span>
+
+    public void setAllVarManager(AllVarManager allVarManager) {
+<span class="fc" id="L302">        this.allVarManager = allVarManager;</span>
+<span class="fc" id="L303">    }</span>
+
+    private AllVarManager getAllVarManager() {
+<span class="nc" id="L306">        return allVarManager;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

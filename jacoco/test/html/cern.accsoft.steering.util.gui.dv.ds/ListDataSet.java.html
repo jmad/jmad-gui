@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListDataSet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.dv.ds</a> &gt; <span class="el_source">ListDataSet.java</span></div><h1>ListDataSet.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.dv.ds;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * this class represents a dataset for a list of double-values. The x-values are then simply the indizes
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class ListDataSet extends AbstractJmadDataSet implements ErrorDataSet {
+
+    /** the double-values for the y-values */
+<span class="fc" id="L36">    private List&lt;Double&gt; yValues = new ArrayList&lt;Double&gt;();</span>
+
+    /** this list can be set to add additional errors to the yValues. */
+<span class="fc" id="L39">    private List&lt;Double&gt; yErrorValues = null;</span>
+
+    /**
+     * the boolean values, which indicate the validity of the datapoints. this is null on purpose! if its null, then all
+     * datapoints are valid.
+     */
+<span class="fc" id="L45">    private List&lt;Boolean&gt; validityValues = null;</span>
+
+    /**
+     * the constructor, which needs a name for the dataset
+     * 
+     * @param name the name of the dataset
+     */
+    public ListDataSet(String name) {
+<span class="fc" id="L53">        super(name);</span>
+<span class="fc" id="L54">        setUndefValue(Double.NaN);</span>
+<span class="fc" id="L55">    }</span>
+
+    @Override
+    public int getDataCount() {
+<span class="fc" id="L59">        return yValues.size();</span>
+    }
+
+    @Override
+    public double getY(int index) {
+<span class="nc" id="L64">        return yValues.get(index);</span>
+    }
+
+    /**
+     * @return the list of y-values
+     */
+    public List&lt;Double&gt; getYValues() {
+<span class="nc" id="L71">        return this.yValues;</span>
+    }
+
+    /**
+     * sets x- and y- values simultanously. This only can be done together. So the length of them is consistent and the
+     * refresh is only triggered once.
+     * 
+     * @param xValues the values for the x-axis
+     * @param yValues the values for the y-axis
+     */
+    public void setValues(List&lt;Double&gt; xValues, List&lt;Double&gt; yValues) {
+<span class="nc" id="L82">        this.setXValues(xValues);</span>
+<span class="nc" id="L83">        this.yValues = yValues;</span>
+<span class="nc" id="L84">        fireFullChange();</span>
+<span class="nc" id="L85">    }</span>
+
+    /**
+     * sets x- and y- values simultaniously. This only can be done together. So the length of them is consistent and the
+     * refresh is only triggered once.
+     * 
+     * @param xValues the values for the x-axis
+     * @param yValues the values for the y-axis
+     */
+    public void setValues(List&lt;Double&gt; xValues, List&lt;Double&gt; yValues, List&lt;Boolean&gt; validityValues) {
+<span class="nc" id="L95">        this.setXValues(xValues);</span>
+<span class="nc" id="L96">        this.yValues = yValues;</span>
+<span class="nc" id="L97">        this.validityValues = validityValues;</span>
+<span class="nc" id="L98">        fireFullChange();</span>
+<span class="nc" id="L99">    }</span>
+
+    public void setValues(List&lt;Double&gt; xValues, List&lt;Double&gt; yValues, List&lt;Double&gt; yErrorValues,
+            List&lt;Boolean&gt; validityValues) {
+<span class="nc" id="L103">        this.setXValues(xValues);</span>
+<span class="nc" id="L104">        this.yValues = yValues;</span>
+<span class="nc" id="L105">        this.yErrorValues = yErrorValues;</span>
+<span class="nc" id="L106">        this.validityValues = validityValues;</span>
+<span class="nc" id="L107">        fireFullChange();</span>
+<span class="nc" id="L108">    }</span>
+
+    /**
+     * @param yValues the yValues to set
+     */
+    public void setYValues(List&lt;Double&gt; yValues) {
+<span class="nc" id="L114">        this.yValues = yValues;</span>
+<span class="nc" id="L115">        fireFullChange();</span>
+<span class="nc" id="L116">    }</span>
+
+    @Override
+    public boolean getValidity(int index) {
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (getValidityValues() == null) {</span>
+<span class="nc" id="L121">            return true;</span>
+        } else {
+<span class="nc" id="L123">            return getValidityValues().get(index);</span>
+        }
+    }
+
+    /**
+     * @return the validityValues
+     */
+    private List&lt;Boolean&gt; getValidityValues() {
+<span class="nc" id="L131">        return validityValues;</span>
+    }
+
+    @Override
+    public boolean hasValidityInformation() {
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        return (this.validityValues != null);</span>
+    }
+
+    /**
+     * @return the yErrorValues
+     */
+    public List&lt;Double&gt; getYErrorValues() {
+<span class="nc" id="L143">        return yErrorValues;</span>
+    }
+
+    @Override
+    public Double getYError(int index) {
+<span class="nc bnc" id="L148" title="All 4 branches missed.">        if ((this.yErrorValues != null) &amp;&amp; (index &lt; this.yErrorValues.size())) {</span>
+<span class="nc" id="L149">            return this.yErrorValues.get(index);</span>
+        } else {
+<span class="nc" id="L151">            return null;</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

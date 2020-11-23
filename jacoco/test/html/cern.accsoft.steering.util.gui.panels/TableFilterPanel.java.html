@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableFilterPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.panels</a> &gt; <span class="el_source">TableFilterPanel.java</span></div><h1>TableFilterPanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.panels;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
+/**
+ * This class is a simple panel, which just contains a label and an textfield, which reacts on pressing the return key
+ * and then applies the entered regex-filter.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class TableFilterPanel extends JPanel {
+    private static final long serialVersionUID = -1378930333245172769L;
+
+    /**
+     * the table on which this filter will act.
+     */
+    private final JTable table;
+
+    /**
+     * A string which represents a regular expression, which shall be put as an initial value to the filter field.
+     */
+    private final String initialExpression;
+
+    /**
+     * the constructor. enforces to provide a table, which to attach to.
+     * 
+     * @param table the table on which we act.
+     */
+    public TableFilterPanel(JTable table) {
+<span class="fc" id="L63">        this(table, null);</span>
+<span class="fc" id="L64">    }</span>
+
+    /**
+     * A constructor, which requires the obligatory table and an additional string which will be set as initial value to
+     * the filter field.
+     * 
+     * @param table the table on which the filter will be applied
+     * @param initialExpression the initial expression which shall be set to the text field
+     */
+<span class="fc" id="L73">    public TableFilterPanel(JTable table, String initialExpression) {</span>
+<span class="fc" id="L74">        this.table = table;</span>
+<span class="fc" id="L75">        this.initialExpression = initialExpression;</span>
+<span class="fc" id="L76">        initComponents();</span>
+<span class="fc" id="L77">    }</span>
+
+    /**
+     * creates all components
+     */
+    private void initComponents() {
+<span class="fc" id="L83">        setLayout(new GridBagLayout());</span>
+
+<span class="fc" id="L85">        GridBagConstraints constraints = new GridBagConstraints();</span>
+<span class="fc" id="L86">        constraints.gridx = 0;</span>
+<span class="fc" id="L87">        constraints.gridy = 0;</span>
+<span class="fc" id="L88">        constraints.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L89">        add(new JLabel(&quot;Filter:&quot;), constraints);</span>
+
+<span class="fc" id="L91">        table.setAutoCreateRowSorter(true);</span>
+<span class="fc" id="L92">        final TableRowSorter&lt;? extends TableModel&gt; elementsSorter = (TableRowSorter&lt;? extends TableModel&gt;) this.table</span>
+<span class="fc" id="L93">                .getRowSorter();</span>
+
+<span class="fc" id="L95">        final JTextField filterText = new JTextField();</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if (initialExpression != null) {</span>
+<span class="nc" id="L97">            filterText.setText(initialExpression);</span>
+<span class="nc" id="L98">            elementsSorter.setRowFilter(RowFilter.regexFilter(initialExpression));</span>
+        }
+
+<span class="fc" id="L101">        filterText.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+<span class="nc" id="L104">                String text = filterText.getText();</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">                if (text.length() == 0) {</span>
+<span class="nc" id="L106">                    elementsSorter.setRowFilter(null);</span>
+                } else {
+<span class="nc" id="L108">                    elementsSorter.setRowFilter(RowFilter.regexFilter(text));</span>
+                }
+<span class="nc" id="L110">            }</span>
+        });
+
+<span class="fc" id="L113">        constraints.weightx = 1;</span>
+<span class="fc" id="L114">        constraints.gridx++;</span>
+<span class="fc" id="L115">        add(filterText, constraints);</span>
+<span class="fc" id="L116">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

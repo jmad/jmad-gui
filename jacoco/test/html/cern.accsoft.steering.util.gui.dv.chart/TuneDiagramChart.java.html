@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TuneDiagramChart.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.dv.chart</a> &gt; <span class="el_source">TuneDiagramChart.java</span></div><h1>TuneDiagramChart.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.dv.chart;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+
+import cern.jdve.Chart;
+import cern.jdve.ChartRenderer;
+import cern.jdve.Scale;
+import cern.jdve.Style;
+import cern.jdve.data.DefaultDataSet;
+import cern.jdve.data.DefaultDataSource;
+import cern.jdve.event.ChartInteractionListener;
+import cern.jdve.graphic.DefaultRenderingHint;
+import cern.jdve.graphic.Marker;
+import cern.jdve.graphic.MarkerFactory;
+import cern.jdve.interactor.ZoomInteractor;
+import cern.jdve.renderer.PolylineChartRenderer;
+import cern.jdve.renderer.ScatterChartRenderer;
+import cern.jdve.utils.DataWindow;
+
+/**
+ * Chart for a tune diagram. It just takes two tune values, the H and V tune
+ * 
+ * @author rstein
+ */
+public class TuneDiagramChart extends Chart {
+    private static final long serialVersionUID = 1L;
+<span class="fc" id="L54">    private final int MAX_NUMBER_OF_MARKER = 10;</span>
+    private ZoomInteractor fzoomInteractor;
+    private ScatterChartRenderer fScatterChartRenderer;
+    private PolylineChartRenderer fpolyrenderer;
+<span class="fc" id="L58">    private DefaultDataSource fresonances = new DefaultDataSource();</span>
+<span class="fc" id="L59">    private DefaultDataSet fdataset = new DefaultDataSet(&quot;TuneTrace&quot;);</span>
+<span class="fc" id="L60">    private Collection&lt;ChartInteractionListener&gt; flisteners = new ArrayList&lt;ChartInteractionListener&gt;();</span>
+<span class="fc" id="L61">    private Style[] fstyles = new Style[MAX_NUMBER_OF_MARKER];</span>
+<span class="fc" id="L62">    private Style[] flinestyles = new Style[24];</span>
+<span class="fc" id="L63">    private int fresonanceOrder = 10;</span>
+
+    public TuneDiagramChart(int resonanceOrder) {
+<span class="fc" id="L66">        super();</span>
+<span class="fc" id="L67">        this.fresonanceOrder = resonanceOrder;</span>
+
+<span class="fc" id="L69">        this.setName(&quot;TuneDiagram&quot;);</span>
+<span class="fc" id="L70">        this.setPreferredSize(new Dimension(500, 300));</span>
+<span class="fc" id="L71">        this.setAntiAliasing(true);</span>
+<span class="fc" id="L72">        this.setAntiAliasingText(true);</span>
+<span class="fc" id="L73">        this.setRenderingType(ChartRenderer.POLYLINE_WITH_MARKERS);</span>
+<span class="fc" id="L74">        this.getYGrid().setMinorLineVisible(true);</span>
+<span class="fc" id="L75">        this.getYGrid().setMinorColor(new Color(230, 230, 230));</span>
+<span class="fc" id="L76">        this.getXScale().setTitleAlignment(Scale.TITLE_RIGHT);</span>
+<span class="fc" id="L77">        this.getYScale().setTitleAlignment(Scale.TITLE_RIGHT);</span>
+<span class="fc" id="L78">        this.setAntiAliasing(false);</span>
+<span class="fc" id="L79">        this.setXScaleTitle(&quot;Q1 [2 pi]&quot;);</span>
+<span class="fc" id="L80">        this.setYScaleTitle(&quot;Q2 [2 pi]&quot;);</span>
+<span class="fc" id="L81">        this.setDoubleBuffered(true);</span>
+
+<span class="fc" id="L83">        this.setDataSet(fdataset);</span>
+
+<span class="fc" id="L85">        fScatterChartRenderer = new ScatterChartRenderer();</span>
+<span class="fc" id="L86">        fScatterChartRenderer.setDataSet(fdataset);</span>
+<span class="fc" id="L87">        this.addRenderer(fScatterChartRenderer);</span>
+
+<span class="fc" id="L89">        updateTuneMarkerStyles(MAX_NUMBER_OF_MARKER);</span>
+
+<span class="fc" id="L91">        fzoomInteractor = new ZoomInteractor();</span>
+<span class="fc" id="L92">        fzoomInteractor.setAnimationStep(0);</span>
+<span class="fc" id="L93">        fzoomInteractor.setOutOfRangeZoomAllowed(false);</span>
+<span class="fc" id="L94">        this.addInteractor(fzoomInteractor);</span>
+
+<span class="fc" id="L96">        drawResonanceLines(true, true, fresonanceOrder);</span>
+<span class="fc" id="L97">    }</span>
+
+    private void updateTuneMarkerStyles(int maxMarker) {
+<span class="fc" id="L100">        int tmaxMarker = Math.min(maxMarker, MAX_NUMBER_OF_MARKER);</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if (tmaxMarker &lt;= 0) {</span>
+<span class="nc" id="L102">            tmaxMarker = 1;</span>
+        }
+
+<span class="fc" id="L105">        fstyles = new Style[tmaxMarker];</span>
+<span class="fc" id="L106">        final int scale = (int) (255.0 / (double) (tmaxMarker * 1.1));</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        for (int i = 0; i &lt; fstyles.length; i++) {</span>
+<span class="fc" id="L108">            Color c = new Color(i * scale, i * scale, 255);</span>
+<span class="fc" id="L109">            fstyles[i] = new Style(new BasicStroke(1.5f), c, c);</span>
+        }
+
+<span class="fc" id="L112">        fScatterChartRenderer.setMarker(MarkerFactory.getMarker(Marker.CIRCLE));</span>
+<span class="fc" id="L113">        fScatterChartRenderer.setMarkerSize(10);</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        for (int i = 0; i &lt; fstyles.length; i++) {</span>
+<span class="fc" id="L115">            fScatterChartRenderer.setRenderingHint(fdataset, i, new DefaultRenderingHint(</span>
+                    fstyles[fstyles.length - 1 - i]));
+        }
+<span class="fc" id="L118">    }</span>
+
+    /**
+     * Transforms value to above/below 0.5
+     * 
+     * @param val - the tune value
+     * @param below05 - whether value is supposed to be 0.5
+     * @return
+     */
+    private double Qtrafo(double val, boolean below) {
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        if (below)</span>
+<span class="fc" id="L129">            return val;</span>
+        else
+<span class="nc" id="L131">            return (1.0 - val);</span>
+    }
+
+    private void drawResonanceLines(boolean Qxbelow, boolean Qybelow, int resonanceOrder) {
+
+        Color c;
+<span class="fc" id="L137">        boolean update = false;</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        if (fpolyrenderer != null) {</span>
+<span class="nc" id="L139">            update = true;</span>
+        } else {
+<span class="fc" id="L141">            update = false;</span>
+            // first and second order resonances
+<span class="fc" id="L143">            c = new Color(255, 0, 0);</span>
+<span class="fc" id="L144">            flinestyles[0] = new Style(new BasicStroke(1.5f), c, c);</span>
+
+            // third order resonances
+<span class="fc" id="L147">            c = new Color(0, 0, 255);</span>
+<span class="fc" id="L148">            flinestyles[1] = new Style(new BasicStroke(1.5f), c, c);</span>
+<span class="fc" id="L149">            flinestyles[2] = new Style(new BasicStroke(1.5f), c, c);</span>
+<span class="fc" id="L150">            flinestyles[3] = new Style(new BasicStroke(1.5f), c, c);</span>
+
+            // fourth order resonances
+<span class="fc" id="L153">            c = new Color(100, 100, 100);</span>
+<span class="fc" id="L154">            flinestyles[4] = new Style(new BasicStroke(1.0f), c, c);</span>
+<span class="fc" id="L155">            flinestyles[5] = new Style(new BasicStroke(1.0f), c, c);</span>
+
+            // fifth order resonances
+<span class="fc" id="L158">            c = new Color(100, 100, 100);</span>
+<span class="fc" id="L159">            flinestyles[6] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L160">            flinestyles[7] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L161">            flinestyles[8] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L162">            flinestyles[9] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L163">            flinestyles[10] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L164">            flinestyles[11] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L165">            flinestyles[12] = new Style(new BasicStroke(0.5f), c, c);</span>
+
+            // sixth order resonances
+<span class="fc" id="L168">            c = new Color(150, 150, 150);</span>
+<span class="fc" id="L169">            flinestyles[13] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L170">            flinestyles[14] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L171">            flinestyles[15] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L172">            flinestyles[16] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L173">            flinestyles[17] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L174">            flinestyles[18] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L175">            flinestyles[19] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L176">            flinestyles[20] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L177">            flinestyles[21] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L178">            flinestyles[22] = new Style(new BasicStroke(0.5f), c, c);</span>
+<span class="fc" id="L179">            flinestyles[23] = new Style(new BasicStroke(0.5f), c, c);</span>
+
+<span class="fc" id="L181">            fpolyrenderer = new PolylineChartRenderer();</span>
+<span class="fc" id="L182">            fpolyrenderer.setStyles(flinestyles);</span>
+        }
+
+        /* overwrites eventual older resonance lines */
+<span class="fc" id="L186">        fresonances = new DefaultDataSource();</span>
+
+<span class="fc" id="L188">        DefaultDataSet dataframe = new DefaultDataSet(&quot;frame&quot;);</span>
+<span class="fc" id="L189">        dataframe.setEditable(true);</span>
+<span class="fc" id="L190">        dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L191">        dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L192">        dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L193">        dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L194">        dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L195">        dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L196">        fresonances.addDataSet(dataframe);</span>
+
+        /* add and plot all third order resonances */
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        if (resonanceOrder &gt;= 3) {</span>
+<span class="fc" id="L200">            dataframe = new DefaultDataSet(&quot;third_1&quot;);</span>
+<span class="fc" id="L201">            dataframe.setEditable(true);</span>
+<span class="fc" id="L202">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(1.0 / 3.0, Qybelow));</span>
+<span class="fc" id="L203">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(1.0 / 3.0, Qybelow));</span>
+<span class="fc" id="L204">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L206">            dataframe = new DefaultDataSet(&quot;third_2&quot;);</span>
+<span class="fc" id="L207">            dataframe.setEditable(true);</span>
+<span class="fc" id="L208">            dataframe.add(Qtrafo(1.0 / 3.0, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L209">            dataframe.add(Qtrafo(1.0 / 3.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L210">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L212">            dataframe = new DefaultDataSet(&quot;third_3&quot;);</span>
+<span class="fc" id="L213">            dataframe.setEditable(true);</span>
+<span class="fc" id="L214">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L215">            dataframe.add(Qtrafo(1.0 / 3.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L216">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L217">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(1.0 / 3.0, Qybelow));</span>
+<span class="fc" id="L218">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L219">            fresonances.addDataSet(dataframe);</span>
+        }
+
+        /* add and plot all fourth order resonances */
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">        if (resonanceOrder &gt;= 4) {</span>
+<span class="fc" id="L224">            dataframe = new DefaultDataSet(&quot;fourth_1&quot;);</span>
+<span class="fc" id="L225">            dataframe.setEditable(true);</span>
+<span class="fc" id="L226">            dataframe.add(Qtrafo(0.25, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L227">            dataframe.add(Qtrafo(0.25, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L228">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L230">            dataframe = new DefaultDataSet(&quot;fourth_2&quot;);</span>
+<span class="fc" id="L231">            dataframe.setEditable(true);</span>
+<span class="fc" id="L232">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(0.25, Qybelow));</span>
+<span class="fc" id="L233">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(0.25, Qybelow));</span>
+<span class="fc" id="L234">            fresonances.addDataSet(dataframe);</span>
+        }
+
+        /* add and plot all fifth order resonances */
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">        if (resonanceOrder &gt;= 5) {</span>
+<span class="fc" id="L239">            dataframe = new DefaultDataSet(&quot;fifth_1&quot;);</span>
+<span class="fc" id="L240">            dataframe.setEditable(true);</span>
+<span class="fc" id="L241">            dataframe.add(Qtrafo(0.2, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L242">            dataframe.add(Qtrafo(0.2, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L243">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L245">            dataframe = new DefaultDataSet(&quot;fifth_2&quot;);</span>
+<span class="fc" id="L246">            dataframe.setEditable(true);</span>
+<span class="fc" id="L247">            dataframe.add(Qtrafo(0.4, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L248">            dataframe.add(Qtrafo(0.4, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L249">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L251">            dataframe = new DefaultDataSet(&quot;fifth_3&quot;);</span>
+<span class="fc" id="L252">            dataframe.setEditable(true);</span>
+<span class="fc" id="L253">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(0.2, Qybelow));</span>
+<span class="fc" id="L254">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(0.2, Qybelow));</span>
+<span class="fc" id="L255">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L257">            dataframe = new DefaultDataSet(&quot;fifth_4&quot;);</span>
+<span class="fc" id="L258">            dataframe.setEditable(true);</span>
+<span class="fc" id="L259">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(0.4, Qybelow));</span>
+<span class="fc" id="L260">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(0.4, Qybelow));</span>
+<span class="fc" id="L261">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L263">            dataframe = new DefaultDataSet(&quot;fifth_5&quot;);</span>
+<span class="fc" id="L264">            dataframe.setEditable(true);</span>
+<span class="fc" id="L265">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L266">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L267">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L269">            dataframe = new DefaultDataSet(&quot;fifth_6&quot;);</span>
+<span class="fc" id="L270">            dataframe.setEditable(true);</span>
+<span class="fc" id="L271">            dataframe.add(Qtrafo(1.0 / 6.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L272">            dataframe.add(Qtrafo(1.0 / 3.0, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L273">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L275">            dataframe = new DefaultDataSet(&quot;fifth_7&quot;);</span>
+<span class="fc" id="L276">            dataframe.setEditable(true);</span>
+<span class="fc" id="L277">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(1.0 / 6.0, Qybelow));</span>
+<span class="fc" id="L278">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(1.0 / 3.0, Qybelow));</span>
+<span class="fc" id="L279">            fresonances.addDataSet(dataframe);</span>
+        }
+
+        /* add and plot all sixth order resonances */
+<span class="pc bpc" id="L283" title="1 of 2 branches missed.">        if (resonanceOrder &gt;= 6) {</span>
+<span class="fc" id="L284">            dataframe = new DefaultDataSet(&quot;sixth_1&quot;);</span>
+<span class="fc" id="L285">            dataframe.setEditable(true);</span>
+<span class="fc" id="L286">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(1.0 / 6.0, Qybelow));</span>
+<span class="fc" id="L287">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(1.0 / 6.0, Qybelow));</span>
+<span class="fc" id="L288">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L290">            dataframe = new DefaultDataSet(&quot;sixth_2&quot;);</span>
+<span class="fc" id="L291">            dataframe.setEditable(true);</span>
+<span class="fc" id="L292">            dataframe.add(Qtrafo(1.0 / 6.0, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L293">            dataframe.add(Qtrafo(1.0 / 6.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L294">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L296">            dataframe = new DefaultDataSet(&quot;sixth_3&quot;);</span>
+<span class="fc" id="L297">            dataframe.setEditable(true);</span>
+<span class="fc" id="L298">            dataframe.add(Qtrafo(0.25, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L299">            dataframe.add(Qtrafo(1.0 / 8.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L300">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L302">            dataframe = new DefaultDataSet(&quot;sixth_4&quot;);</span>
+<span class="fc" id="L303">            dataframe.setEditable(true);</span>
+<span class="fc" id="L304">            dataframe.add(Qtrafo(1.0 / 3.0, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L305">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L306">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L308">            dataframe = new DefaultDataSet(&quot;sixth_5&quot;);</span>
+<span class="fc" id="L309">            dataframe.setEditable(true);</span>
+<span class="fc" id="L310">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L311">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(1.0 / 3.0, Qybelow));</span>
+<span class="fc" id="L312">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L314">            dataframe = new DefaultDataSet(&quot;sixth_6&quot;);</span>
+<span class="fc" id="L315">            dataframe.setEditable(true);</span>
+<span class="fc" id="L316">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(0.0, Qybelow));</span>
+<span class="fc" id="L317">            dataframe.add(Qtrafo(3.0 / 8.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L318">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L320">            dataframe = new DefaultDataSet(&quot;sixth_7&quot;);</span>
+<span class="fc" id="L321">            dataframe.setEditable(true);</span>
+<span class="fc" id="L322">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(0.25, Qybelow));</span>
+<span class="fc" id="L323">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(0.12569, Qybelow));</span>
+<span class="fc" id="L324">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L326">            dataframe = new DefaultDataSet(&quot;sixth_8&quot;);</span>
+<span class="fc" id="L327">            dataframe.setEditable(true);</span>
+<span class="fc" id="L328">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(1.0 / 3.0, Qybelow));</span>
+<span class="fc" id="L329">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(1.0 / 6.0, Qybelow));</span>
+<span class="fc" id="L330">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L332">            dataframe = new DefaultDataSet(&quot;sixth_9&quot;);</span>
+<span class="fc" id="L333">            dataframe.setEditable(true);</span>
+<span class="fc" id="L334">            dataframe.add(Qtrafo(0.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L335">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(3.0 / 8.0, Qybelow));</span>
+<span class="fc" id="L336">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L338">            dataframe = new DefaultDataSet(&quot;sixth_10&quot;);</span>
+<span class="fc" id="L339">            dataframe.setEditable(true);</span>
+<span class="fc" id="L340">            dataframe.add(Qtrafo(1.0 / 4.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L341">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(1.0 / 3.0, Qybelow));</span>
+<span class="fc" id="L342">            fresonances.addDataSet(dataframe);</span>
+
+<span class="fc" id="L344">            dataframe = new DefaultDataSet(&quot;sixth_11&quot;);</span>
+<span class="fc" id="L345">            dataframe.setEditable(true);</span>
+<span class="fc" id="L346">            dataframe.add(Qtrafo(1.0 / 3.0, Qxbelow), Qtrafo(0.5, Qybelow));</span>
+<span class="fc" id="L347">            dataframe.add(Qtrafo(0.5, Qxbelow), Qtrafo(1.0 / 4.0, Qybelow));</span>
+<span class="fc" id="L348">            fresonances.addDataSet(dataframe);</span>
+        }
+
+        /* add and plot all seventh order resonances */
+<span class="pc bpc" id="L352" title="1 of 2 branches missed.">        if (resonanceOrder &gt;= 7) {</span>
+            // TODO: to populate
+        }
+
+        /* add and plot all eighth order resonances */
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">        if (resonanceOrder &gt;= 8) {</span>
+            // TODO: to populate
+        }
+
+<span class="fc" id="L361">        fpolyrenderer.setDataSource(fresonances);</span>
+<span class="pc bpc" id="L362" title="1 of 2 branches missed.">        if (!update) {</span>
+<span class="fc" id="L363">            this.addRenderer(fpolyrenderer);</span>
+        }
+<span class="fc" id="L365">    }</span>
+
+    /**
+     * Sets the &lt;code&gt;xZoomAllowed&lt;/code&gt; flag.
+     */
+    public void setXZoomAllowed(boolean zoom_mode) {
+<span class="nc" id="L371">        fzoomInteractor.setXZoomAllowed(true);</span>
+<span class="nc" id="L372">    }</span>
+
+    /**
+     * Sets the &lt;code&gt;yZoomAllowed&lt;/code&gt; flag.
+     */
+    public void setYZoomAllowed(boolean zoom_mode) {
+<span class="nc" id="L378">        fzoomInteractor.setYZoomAllowed(true);</span>
+<span class="nc" id="L379">    }</span>
+
+    /**
+     * Sets the &lt;code&gt;xZoomAllowed=true&lt;/code&gt; and &lt;code&gt;yZoomAllowed=true&lt;/code&gt; flag.
+     */
+    public void setBothZoomAllowed() {
+<span class="nc" id="L385">        fzoomInteractor.setXZoomAllowed(true);</span>
+<span class="nc" id="L386">        fzoomInteractor.setYZoomAllowed(true);</span>
+<span class="nc" id="L387">    }</span>
+
+    /**
+     * Sets the &lt;code&gt;xZoomAllowed=true&lt;/code&gt; and &lt;code&gt;yZoomAllowed=false&lt;/code&gt; flag.
+     */
+    public void setXZoomAllowedOnly() {
+<span class="nc" id="L393">        fzoomInteractor.setXZoomAllowed(true);</span>
+<span class="nc" id="L394">        fzoomInteractor.setYZoomAllowed(false);</span>
+<span class="nc" id="L395">    }</span>
+
+    /**
+     * Sets the &lt;code&gt;xZoomAllowed=false&lt;/code&gt; and &lt;code&gt;yZoomAllowed=true&lt;/code&gt; flag.
+     */
+    public void setYZoomAllowedOnly() {
+<span class="nc" id="L401">        fzoomInteractor.setXZoomAllowed(false);</span>
+<span class="nc" id="L402">        fzoomInteractor.setYZoomAllowed(true);</span>
+<span class="nc" id="L403">    }</span>
+
+    public void zoomToOrigin() {
+<span class="nc" id="L406">        zoom(fdataset.getXRange().getMin(), fdataset.getXRange().getMax(), fdataset.getYRange().getMin(), fdataset</span>
+<span class="nc" id="L407">                .getYRange().getMax());</span>
+<span class="nc" id="L408">    }</span>
+
+    public void zoomLimit(double minX, double maxX, double minY, double maxY) {
+<span class="nc" id="L411">        double min_x = fdataset.getXRange().getMin();</span>
+<span class="nc" id="L412">        double max_x = fdataset.getXRange().getMax();</span>
+<span class="nc" id="L413">        double min_y = fdataset.getYRange().getMin();</span>
+<span class="nc" id="L414">        double max_y = fdataset.getYRange().getMax();</span>
+
+<span class="nc bnc" id="L416" title="All 2 branches missed.">        if (!((Double) minX).isNaN())</span>
+<span class="nc" id="L417">            min_x = minX;</span>
+<span class="nc bnc" id="L418" title="All 2 branches missed.">        if (!((Double) maxX).isNaN())</span>
+<span class="nc" id="L419">            max_x = maxX;</span>
+<span class="nc bnc" id="L420" title="All 2 branches missed.">        if (!((Double) minY).isNaN())</span>
+<span class="nc" id="L421">            min_y = minY;</span>
+<span class="nc bnc" id="L422" title="All 2 branches missed.">        if (!((Double) maxY).isNaN())</span>
+<span class="nc" id="L423">            max_y = maxY;</span>
+
+<span class="nc" id="L425">        zoom(min_x, max_x, min_y, max_y);</span>
+<span class="nc" id="L426">    }</span>
+
+    /**
+     * local zoom implementation with some safe guards
+     * 
+     * @param minX
+     * @param maxX
+     * @param minY
+     * @param maxY
+     */
+    private void zoom(double minX, double maxX, double minY, double maxY) {
+<span class="nc" id="L437">        boolean isAdjusting = isAdjusting();</span>
+<span class="nc bnc" id="L438" title="All 2 branches missed.">        if (!isAdjusting)</span>
+<span class="nc" id="L439">            setAdjusting(true);</span>
+
+<span class="nc" id="L441">        fzoomInteractor.clearZoomList();</span>
+        // some sanity checks
+<span class="nc bnc" id="L443" title="All 2 branches missed.">        if (minX &gt; maxX) {</span>
+<span class="nc" id="L444">            double temp = minX;</span>
+<span class="nc" id="L445">            minX = maxX;</span>
+<span class="nc" id="L446">            maxX = temp;</span>
+        }
+<span class="nc bnc" id="L448" title="All 2 branches missed.">        if (minY &gt; maxY) {</span>
+<span class="nc" id="L449">            double temp = minY;</span>
+<span class="nc" id="L450">            minY = maxY;</span>
+<span class="nc" id="L451">            maxY = temp;</span>
+        }
+
+<span class="nc bnc" id="L454" title="All 2 branches missed.">        if (minX == maxX) {</span>
+<span class="nc" id="L455">            maxX += 1;</span>
+        }
+
+<span class="nc bnc" id="L458" title="All 2 branches missed.">        if (minY == maxY) {</span>
+<span class="nc" id="L459">            maxY += 1;</span>
+        }
+
+<span class="nc" id="L462">        zoom(0, new DataWindow(minX, maxX, minY, maxY));</span>
+<span class="nc bnc" id="L463" title="All 2 branches missed.">        if (!isAdjusting)</span>
+<span class="nc" id="L464">            this.setAdjusting(false);</span>
+<span class="nc" id="L465">    }</span>
+
+    private double adjustToHalfInteger(double value, boolean aboveHalfInteger) {
+<span class="nc bnc" id="L468" title="All 8 branches missed.">        if ((aboveHalfInteger &amp;&amp; value &lt; 0.5) || (!aboveHalfInteger &amp;&amp; value &gt; 0.5))</span>
+<span class="nc" id="L469">            return (1.0 - value);</span>
+        else
+<span class="nc" id="L471">            return value;</span>
+    }
+
+    /**
+     * Sets the tune trace
+     * 
+     * @param tunes
+     */
+    private void set(double[] qXValues, double[] qYValues) {
+<span class="nc" id="L480">        int length = qXValues.length;</span>
+
+<span class="nc bnc" id="L482" title="All 2 branches missed.">        if (qYValues.length != length) {</span>
+<span class="nc" id="L483">            throw new IllegalArgumentException(&quot;Arrays for Qx and Qy must be of same length!&quot;);</span>
+        }
+
+<span class="nc bnc" id="L486" title="All 2 branches missed.">        if (length &gt; MAX_NUMBER_OF_MARKER)</span>
+<span class="nc" id="L487">            length = MAX_NUMBER_OF_MARKER;</span>
+
+<span class="nc" id="L489">        boolean xAboveHalfInteger = isAboveHalfInteger(qXValues);</span>
+<span class="nc" id="L490">        boolean yAboveHalfInteger = isAboveHalfInteger(qYValues);</span>
+
+<span class="nc" id="L492">        this.setAdjusting(true);</span>
+
+<span class="nc" id="L494">        double xmin = 1e99, xmax = -1e99, ymin = 1e99, ymax = -1e99;</span>
+<span class="nc" id="L495">        double[] xtrace = new double[length];</span>
+<span class="nc" id="L496">        double[] ytrace = new double[length];</span>
+
+<span class="nc bnc" id="L498" title="All 2 branches missed.">        for (int i = 0; i &lt; length; i++) {</span>
+
+<span class="nc" id="L500">            double x = adjustToHalfInteger(qXValues[i], xAboveHalfInteger);</span>
+<span class="nc" id="L501">            double y = adjustToHalfInteger(qYValues[i], yAboveHalfInteger);</span>
+
+<span class="nc bnc" id="L503" title="All 2 branches missed.">            if (i &lt; xtrace.length) {</span>
+<span class="nc" id="L504">                xtrace[i] = x;</span>
+<span class="nc" id="L505">                ytrace[i] = y;</span>
+            }
+
+<span class="nc bnc" id="L508" title="All 2 branches missed.">            if (x &gt; xmax)</span>
+<span class="nc" id="L509">                xmax = x;</span>
+<span class="nc bnc" id="L510" title="All 2 branches missed.">            if (x &lt; xmin)</span>
+<span class="nc" id="L511">                xmin = x;</span>
+<span class="nc bnc" id="L512" title="All 2 branches missed.">            if (y &gt; ymax)</span>
+<span class="nc" id="L513">                ymax = y;</span>
+<span class="nc bnc" id="L514" title="All 2 branches missed.">            if (y &lt; ymin)</span>
+<span class="nc" id="L515">                ymin = y;</span>
+        }
+
+<span class="nc" id="L518">        fdataset.set(xtrace, ytrace);</span>
+<span class="nc" id="L519">        updateTuneMarkerStyles(xtrace.length);</span>
+
+<span class="nc" id="L521">        this.getXAxis().setRange(0.9 * xmin, 1.1 * xmax);</span>
+<span class="nc" id="L522">        this.getYAxis().setRange(0.9 * ymin, 1.1 * ymax);</span>
+<span class="nc" id="L523">        this.setAdjusting(false);</span>
+<span class="nc" id="L524">    }</span>
+
+    public void addChartInteractionEventListener(ChartInteractionListener listener) {
+<span class="nc" id="L527">        flisteners.add(listener);</span>
+<span class="nc" id="L528">    }</span>
+
+    public void removeChartInteractionListener(ChartInteractionListener listener) {
+<span class="nc bnc" id="L531" title="All 2 branches missed.">        if (flisteners != null) {</span>
+<span class="nc" id="L532">            flisteners.remove(listener);</span>
+        }
+<span class="nc" id="L534">    }</span>
+
+    private boolean isAboveHalfInteger(double[] values) {
+        // TODO: define exact behaviour
+<span class="nc bnc" id="L538" title="All 2 branches missed.">        if (values.length &lt; 1) {</span>
+<span class="nc" id="L539">            return false;</span>
+        }
+<span class="nc bnc" id="L541" title="All 2 branches missed.">        return values[0] &gt; 0.5;</span>
+    }
+
+    public void setValues(double qX, double qY) {
+<span class="nc" id="L545">        setValues(new double[] { qX }, new double[] { qY });</span>
+<span class="nc" id="L546">    }</span>
+
+    public void setValues(double[] qXValues, double[] qYValues) {
+<span class="nc bnc" id="L549" title="All 4 branches missed.">        if (!isAdjusting() &amp;&amp; this.isShowing()) {</span>
+<span class="nc" id="L550">            double[] qXCopy = getFractionalPart(qXValues);</span>
+<span class="nc" id="L551">            double[] qYCOpy = getFractionalPart(qYValues);</span>
+
+<span class="nc bnc" id="L553" title="All 4 branches missed.">            drawResonanceLines(!isAboveHalfInteger(qXCopy), !isAboveHalfInteger(qYCOpy), fresonanceOrder);</span>
+<span class="nc" id="L554">            set(qXCopy, qYCOpy);</span>
+        }
+<span class="nc" id="L556">    }</span>
+
+    private static final double[] getFractionalPart(double[] values) {
+<span class="nc" id="L559">        double[] valuesCopy = Arrays.copyOf(values, values.length);</span>
+<span class="nc bnc" id="L560" title="All 2 branches missed.">        for (int i = 0; i &lt; valuesCopy.length; i++) {</span>
+<span class="nc" id="L561">            double value = valuesCopy[i];</span>
+<span class="nc" id="L562">            valuesCopy[i] = value - Math.floor(value);</span>
+        }
+<span class="nc" id="L564">        return valuesCopy;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

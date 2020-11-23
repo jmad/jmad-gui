@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OutputBuffer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.script</a> &gt; <span class="el_source">OutputBuffer.java</span></div><h1>OutputBuffer.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+/*
+ *  ***** BEGIN LICENSE BLOCK ***** Version: MPL 1.1/GPL 2.0/LGPL 2.1
+ * 
+ * The contents of this file are subject to the Mozilla Public License Version 1.1 (the &quot;License&quot;); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at http://www.mozilla.org/MPL/
+ * 
+ * Software distributed under the License is distributed on an &quot;AS IS&quot; basis, WITHOUT WARRANTY OF ANY KIND, either
+ * express or implied. See the License for the specific language governing rights and limitations under the License.
+ * 
+ * The Original Code is the Scripting Tab for Protege.
+ * 
+ * The Initial Developer of the Original Code is Olivier Dameron (dameron@smi.stanford.edu). Portions created by the
+ * Initial Developer are Copyright (C) 2004 the Initial Developer. All Rights Reserved.
+ * 
+ * Contributor(s):
+ * 
+ * Alternatively, the contents of this file may be used under the terms of either the GNU General Public License Version
+ * 2 or later (the &quot;GPL&quot;), or the GNU Lesser General Public License Version 2.1 or later (the &quot;LGPL&quot;), in which case the
+ * provisions of the GPL or the LGPL are applicable instead of those above. If you wish to allow use of your version of
+ * this file only under the terms of either the GPL or the LGPL, and not to allow others to use your version of this
+ * file under the terms of the MPL, indicate your decision by deleting the provisions above and replace them with the
+ * notice and other provisions required by the GPL or the LGPL. If you do not delete the provisions above, a recipient
+ * may use your version of this file under the terms of any one of the MPL, the GPL or the LGPL.
+ * 
+ * ***** END LICENSE BLOCK *****
+ */
+
+package cern.accsoft.steering.util.gui.script;
+
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
+
+/**
+ * Provides a PrintStream for writing on a ScriptConsole. Useful for redirecting System.out to the script console.
+ * 
+ * @author Olivier Dameron (dameron@smi.stanford.edu)
+ */
+public class OutputBuffer extends PrintStream {
+
+<span class="nc" id="L62">    protected ScriptConsole console = null;</span>
+
+    /**
+	 * 
+	 */
+    public OutputBuffer(ScriptConsole scriptconsole) {
+<span class="nc" id="L68">        super(new PipedOutputStream());</span>
+<span class="nc" id="L69">        console = scriptconsole;</span>
+<span class="nc" id="L70">    }</span>
+
+    public void write(byte[] b, int off, int len) {
+<span class="nc" id="L73">        console.print(new String(b, off, len));</span>
+<span class="nc" id="L74">    }</span>
+
+    public void write(byte b) {
+<span class="nc" id="L77">        console.print(new String(&quot;&quot; + b));</span>
+<span class="nc" id="L78">    }</span>
+
+    public void flush() {
+<span class="nc" id="L81">        super.flush();</span>
+<span class="nc" id="L82">    }</span>
+
+    public void print(char c) {
+<span class="nc" id="L85">        console.print(&quot;&quot; + c);</span>
+<span class="nc" id="L86">    }</span>
+
+    public void print(char[] s) {
+<span class="nc" id="L89">        console.print(s);</span>
+<span class="nc" id="L90">    }</span>
+
+    public void print(Object obj) {
+<span class="nc" id="L93">        console.print(obj);</span>
+<span class="nc" id="L94">    }</span>
+
+    public void print(String text) {
+<span class="nc" id="L97">        console.print(text);</span>
+<span class="nc" id="L98">    }</span>
+
+    public void println(Object obj) {
+<span class="nc" id="L101">        console.println(obj);</span>
+<span class="nc" id="L102">    }</span>
+
+    public void println(String text) {
+<span class="nc" id="L105">        console.println(text);</span>
+<span class="nc" id="L106">    }</span>
+
+    public void println(char[] s) {
+<span class="nc" id="L109">        console.println(s);</span>
+<span class="nc" id="L110">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

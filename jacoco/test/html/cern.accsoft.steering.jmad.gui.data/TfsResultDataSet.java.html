@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TfsResultDataSet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.data</a> &gt; <span class="el_source">TfsResultDataSet.java</span></div><h1>TfsResultDataSet.java</h1><pre class="source lang-java linenums">// @formatter:off
+/*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.data;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cern.accsoft.steering.jmad.domain.result.tfs.TfsResult;
+import cern.accsoft.steering.jmad.domain.var.MadxVariable;
+import cern.accsoft.steering.jmad.domain.var.TwissVariable;
+import cern.accsoft.steering.jmad.domain.var.enums.MadxTwissVariable;
+import cern.accsoft.steering.jmad.gui.mark.MarkerXProvider;
+import cern.jdve.data.AbstractDataSet;
+import cern.jdve.event.DataSetEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class TfsResultDataSet extends AbstractDataSet implements
+		MarkerXProvider {
+<span class="nc" id="L40">	private final static Logger logger = LoggerFactory.getLogger(TfsResultDataSet.class);</span>
+
+<span class="nc" id="L42">	public final static MadxTwissVariable LABEL_VAR = MadxTwissVariable.NAME;</span>
+
+	/** the limit for zero-definition */
+	private final static double LIMIT_ZERO = 1e-20;
+
+	/** maximum value for aperture */
+<span class="nc" id="L48">	private double maxAperture = 0.0;</span>
+
+	/** the actual tfsResult to display */
+<span class="nc" id="L51">	private TfsResult tfsResult = null;</span>
+
+	/** the reference tfsResult (if available) */
+<span class="nc" id="L54">	private TfsResult referenceTfsResult = null;</span>
+
+	/** an additional factor to apply to the values */
+<span class="nc" id="L57">	private double factor = 1;</span>
+
+	/**
+	 * how to display the data set
+	 */
+<span class="nc" id="L62">	private TfsResultDataSetType type = TfsResultDataSetType.ABSOLUTE;</span>
+
+	/** the cached x-values */
+<span class="nc" id="L65">	private List&lt;Double&gt; xValues = new ArrayList&lt;Double&gt;();</span>
+
+	/** the cached y-values */
+<span class="nc" id="L68">	private List&lt;Double&gt; yValues = new ArrayList&lt;Double&gt;();</span>
+
+<span class="nc" id="L70">	private MadxVariable xVar = null;</span>
+<span class="nc" id="L71">	private TwissVariable yVar = null;</span>
+
+<span class="fc" id="L73">	public enum TfsResultDataSetType {</span>
+<span class="fc" id="L74">		ABSOLUTE, DIFFERENCE, RELATIVE, BEATING;</span>
+	}
+
+	public TfsResultDataSet(String name, MadxVariable xVar, TwissVariable yVar,
+			TfsResultDataSetType type, TfsResult tfsResult,
+			TfsResult referenceTfsResult) {
+<span class="nc" id="L80">		super(name);</span>
+<span class="nc" id="L81">		this.xVar = xVar;</span>
+<span class="nc" id="L82">		this.yVar = yVar;</span>
+<span class="nc" id="L83">		this.type = type;</span>
+<span class="nc" id="L84">		this.tfsResult = tfsResult;</span>
+<span class="nc" id="L85">		this.referenceTfsResult = referenceTfsResult;</span>
+<span class="nc" id="L86">		calculate();</span>
+<span class="nc" id="L87">	}</span>
+
+	@Override
+	public void add(int arg0, double arg1, double arg2) {
+<span class="nc" id="L91">		throw new UnsupportedOperationException(&quot;not implemented.&quot;);</span>
+	}
+
+	@Override
+	public int getDataCount() {
+<span class="nc bnc" id="L96" title="All 2 branches missed.">		if (tfsResult == null) {</span>
+<span class="nc" id="L97">			return 0;</span>
+		}
+
+<span class="nc" id="L100">		List&lt;String&gt; stringData = tfsResult.getStringData(xVar);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">		if (stringData != null) {</span>
+<span class="nc" id="L102">			return stringData.size();</span>
+		}
+<span class="nc" id="L104">		return 0;</span>
+	}
+
+	@Override
+	public double getX(int index) {
+<span class="nc" id="L109">		return this.xValues.get(index);</span>
+	}
+
+	@Override
+	public double getY(int index) {
+<span class="nc" id="L114">		return this.yValues.get(index);</span>
+	}
+
+	@Override
+	public void remove(int arg0, int arg1) {
+<span class="nc" id="L119">		throw new UnsupportedOperationException(&quot;not implemented.&quot;);</span>
+	}
+
+	@Override
+	public String getDataLabel(int index) {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">		if (tfsResult == null) {</span>
+<span class="nc" id="L125">			return null;</span>
+		}
+
+<span class="nc" id="L128">		List&lt;String&gt; stringData = tfsResult.getStringData(LABEL_VAR);</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">		if (stringData != null) {</span>
+<span class="nc" id="L130">			return stringData.get(index);</span>
+		} else {
+<span class="nc" id="L132">			logger.error(&quot;No data in TfsResult for variable '&quot; + LABEL_VAR</span>
+					+ &quot;'.&quot;);
+		}
+<span class="nc" id="L135">		return null;</span>
+	}
+
+	/**
+	 * (re) calculates all the cached values
+	 */
+	private void calculate() {
+<span class="nc bnc" id="L142" title="All 2 branches missed.">		if (this.tfsResult == null) {</span>
+<span class="nc" id="L143">			logger.error(&quot;No tfs result set.&quot;);</span>
+<span class="nc" id="L144">			return;</span>
+		}
+
+<span class="nc" id="L147">		List&lt;Double&gt; xVals = tfsResult.getDoubleData(this.xVar);</span>
+<span class="nc" id="L148">		List&lt;Double&gt; yVals = tfsResult.getDoubleData(this.yVar);</span>
+<span class="nc bnc" id="L149" title="All 4 branches missed.">		if ((xVals == null) || (yVals == null)) {</span>
+<span class="nc" id="L150">			logger.error(&quot;No x- or no y- values found in tfs result.&quot;);</span>
+<span class="nc" id="L151">			return;</span>
+		}
+
+<span class="nc" id="L154">		this.xValues = new ArrayList&lt;Double&gt;(xVals);</span>
+<span class="nc" id="L155">		this.yValues = new ArrayList&lt;Double&gt;(yVals);</span>
+
+<span class="nc bnc" id="L157" title="All 2 branches missed.">		if (isApertureDataSet()) {</span>
+<span class="nc" id="L158">			calcMaxAperture(yVals);</span>
+<span class="nc" id="L159">			this.yValues = new ArrayList&lt;Double&gt;(yVals.size());</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">			for (int i = 0; i &lt; yVals.size(); i++) {</span>
+<span class="nc" id="L161">				Double value = yVals.get(i);</span>
+<span class="nc" id="L162">				double absValue = Math.abs(value);</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">				if (absValue &gt; getMaxAperture()) {</span>
+<span class="nc" id="L164">					value = Math.signum(value) * getMaxAperture();</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">				} else if (absValue &lt; LIMIT_ZERO) {</span>
+<span class="nc" id="L166">					value = getMaxAperture();</span>
+				}
+<span class="nc" id="L168">				this.yValues.add(value);</span>
+			}
+<span class="nc bnc" id="L170" title="All 2 branches missed.">		} else if (isRelative()) {</span>
+<span class="nc" id="L171">			boolean refOk = true;</span>
+<span class="nc" id="L172">			List&lt;Double&gt; yRefValues = null;</span>
+
+<span class="nc bnc" id="L174" title="All 2 branches missed.">			if (this.referenceTfsResult == null) {</span>
+<span class="nc" id="L175">				logger.warn(&quot;Should be relative dataset, but no reference set. Data will be absolute.&quot;);</span>
+<span class="nc" id="L176">				refOk = false;</span>
+			}
+
+<span class="nc bnc" id="L179" title="All 2 branches missed.">			if (refOk) {</span>
+<span class="nc" id="L180">				yRefValues = this.referenceTfsResult.getDoubleData(this.yVar);</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">				if (yRefValues == null) {</span>
+<span class="nc" id="L182">					logger.warn(&quot;No reference values for variable '&quot;</span>
+							+ this.yVar + &quot;'. Data will be absolute.&quot;);
+<span class="nc" id="L184">					refOk = false;</span>
+				}
+			}
+
+<span class="nc bnc" id="L188" title="All 2 branches missed.">			if (refOk) {</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">				if (yVals.size() != yRefValues.size()) {</span>
+<span class="nc" id="L190">					logger.warn(&quot;y-values and ref values are of different size. Data will be absolute.&quot;);</span>
+<span class="nc" id="L191">					refOk = false;</span>
+				}
+			}
+
+<span class="nc bnc" id="L195" title="All 2 branches missed.">			if (refOk) {</span>
+<span class="nc" id="L196">				this.yValues = new ArrayList&lt;Double&gt;(yVals.size());</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">				for (int i = 0; i &lt; yVals.size(); i++) {</span>
+<span class="nc" id="L198">					Double value = yVals.get(i);</span>
+<span class="nc" id="L199">					Double refValue = yRefValues.get(i);</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">					if (refValue != null) {</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">						if (TfsResultDataSetType.DIFFERENCE.equals(this.type)) {</span>
+<span class="nc" id="L202">							value -= refValue;</span>
+<span class="nc" id="L203">						} else if (TfsResultDataSetType.RELATIVE</span>
+<span class="nc bnc" id="L204" title="All 2 branches missed.">								.equals(this.type)) {</span>
+<span class="nc" id="L205">							value /= refValue;</span>
+<span class="nc" id="L206">						} else if (TfsResultDataSetType.BEATING</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">								.equals(this.type)) {</span>
+<span class="nc" id="L208">							value = (value - refValue) / refValue;</span>
+						}
+					}
+<span class="nc" id="L211">					this.yValues.add(value);</span>
+				}
+			}
+		}
+
+<span class="nc bnc" id="L216" title="All 2 branches missed.">		for (int i = 0; i &lt; this.yValues.size(); i++) {</span>
+<span class="nc" id="L217">			this.yValues.set(i, this.yValues.get(i) * getFactor());</span>
+		}
+<span class="nc" id="L219">	}</span>
+
+	/**
+	 * @return the calculated maximum aperture
+	 */
+	private double getMaxAperture() {
+<span class="nc" id="L225">		return this.maxAperture;</span>
+	}
+
+	/**
+	 * sets the actual dataset
+	 * 
+	 * @param tfsResult
+	 *            the Result to set
+	 */
+	public void setTfsResult(TfsResult tfsResult) {
+<span class="nc" id="L235">		this.tfsResult = tfsResult;</span>
+<span class="nc" id="L236">		fireFullChange();</span>
+<span class="nc" id="L237">	}</span>
+
+	/**
+	 * sets a new TfsResult as reference
+	 * 
+	 * @param referenceTfsResult
+	 *            the TfsResult to set as Reference
+	 */
+	public void setReferenceTfsResult(TfsResult referenceTfsResult) {
+<span class="nc" id="L246">		this.referenceTfsResult = referenceTfsResult;</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">		if (isRelative()) {</span>
+<span class="nc" id="L248">			fireFullChange();</span>
+		}
+<span class="nc" id="L250">	}</span>
+
+	/**
+	 * @return true, if this dataset is any kind of relative dataset
+	 */
+	private boolean isRelative() {
+<span class="nc bnc" id="L256" title="All 2 branches missed.">		return (!TfsResultDataSetType.ABSOLUTE.equals(this.type));</span>
+	}
+
+	/**
+	 * enforces the recalc of the ranges and fires a fullChange - Event.
+	 */
+	private void fireFullChange() {
+<span class="nc" id="L263">		calculate();</span>
+<span class="nc" id="L264">		initRanges();</span>
+<span class="nc" id="L265">		fireDataSetChanged(new DataSetEvent(this, DataSetEvent.FULL_CHANGE));</span>
+<span class="nc" id="L266">	}</span>
+
+	private void calcMaxAperture(List&lt;Double&gt; values) {
+<span class="nc" id="L269">		double maxAbsValue = 0;</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">		for (int i = 0; i &lt; values.size(); i++) {</span>
+<span class="nc" id="L271">			double value = Math.abs(values.get(i));</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">			if (value &gt; maxAbsValue) {</span>
+<span class="nc" id="L273">				maxAbsValue = value;</span>
+			}
+		}
+<span class="nc" id="L276">		this.maxAperture = maxAbsValue;</span>
+<span class="nc" id="L277">	}</span>
+
+	@Override
+	public List&lt;Double&gt; getXPositions(String elementName) {
+<span class="nc" id="L281">		List&lt;Double&gt; xPositions = new ArrayList&lt;Double&gt;();</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">		if (tfsResult == null) {</span>
+<span class="nc" id="L283">			return xPositions;</span>
+		}
+
+		/* get the actual value */
+		/*
+		 * TODO: maybe extend to more values
+		 */
+<span class="nc" id="L290">		Integer index = tfsResult.getElementIndex(elementName);</span>
+<span class="nc bnc" id="L291" title="All 2 branches missed.">		if (index != null) {</span>
+<span class="nc" id="L292">			xPositions.add(xValues.get(index));</span>
+		}
+
+<span class="nc" id="L295">		return xPositions;</span>
+	}
+
+	/**
+	 * @param factor
+	 *            the factor to set
+	 */
+	public void setFactor(double factor) {
+<span class="nc" id="L303">		this.factor = factor;</span>
+<span class="nc" id="L304">	}</span>
+
+	/**
+	 * @return the factor
+	 */
+	public double getFactor() {
+<span class="nc" id="L310">		return factor;</span>
+	}
+
+	/**
+	 * @return true, if this represents an aperture-dataset.
+	 */
+	public boolean isApertureDataSet() {
+<span class="nc" id="L317">		return this.yVar.isApertureVariable();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

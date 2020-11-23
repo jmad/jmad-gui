@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JMadGuiActions.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.actions</a> &gt; <span class="el_source">JMadGuiActions.java</span></div><h1>JMadGuiActions.java</h1><pre class="source lang-java linenums">package cern.accsoft.steering.jmad.gui.actions;
+
+import static cern.accsoft.steering.jmad.gui.icons.Icon.SAVE;
+import static javax.swing.SwingUtilities.invokeLater;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+
+import cern.accsoft.steering.jmad.gui.actions.event.ChooseOpticsEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.ChooseRangeEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.CloseActiveModelEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.CreateModelFromFileEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.CreateModelFromRepositoryEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.CreateModelFromUriEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.ExitEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.ExportModelEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.ExportModelUriEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.SaveTwissEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.ShowAboutBoxEvent;
+import cern.accsoft.steering.jmad.gui.icons.Icon;
+import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
+import cern.accsoft.steering.util.gui.NamedAction;
+import org.springframework.context.ApplicationEventPublisher;
+
+public final class JMadGuiActions {
+
+    private final ApplicationEventPublisher publisher;
+
+<span class="fc" id="L29">    private final Action createModelAction = new NamedAction(&quot;Create Model ...&quot;, &quot;Creates a new model ...&quot;) {</span>
+        private static final long serialVersionUID = 1L;
+
+        {
+<span class="fc" id="L33">            putValue(SMALL_ICON, Icon.NEW.getImageIcon());</span>
+<span class="fc" id="L34">        }</span>
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L38">            Object source = e.getSource();</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            if (source instanceof JComponent) {</span>
+<span class="nc" id="L40">                JComponent sourceComponent = (JComponent) source;</span>
+<span class="nc" id="L41">                JPopupMenu popupMenu = new JPopupMenu();</span>
+<span class="nc" id="L42">                popupMenu.add(createModelFromRepositoryAction);</span>
+<span class="nc" id="L43">                popupMenu.add(createModelFromUriAction);</span>
+<span class="nc" id="L44">                popupMenu.add(createModelFromFileAction);</span>
+<span class="nc" id="L45">                popupMenu.show(sourceComponent, 0, 0);</span>
+            }
+<span class="nc" id="L47">        }</span>
+
+    };
+
+<span class="fc" id="L51">    private final Action createModelFromRepositoryAction = new NamedAction(&quot;Create Model from Repository&quot;,</span>
+<span class="fc" id="L52">            &quot;Creates a new model from the repository.&quot;) {</span>
+        private static final long serialVersionUID = 1L;
+
+        {
+<span class="fc" id="L56">            putValue(SMALL_ICON, Icon.OPEN_REPO.getImageIcon());</span>
+<span class="fc" id="L57">        }</span>
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L61">            publisher.publishEvent(new CreateModelFromRepositoryEvent());</span>
+<span class="nc" id="L62">        }</span>
+
+    };
+
+<span class="fc" id="L66">    private final Action createModelFromFileAction = new NamedAction(&quot;Create Model from ZIP File&quot;,</span>
+<span class="fc" id="L67">            &quot;Creates a new model from an local ZIP file.&quot;) {</span>
+        private static final long serialVersionUID = 1L;
+
+        {
+<span class="fc" id="L71">            putValue(SMALL_ICON, Icon.OPEN_FILE.getImageIcon());</span>
+<span class="fc" id="L72">        }</span>
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L76">            publisher.publishEvent(new CreateModelFromFileEvent());</span>
+<span class="nc" id="L77">        }</span>
+    };
+
+<span class="fc" id="L80">    private final Action createModelFromUriAction = new NamedAction(&quot;Create Model from URI&quot;,</span>
+<span class="fc" id="L81">            &quot;Creates a new model from a URI.&quot;) {</span>
+        private static final long serialVersionUID = 1L;
+
+        {
+<span class="fc" id="L85">            putValue(SMALL_ICON, Icon.OPEN_URI.getImageIcon());</span>
+<span class="fc" id="L86">        }</span>
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L90">            publisher.publishEvent(new CreateModelFromUriEvent());</span>
+<span class="nc" id="L91">        }</span>
+    };
+
+<span class="fc" id="L94">    private final Action exportModelAction = new NamedAction(&quot;Export model definition&quot;,</span>
+<span class="fc" id="L95">            &quot;Saves the active model definition to a file.&quot;) {</span>
+        private static final long serialVersionUID = 1L;
+
+        {
+<span class="fc" id="L99">            putValue(SMALL_ICON, Icon.EXPORT.getImageIcon());</span>
+<span class="fc" id="L100">        }</span>
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L104">            publisher.publishEvent(new ExportModelEvent());</span>
+<span class="nc" id="L105">        }</span>
+    };
+
+<span class="fc" id="L108">    private final Action exportModelUriAction = new NamedAction(&quot;Get the active model URI&quot;,</span>
+<span class="fc" id="L109">            &quot;Gets an URI of the active model.&quot;) {</span>
+        private static final long serialVersionUID = 1L;
+
+        {
+<span class="fc" id="L113">            putValue(SMALL_ICON, Icon.EXPORT_URI.getImageIcon());</span>
+<span class="fc" id="L114">        }</span>
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L118">            publisher.publishEvent(new ExportModelUriEvent());</span>
+<span class="nc" id="L119">        }</span>
+    };
+
+<span class="fc" id="L122">    private final Action closeActiveModelAction = new NamedAction(&quot;Close active model&quot;, &quot;Closes the active model&quot;) {</span>
+        private static final long serialVersionUID = 1L;
+
+        {
+<span class="fc" id="L126">            putValue(SMALL_ICON, Icon.DELETE.getImageIcon());</span>
+<span class="fc" id="L127">        }</span>
+
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+<span class="nc" id="L131">            publisher.publishEvent(new CloseActiveModelEvent());</span>
+<span class="nc" id="L132">        }</span>
+    };
+
+<span class="fc" id="L135">    private final Action exitAction = new AbstractAction(&quot;Exit&quot;, Icon.EXIT.getImageIcon()) {</span>
+        private static final long serialVersionUID = 1L;
+
+        {
+<span class="fc" id="L139">            putValue(Action.SHORT_DESCRIPTION, &quot;Exit Application&quot;);</span>
+<span class="fc" id="L140">        }</span>
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L144">            publisher.publishEvent(new ExitEvent());</span>
+<span class="nc" id="L145">        }</span>
+    };
+
+<span class="fc" id="L148">    private final Action chooseRangeAction = new NamedAction(&quot;select range&quot;,</span>
+<span class="fc" id="L149">            &quot;Select one of the possible ranges of the model.&quot;) {</span>
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L154">            publisher.publishEvent(new ChooseRangeEvent());</span>
+<span class="nc" id="L155">        }</span>
+    };
+
+<span class="fc" id="L158">    private final Action chooseOpticsAction = new NamedAction(&quot;select optics&quot;,</span>
+<span class="fc" id="L159">            &quot;Select optics definition of the model.&quot;) {</span>
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L164">            publisher.publishEvent(new ChooseOpticsEvent());</span>
+<span class="nc" id="L165">        }</span>
+    };
+
+<span class="fc" id="L168">    private final Action saveTwissAction = new NamedAction(&quot;Save Twiss&quot;, &quot;Saves the actual twiss to a file.&quot;) {</span>
+        {
+<span class="fc" id="L170">            putValue(SMALL_ICON, SAVE.getImageIcon());</span>
+<span class="fc" id="L171">        }</span>
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L175">            publisher.publishEvent(new SaveTwissEvent());</span>
+<span class="nc" id="L176">        }</span>
+    };
+
+<span class="fc" id="L179">    private final Action showAboutBoxAction = new AbstractAction(&quot;About&quot;) {</span>
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+<span class="nc" id="L184">            publisher.publishEvent(new ShowAboutBoxEvent());</span>
+<span class="nc" id="L185">        }</span>
+    };
+
+<span class="fc" id="L188">    public JMadGuiActions(ApplicationEventPublisher publisher, JMadGuiPreferences guiPreferences) {</span>
+<span class="fc" id="L189">        this.publisher = publisher;</span>
+<span class="pc" id="L190">        guiPreferences.enabledChangeModelProperty().subscribe(enable -&gt; invokeLater(() -&gt; {</span>
+<span class="nc" id="L191">            createModelAction.setEnabled(enable);</span>
+<span class="nc" id="L192">            createModelFromFileAction.setEnabled(enable);</span>
+<span class="nc" id="L193">            createModelFromRepositoryAction.setEnabled(enable);</span>
+<span class="nc" id="L194">            createModelFromUriAction.setEnabled(enable);</span>
+<span class="nc" id="L195">            closeActiveModelAction.setEnabled(enable);</span>
+<span class="nc" id="L196">        }));</span>
+<span class="fc" id="L197">        guiPreferences.enabledChangeOpticProperty().subscribe( //</span>
+<span class="nc" id="L198">                enable -&gt; invokeLater(() -&gt; chooseOpticsAction.setEnabled(enable)));</span>
+<span class="fc" id="L199">        guiPreferences.enabledChangeRangeProperty().subscribe( //</span>
+<span class="nc" id="L200">                enable -&gt; invokeLater(() -&gt; chooseRangeAction.setEnabled(enable)));</span>
+<span class="fc" id="L201">    }</span>
+
+    public Action getCreateModelAction() {
+<span class="fc" id="L204">        return createModelAction;</span>
+    }
+
+    public Action getCreateModelFromRepositoryAction() {
+<span class="fc" id="L208">        return createModelFromRepositoryAction;</span>
+    }
+
+    public Action getCreateModelFromUriAction() {
+<span class="fc" id="L212">        return createModelFromUriAction;</span>
+    }
+
+    public Action getCreateModelFromFileAction() {
+<span class="fc" id="L216">        return createModelFromFileAction;</span>
+    }
+
+    public Action getExportModelAction() {
+<span class="fc" id="L220">        return exportModelAction;</span>
+    }
+
+    public Action getExportModelUriAction() {
+<span class="fc" id="L224">        return exportModelUriAction;</span>
+    }
+
+    public Action getCloseActiveModelAction() {
+<span class="fc" id="L228">        return closeActiveModelAction;</span>
+    }
+
+    public Action getExitAction() {
+<span class="fc" id="L232">        return exitAction;</span>
+    }
+
+    public Action getChooseRangeAction() {
+<span class="fc" id="L236">        return chooseRangeAction;</span>
+    }
+
+    public Action getChooseOpticsAction() {
+<span class="fc" id="L240">        return chooseOpticsAction;</span>
+    }
+
+    public Action getSaveTwissAction() {
+<span class="fc" id="L244">        return saveTwissAction;</span>
+    }
+
+    public Action getShowAboutBoxAction() {
+<span class="fc" id="L248">        return showAboutBoxAction;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

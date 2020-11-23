@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SineFit.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.fit</a> &gt; <span class="el_source">SineFit.java</span></div><h1>SineFit.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.fit;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cern.jdve.data.DataSet;
+import cern.jdve.data.DefaultDataSet;
+import cern.jdve.utils.DataRange;
+import cern.jdve.utils.DisplayPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * This is the sine-function used for fitting.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+// public class SineFit implements FCNBase, DataViewerFit {
+public class SineFit implements DataViewerFit {
+
+    /** the logger for the class */
+<span class="nc" id="L44">    private final static Logger logger = LoggerFactory.getLogger(SineFit.class);</span>
+
+    /*
+     * the name of the used parameters
+     */
+    public final static String PARAM_NAME_AMPLITUDE = &quot;amplitude&quot;;
+    public final static String PARAM_NAME_FREQUENCY = &quot;frequency&quot;;
+    public final static String PARAM_NAME_PHASE = &quot;phase&quot;;
+
+    /*
+     * the indizes of the parameters
+     */
+    public final static int PARAM_INDEX_AMPLITUDE = 0;
+    public final static int PARAM_INDEX_FREQUENCY = 1;
+    public final static int PARAM_INDEX_PHASE = 2;
+
+    /** the display points to which to fit the sine */
+<span class="nc" id="L61">    private List&lt;DisplayPoint&gt; displayPoints = new ArrayList&lt;DisplayPoint&gt;();</span>
+
+    /** the last determined sine */
+    private SineFunction lastFit;
+
+    /**
+     * the default constructor. Initialize the points to where to fit to.
+     * 
+     * @param displayPoints the points to fit the sine
+     */
+<span class="nc" id="L71">    public SineFit(List&lt;DisplayPoint&gt; displayPoints) {</span>
+<span class="nc" id="L72">        this.displayPoints = displayPoints;</span>
+<span class="nc" id="L73">    }</span>
+
+    // @Override
+    public double valueOf(double[] params) {
+<span class="nc" id="L77">        int nPoints = displayPoints.size();</span>
+
+<span class="nc" id="L79">        SineFunction sine = new SineFunction(params[PARAM_INDEX_AMPLITUDE], params[PARAM_INDEX_FREQUENCY],</span>
+                params[PARAM_INDEX_PHASE]);
+
+<span class="nc" id="L82">        double sum = 0.0;</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        for (DisplayPoint point : this.displayPoints) {</span>
+<span class="nc" id="L84">            sum += Math.pow(point.getY() - sine.valueAt(point.getX()), 2);</span>
+<span class="nc" id="L85">        }</span>
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (nPoints &gt; 1) {</span>
+<span class="nc" id="L88">            sum /= (nPoints - 1);</span>
+        }
+
+        /* return the chisquare */
+<span class="nc" id="L92">        return Math.sqrt(sum);</span>
+    }
+
+    /**
+     * the sine function
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+    private class SineFunction {
+
+        /** the amplitude of the sine function */
+        private double amplitude;
+
+        /** the frequency of the sine function */
+        private double frequency;
+
+        /** the phase of the sine function */
+        private double phase;
+
+        /**
+         * the constructor with the parameters
+         * 
+         * @param amplitude
+         * @param frequency
+         * @param phase
+         */
+<span class="nc" id="L118">        private SineFunction(double amplitude, double frequency, double phase) {</span>
+<span class="nc" id="L119">            this.amplitude = amplitude;</span>
+<span class="nc" id="L120">            this.frequency = frequency;</span>
+<span class="nc" id="L121">            this.phase = phase;</span>
+<span class="nc" id="L122">        }</span>
+
+        /**
+         * calculates the value at the given point x
+         * 
+         * @param x the value for which to calculate the value
+         * @return the value
+         */
+        private double valueAt(double x) {
+<span class="nc" id="L131">            return (amplitude * Math.sin(2 * Math.PI * (frequency * x + phase)));</span>
+        }
+
+        @Override
+        public String toString() {
+<span class="nc" id="L136">            return &quot;amplitude: &quot; + amplitude + &quot;; frequency: &quot; + frequency + &quot;; phase: &quot; + phase + &quot;;&quot;;</span>
+        }
+    }
+
+    @Override
+    public DataSet getResultDataSet(DataRange range, int nPoints) {
+
+<span class="nc" id="L143">        SineFunction sine = getLastFit();</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (sine == null) {</span>
+<span class="nc" id="L145">            logger.warn(&quot;No fitted function available. Either the fit was not performed, or it did not give a valid result.&quot;);</span>
+<span class="nc" id="L146">            return new DefaultDataSet(&quot;Sine fit&quot;, new double[] {}, new double[] {});</span>
+        }
+<span class="nc" id="L148">        double step = range.getLength() / (nPoints - 1);</span>
+<span class="nc" id="L149">        double[] xValues = new double[nPoints];</span>
+<span class="nc" id="L150">        double[] yValues = new double[nPoints];</span>
+
+<span class="nc bnc" id="L152" title="All 2 branches missed.">        for (int i = 0; i &lt; nPoints; i++) {</span>
+<span class="nc" id="L153">            double xValue = range.getMin() + (step * i);</span>
+<span class="nc" id="L154">            xValues[i] = xValue;</span>
+<span class="nc" id="L155">            yValues[i] = sine.valueAt(xValue);</span>
+        }
+
+<span class="nc" id="L158">        return new DefaultDataSet(&quot;Sine fit&quot;, xValues, yValues);</span>
+    }
+
+    /**
+     * performs the fit and stores the fitted function for further usage.
+     */
+    public void doFit() {
+        // MnUserParameters upar = new MnUserParameters();
+        // upar.add(PARAM_NAME_AMPLITUDE, 1.0, 0.01);
+        // upar.add(PARAM_NAME_FREQUENCY, 1.0, 0.01);
+        // upar.add(PARAM_NAME_PHASE, 0.0, 0.01);
+        //
+        // MnMigrad migrad = new MnMigrad(this, upar);
+        //
+        // FunctionMinimum min = migrad.minimize();
+        //
+        // if (min.isValid()) {
+        // MnUserParameters parameters = min.userParameters();
+        // this.lastFit = new SineFunction(parameters
+        // .value(PARAM_NAME_AMPLITUDE), parameters
+        // .value(PARAM_NAME_FREQUENCY), parameters
+        // .value(PARAM_NAME_PHASE));
+        // double chiSquared = valueOf(new double[] {
+        // parameters.value(PARAM_NAME_AMPLITUDE),
+        // parameters.value(PARAM_NAME_FREQUENCY),
+        // parameters.value(PARAM_NAME_PHASE) });
+        // logger.info(&quot;Successful fit. Result: &quot; + this.lastFit.toString()
+        // + &quot; chisquared: &quot; + chiSquared + &quot;;&quot;);
+        // } else {
+        // logger.warn(&quot;Fit was not successful.&quot;);
+        // this.lastFit = null;
+        // }
+<span class="nc" id="L190">    }</span>
+
+    /**
+     * @return the lastFit
+     */
+    public SineFunction getLastFit() {
+<span class="nc" id="L196">        return lastFit;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

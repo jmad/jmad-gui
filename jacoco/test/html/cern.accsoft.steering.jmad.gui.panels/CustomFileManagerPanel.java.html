@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomFileManagerPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels</a> &gt; <span class="el_source">CustomFileManagerPanel.java</span></div><h1>CustomFileManagerPanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.table.AbstractTableModel;
+
+import cern.accsoft.steering.jmad.gui.manage.CustomFileManager;
+import cern.accsoft.steering.jmad.gui.manage.CustomFileManagerListener;
+import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
+import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.model.manage.StrengthVarManager;
+import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Lookup;
+
+/**
+ * This panel allows to parse a variable-file and add these variables to the twiss results.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class CustomFileManagerPanel extends JPanel {
+    private static final long serialVersionUID = 1427999923260387841L;
+
+    /**
+     * the logger for the class
+     */
+<span class="fc" id="L73">    private final static Logger logger = LoggerFactory.getLogger(CustomFileManagerPanel.class);</span>
+
+    /** the size of the table */
+<span class="fc" id="L76">    private final static Dimension PREFERRED_TABLE_SIZE = new Dimension(200, 200);</span>
+
+    /** the tableModel for the variables */
+<span class="fc" id="L79">    private CustomFilesTableModel tableModel = new CustomFilesTableModel();</span>
+
+    /**
+     * the custom file manager, which keeps track of the files of interest.
+     */
+    private CustomFileManager customFileManager;
+
+    /**
+     * the class which keeps track of the actually selected model
+     */
+    private JMadModelManager modelManager;
+
+    /**
+     * if this is set, then the file which is run is also parsed by the {@link StrengthVarManager} in order to be able
+     * to display the variables and plot them.
+     */
+<span class="fc" id="L95">    private boolean parseWhenRunning = true;</span>
+
+    /**
+     * the file-filter for alignment data
+     */
+<span class="fc" id="L100">    private FileFilter madxFileFileFilter = new FileFilter() {</span>
+        @Override
+        public boolean accept(File f) {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            if (f.isDirectory()) {</span>
+<span class="nc" id="L104">                return true;</span>
+            } else {
+<span class="nc" id="L106">                String lowername = f.getName().toLowerCase();</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">                if (lowername.endsWith(&quot;.str&quot;)) {</span>
+<span class="nc" id="L108">                    return true;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">                } else if (lowername.endsWith(&quot;.madx&quot;)) {</span>
+<span class="nc" id="L110">                    return true;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">                } else if (lowername.endsWith(&quot;.seq&quot;)) {</span>
+<span class="nc" id="L112">                    return true;</span>
+                } else {
+<span class="nc" id="L114">                    return false;</span>
+                }
+            }
+        }
+
+        @Override
+        public String getDescription() {
+<span class="nc" id="L121">            return &quot;MADX - files&quot;;</span>
+        }
+    };
+
+    /**
+     * simple constructors
+     */
+<span class="fc" id="L128">    public CustomFileManagerPanel() {</span>
+<span class="fc" id="L129">        initComponents();</span>
+<span class="fc" id="L130">    }</span>
+
+    /**
+     * initializes the components.
+     */
+    private void initComponents() {
+<span class="fc" id="L136">        setLayout(new BorderLayout());</span>
+
+<span class="fc" id="L138">        final JTable table = new JTable(tableModel);</span>
+<span class="fc" id="L139">        table.setAutoCreateRowSorter(true);</span>
+<span class="fc" id="L140">        table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);</span>
+<span class="fc" id="L141">        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {</span>
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+<span class="nc bnc" id="L145" title="All 2 branches missed.">                if (e.getSource() == table.getSelectionModel()) {</span>
+<span class="nc" id="L146">                    int index = table.getSelectedRow();</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">                    if (index &gt;= 0) {</span>
+<span class="nc" id="L148">                        tableModel.setCurrentElement(table.convertRowIndexToModel(index));</span>
+                    }
+                }
+
+<span class="nc" id="L152">            }</span>
+        });
+
+<span class="fc" id="L155">        add(new TableFilterPanel(table), BorderLayout.NORTH);</span>
+
+<span class="fc" id="L157">        JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,</span>
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+<span class="fc" id="L159">        scrollPane.setPreferredSize(PREFERRED_TABLE_SIZE);</span>
+<span class="fc" id="L160">        add(scrollPane, BorderLayout.CENTER);</span>
+
+<span class="fc" id="L162">        add(createButtonsPanel(), BorderLayout.SOUTH);</span>
+
+<span class="fc" id="L164">        validate();</span>
+<span class="fc" id="L165">    }</span>
+
+    private JPanel createButtonsPanel() {
+<span class="fc" id="L168">        JPanel buttonPanel = new JPanel(new GridBagLayout());</span>
+
+<span class="fc" id="L170">        GridBagConstraints constraints = new GridBagConstraints();</span>
+<span class="fc" id="L171">        constraints.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L172">        constraints.gridx = 0;</span>
+<span class="fc" id="L173">        constraints.gridy = 0;</span>
+
+<span class="fc" id="L175">        JButton btn = new JButton(createLoadFileAction());</span>
+<span class="fc" id="L176">        buttonPanel.add(btn, constraints);</span>
+
+<span class="fc" id="L178">        constraints.gridx++;</span>
+<span class="fc" id="L179">        btn = new JButton(createEditAction());</span>
+<span class="fc" id="L180">        buttonPanel.add(btn, constraints);</span>
+
+<span class="fc" id="L182">        constraints.gridx++;</span>
+<span class="fc" id="L183">        btn = new JButton(createRunAction());</span>
+<span class="fc" id="L184">        buttonPanel.add(btn, constraints);</span>
+
+<span class="fc" id="L186">        constraints.gridx++;</span>
+<span class="fc" id="L187">        final JCheckBox chk = new JCheckBox(&quot;parse when run&quot;);</span>
+<span class="fc" id="L188">        chk.setSelected(this.parseWhenRunning);</span>
+<span class="fc" id="L189">        chk.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L192">                parseWhenRunning = chk.isSelected();</span>
+<span class="nc" id="L193">            }</span>
+        });
+<span class="fc" id="L195">        buttonPanel.add(chk, constraints);</span>
+
+<span class="fc" id="L197">        return buttonPanel;</span>
+    }
+
+    /**
+     * creates the action for the button to store the actual data as reference.
+     * 
+     * @return the action
+     */
+    private Action createEditAction() {
+<span class="fc" id="L206">        Action action = new AbstractAction(&quot;edit&quot;) {</span>
+            private static final long serialVersionUID = 1569348877859639865L;
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+<span class="nc" id="L211">                File selectedFile = tableModel.getSelecFile();</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">                if (selectedFile == null) {</span>
+<span class="nc" id="L213">                    logger.warn(&quot;No file selected. Nothing to do.&quot;);</span>
+<span class="nc" id="L214">                    return;</span>
+                }
+
+<span class="nc" id="L217">                String editorCommand = getEditorCommand();</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">                if (editorCommand == null) {</span>
+<span class="nc" id="L219">                    logger.warn(&quot;No editor configured! Cannot open the file to edit.&quot;);</span>
+<span class="nc" id="L220">                    return;</span>
+                }
+<span class="nc" id="L222">                String[] cmdArray = new String[] { editorCommand, selectedFile.getAbsolutePath() };</span>
+                try {
+<span class="nc" id="L224">                    Runtime.getRuntime().exec(cmdArray);</span>
+<span class="nc" id="L225">                } catch (IOException e) {</span>
+<span class="nc" id="L226">                    logger.error(&quot;error executing command-array: &quot; + cmdArray.toString(), e);</span>
+<span class="nc" id="L227">                }</span>
+
+<span class="nc" id="L229">            }</span>
+        };
+
+<span class="fc" id="L232">        action.putValue(AbstractAction.SHORT_DESCRIPTION, &quot;Opens the file in editor.&quot;);</span>
+<span class="fc" id="L233">        return action;</span>
+    }
+
+    /**
+     * creates the action for the button to store the actual data as reference.
+     * 
+     * @return the action
+     */
+    private Action createRunAction() {
+<span class="fc" id="L242">        Action action = new AbstractAction(&quot;run&quot;) {</span>
+            private static final long serialVersionUID = -320576052275084112L;
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+<span class="nc" id="L247">                File selectedFile = tableModel.getSelecFile();</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">                if (selectedFile == null) {</span>
+<span class="nc" id="L249">                    logger.warn(&quot;No file selected. Nothing to do.&quot;);</span>
+<span class="nc" id="L250">                    return;</span>
+                }
+
+<span class="nc" id="L253">                JMadModel model = getActiveModel();</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">                if (model == null) {</span>
+<span class="nc" id="L255">                    logger.warn(&quot;No active model. Cannot run file.&quot;);</span>
+<span class="nc" id="L256">                    return;</span>
+                }
+
+<span class="nc" id="L259">                model.call(selectedFile);</span>
+
+<span class="nc bnc" id="L261" title="All 2 branches missed.">                if (parseWhenRunning) {</span>
+<span class="nc" id="L262">                    model.getStrengthVarManager().load(selectedFile);</span>
+                }
+<span class="nc" id="L264">            }</span>
+        };
+
+<span class="fc" id="L267">        action.putValue(AbstractAction.SHORT_DESCRIPTION, &quot;runs the selected file within the current model.&quot;);</span>
+<span class="fc" id="L268">        return action;</span>
+    }
+
+    /**
+     * opens a file selection dialog and adds the selected file to the list.
+     */
+    private void addFile() {
+<span class="nc bnc" id="L275" title="All 2 branches missed.">        if (getCustomFileManager() == null) {</span>
+<span class="nc" id="L276">            return;</span>
+        }
+<span class="nc" id="L278">        JFileChooser fileChooser = new JFileChooser();</span>
+<span class="nc" id="L279">        fileChooser.addChoosableFileFilter(madxFileFileFilter);</span>
+<span class="nc" id="L280">        fileChooser.setAcceptAllFileFilterUsed(true);</span>
+<span class="nc" id="L281">        fileChooser.setFileFilter(madxFileFileFilter);</span>
+
+<span class="nc" id="L283">        String workingDir = getWorkingDir();</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">        if (workingDir != null) {</span>
+<span class="nc" id="L285">            fileChooser.setCurrentDirectory(new File(workingDir));</span>
+        }
+
+<span class="nc" id="L288">        int returnValue = fileChooser.showOpenDialog(this);</span>
+
+<span class="nc bnc" id="L290" title="All 2 branches missed.">        if (returnValue == JFileChooser.APPROVE_OPTION) {</span>
+<span class="nc" id="L291">            File file = fileChooser.getSelectedFile();</span>
+<span class="nc" id="L292">            getCustomFileManager().add(file);</span>
+        }
+<span class="nc" id="L294">    }</span>
+
+    /**
+     * creates the action for creating a new Data-View
+     * 
+     * @return the action
+     */
+    private Action createLoadFileAction() {
+<span class="fc" id="L302">        Action action = new AbstractAction(&quot;add file&quot;) {</span>
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+<span class="nc" id="L307">                addFile();</span>
+<span class="nc" id="L308">            }</span>
+        };
+<span class="fc" id="L310">        action.putValue(AbstractAction.SHORT_DESCRIPTION, &quot;adds a new file to the list&quot;);</span>
+<span class="fc" id="L311">        return action;</span>
+    }
+
+    /**
+     * table model for the available variables.
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+<span class="fc" id="L319">    private class CustomFilesTableModel extends AbstractTableModel {</span>
+        private static final long serialVersionUID = -4386551081279607172L;
+
+        private final static int COLUMN_COUNT = 1;
+
+        private final static int COL_NAME = 0;
+
+        /** the files to display */
+<span class="fc" id="L327">        private List&lt;File&gt; files = new ArrayList&lt;File&gt;();</span>
+
+        /** the actually selected file */
+<span class="fc" id="L330">        private File selectedFile = null;</span>
+
+        private synchronized void setFiles(List&lt;File&gt; files) {
+<span class="nc" id="L333">            this.files = files;</span>
+<span class="nc" id="L334">            fireTableDataChanged();</span>
+<span class="nc" id="L335">        }</span>
+
+        @Override
+        public int getColumnCount() {
+<span class="fc" id="L339">            return COLUMN_COUNT;</span>
+        }
+
+        @Override
+        public int getRowCount() {
+<span class="fc" id="L344">            return this.files.size();</span>
+        }
+
+        @Override
+        public Object getValueAt(int row, int col) {
+<span class="nc" id="L349">            File file = this.files.get(row);</span>
+<span class="nc bnc" id="L350" title="All 2 branches missed.">            switch (col) {</span>
+            case COL_NAME:
+<span class="nc" id="L352">                return file.getAbsoluteFile();</span>
+            default:
+<span class="nc" id="L354">                return null;</span>
+            }
+        }
+
+        @Override
+        public Class&lt;?&gt; getColumnClass(int col) {
+<span class="nc bnc" id="L360" title="All 2 branches missed.">            switch (col) {</span>
+            case COL_NAME:
+<span class="nc" id="L362">                return String.class;</span>
+            default:
+<span class="nc" id="L364">                return null;</span>
+            }
+        }
+
+        @Override
+        public String getColumnName(int col) {
+<span class="pc bpc" id="L370" title="1 of 2 branches missed.">            switch (col) {</span>
+            case COL_NAME:
+<span class="fc" id="L372">                return &quot;filename&quot;;</span>
+            default:
+<span class="nc" id="L374">                return null;</span>
+            }
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int col) {
+<span class="nc" id="L380">            return false;</span>
+        }
+
+        @Override
+        public void setValueAt(Object value, int row, int col) {
+<span class="nc" id="L385">            throw new UnsupportedOperationException(&quot;Not imlemented&quot;);</span>
+        }
+
+        private void setCurrentElement(int index) {
+<span class="nc bnc" id="L389" title="All 2 branches missed.">            if (getCustomFileManager() == null) {</span>
+<span class="nc" id="L390">                return;</span>
+            }
+<span class="nc bnc" id="L392" title="All 4 branches missed.">            if ((index &gt;= 0) &amp;&amp; (index &lt; this.files.size())) {</span>
+<span class="nc" id="L393">                this.selectedFile = files.get(index);</span>
+            }
+<span class="nc" id="L395">        }</span>
+
+        private File getSelecFile() {
+<span class="nc" id="L398">            return this.selectedFile;</span>
+        }
+
+    }
+
+    public void setCustomFileManager(CustomFileManager customFileManager) {
+<span class="fc" id="L404">        this.customFileManager = customFileManager;</span>
+<span class="fc" id="L405">        this.customFileManager.addListener(new CustomFileManagerListener() {</span>
+
+            @Override
+            public void changedFiles() {
+<span class="nc" id="L409">                SwingUtilities.invokeLater(new Runnable() {</span>
+                    @Override
+                    public void run() {
+<span class="nc" id="L412">                        CustomFileManagerPanel.this.tableModel</span>
+<span class="nc" id="L413">                                .setFiles(CustomFileManagerPanel.this.customFileManager.getFiles());</span>
+<span class="nc" id="L414">                    }</span>
+                });
+<span class="nc" id="L416">            }</span>
+        });
+<span class="fc" id="L418">    }</span>
+
+    public CustomFileManager getCustomFileManager() {
+<span class="nc" id="L421">        return customFileManager;</span>
+    }
+
+    /**
+     * Spring lookup method.. workaround for circular dependency
+     */
+    @Lookup
+<span class="nc" id="L428">    public JMadGuiPreferences getJmadGuiPreferences() { return null; }</span>
+
+    private String getWorkingDir() {
+<span class="nc" id="L431">        return getJmadGuiPreferences().getWorkingDir();</span>
+    }
+
+    private String getEditorCommand() {
+<span class="nc" id="L435">        return getJmadGuiPreferences().getEditorCommand();</span>
+    }
+
+    public void setModelManager(JMadModelManager modelManager) {
+<span class="fc" id="L439">        this.modelManager = modelManager;</span>
+<span class="fc" id="L440">    }</span>
+
+    public JMadModel getActiveModel() {
+<span class="nc bnc" id="L443" title="All 2 branches missed.">        if (modelManager == null) {</span>
+<span class="nc" id="L444">            return null;</span>
+        }
+<span class="nc" id="L446">        return modelManager.getActiveModel();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JMadGuiPreferencesImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.manage.impl</a> &gt; <span class="el_source">JMadGuiPreferencesImpl.java</span></div><h1>JMadGuiPreferencesImpl.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.manage.impl;
+
+import static org.ossgang.commons.properties.Properties.property;
+
+import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
+import org.ossgang.commons.properties.Property;
+
+/**
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="fc" id="L33">public class JMadGuiPreferencesImpl implements JMadGuiPreferences {</span>
+    /**
+     * The name of the system-property for the working dir.
+     */
+    private final static String PROP_WORKDIR_PATH = &quot;cern.jmad.gui.workdir.path&quot;;
+    /**
+     * the default value for the workingdir when property is not set.
+     */
+    private final static String DEFAULT_WORKDIR_PATH = &quot;.&quot;;
+
+    /**
+     * The name of the property for the edit-command
+     */
+    private final static String PROP_EDIT_COMMAND = &quot;cern.jmad.gui.edit.cmd&quot;;
+
+    /**
+     * the default value for the edit-command when property is not set.
+     */
+    private final static String DEFAULT_EDIT_COMMAND = &quot;nedit&quot;;
+
+    /**
+     * true, if the change of the model is allowed
+     */
+<span class="fc" id="L56">    private final Property&lt;Boolean&gt; enabledChangeModel = property(true);</span>
+
+    /**
+     * true, if the change of the range is allowed
+     */
+<span class="fc" id="L61">    private final Property&lt;Boolean&gt; enabledChangeRange = property(true);</span>
+
+    /**
+     * true, if the change of the optic is allowed
+     */
+<span class="fc" id="L66">    private final Property&lt;Boolean&gt; enabledChangeOptic = property(true);</span>
+
+    /**
+     * true, if the model should be cleaned up on close.
+     */
+<span class="fc" id="L71">    private final Property&lt;Boolean&gt; cleanupOnClose = property(true);</span>
+
+    /**
+     * true, if the program should exit, when window is closed.
+     */
+<span class="fc" id="L76">    private final Property&lt;Boolean&gt; exitOnClose = property(true);</span>
+
+    /**
+     * Open JMad frame as main-frame
+     */
+<span class="fc" id="L81">    private final Property&lt;Boolean&gt; mainFrame = property(true);</span>
+
+    public boolean isEnabledChangeModel() {
+<span class="nc" id="L84">        return enabledChangeModel.get();</span>
+    }
+
+    public void setEnabledChangeModel(boolean enabledChangeModel) {
+<span class="nc" id="L88">        this.enabledChangeModel.set(enabledChangeModel);</span>
+<span class="nc" id="L89">    }</span>
+
+    @Override
+    public Property&lt;Boolean&gt; enabledChangeModelProperty() {
+<span class="fc" id="L93">        return enabledChangeModel;</span>
+    }
+
+    public boolean isEnabledChangeRange() {
+<span class="nc" id="L97">        return enabledChangeRange.get();</span>
+    }
+
+    public void setEnabledChangeRange(boolean enabledChangeRange) {
+<span class="nc" id="L101">        this.enabledChangeRange.set(enabledChangeRange);</span>
+<span class="nc" id="L102">    }</span>
+
+    @Override
+    public Property&lt;Boolean&gt; enabledChangeRangeProperty() {
+<span class="fc" id="L106">        return enabledChangeRange;</span>
+    }
+
+    public boolean isEnabledChangeOptic() {
+<span class="nc" id="L110">        return enabledChangeOptic.get();</span>
+    }
+
+    public void setEnabledChangeOptic(boolean enabledChangeOptic) {
+<span class="nc" id="L114">        this.enabledChangeOptic.set(enabledChangeOptic);</span>
+<span class="nc" id="L115">    }</span>
+
+    @Override
+    public Property&lt;Boolean&gt; enabledChangeOpticProperty() {
+<span class="fc" id="L119">        return enabledChangeOptic;</span>
+    }
+
+    public void setCleanupOnClose(boolean cleanupOnClose) {
+<span class="nc" id="L123">        this.cleanupOnClose.set(cleanupOnClose);</span>
+<span class="nc" id="L124">    }</span>
+
+    public boolean isCleanupOnClose() {
+<span class="nc" id="L127">        return cleanupOnClose.get();</span>
+    }
+
+    @Override
+    public Property&lt;Boolean&gt; cleanupOnCloseProperty() {
+<span class="nc" id="L132">        return cleanupOnClose;</span>
+    }
+
+    public void setExitOnClose(boolean exitOnClose) {
+<span class="nc" id="L136">        this.exitOnClose.set(exitOnClose);</span>
+<span class="nc" id="L137">    }</span>
+
+    public boolean isExitOnClose() {
+<span class="fc" id="L140">        return exitOnClose.get();</span>
+    }
+
+    @Override
+    public Property&lt;Boolean&gt; exitOnCloseProperty() {
+<span class="fc" id="L145">        return exitOnClose;</span>
+    }
+
+    @Override
+    public String getWorkingDir() {
+<span class="nc" id="L150">        String workingDir = System.getProperty(PROP_WORKDIR_PATH);</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if (workingDir != null) {</span>
+<span class="nc" id="L152">            return workingDir;</span>
+        }
+<span class="nc" id="L154">        return DEFAULT_WORKDIR_PATH;</span>
+    }
+
+    @Override
+    public String getEditorCommand() {
+<span class="nc" id="L159">        String editCommand = System.getProperty(PROP_EDIT_COMMAND);</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        if (editCommand != null) {</span>
+<span class="nc" id="L161">            return editCommand;</span>
+        }
+<span class="nc" id="L163">        return DEFAULT_EDIT_COMMAND;</span>
+    }
+
+    @Override
+    public boolean isMainFrame() {
+<span class="nc" id="L168">        return this.mainFrame.get();</span>
+    }
+
+    @Override
+    public void setMainFrame(boolean mainFrame) {
+<span class="nc" id="L173">        this.mainFrame.set(mainFrame);</span>
+<span class="nc" id="L174">    }</span>
+
+    @Override
+    public Property&lt;Boolean&gt; useMainFrameProperty() {
+<span class="nc" id="L178">        return mainFrame;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SineFitInteractor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.dv.ds</a> &gt; <span class="el_source">SineFitInteractor.java</span></div><h1>SineFitInteractor.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.dv.ds;
+
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JButton;
+
+import cern.accsoft.steering.util.fit.DataViewerFit;
+import cern.accsoft.steering.util.fit.SineFit;
+import cern.accsoft.steering.util.gui.icons.Icon;
+import cern.jdve.data.DataSet;
+import cern.jdve.interactor.EditInteractor;
+import cern.jdve.utils.DataRange;
+import cern.jdve.utils.DisplayPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * this class provides methods to create a fit on a dataset of a dataviewer, using selected points
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public abstract class SineFitInteractor extends EditInteractor {
+<span class="nc" id="L50">    private final static Logger logger = LoggerFactory.getLogger(SineFitInteractor.class);</span>
+
+    /** the minimum of points that must be selected */
+    private final static int MIN_POINTS_SELECTED = 1;
+
+    /** the number of points that shall be calculated by the fit */
+    private final static int DEFAULT_CALC_POINTS = 400;
+
+    /** the action to create a sine-fit */
+<span class="nc" id="L59">    private Action sineFitAction = new SineFitAction();</span>
+
+    /** the action to remove the fit */
+<span class="nc" id="L62">    private Action clearFitAction = new ClearFitAction();</span>
+
+    /** the buttons for the toolbar */
+    private JButton[] toolBarButtons;
+
+    /** the button to invoke the sine fit */
+    private JButton btnSineFit;
+
+    /**
+     * the constructor. Prepares the Toolbar-buttons
+     */
+    public SineFitInteractor() {
+<span class="nc" id="L74">        super();</span>
+<span class="nc" id="L75">        createToolBarButtons();</span>
+<span class="nc" id="L76">    }</span>
+
+    /**
+     * creates a sineFit with the selected DataPoints.
+     */
+    private void createSineFit() {
+<span class="nc" id="L82">        List&lt;DisplayPoint&gt; selectedPoints = getSelectedDataPoints();</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (selectedPoints.size() &lt; MIN_POINTS_SELECTED) {</span>
+<span class="nc" id="L84">            logger.warn(&quot;Not enough datapoints selected (min &quot; + MIN_POINTS_SELECTED + &quot;), aborting fit.&quot;);</span>
+<span class="nc" id="L85">            return;</span>
+        }
+
+<span class="nc" id="L88">        SineFit fit = new SineFit(selectedPoints);</span>
+<span class="nc" id="L89">        fit.doFit();</span>
+<span class="nc" id="L90">        setFitToChart(fit);</span>
+<span class="nc" id="L91">    }</span>
+
+    /**
+     * searches for the selected points for this
+     * 
+     * @return
+     */
+    private List&lt;DisplayPoint&gt; getSelectedDataPoints() {
+<span class="nc" id="L99">        DisplayPoint[] displayPoints = getSelectedDisplayPoints();</span>
+<span class="nc" id="L100">        List&lt;DisplayPoint&gt; list = new ArrayList&lt;DisplayPoint&gt;();</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        for (int i = 0; i &lt; displayPoints.length; i++) {</span>
+<span class="nc" id="L102">            list.add(displayPoints[i]);</span>
+        }
+<span class="nc" id="L104">        return list;</span>
+    }
+
+    /**
+     * adds the given Fit to the chart.
+     * 
+     * @param fit the fit to add.
+     */
+    private void setFitToChart(DataViewerFit fit) {
+<span class="nc" id="L113">        DataRange range = getChart().getDataWindow().getXRange();</span>
+<span class="nc" id="L114">        setFitDataSet(fit.getResultDataSet(range, DEFAULT_CALC_POINTS));</span>
+<span class="nc" id="L115">    }</span>
+
+    /**
+     * to be overridden by subclass: must display the given data
+     * 
+     * @param dataSet the dataSet which contains the fitted data
+     */
+    protected abstract void setFitDataSet(DataSet dataSet);
+
+    /**
+     * to be overriden by subclass: must clear the data of the fit.
+     */
+    protected abstract void clearFit();
+
+    /**
+     * creates the Buttons for display in the toolbar
+     */
+    private void createToolBarButtons() {
+<span class="nc" id="L133">        btnSineFit = new JButton(sineFitAction);</span>
+<span class="nc" id="L134">        btnSineFit.setText(null);</span>
+<span class="nc" id="L135">        this.toolBarButtons = new JButton[] { btnSineFit };</span>
+<span class="nc" id="L136">    }</span>
+
+    @Override
+    public Component[] getToolBarComponents() {
+<span class="nc" id="L140">        return this.toolBarButtons;</span>
+    }
+
+    @Override
+    public Action[] getPopupActions() {
+<span class="nc" id="L145">        return new Action[] { sineFitAction, clearFitAction };</span>
+    }
+
+    @Override
+    public void setActive(boolean active) {
+<span class="nc" id="L150">        super.setActive(active);</span>
+
+<span class="nc bnc" id="L152" title="All 4 branches missed.">        if (toolBarButtons != null &amp;&amp; !active) {</span>
+<span class="nc" id="L153">            toolBarButtons[0].setEnabled(active);</span>
+        }
+<span class="nc" id="L155">    }</span>
+
+    /**
+     * The action to create a sine fit
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+    public class SineFitAction extends AbstractAction {
+        private static final long serialVersionUID = -645526133743397868L;
+
+<span class="nc" id="L165">        public SineFitAction() {</span>
+<span class="nc" id="L166">            super(&quot;Sine fit&quot;, Icon.SINE_FIT.getImageIcon());</span>
+<span class="nc" id="L167">            super.putValue(Action.SHORT_DESCRIPTION, &quot;&lt;html&gt;&lt;center&gt;&lt;b&gt;Sine fit&lt;/b&gt;&lt;/center&gt;Usage:&lt;br/&gt;&quot;</span>
+                    + &quot;To create a sine fit - select points to use as fit - input select &lt;br/&gt;&quot;
+                    + &quot;them using left mouse button and click this button.&lt;/html&gt;&quot;);
+<span class="nc" id="L170">        }</span>
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+<span class="nc" id="L174">            createSineFit();</span>
+<span class="nc" id="L175">        }</span>
+    }
+
+    /**
+     * action to remove the fit from the dataViewer
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+    public class ClearFitAction extends AbstractAction {
+        private static final long serialVersionUID = -6375357705542370646L;
+
+<span class="nc" id="L186">        public ClearFitAction() {</span>
+<span class="nc" id="L187">            super(&quot;clear fit&quot;);</span>
+<span class="nc" id="L188">            super.putValue(Action.SHORT_DESCRIPTION, &quot;&lt;html&gt;&lt;center&gt;&lt;b&gt;clear fit&lt;/b&gt;&lt;/center&gt;Usage:&lt;br/&gt;&quot;</span>
+                    + &quot;use this button to remove the fit line from the dataviewer. &lt;/html&gt;&quot;);
+<span class="nc" id="L190">        }</span>
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+<span class="nc" id="L194">            clearFit();</span>
+<span class="nc" id="L195">        }</span>
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

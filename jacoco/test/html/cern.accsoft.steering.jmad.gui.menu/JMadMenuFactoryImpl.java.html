@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JMadMenuFactoryImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.menu</a> &gt; <span class="el_source">JMadMenuFactoryImpl.java</span></div><h1>JMadMenuFactoryImpl.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.menu;
+
+import javax.swing.*;
+import java.util.Collections;
+import java.util.List;
+
+import cern.accsoft.steering.jmad.gui.actions.JMadGuiActions;
+
+/**
+ * This class creates the actual instances of the toolbar and the menuBar for JMad.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="fc" id="L36">public class JMadMenuFactoryImpl implements JMadMenuFactory {</span>
+
+    private JMadGuiActions jmadGuiActions;
+
+    @Override
+    public JToolBar createToolBar() {
+<span class="fc" id="L42">        JToolBar toolBar = new JToolBar();</span>
+<span class="fc" id="L43">        toolBar.add(jmadGuiActions.getCreateModelFromRepositoryAction());</span>
+<span class="fc" id="L44">        toolBar.add(jmadGuiActions.getCreateModelFromUriAction());</span>
+<span class="fc" id="L45">        toolBar.add(jmadGuiActions.getCreateModelFromFileAction());</span>
+<span class="fc" id="L46">        toolBar.addSeparator();</span>
+<span class="fc" id="L47">        toolBar.add(jmadGuiActions.getExportModelUriAction());</span>
+<span class="fc" id="L48">        toolBar.add(jmadGuiActions.getExportModelAction());</span>
+<span class="fc" id="L49">        toolBar.add(jmadGuiActions.getCloseActiveModelAction());</span>
+<span class="fc" id="L50">        toolBar.addSeparator();</span>
+<span class="fc" id="L51">        toolBar.add(jmadGuiActions.getChooseRangeAction());</span>
+<span class="fc" id="L52">        toolBar.add(jmadGuiActions.getChooseOpticsAction());</span>
+<span class="fc" id="L53">        toolBar.addSeparator();</span>
+<span class="fc" id="L54">        toolBar.add(jmadGuiActions.getExitAction());</span>
+<span class="fc" id="L55">        toolBar.setFloatable(false);</span>
+<span class="fc" id="L56">        return toolBar;</span>
+    }
+
+    @Override
+    public JMenuBar createMenuBar() {
+<span class="fc" id="L61">        JMenuBar menuBar = new JMenuBar();</span>
+
+<span class="fc" id="L63">        JMenu fileMenu = new JMenu(&quot;File&quot;);</span>
+<span class="fc" id="L64">        menuBar.add(fileMenu);</span>
+
+<span class="fc" id="L66">        fileMenu.add(jmadGuiActions.getCreateModelFromRepositoryAction());</span>
+<span class="fc" id="L67">        fileMenu.add(jmadGuiActions.getCreateModelFromUriAction());</span>
+<span class="fc" id="L68">        fileMenu.add(jmadGuiActions.getCreateModelFromFileAction());</span>
+<span class="fc" id="L69">        fileMenu.addSeparator();</span>
+<span class="fc" id="L70">        fileMenu.add(jmadGuiActions.getExportModelUriAction());</span>
+<span class="fc" id="L71">        fileMenu.add(jmadGuiActions.getExportModelAction());</span>
+<span class="fc" id="L72">        fileMenu.add(jmadGuiActions.getCloseActiveModelAction());</span>
+<span class="fc" id="L73">        fileMenu.addSeparator();</span>
+<span class="fc" id="L74">        fileMenu.add(jmadGuiActions.getExitAction());</span>
+
+<span class="fc" id="L76">        JMenu helpMenu = new JMenu(&quot;Help&quot;);</span>
+<span class="fc" id="L77">        helpMenu.add(jmadGuiActions.getShowAboutBoxAction());</span>
+<span class="fc" id="L78">        menuBar.add(helpMenu);</span>
+
+<span class="fc" id="L80">        return menuBar;</span>
+    }
+
+    @Override
+    public List&lt;Action&gt; getToolBarActions() {
+        /* Original implementation returned empty here.. */
+<span class="nc" id="L86">        return Collections.emptyList();</span>
+    }
+
+    public void setJmadGuiActions(JMadGuiActions jmadGuiActions) {
+<span class="fc" id="L90">        this.jmadGuiActions = jmadGuiActions;</span>
+<span class="fc" id="L91">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

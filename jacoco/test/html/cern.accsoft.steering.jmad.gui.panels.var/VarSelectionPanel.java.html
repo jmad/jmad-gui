@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VarSelectionPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels.var</a> &gt; <span class="el_source">VarSelectionPanel.java</span></div><h1>VarSelectionPanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels.var;
+
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.TableColumn;
+
+import cern.accsoft.steering.jmad.domain.var.TwissVariable;
+import cern.accsoft.steering.jmad.gui.panels.var.SelectedVarManager.VarSelectionMode;
+import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
+import cern.accsoft.steering.util.table.RadioColumnEditor;
+import cern.accsoft.steering.util.table.RadioColumnRenderer;
+
+<span class="fc" id="L41">public class VarSelectionPanel extends JPanel {</span>
+    private static final long serialVersionUID = 2433227096109178284L;
+
+    /** the size of the table */
+<span class="fc" id="L45">    final static Dimension PREFERRED_TABLE_SIZE = new Dimension(200, 400);</span>
+
+<span class="fc" id="L47">    private SelectedVarManager selectedVarManager = new SelectedVarManagerImpl();</span>
+
+<span class="fc" id="L49">    private TwissVariable defaultVariable = null;</span>
+
+    private JTable table;
+
+    private AbstractVarSelectionTableModel tableModel;
+
+    public void init() {
+<span class="fc" id="L56">        initComponents();</span>
+<span class="fc" id="L57">    }</span>
+
+    /**
+     * initializes the components.
+     */
+    protected void initComponents() {
+<span class="fc" id="L63">        setLayout(new GridBagLayout());</span>
+
+<span class="fc" id="L65">        GridBagConstraints constraints = new GridBagConstraints();</span>
+<span class="fc" id="L66">        constraints.gridx = 0;</span>
+<span class="fc" id="L67">        constraints.gridy = 0;</span>
+<span class="fc" id="L68">        constraints.weighty = 0;</span>
+<span class="fc" id="L69">        constraints.weightx = 1;</span>
+<span class="fc" id="L70">        constraints.fill = GridBagConstraints.BOTH;</span>
+
+<span class="fc" id="L72">        this.getTableModel().setShowSelectColumn(true);</span>
+<span class="fc" id="L73">        this.getTableModel().setSelectedVarManager(getSelectedVarManager());</span>
+
+<span class="fc" id="L75">        table = new JTable(this.getTableModel());</span>
+<span class="fc" id="L76">        table.setAutoCreateRowSorter(true);</span>
+<span class="fc" id="L77">        add(new TableFilterPanel(table), constraints);</span>
+<span class="fc" id="L78">        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);</span>
+
+<span class="fc" id="L80">        TableColumn selectColumn = table.getColumnModel().getColumn(0);</span>
+<span class="fc" id="L81">        selectColumn.setPreferredWidth(50);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (VarSelectionMode.SINGLE == getSelectedVarManager().getVarSelectionMode()) {</span>
+<span class="fc" id="L83">            selectColumn.setCellRenderer(new RadioColumnRenderer());</span>
+<span class="fc" id="L84">            selectColumn.setCellEditor(new RadioColumnEditor());</span>
+        }
+
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (getDefaultVariable() != null) {</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">            for (int i = 0; i &lt; getTableModel().getAvailableVariables().size(); i++) {</span>
+<span class="fc" id="L89">                TwissVariable var = getTableModel().getAvailableVariables().get(i);</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">                if (this.getDefaultVariable().equals(var)) {</span>
+<span class="fc" id="L91">                    getTableModel().setValueAt(true, i, 0);</span>
+                }
+            }
+        }
+
+<span class="fc" id="L96">        constraints.gridy++;</span>
+<span class="fc" id="L97">        constraints.weightx = 1;</span>
+<span class="fc" id="L98">        constraints.weighty = 1;</span>
+<span class="fc" id="L99">        JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,</span>
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+<span class="fc" id="L101">        scrollPane.setPreferredSize(PREFERRED_TABLE_SIZE);</span>
+<span class="fc" id="L102">        add(scrollPane, constraints);</span>
+
+<span class="fc" id="L104">        validate();</span>
+<span class="fc" id="L105">    }</span>
+
+    public void setTableModel(AbstractVarSelectionTableModel tableModel) {
+<span class="fc" id="L108">        this.tableModel = tableModel;</span>
+<span class="fc" id="L109">    }</span>
+
+    private AbstractVarSelectionTableModel getTableModel() {
+<span class="fc" id="L112">        return tableModel;</span>
+    }
+
+    public TwissVariable getDefaultVariable() {
+<span class="fc" id="L116">        return defaultVariable;</span>
+    }
+
+    public void setDefaultVariable(TwissVariable defaultVariable) {
+<span class="fc" id="L120">        this.defaultVariable = defaultVariable;</span>
+<span class="fc" id="L121">    }</span>
+
+    public void setSelectedVarManager(SelectedVarManager selectedVarManager) {
+<span class="fc" id="L124">        this.selectedVarManager = selectedVarManager;</span>
+<span class="fc" id="L125">    }</span>
+
+    private SelectedVarManager getSelectedVarManager() {
+<span class="fc" id="L128">        return selectedVarManager;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

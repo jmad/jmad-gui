@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ModelOpticsSelectionPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels</a> &gt; <span class="el_source">ModelOpticsSelectionPanel.java</span></div><h1>ModelOpticsSelectionPanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels;
+
+import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+
+import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
+import cern.accsoft.steering.jmad.gui.components.DoubleTableCellRenderer;
+import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
+import cern.accsoft.steering.jmad.modeldefs.domain.OpticsDefinition;
+import cern.accsoft.steering.util.gui.menu.MousePopupListener;
+import cern.accsoft.steering.util.gui.menu.TablePopupMenu;
+import cern.accsoft.steering.util.gui.panels.Applyable;
+import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
+import cern.accsoft.steering.util.gui.panels.Titleable;
+import cern.accsoft.steering.util.gui.table.SelectionSetTableModel;
+import cern.accsoft.steering.util.gui.table.TableModelSelectionAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * this class represents the panel, which allows to view all optics of a model and select one
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class ModelOpticsSelectionPanel extends JPanel implements Titleable, Applyable {
+    private static final long serialVersionUID = 1733380183463632497L;
+
+<span class="fc" id="L58">    private static final Logger LOGGER = LoggerFactory.getLogger(ModelOpticsSelectionPanel.class);</span>
+
+    /** the table model for the display */
+    private ModelOpticsDefinitionTableModel tableModel;
+
+    /** the actual model */
+    private JMadModel model;
+
+    /** The object which keeps track of the selected row. */
+    private TableModelSelectionAdapter selectionAdapter;
+
+    /**
+     * the constructor
+     */
+    public ModelOpticsSelectionPanel() {
+<span class="fc" id="L73">        super(new BorderLayout());</span>
+<span class="fc" id="L74">    }</span>
+
+    public void init() {
+<span class="fc" id="L77">        initComponents();</span>
+
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        if (this.model != null) {</span>
+<span class="nc" id="L80">            refreshDisplay();</span>
+        }
+<span class="fc" id="L82">    }</span>
+
+    /**
+     * set the model-manager which determines if e.g. the model changed.
+     * 
+     * @param modelManager the modelManager to set.
+     */
+    public void setModelManager(JMadModelManager modelManager) {
+<span class="fc" id="L90">        modelManager.addListener(new JMadModelManagerAdapter() {</span>
+
+            @Override
+            public void changedActiveModel(JMadModel newModel) {
+<span class="nc" id="L94">                setModel(newModel);</span>
+<span class="nc" id="L95">                refreshDisplay();</span>
+<span class="nc" id="L96">            }</span>
+        });
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if (modelManager.getActiveModel() != null) {</span>
+<span class="nc" id="L99">            setModel(modelManager.getActiveModel());</span>
+        }
+<span class="fc" id="L101">    }</span>
+
+    protected void refreshDisplay() {
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        if (tableModel != null) {</span>
+<span class="nc" id="L105">            tableModel.fireTableDataChanged();</span>
+        }
+<span class="nc" id="L107">    }</span>
+
+    /**
+     * initializes all components
+     */
+    private void initComponents() {
+<span class="fc" id="L113">        tableModel = new ModelOpticsDefinitionTableModel();</span>
+
+<span class="fc" id="L115">        JTable table = new JTable(tableModel);</span>
+<span class="fc" id="L116">        table.setDefaultRenderer(Double.class, new DoubleTableCellRenderer());</span>
+<span class="fc" id="L117">        table.setAutoCreateRowSorter(true);</span>
+<span class="fc" id="L118">        table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);</span>
+
+<span class="fc" id="L120">        new MousePopupListener(table, new TablePopupMenu(tableModel));</span>
+<span class="fc" id="L121">        selectionAdapter = new TableModelSelectionAdapter(table);</span>
+<span class="fc" id="L122">        tableModel.setTableModelSelectionAdapter(selectionAdapter);</span>
+
+<span class="fc" id="L124">        JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,</span>
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+<span class="fc" id="L127">        add(new TableFilterPanel(table), BorderLayout.NORTH);</span>
+<span class="fc" id="L128">        add(scrollPane, BorderLayout.CENTER);</span>
+
+<span class="fc" id="L130">    }</span>
+
+    private void setSelectedOpticsDefinition() {
+<span class="nc" id="L133">        int row = selectionAdapter.getSelectedRowIndex();</span>
+<span class="nc" id="L134">        OpticsDefinition opticsDefinition = getOpticsDefinitions().get(row);</span>
+        try {
+<span class="nc" id="L136">            getModel().setActiveOpticsDefinition(opticsDefinition);</span>
+<span class="nc" id="L137">        } catch (JMadModelException e) {</span>
+<span class="nc" id="L138">            LOGGER.error(&quot;Could not set Optic [&quot; + opticsDefinition.getName() + &quot;] in Model [&quot; + getModel() + &quot;].&quot;);</span>
+<span class="nc" id="L139">        }</span>
+<span class="nc" id="L140">    }</span>
+
+    /**
+     * this inner class is the Table model for the displayed Table.
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+<span class="fc" id="L147">    class ModelOpticsDefinitionTableModel extends SelectionSetTableModel {</span>
+        private final static int COLUMN_COUNT = 1;
+
+        private final static int COL_NAME = 0;
+
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public int getColumnCount() {
+<span class="fc" id="L156">            return COLUMN_COUNT;</span>
+        }
+
+        @Override
+        public int getRowCount() {
+<span class="fc" id="L161">            List&lt;OpticsDefinition&gt; opticsDefinitions = getOpticsDefinitions();</span>
+<span class="pc bpc" id="L162" title="1 of 2 branches missed.">            if (opticsDefinitions != null) {</span>
+<span class="fc" id="L163">                return opticsDefinitions.size();</span>
+            } else {
+<span class="nc" id="L165">                return 0;</span>
+            }
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int col) {
+<span class="nc" id="L171">            return false;</span>
+        }
+
+        @Override
+        public Object getValueAt(int row, int col) {
+<span class="nc" id="L176">            List&lt;OpticsDefinition&gt; opticsDefinitions = getOpticsDefinitions();</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">            if (opticsDefinitions == null) {</span>
+<span class="nc" id="L178">                return null;</span>
+            }
+
+<span class="nc" id="L181">            OpticsDefinition opticsDefinition = opticsDefinitions.get(row);</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">            switch (col) {</span>
+            case COL_NAME:
+<span class="nc" id="L184">                return opticsDefinition.getName();</span>
+            default:
+<span class="nc" id="L186">                return null;</span>
+            }
+        }
+
+        @Override
+        public Class&lt;?&gt; getColumnClass(int col) {
+<span class="nc bnc" id="L192" title="All 2 branches missed.">            switch (col) {</span>
+            case COL_NAME:
+<span class="nc" id="L194">                return String.class;</span>
+            default:
+<span class="nc" id="L196">                return null;</span>
+            }
+        }
+
+        @Override
+        public String getColumnName(int col) {
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">            switch (col) {</span>
+            case COL_NAME:
+<span class="fc" id="L204">                return &quot;optics name&quot;;</span>
+            default:
+<span class="nc" id="L206">                return null;</span>
+            }
+        }
+
+    }
+
+    private void setModel(JMadModel model) {
+<span class="nc" id="L213">        this.model = model;</span>
+<span class="nc" id="L214">    }</span>
+
+    private List&lt;OpticsDefinition&gt; getOpticsDefinitions() {
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">        if (getModel() != null) {</span>
+<span class="nc" id="L218">            return getModel().getModelDefinition().getOpticsDefinitions();</span>
+        } else {
+<span class="fc" id="L220">            return new ArrayList&lt;OpticsDefinition&gt;();</span>
+        }
+    }
+
+    private JMadModel getModel() {
+<span class="fc" id="L225">        return model;</span>
+    }
+
+    public SelectionSetTableModel getTableModel() {
+<span class="nc" id="L229">        return this.tableModel;</span>
+    }
+
+    @Override
+    public String getTitle() {
+<span class="nc" id="L234">        return &quot;Optics selection&quot;;</span>
+    }
+
+    @Override
+    public boolean apply() {
+<span class="nc" id="L239">        setSelectedOpticsDefinition();</span>
+<span class="nc" id="L240">        return true;</span>
+    }
+
+    @Override
+    public void cancel() {
+        /* do nothing */
+<span class="nc" id="L246">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

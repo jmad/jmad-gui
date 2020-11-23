@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AboutDialog.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.dialog</a> &gt; <span class="el_source">AboutDialog.java</span></div><h1>AboutDialog.java</h1><pre class="source lang-java linenums">package cern.accsoft.steering.jmad.gui.dialog;
+
+import cern.accsoft.steering.jmad.gui.icons.Icon;
+
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.util.Objects;
+
+/**
+ * Simple about box
+ */
+public class AboutDialog {
+<span class="nc" id="L18">    private static final Dimension PREFERRED_SIZE = new Dimension(700, 250);</span>
+
+    private final JDialog dialog;
+    private final JPanel contentPane;
+
+<span class="nc" id="L23">    public AboutDialog(JFrame parentFrame) {</span>
+<span class="nc" id="L24">        dialog = new JDialog(parentFrame);</span>
+<span class="nc" id="L25">        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L26">        dialog.setPreferredSize(PREFERRED_SIZE);</span>
+<span class="nc" id="L27">        contentPane = new JPanel(new BorderLayout(10, 10));</span>
+<span class="nc" id="L28">        dialog.setContentPane(contentPane);</span>
+<span class="nc" id="L29">    }</span>
+
+    public void setIcon(ImageIcon imageIcon) {
+<span class="nc" id="L32">        Objects.requireNonNull(imageIcon);</span>
+
+<span class="nc" id="L34">        dialog.setIconImage(imageIcon.getImage());</span>
+<span class="nc" id="L35">        JLabel iconLabel = new JLabel();</span>
+<span class="nc" id="L36">        iconLabel.setIcon(imageIcon);</span>
+<span class="nc" id="L37">        iconLabel.setPreferredSize(new Dimension(imageIcon.getIconWidth(), imageIcon.getIconHeight()));</span>
+<span class="nc" id="L38">        contentPane.add(iconLabel, BorderLayout.WEST);</span>
+<span class="nc" id="L39">    }</span>
+
+    public void setText(String title, String product, String extra) {
+<span class="nc" id="L42">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L43">        sb.append(&quot;&lt;html&gt;&quot;);</span>
+<span class="nc" id="L44">        sb.append(&quot;&lt;h1&gt;&quot; + title + &quot;&lt;/h1&gt;&quot;);</span>
+<span class="nc" id="L45">        sb.append(&quot;&lt;table cellSpacing=0 cellPadding=0 border=0&gt;&quot;);</span>
+<span class="nc" id="L46">        sb.append(&quot;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Product:&amp;nbsp;&lt;/b&gt;&lt;/td&gt;&lt;td&gt;&quot; + product + &quot;&lt;/td&gt;&lt;/tr&gt;&quot;);</span>
+<span class="nc" id="L47">        sb.append(&quot;&lt;/table&gt;&lt;br&gt;&quot;);</span>
+<span class="nc" id="L48">        sb.append(extra + &quot;&lt;br&gt;&quot;);</span>
+<span class="nc" id="L49">        sb.append(&quot;&lt;/html&gt;&quot;);</span>
+
+<span class="nc" id="L51">        JPanel box = new JPanel();</span>
+<span class="nc" id="L52">        box.add(new JLabel(sb.toString()));</span>
+
+<span class="nc" id="L54">        contentPane.add(box, BorderLayout.CENTER);</span>
+<span class="nc" id="L55">    }</span>
+
+    public void show() {
+<span class="nc" id="L58">        dialog.pack();</span>
+<span class="nc" id="L59">        dialog.setVisible(true);</span>
+<span class="nc" id="L60">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

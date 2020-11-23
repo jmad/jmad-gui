@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PanelDialog.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.dialog</a> &gt; <span class="el_source">PanelDialog.java</span></div><h1>PanelDialog.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.dialog;
+
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+
+import cern.accsoft.steering.util.gui.panels.Applyable;
+import cern.accsoft.steering.util.gui.panels.PanelProvider;
+import cern.accsoft.steering.util.gui.panels.Titleable;
+import cern.accsoft.steering.util.gui.panels.ValidateApplyable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * A dialog, which contains a panel.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class PanelDialog extends JDialog {
+    private static final long serialVersionUID = 67399462987558666L;
+
+    /** the logger for the class */
+<span class="nc" id="L52">    private final static Logger logger = LoggerFactory.getLogger(PanelDialog.class);</span>
+
+    /** the content, which we display */
+    private Object content;
+
+    /** the displayed content-panel */
+    private JPanel panel;
+
+    /** the value, which we will return */
+<span class="nc" id="L61">    private boolean ok = false;</span>
+
+    /**
+     * the constructor
+     * 
+     * @param panel the containing panel
+     * @param parentFrame the parent frame
+     */
+    private PanelDialog(Object content, Frame parentFrame, boolean modal) {
+<span class="nc" id="L70">        super(parentFrame, modal);</span>
+<span class="nc" id="L71">        this.content = content;</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (getContent() instanceof JPanel) {</span>
+<span class="nc" id="L73">            this.setPanel((JPanel) getContent());</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        } else if (getContent() instanceof PanelProvider) {</span>
+<span class="nc" id="L75">            this.setPanel(((PanelProvider) getContent()).getPanel());</span>
+        } else {
+<span class="nc" id="L77">            logger.error(&quot;can not add content of type '&quot; + getContent().getClass().getName() + &quot;' to contentPane!&quot;);</span>
+        }
+<span class="nc" id="L79">        initComponents();</span>
+<span class="nc" id="L80">    }</span>
+
+    /**
+     * private static method to splash up the dialog
+     * 
+     * @param content the content, which to display in the dialog
+     * @param parentFrame the parent frame
+     * @return true, if ok was pressed. false otherwise
+     */
+    private final static boolean showContent(Object content, Frame parentFrame, boolean modal) {
+<span class="nc" id="L90">        PanelDialog dialog = new PanelDialog(content, parentFrame, modal);</span>
+<span class="nc" id="L91">        dialog.setVisible(true);</span>
+<span class="nc" id="L92">        return dialog.isOk();</span>
+    }
+
+    /**
+     * public static method to directly display a panel
+     * 
+     * @param panel the panel
+     * @param parentFrame the parent frame
+     * @return true, if ok pressed, false otherwise
+     */
+    public final static boolean show(JPanel panel, Frame parentFrame) {
+<span class="nc" id="L103">        return showContent(panel, parentFrame, true);</span>
+    }
+
+    public final static boolean show(JPanel panel, Frame parentFrame, boolean modal) {
+<span class="nc" id="L107">        return showContent(panel, parentFrame, modal);</span>
+    }
+
+    /**
+     * public static method to display the panel of a {@link PanelProvider}
+     * 
+     * @param panelProvider the {@link PanelProvider}
+     * @param parentFrame the parent frame
+     * @return true, if ok pressed, false otherwise
+     */
+    public final static boolean show(PanelProvider panelProvider, Frame parentFrame) {
+<span class="nc" id="L118">        return showContent(panelProvider, parentFrame, true);</span>
+    }
+
+    public final static boolean show(PanelProvider panelProvider, Frame parentFrame, boolean modal) {
+<span class="nc" id="L122">        return showContent(panelProvider, parentFrame, modal);</span>
+    }
+
+    /**
+     * create all the containing components
+     */
+    private void initComponents() {
+<span class="nc" id="L129">        String title = &quot;User input&quot;;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (getPanel() instanceof Titleable) {</span>
+<span class="nc" id="L131">            title = ((Titleable) getPanel()).getTitle();</span>
+        }
+<span class="nc" id="L133">        setTitle(title);</span>
+
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        if (isModal()) {</span>
+            /*
+             * If we have a modal dialog, it shall only be closed by a click on ok or cancel
+             */
+<span class="nc" id="L139">            setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);</span>
+        }
+
+<span class="nc" id="L142">        Container pane = getContentPane();</span>
+<span class="nc" id="L143">        pane.setLayout(new BorderLayout());</span>
+<span class="nc" id="L144">        pane.add(this.getPanel(), BorderLayout.CENTER);</span>
+
+<span class="nc" id="L146">        JPanel buttonPanel = new JPanel();</span>
+
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        if (isModal()) {</span>
+            /* If we hava modal dialog, then we us ok-cancel. */
+<span class="nc" id="L150">            buttonPanel.add(new JButton(createOkAction()));</span>
+<span class="nc" id="L151">            buttonPanel.add(new JButton(createCancelAction()));</span>
+        } else {
+            /* If not modal, then we have just one close button. */
+<span class="nc" id="L154">            buttonPanel.add(new JButton(createCloseAction()));</span>
+        }
+<span class="nc" id="L156">        getContentPane().add(buttonPanel, BorderLayout.SOUTH);</span>
+
+<span class="nc" id="L158">        setLocationRelativeTo(getParent());</span>
+<span class="nc" id="L159">        pack();</span>
+<span class="nc" id="L160">    }</span>
+
+    /**
+     * @return the action for just closing the dialog
+     */
+    private Action createCancelAction() {
+<span class="nc" id="L166">        Action action = new AbstractAction() {</span>
+            private static final long serialVersionUID = -8624416405029781753L;
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+<span class="nc" id="L171">                cancel();</span>
+<span class="nc" id="L172">                setVisible(false);</span>
+<span class="nc" id="L173">            }</span>
+        };
+<span class="nc" id="L175">        action.putValue(AbstractAction.NAME, &quot;Cancel&quot;);</span>
+<span class="nc" id="L176">        action.putValue(AbstractAction.SHORT_DESCRIPTION, &quot;Closes dialog without applying changes.&quot;);</span>
+
+<span class="nc" id="L178">        return action;</span>
+    }
+
+    /**
+     * @return the action for applying changes and closing the dialog
+     */
+    private Action createOkAction() {
+<span class="nc" id="L185">        Action action = new AbstractAction() {</span>
+            private static final long serialVersionUID = -8624416405029781753L;
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+<span class="nc" id="L190">                boolean doIt = true;</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">                if (getContent() instanceof ValidateApplyable) {</span>
+<span class="nc" id="L192">                    doIt = ((ValidateApplyable) getContent()).prepareApply();</span>
+                }
+<span class="nc bnc" id="L194" title="All 2 branches missed.">                if (doIt) {</span>
+<span class="nc" id="L195">                    apply();</span>
+<span class="nc" id="L196">                    setVisible(false);</span>
+                }
+<span class="nc" id="L198">            }</span>
+        };
+<span class="nc" id="L200">        action.putValue(AbstractAction.NAME, &quot;Ok&quot;);</span>
+<span class="nc" id="L201">        action.putValue(AbstractAction.SHORT_DESCRIPTION, &quot;Saves changes and closes dialog.&quot;);</span>
+
+<span class="nc" id="L203">        return action;</span>
+    }
+
+    private Action createCloseAction() {
+<span class="nc" id="L207">        Action action = new AbstractAction() {</span>
+            private static final long serialVersionUID = -8624416405029781753L;
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+<span class="nc" id="L212">                setVisible(false);</span>
+<span class="nc" id="L213">            }</span>
+        };
+<span class="nc" id="L215">        action.putValue(AbstractAction.NAME, &quot;Close&quot;);</span>
+<span class="nc" id="L216">        action.putValue(AbstractAction.SHORT_DESCRIPTION, &quot;Closes the dialog.&quot;);</span>
+
+<span class="nc" id="L218">        return action;</span>
+    }
+
+    /**
+     * performs the apply in the panel, if it is {@link Applyable}
+     * 
+     * @return the return-value of the apply in the panel, or true.
+     */
+    private void apply() {
+<span class="nc bnc" id="L227" title="All 2 branches missed.">        if (getContent() instanceof Applyable) {</span>
+<span class="nc" id="L228">            this.ok = ((Applyable) getContent()).apply();</span>
+        }
+<span class="nc" id="L230">        this.ok = true;</span>
+<span class="nc" id="L231">    }</span>
+
+    private void cancel() {
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        if (getContent() instanceof Applyable) {</span>
+<span class="nc" id="L235">            ((Applyable) getContent()).cancel();</span>
+        }
+<span class="nc" id="L237">        this.ok = false;</span>
+<span class="nc" id="L238">    }</span>
+
+    /**
+     * @return the containing panel
+     */
+    private Object getContent() {
+<span class="nc" id="L244">        return this.content;</span>
+    }
+
+    /**
+     * @return the ok
+     */
+    public boolean isOk() {
+<span class="nc" id="L251">        return ok;</span>
+    }
+
+    /**
+     * @param panel the panel to set
+     */
+    private void setPanel(JPanel panel) {
+<span class="nc" id="L258">        this.panel = panel;</span>
+<span class="nc" id="L259">    }</span>
+
+    /**
+     * @return the panel
+     */
+    private JPanel getPanel() {
+<span class="nc" id="L265">        return panel;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JMadGui.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui</a> &gt; <span class="el_source">JMadGui.java</span></div><h1>JMadGui.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui;
+
+import static java.util.Objects.requireNonNull;
+import static javax.swing.SwingUtilities.invokeLater;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
+import cern.accsoft.steering.jmad.domain.machine.Range;
+import cern.accsoft.steering.jmad.gui.actions.event.ChooseOpticsEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.ChooseRangeEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.CloseActiveModelEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.CreateModelFromFileEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.CreateModelFromRepositoryEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.CreateModelFromUriEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.ExitEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.ExportModelEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.ExportModelUriEvent;
+import cern.accsoft.steering.jmad.gui.actions.event.ShowAboutBoxEvent;
+import cern.accsoft.steering.jmad.gui.dialog.AboutDialog;
+import cern.accsoft.steering.jmad.gui.dialog.JMadOptionPane;
+import cern.accsoft.steering.jmad.gui.executor.AsyncExecutor;
+import cern.accsoft.steering.jmad.gui.icons.Icon;
+import cern.accsoft.steering.jmad.gui.manage.JMadGuiPreferences;
+import cern.accsoft.steering.jmad.gui.panels.GuiLogPanel;
+import cern.accsoft.steering.jmad.gui.panels.ModelOpticsSelectionPanel;
+import cern.accsoft.steering.jmad.gui.panels.RangeSelectionPanel;
+import cern.accsoft.steering.jmad.model.AbstractJMadModelListener;
+import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
+import cern.accsoft.steering.jmad.service.JMadService;
+import cern.accsoft.steering.util.gui.UserInteractor;
+import org.jmad.modelpack.gui.conf.JMadModelSelectionDialogFactory;
+import org.jmad.modelpack.service.JMadModelPackageService;
+import org.jmad.modelpack.util.ModelUris;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.event.EventListener;
+
+/**
+ * this class represents the main frame for the jmad-gui standalone application
+ *
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class JMadGui extends JFrame {
+    private static final long serialVersionUID = 1L;
+
+<span class="fc" id="L74">    private static final Logger LOGGER = LoggerFactory.getLogger(JMadGui.class);</span>
+    private static final String TITLE_BASE = &quot;JMad &quot;;
+    private static final int DEFAULT_WIDTH = 1024;
+    private static final int DEFAULT_HEIGHT = 768;
+
+    private final JMadGuiPreferences jmadGuiPreferences;
+    private AsyncExecutor asyncExecutor;
+    private JMadService jMadService;
+    private JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory;
+    private JMadModelPackageService jMadModelPackageService;
+    private JMadModelManager modelManager;
+    private UserInteractor userInteractor;
+    private RangeSelectionPanel rangeSelectionPanel;
+    private ModelOpticsSelectionPanel modelOpticsSelectionPanel;
+    private JPanel mainPanel;
+    private JMenuBar jmadMenuBar;
+    private JToolBar toolBar;
+    private GuiLogPanel guiLogPanel;
+
+<span class="fc" id="L93">    public JMadGui(JMadGuiPreferences jmadGuiPreferences) {</span>
+<span class="fc" id="L94">        this.jmadGuiPreferences = jmadGuiPreferences;</span>
+<span class="fc" id="L95">    }</span>
+
+    public final void init() {
+<span class="fc" id="L98">        requireNonNull(mainPanel, &quot;mainPanel cannot be null. Configuration problem&quot;);</span>
+<span class="fc" id="L99">        setupFramePreferences();</span>
+
+<span class="fc" id="L101">        setLayout(new BorderLayout());</span>
+<span class="fc" id="L102">        setIconImage(Icon.JMAD.getImageIcon().getImage());</span>
+<span class="fc" id="L103">        setContentPane(mainPanel);</span>
+
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">        if (jmadMenuBar != null) {</span>
+<span class="fc" id="L106">            setJMenuBar(jmadMenuBar);</span>
+        }
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">        if (toolBar != null) {</span>
+<span class="fc" id="L109">            add(toolBar, BorderLayout.PAGE_START);</span>
+        }
+
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">        if (guiLogPanel != null) {</span>
+<span class="fc" id="L113">            add(guiLogPanel, BorderLayout.PAGE_END);</span>
+        }
+
+<span class="fc" id="L116">        setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));</span>
+<span class="fc" id="L117">    }</span>
+
+    @Override
+    public void validate() {
+<span class="nc" id="L121">        super.validate();</span>
+<span class="nc" id="L122">        setPreferredSize(getSize());</span>
+<span class="nc" id="L123">    }</span>
+
+    public void showGui() {
+<span class="nc" id="L126">        invokeLater(() -&gt; {</span>
+<span class="nc" id="L127">            pack();</span>
+<span class="nc" id="L128">            setVisible(true);</span>
+<span class="nc" id="L129">        });</span>
+<span class="nc" id="L130">    }</span>
+
+    private void setupFramePreferences() {
+<span class="pc" id="L133">        jmadGuiPreferences.exitOnCloseProperty().subscribe(close -&gt; invokeLater(() -&gt; setFrameCloseOperation(close)));</span>
+<span class="fc" id="L134">        setFrameCloseOperation(jmadGuiPreferences.isExitOnClose());</span>
+
+<span class="fc" id="L136">        addWindowListener(new WindowAdapter() {</span>
+            public void windowClosing(@SuppressWarnings(&quot;unused&quot;) WindowEvent e) {
+<span class="nc bnc" id="L138" title="All 2 branches missed.">                if (jmadGuiPreferences.isCleanupOnClose()) {</span>
+<span class="nc" id="L139">                    cleanup();</span>
+                }
+<span class="nc bnc" id="L141" title="All 2 branches missed.">                if (jmadGuiPreferences.isExitOnClose()) {</span>
+<span class="nc" id="L142">                    System.exit(0);</span>
+                }
+<span class="nc" id="L144">            }</span>
+        });
+<span class="fc" id="L146">    }</span>
+
+    private void cleanup() {
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        if (this.modelManager != null) {</span>
+<span class="nc" id="L150">            JMadModel model = this.modelManager.getActiveModel();</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">            if (model != null) {</span>
+                try {
+<span class="nc" id="L153">                    model.cleanup();</span>
+<span class="nc" id="L154">                } catch (JMadModelException e) {</span>
+<span class="nc" id="L155">                    LOGGER.error(&quot;Error while cleaning up model&quot;, e);</span>
+<span class="nc" id="L156">                }</span>
+            }
+        }
+<span class="nc" id="L159">    }</span>
+
+    private void updateTitleAccordingTo(JMadModel model) {
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        if (model != null) {</span>
+<span class="nc" id="L163">            model.addListener(new AbstractJMadModelListener() {</span>
+                @Override
+                public void opticsDefinitionChanged() {
+<span class="nc" id="L166">                    updateTitle();</span>
+<span class="nc" id="L167">                }</span>
+
+                @Override
+                public void rangeChanged(@SuppressWarnings(&quot;unused&quot;) Range newRange) {
+<span class="nc" id="L171">                    updateTitle();</span>
+<span class="nc" id="L172">                }</span>
+            });
+        }
+<span class="nc" id="L175">        updateTitle();</span>
+<span class="nc" id="L176">    }</span>
+
+    private void updateTitle() {
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        if (this.modelManager == null) {</span>
+<span class="nc" id="L180">            return;</span>
+        }
+
+<span class="nc" id="L183">        JMadModel model = this.modelManager.getActiveModel();</span>
+
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        if (model == null) {</span>
+<span class="nc" id="L186">            setTitle(TITLE_BASE);</span>
+        } else {
+<span class="nc" id="L188">            setTitle(TITLE_BASE + model.getDescription());</span>
+        }
+<span class="nc" id="L190">    }</span>
+
+    private void showExportModelDefinitionDialog() {
+<span class="nc" id="L193">        JMadModel model = modelManager.getActiveModel();</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">        if (model == null) {</span>
+<span class="nc" id="L195">            LOGGER.warn(&quot;No active model to export!&quot;);</span>
+<span class="nc" id="L196">            return;</span>
+        }
+<span class="nc" id="L198">        JMadOptionPane.showExportModelDefinitionDialog(this, model.getModelDefinition(), jMadService);</span>
+<span class="nc" id="L199">    }</span>
+
+    private void showExportModelUriDialog() {
+<span class="nc" id="L202">        JMadModel model = modelManager.getActiveModel();</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">        if (model == null) {</span>
+<span class="nc" id="L204">            LOGGER.warn(&quot;No active model to export!&quot;);</span>
+<span class="nc" id="L205">            return;</span>
+        }
+        try {
+<span class="nc" id="L208">            String modelUri = ModelUris.modelUri(model).toASCIIString();</span>
+<span class="nc" id="L209">            LOGGER.info(&quot;Model URI: {}&quot;, modelUri);</span>
+<span class="nc" id="L210">            JOptionPane.showMessageDialog(this, new JTextField(modelUri));</span>
+<span class="nc" id="L211">        } catch (Exception e) {</span>
+<span class="nc" id="L212">            LOGGER.error(&quot;Error getting model URI: {}&quot;, e.getMessage(), e);</span>
+<span class="nc" id="L213">        }</span>
+<span class="nc" id="L214">    }</span>
+
+    private void showRangeDefinitionChooseDialog() {
+<span class="nc" id="L217">        userInteractor.showPanelDialog(rangeSelectionPanel, this);</span>
+<span class="nc" id="L218">    }</span>
+
+    private void showOpticsDefinitionChooseDialog() {
+<span class="nc" id="L221">        userInteractor.showPanelDialog(modelOpticsSelectionPanel, this);</span>
+<span class="nc" id="L222">    }</span>
+
+    private void showCreateModelFromRepositoryDialog() {
+<span class="nc" id="L225">        initializeModel(JMadOptionPane.showCreateModelDialog(jMadModelSelectionDialogFactory, jMadService));</span>
+<span class="nc" id="L226">    }</span>
+
+    private void showCreateModelFromFileDialog() {
+<span class="nc" id="L229">        initializeModel(JMadOptionPane.showCreateModelFromFileDialog(this, jMadService));</span>
+<span class="nc" id="L230">    }</span>
+
+    private void showCreateModelFromUriDialog() {
+<span class="nc" id="L233">        initializeModel(JMadOptionPane.showCreateModelFromUriDialog(this, jMadModelPackageService));</span>
+<span class="nc" id="L234">    }</span>
+
+    private void initializeModel(JMadModel model) {
+<span class="nc bnc" id="L237" title="All 2 branches missed.">        if (model == null) {</span>
+<span class="nc" id="L238">            return;</span>
+        }
+<span class="nc" id="L240">        asyncExecutor.submitAsync(&quot;Initializing model '&quot; + model.getName() + &quot;'&quot;, () -&gt; {</span>
+<span class="nc" id="L241">            LOGGER.info(&quot;Starting Initialization of model '{}'&quot;, model.getName());</span>
+            try {
+<span class="nc" id="L243">                model.reset();</span>
+<span class="nc" id="L244">                LOGGER.info(&quot;Initialization of model '{}' finished.&quot;, model.getName());</span>
+<span class="nc" id="L245">            } catch (JMadModelException e) {</span>
+<span class="nc" id="L246">                LOGGER.error(&quot;Error while initializing Model '{}'.&quot;, model.getName(), e);</span>
+<span class="nc" id="L247">            }</span>
+<span class="nc" id="L248">        });</span>
+<span class="nc" id="L249">    }</span>
+
+    @EventListener(CreateModelFromRepositoryEvent.class)
+    public void createModelFromRepositoryEventListener() {
+<span class="nc" id="L253">        invokeLater(this::showCreateModelFromRepositoryDialog);</span>
+<span class="nc" id="L254">    }</span>
+
+    @EventListener(CreateModelFromUriEvent.class)
+    public void createModelFromUriEventListener() {
+<span class="nc" id="L258">        invokeLater(this::showCreateModelFromUriDialog);</span>
+<span class="nc" id="L259">    }</span>
+
+    @EventListener(CreateModelFromFileEvent.class)
+    public void createModelFromFileEventListener() {
+<span class="nc" id="L263">        invokeLater(this::showCreateModelFromFileDialog);</span>
+<span class="nc" id="L264">    }</span>
+
+    @EventListener(ExportModelEvent.class)
+    public void exportModelEventListener() {
+<span class="nc" id="L268">        invokeLater(this::showExportModelDefinitionDialog);</span>
+<span class="nc" id="L269">    }</span>
+
+    @EventListener(ExportModelUriEvent.class)
+    public void exportModelUriEventListener() {
+<span class="nc" id="L273">        invokeLater(this::showExportModelUriDialog);</span>
+<span class="nc" id="L274">    }</span>
+
+    @EventListener(CloseActiveModelEvent.class)
+    public void closeActiveModelEventListener() {
+<span class="nc" id="L278">        invokeLater(this::closeActiveModel);</span>
+<span class="nc" id="L279">    }</span>
+
+    @EventListener(ExitEvent.class)
+    public void exitEventListener() {
+<span class="nc bnc" id="L283" title="All 2 branches missed.">        if (jmadGuiPreferences.isExitOnClose()) {</span>
+<span class="nc" id="L284">            invokeLater(this::exitJMad);</span>
+        } else {
+<span class="nc" id="L286">            invokeLater(() -&gt; setVisible(false));</span>
+        }
+<span class="nc" id="L288">    }</span>
+
+    @EventListener(ChooseRangeEvent.class)
+    public void chooseRangeEventListener() {
+<span class="nc" id="L292">        invokeLater(this::showRangeDefinitionChooseDialog);</span>
+<span class="nc" id="L293">    }</span>
+
+    @EventListener(ChooseOpticsEvent.class)
+    public void chooseOpticsEventListener() {
+<span class="nc" id="L297">        invokeLater(this::showOpticsDefinitionChooseDialog);</span>
+<span class="nc" id="L298">    }</span>
+
+    @EventListener(ShowAboutBoxEvent.class)
+    public void showAboutInfoEventListener() {
+<span class="nc" id="L302">        invokeLater(this::showAboutBox);</span>
+<span class="nc" id="L303">    }</span>
+
+    private void setFrameCloseOperation(boolean close) {
+<span class="pc bpc" id="L306" title="1 of 2 branches missed.">        setDefaultCloseOperation(close ? WindowConstants.EXIT_ON_CLOSE : WindowConstants.HIDE_ON_CLOSE);</span>
+<span class="fc" id="L307">    }</span>
+
+    private void exitJMad() {
+<span class="nc" id="L310">        modelManager.cleanup();</span>
+<span class="nc" id="L311">        System.exit(0);</span>
+<span class="nc" id="L312">    }</span>
+
+    private void closeActiveModel() {
+<span class="nc" id="L315">        JMadModel model = modelManager.getActiveModel();</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">        if (model == null) {</span>
+<span class="nc" id="L317">            return;</span>
+        }
+        try {
+<span class="nc" id="L320">            model.cleanup();</span>
+<span class="nc" id="L321">        } catch (JMadModelException e) {</span>
+<span class="nc" id="L322">            LOGGER.error(&quot;Error while cleaning up model.&quot;, e);</span>
+<span class="nc" id="L323">        }</span>
+<span class="nc" id="L324">        modelManager.removeModel(model);</span>
+<span class="nc" id="L325">    }</span>
+
+    private void showAboutBox() {
+<span class="nc" id="L328">        AboutDialog aboutDialog = new AboutDialog(this);</span>
+<span class="nc" id="L329">        aboutDialog.setIcon(Icon.SPLASH.getImageIcon());</span>
+<span class="nc" id="L330">        aboutDialog.setText(&quot;JMad GUI&quot;, &quot;cern-accsoft-steering-jmad-gui&quot;,</span>
+                &quot;(C) Copyright CERN 2008-2020  Kajetan Fuchsberger&lt;br&gt;and the BE-OP-LHC software team.&quot;);
+<span class="nc" id="L332">        aboutDialog.show();</span>
+<span class="nc" id="L333">    }</span>
+
+    public void setRangeSelectionPanel(RangeSelectionPanel rangeSelectionPanel) {
+<span class="fc" id="L336">        this.rangeSelectionPanel = rangeSelectionPanel;</span>
+<span class="fc" id="L337">    }</span>
+
+    public void setModelOpticsSelectionPanel(ModelOpticsSelectionPanel modelOpticsSelectionPanel) {
+<span class="fc" id="L340">        this.modelOpticsSelectionPanel = modelOpticsSelectionPanel;</span>
+<span class="fc" id="L341">    }</span>
+
+    public void setUserInteractor(UserInteractor userInteractor) {
+<span class="fc" id="L344">        this.userInteractor = userInteractor;</span>
+<span class="fc" id="L345">    }</span>
+
+    public void setJMadService(JMadService jMadService) {
+<span class="fc" id="L348">        this.jMadService = jMadService;</span>
+<span class="fc" id="L349">    }</span>
+
+    public void setJMadModelSelectionDialogFactory(JMadModelSelectionDialogFactory jMadModelSelectionDialogFactory) {
+<span class="fc" id="L352">        this.jMadModelSelectionDialogFactory = jMadModelSelectionDialogFactory;</span>
+<span class="fc" id="L353">    }</span>
+
+    public void setjMadModelPackageService(JMadModelPackageService jMadModelPackageService) {
+<span class="fc" id="L356">        this.jMadModelPackageService = jMadModelPackageService;</span>
+<span class="fc" id="L357">    }</span>
+
+    public void setModelManager(JMadModelManager modelManager) {
+<span class="fc" id="L360">        this.modelManager = modelManager;</span>
+
+<span class="fc" id="L362">        this.modelManager.addListener(new JMadModelManagerAdapter() {</span>
+            @Override
+            public void changedActiveModel(JMadModel newModel) {
+<span class="nc" id="L365">                updateTitleAccordingTo(newModel);</span>
+<span class="nc" id="L366">            }</span>
+        });
+
+<span class="pc bpc" id="L369" title="1 of 2 branches missed.">        if (modelManager.getActiveModel() != null) {</span>
+<span class="nc" id="L370">            updateTitleAccordingTo(modelManager.getActiveModel());</span>
+        }
+<span class="fc" id="L372">    }</span>
+
+    public JMadGuiPreferences getJmadGuiPreferences() {
+<span class="nc" id="L375">        return jmadGuiPreferences;</span>
+    }
+
+    public void setMainPanel(JPanel mainPanel) {
+<span class="fc" id="L379">        this.mainPanel = mainPanel;</span>
+<span class="fc" id="L380">    }</span>
+
+    public void setJMadMenuBar(JMenuBar menuBar) {
+<span class="fc" id="L383">        this.jmadMenuBar = menuBar;</span>
+<span class="fc" id="L384">    }</span>
+
+    public void setJMadToolBar(JToolBar toolBar) {
+<span class="fc" id="L387">        this.toolBar = toolBar;</span>
+<span class="fc" id="L388">    }</span>
+
+    public void setGuiLogPanel(GuiLogPanel guiLogPanel) {
+<span class="fc" id="L391">        this.guiLogPanel = guiLogPanel;</span>
+<span class="fc" id="L392">    }</span>
+
+    public void setAsyncExecutor(AsyncExecutor asyncExecutor) {
+<span class="fc" id="L395">        this.asyncExecutor = asyncExecutor;</span>
+<span class="fc" id="L396">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ModelManagerPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels</a> &gt; <span class="el_source">ModelManagerPanel.java</span></div><h1>ModelManagerPanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels;
+
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Objects;
+
+import cern.accsoft.steering.jmad.gui.actions.JMadGuiActions;
+import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerListener;
+import cern.accsoft.steering.util.gui.CompUtils;
+
+/**
+ * This is a panel which displays all the currently open models in the ModelManager.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="fc" id="L45">public class ModelManagerPanel extends JPanel {</span>
+    private static final long serialVersionUID = -244842549979376608L;
+
+    /** The model manager, which knows about all active models */
+    private JMadModelManager modelManager;
+
+    /** The table model to provide all the information on the models */
+    private ModelManagerTableModel tableModel;
+
+    private JMadGuiActions jmadGuiActions;
+
+    /** The table for the models */
+    private JTable table;
+
+    private ComparisonPanel comparisonPanel;
+
+<span class="fc" id="L61">    private JMadModelManagerListener modelManagerListener = new JMadModelManagerListener() {</span>
+
+        @Override
+        public void removedModel(JMadModel removedModel) {
+<span class="nc" id="L65">            tableModel.fireTableDataChanged();</span>
+<span class="nc" id="L66">        }</span>
+
+        @Override
+        public void changedActiveModel(JMadModel newActiveModel) {
+<span class="nc" id="L70">            setSelectedModel(newActiveModel);</span>
+<span class="nc" id="L71">        }</span>
+
+        @Override
+        public void addedModel(JMadModel newModel) {
+<span class="nc" id="L75">            tableModel.fireTableDataChanged();</span>
+<span class="nc" id="L76">        }</span>
+    };
+
+    /**
+     * init method called by spring
+     */
+    public void init() {
+<span class="fc" id="L83">        Objects.requireNonNull(comparisonPanel, &quot;comparisonPanel&quot;);</span>
+<span class="fc" id="L84">        initComponents();</span>
+<span class="fc" id="L85">    }</span>
+
+    /**
+     * creates all the swing components
+     */
+    private void initComponents() {
+<span class="fc" id="L91">        setLayout(new BorderLayout());</span>
+
+<span class="fc" id="L93">        this.tableModel = new ModelManagerTableModel();</span>
+
+<span class="fc" id="L95">        this.table = new JTable(this.tableModel);</span>
+<span class="fc" id="L96">        setSelectedModel(getModelManager().getActiveModel());</span>
+
+<span class="fc" id="L98">        this.table.addMouseListener(new MouseAdapter() {</span>
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+<span class="nc" id="L102">                int modelIndex = table.convertRowIndexToModel(table.getSelectedRow());</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">                if (modelIndex &lt; 0) {</span>
+<span class="nc" id="L104">                    return;</span>
+                }
+<span class="nc" id="L106">                final JMadModel selectedModel = tableModel.getModel(modelIndex);</span>
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">                if (e.getButton() == (MouseEvent.BUTTON3)) {</span>
+
+<span class="nc" id="L110">                    JMenuItem switchToActive = new JMenuItem(&quot;Set as active model&quot;);</span>
+<span class="nc" id="L111">                    switchToActive.addActionListener(new ActionListener() {</span>
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L114">                            setAsActiveModel(selectedModel);</span>
+<span class="nc" id="L115">                        }</span>
+                    });
+
+<span class="nc" id="L118">                    JMenuItem compareToActive = new JMenuItem(&quot;Compare to the active model&quot;);</span>
+<span class="nc" id="L119">                    compareToActive.addActionListener(new ActionListener() {</span>
+
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L123">                            JMadModel activeModel = modelManager.getActiveModel();</span>
+<span class="nc" id="L124">                            comparisonPanel.compareTwoModels(activeModel, selectedModel);</span>
+<span class="nc" id="L125">                            JFrame frame = new JFrame(&quot;Comparison for models&quot;);</span>
+<span class="nc" id="L126">                            frame.add(comparisonPanel);</span>
+<span class="nc" id="L127">                            frame.setSize(800, 600);</span>
+<span class="nc" id="L128">                            frame.setVisible(true);</span>
+<span class="nc" id="L129">                            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L130">                        }</span>
+                    });
+
+<span class="nc" id="L133">                    JPopupMenu menu = new JPopupMenu();</span>
+<span class="nc" id="L134">                    menu.setVisible(true);</span>
+<span class="nc" id="L135">                    menu.add(switchToActive);</span>
+<span class="nc" id="L136">                    menu.add(compareToActive);</span>
+<span class="nc" id="L137">                    menu.show(e.getComponent(), e.getX(), e.getY());</span>
+                }
+
+<span class="nc bnc" id="L140" title="All 4 branches missed.">                if (e.getButton() == (MouseEvent.BUTTON1) &amp;&amp; e.getClickCount() &gt; 1) {</span>
+<span class="nc" id="L141">                    setAsActiveModel(selectedModel);</span>
+                }
+<span class="nc" id="L143">            }</span>
+
+            protected void setAsActiveModel(final JMadModel selectedModel) {
+<span class="nc bnc" id="L146" title="All 4 branches missed.">                if ((selectedModel != null) &amp;&amp; (!selectedModel.equals(getModelManager().getActiveModel()))) {</span>
+<span class="nc" id="L147">                    getModelManager().setActiveModel(selectedModel);</span>
+                }
+<span class="nc" id="L149">            }</span>
+        });
+
+<span class="fc" id="L152">        getModelManager().addListener(modelManagerListener);</span>
+<span class="fc" id="L153">        this.add(CompUtils.createScrollPane(table), BorderLayout.CENTER);</span>
+
+<span class="fc" id="L155">        JPanel buttonPanel = new JPanel(new GridBagLayout());</span>
+<span class="fc" id="L156">        GridBagConstraints constraints = new GridBagConstraints();</span>
+<span class="fc" id="L157">        constraints.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L158">        constraints.weightx = 1;</span>
+<span class="fc" id="L159">        constraints.gridx = 0;</span>
+<span class="fc" id="L160">        constraints.gridy = 0;</span>
+
+<span class="fc" id="L162">        JButton newModelBtn = new JButton(jmadGuiActions.getCreateModelAction());</span>
+<span class="fc" id="L163">        newModelBtn.setText(null);</span>
+<span class="fc" id="L164">        buttonPanel.add(newModelBtn, constraints);</span>
+
+<span class="fc" id="L166">        constraints.gridx++;</span>
+<span class="fc" id="L167">        JButton closeActiveModelBtn = new JButton(jmadGuiActions.getCloseActiveModelAction());</span>
+<span class="fc" id="L168">        closeActiveModelBtn.setText(null);</span>
+<span class="fc" id="L169">        buttonPanel.add(closeActiveModelBtn, constraints);</span>
+
+<span class="fc" id="L171">        add(buttonPanel, BorderLayout.SOUTH);</span>
+<span class="fc" id="L172">    }</span>
+
+    /**
+     * sets the selection in the table to the given model
+     * 
+     * @param model the model to select
+     */
+    private void setSelectedModel(JMadModel model) {
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">        if (model == null) {</span>
+<span class="fc" id="L181">            return;</span>
+        }
+<span class="nc" id="L183">        Integer index = getTableModelIndex(model);</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        if (index != null) {</span>
+<span class="nc" id="L185">            int tableIndex = table.convertRowIndexToView(index);</span>
+<span class="nc" id="L186">            this.table.setRowSelectionInterval(tableIndex, tableIndex);</span>
+        }
+<span class="nc" id="L188">    }</span>
+
+    /**
+     * searches in the models of the modelmanager for the given model. If it finds the model, then it returns the index
+     * within the list. Otherwise it returns &lt;code&gt;null&lt;/code&gt;.
+     * 
+     * @param model the model to search
+     * @return the index, or &lt;code&gt;null&lt;/code&gt; if the model cannot be found.
+     */
+    private Integer getTableModelIndex(JMadModel model) {
+<span class="nc bnc" id="L198" title="All 2 branches missed.">        if (model == null) {</span>
+<span class="nc" id="L199">            return null;</span>
+        }
+
+<span class="nc" id="L202">        int count = 0;</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">        for (JMadModel jmadModel : getModelManager().getModels()) {</span>
+<span class="nc bnc" id="L204" title="All 2 branches missed.">            if (model.equals(jmadModel)) {</span>
+<span class="nc" id="L205">                return count;</span>
+            }
+<span class="nc" id="L207">            count++;</span>
+<span class="nc" id="L208">        }</span>
+
+        /*
+         * model not found
+         */
+<span class="nc" id="L213">        return null;</span>
+    }
+
+    /**
+     * a table model, which displays all available models
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+<span class="fc" id="L221">    private class ModelManagerTableModel extends AbstractTableModel {</span>
+
+        private static final long serialVersionUID = 1L;
+
+        /** number of columns */
+        private static final int COL_COUNT = 1;
+
+        /** the index for the name column */
+        private static final int COL_IDX_NAME = 0;
+
+        @Override
+        public int getColumnCount() {
+<span class="fc" id="L233">            return COL_COUNT;</span>
+        }
+
+        @Override
+        public int getRowCount() {
+<span class="nc" id="L238">            return getModelManager().getModels().size();</span>
+        }
+
+        @Override
+        public Object getValueAt(int row, int col) {
+<span class="nc" id="L243">            JMadModel model = getModel(row);</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">            if (col == COL_IDX_NAME) {</span>
+<span class="nc" id="L245">                return model.getName();</span>
+            }
+<span class="nc" id="L247">            return null;</span>
+        }
+
+        @Override
+        public Class&lt;?&gt; getColumnClass(int col) {
+<span class="nc bnc" id="L252" title="All 2 branches missed.">            if (col == COL_IDX_NAME) {</span>
+<span class="nc" id="L253">                return String.class;</span>
+            }
+<span class="nc" id="L255">            return super.getColumnClass(col);</span>
+        }
+
+        @Override
+        public String getColumnName(int col) {
+<span class="pc bpc" id="L260" title="1 of 2 branches missed.">            if (col == COL_IDX_NAME) {</span>
+<span class="fc" id="L261">                return &quot;name&quot;;</span>
+            }
+<span class="nc" id="L263">            return super.getColumnName(col);</span>
+        }
+
+        private JMadModel getModel(int row) {
+<span class="nc" id="L267">            return getModelManager().getModels().get(row);</span>
+        }
+    }
+
+    public void setModelManager(JMadModelManager modelManager) {
+<span class="fc" id="L272">        this.modelManager = modelManager;</span>
+<span class="fc" id="L273">    }</span>
+
+    private JMadModelManager getModelManager() {
+<span class="fc" id="L276">        return modelManager;</span>
+    }
+
+    public void setComparisonPanel(ComparisonPanel comparisonPanel) {
+<span class="fc" id="L280">        this.comparisonPanel = comparisonPanel;</span>
+<span class="fc" id="L281">    }</span>
+
+    public void setJmadGuiActions(JMadGuiActions jmadGuiActions) {
+<span class="fc" id="L284">        this.jmadGuiActions = jmadGuiActions;</span>
+<span class="fc" id="L285">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

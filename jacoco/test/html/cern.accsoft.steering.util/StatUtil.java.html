@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StatUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util</a> &gt; <span class="el_source">StatUtil.java</span></div><h1>StatUtil.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util;
+
+import java.text.NumberFormat;
+
+/**
+ * simple statistical util-methods
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class StatUtil {
+
+    /** the formatter for the mean and rms-output */
+<span class="nc" id="L35">    private final static NumberFormat formatter = NumberFormat.getInstance();</span>
+    static {
+<span class="nc" id="L37">        formatter.setMinimumFractionDigits(1);</span>
+<span class="nc" id="L38">        formatter.setMaximumFractionDigits(6);</span>
+<span class="nc" id="L39">    }</span>
+
+    private StatUtil() {
+        /* only static methods */
+    }
+
+    /**
+     * creates a predefined string, that contains useful statistical information.
+     * 
+     * @param values the values for which to calc the stats
+     * @return the string
+     */
+    public final static String createMeanRmsString(double values[]) {
+<span class="nc" id="L52">        double mean = calcMean(values);</span>
+<span class="nc" id="L53">        double rms = calcRms(values);</span>
+<span class="nc" id="L54">        double meanrms = calcStandardDeviation(values, mean);</span>
+
+<span class="nc" id="L56">        String outString = &quot;rms=&quot; + formatter.format(rms) + &quot;; mean=&quot; + formatter.format(mean) + &quot;;  stddev=&quot;</span>
+<span class="nc" id="L57">                + formatter.format(meanrms);</span>
+<span class="nc" id="L58">        return outString;</span>
+    }
+
+    /**
+     * calculates the average of the given values
+     * 
+     * @param values the values to calc the average from
+     * @return the average
+     */
+    public final static double calcMean(double[] values) {
+<span class="nc" id="L68">        double sum = 0.0;</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        for (int i = 0; i &lt; values.length; i++) {</span>
+<span class="nc" id="L70">            sum += values[i];</span>
+        }
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (values.length &gt; 0) {</span>
+<span class="nc" id="L73">            return sum / values.length;</span>
+        } else {
+<span class="nc" id="L75">            return 0;</span>
+        }
+    }
+
+    /**
+     * calculates the rms of the given array of values
+     * 
+     * @param values the values to calc the rms from
+     * @return the rms
+     */
+    public final static double calcRms(double values[]) {
+<span class="nc" id="L86">        double sum = 0;</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        for (int i = 0; i &lt; values.length; i++) {</span>
+<span class="nc" id="L88">            sum += Math.pow(values[i], 2);</span>
+        }
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (values.length &gt; 0) {</span>
+            /* we divide by N */
+<span class="nc" id="L93">            sum /= (values.length);</span>
+        }
+<span class="nc" id="L95">        return Math.sqrt(sum);</span>
+    }
+
+    /**
+     * calculates an estimate for the standard deviation with respect to the given mean.
+     * 
+     * @param values the values for which to calc the diff-rms
+     * @param meanValue the value to calc the diff to for each value.
+     * @return the diff-rms
+     */
+    public final static double calcStandardDeviation(double values[], double meanValue) {
+<span class="nc" id="L106">        double sum = 0;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        for (int i = 0; i &lt; values.length; i++) {</span>
+<span class="nc" id="L108">            sum += Math.pow(values[i] - meanValue, 2);</span>
+        }
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (values.length &gt; 1) {</span>
+            /* we divide by (N-1)! */
+<span class="nc" id="L113">            sum /= (values.length - 1);</span>
+        }
+<span class="nc" id="L115">        return Math.sqrt(sum);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

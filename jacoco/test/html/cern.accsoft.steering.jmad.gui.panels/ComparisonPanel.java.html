@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ComparisonPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels</a> &gt; <span class="el_source">ComparisonPanel.java</span></div><h1>ComparisonPanel.java</h1><pre class="source lang-java linenums">/**
+ * Copyright (c) 2015 European Organisation for Nuclear Research (CERN), All Rights Reserved.
+ */
+
+package cern.accsoft.steering.jmad.gui.panels;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.util.Objects;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import cern.accsoft.steering.jmad.domain.elem.Element;
+import cern.accsoft.steering.jmad.domain.elem.MadxElementType;
+import cern.accsoft.steering.jmad.gui.executor.AsyncExecutor;
+import cern.accsoft.steering.jmad.gui.panels.var.ElementCellRenderer;
+import cern.accsoft.steering.jmad.gui.panels.var.SequenceElementsTableModel;
+import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.service.JMadModelSeqElementOnNameComparator;
+import cern.accsoft.steering.jmad.service.SequenceElementFilter;
+
+<span class="fc" id="L31">public class ComparisonPanel extends JPanel {</span>
+    private static final long serialVersionUID = 1L;
+
+    private AsyncExecutor asyncExecutor;
+
+<span class="fc" id="L36">    private SequenceElementsTableModel sequenceElementesModel1 = new SequenceElementsTableModel();</span>
+<span class="fc" id="L37">    private SequenceElementsTableModel sequenceElementesModel2 = new SequenceElementsTableModel();</span>
+    private ElementCellRenderer elementCellRenderer;
+    private JComboBox&lt;MadxElementType&gt; filterSelection;
+    private JButton loadElements;
+
+    private JMadModelManager jMadModelManager;
+    private JMadModel model1;
+    private JMadModel model2;
+
+    private JLabel labelModel2;
+    private JLabel labelModel1;
+
+    public void init() {
+<span class="fc" id="L50">        Objects.requireNonNull(jMadModelManager, &quot;jMadModelManager&quot;);</span>
+<span class="fc" id="L51">        buildGui();</span>
+<span class="fc" id="L52">    }</span>
+
+    public void compareTwoModels(JMadModel model1Set, JMadModel model2Set) {
+<span class="nc" id="L55">        this.model1 = model1Set;</span>
+<span class="nc" id="L56">        this.model2 = model2Set;</span>
+<span class="nc" id="L57">        labelModel1.setText(model1.getName());</span>
+<span class="nc" id="L58">        labelModel2.setText(model2.getName());</span>
+<span class="nc" id="L59">        loadElements.setEnabled(true);</span>
+<span class="nc" id="L60">        fireNewDataArrived();</span>
+<span class="nc" id="L61">    }</span>
+
+    private void buildGui() {
+<span class="fc" id="L64">        elementCellRenderer = new ElementCellRenderer();</span>
+
+<span class="fc" id="L66">        setLayout(new BorderLayout());</span>
+<span class="fc" id="L67">        setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), &quot;Sequence comparison&quot;));</span>
+<span class="fc" id="L68">        add(createButtonsPanel(), BorderLayout.NORTH);</span>
+<span class="fc" id="L69">        JPanel panel = new JPanel();</span>
+<span class="fc" id="L70">        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));</span>
+
+<span class="fc" id="L72">        JPanel panelModel1 = new JPanel();</span>
+<span class="fc" id="L73">        JTable table = new JTable(sequenceElementesModel1);</span>
+<span class="fc" id="L74">        table.setDefaultRenderer(Element.class, elementCellRenderer);</span>
+<span class="fc" id="L75">        panelModel1.setLayout(new BorderLayout());</span>
+<span class="fc" id="L76">        labelModel1 = new JLabel(&quot;MODEL1 NAME&quot;);</span>
+<span class="fc" id="L77">        labelModel1.setBorder(BorderFactory.createLineBorder(Color.BLUE));</span>
+<span class="fc" id="L78">        panelModel1.add(labelModel1, BorderLayout.NORTH);</span>
+<span class="fc" id="L79">        panelModel1.add(new JScrollPane(table), BorderLayout.CENTER);</span>
+<span class="fc" id="L80">        panel.add(panelModel1);</span>
+
+<span class="fc" id="L82">        JPanel panelModel2 = new JPanel();</span>
+<span class="fc" id="L83">        JTable table2 = new JTable(sequenceElementesModel2);</span>
+<span class="fc" id="L84">        table2.setDefaultRenderer(Element.class, elementCellRenderer);</span>
+<span class="fc" id="L85">        panelModel2.setLayout(new BorderLayout());</span>
+<span class="fc" id="L86">        labelModel2 = new JLabel(&quot;MODEL2 NAME&quot;);</span>
+<span class="fc" id="L87">        labelModel2.setBorder(BorderFactory.createLineBorder(Color.BLUE));</span>
+<span class="fc" id="L88">        panelModel2.add(labelModel2, BorderLayout.NORTH);</span>
+<span class="fc" id="L89">        panelModel2.add(new JScrollPane(table2), BorderLayout.CENTER);</span>
+<span class="fc" id="L90">        panel.add(panelModel2);</span>
+
+<span class="fc" id="L92">        add(panel, BorderLayout.CENTER);</span>
+<span class="fc" id="L93">    }</span>
+
+    private Component createButtonsPanel() {
+<span class="fc" id="L96">        JPanel jPanel = new JPanel();</span>
+<span class="fc" id="L97">        filterSelection = new JComboBox&lt;&gt;(MadxElementType.values());</span>
+
+<span class="fc" id="L99">        jPanel.add(filterSelection);</span>
+
+<span class="fc" id="L101">        loadElements = new JButton(&quot;Show selected elements...&quot;);</span>
+<span class="fc" id="L102">        loadElements.setEnabled(false);</span>
+<span class="pc" id="L103">        loadElements.addActionListener(e -&gt; fireNewDataArrived());</span>
+<span class="fc" id="L104">        jPanel.add(loadElements);</span>
+<span class="fc" id="L105">        return jPanel;</span>
+    }
+
+    private void fireNewDataArrived() {
+<span class="nc" id="L109">        MadxElementType selectedItem = (MadxElementType) filterSelection.getSelectedItem();</span>
+<span class="nc" id="L110">        LoadElementsTask task = new LoadElementsTask(new MutableSequnceFilter(selectedItem));</span>
+<span class="nc" id="L111">        asyncExecutor.submitAsync(task);</span>
+<span class="nc" id="L112">    }</span>
+
+    private class LoadElementsTask implements Runnable {
+
+        private final SequenceElementFilter filter;
+
+<span class="nc" id="L118">        private LoadElementsTask(SequenceElementFilter filter) {</span>
+<span class="nc" id="L119">            this.filter = filter;</span>
+<span class="nc" id="L120">        }</span>
+
+        @Override
+        public void run() {
+<span class="nc" id="L124">            elementCellRenderer.setElements(jMadModelManager.getCommonSequenceElements(model1, model2, filter));</span>
+<span class="nc" id="L125">            sequenceElementesModel1.updateElements(JMadModelSeqElementOnNameComparator.getFilteredElements(model1</span>
+<span class="nc" id="L126">                    .getActiveRange().getElements(), filter));</span>
+<span class="nc" id="L127">            sequenceElementesModel1.setModelName(model1.getName());</span>
+<span class="nc" id="L128">            sequenceElementesModel2.updateElements(JMadModelSeqElementOnNameComparator.getFilteredElements(model2</span>
+<span class="nc" id="L129">                    .getActiveRange().getElements(), filter));</span>
+<span class="nc" id="L130">            sequenceElementesModel2.setModelName(model2.getName());</span>
+<span class="nc" id="L131">        }</span>
+
+    }
+
+    private class MutableSequnceFilter implements SequenceElementFilter {
+
+        private final MadxElementType elementType;
+
+<span class="nc" id="L139">        private MutableSequnceFilter(MadxElementType elementType) {</span>
+<span class="nc" id="L140">            this.elementType = elementType;</span>
+<span class="nc" id="L141">        }</span>
+
+        @Override
+        public boolean accepts(Element element) {
+
+<span class="nc bnc" id="L146" title="All 2 branches missed.">            if (MadxElementType.KICKER.equals(elementType)) {</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">                if (element.getMadxElementType().equals(MadxElementType.HKICKER)</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">                        || element.getMadxElementType().equals(MadxElementType.VKICKER)) {</span>
+<span class="nc" id="L149">                    return true;</span>
+                }
+            }
+
+<span class="nc" id="L153">            return element.getMadxElementType().equals(elementType);</span>
+        }
+
+    }
+    public void setAsyncExecutor(AsyncExecutor asyncExecutor) {
+<span class="nc" id="L158">        this.asyncExecutor = asyncExecutor;</span>
+<span class="nc" id="L159">    }</span>
+
+    public void setjMadModelManager(JMadModelManager jMadModelManager) {
+<span class="fc" id="L162">        this.jMadModelManager = jMadModelManager;</span>
+<span class="fc" id="L163">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

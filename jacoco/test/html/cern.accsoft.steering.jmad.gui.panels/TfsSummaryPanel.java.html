@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TfsSummaryPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels</a> &gt; <span class="el_source">TfsSummaryPanel.java</span></div><h1>TfsSummaryPanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels;
+
+import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
+
+import cern.accsoft.steering.jmad.domain.result.tfs.TfsResult;
+import cern.accsoft.steering.jmad.domain.result.tfs.TfsSummary;
+import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
+
+/**
+ * This panel displays the values of a tfs result
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="fc" id="L42">public class TfsSummaryPanel extends AbstractTfsDataSetManagerResultPanel {</span>
+    private static final long serialVersionUID = 1L;
+
+    /** the table model which provides the data */
+<span class="fc" id="L46">    private TfsSummaryTableModel tableModel = new TfsSummaryTableModel();</span>
+
+    public void init() {
+<span class="fc" id="L49">        initComponents();</span>
+<span class="fc" id="L50">    }</span>
+
+    private void initComponents() {
+<span class="fc" id="L53">        setLayout(new BorderLayout());</span>
+<span class="fc" id="L54">        JTable table = new JTable(this.tableModel);</span>
+
+<span class="fc" id="L56">        JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,</span>
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+<span class="fc" id="L59">        add(new TableFilterPanel(table), BorderLayout.NORTH);</span>
+<span class="fc" id="L60">        add(scrollPane, BorderLayout.CENTER);</span>
+<span class="fc" id="L61">        validate();</span>
+<span class="fc" id="L62">    }</span>
+
+    /**
+     * The table model for the tfsSummary
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+<span class="fc" id="L69">    static class TfsSummaryTableModel extends AbstractTableModel {</span>
+        private static final long serialVersionUID = 1L;
+
+        /** The actually displayed summary */
+        private TfsSummary tfsSummary;
+
+        /** we keep the strings so that they are in a fixed order */
+<span class="fc" id="L76">        private List&lt;String&gt; keys = new ArrayList&lt;String&gt;();</span>
+
+        private final static int COL_IDX_NAME = 0;
+        private final static int COL_IDX_VALUE = 1;
+        private final static int COL_COUNT = 2;
+
+        @Override
+        public int getColumnCount() {
+<span class="fc" id="L84">            return COL_COUNT;</span>
+        }
+
+        @Override
+        public int getRowCount() {
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">            if (tfsSummary != null) {</span>
+<span class="nc" id="L90">                return this.keys.size();</span>
+            }
+<span class="fc" id="L92">            return 0;</span>
+        }
+
+        @Override
+        public String getColumnName(int col) {
+<span class="fc bfc" id="L97" title="All 2 branches covered.">            if (col == COL_IDX_NAME) {</span>
+<span class="fc" id="L98">                return &quot;name&quot;;</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">            } else if (col == COL_IDX_VALUE) {</span>
+<span class="fc" id="L100">                return &quot;value&quot;;</span>
+            }
+<span class="nc" id="L102">            return super.getColumnName(col);</span>
+        }
+
+        @Override
+        public Object getValueAt(int row, int col) {
+<span class="nc" id="L107">            String key = this.keys.get(row);</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (col == COL_IDX_NAME) {</span>
+<span class="nc" id="L109">                return key;</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            } else if (col == COL_IDX_VALUE) {</span>
+<span class="nc" id="L111">                return tfsSummary.getStringValue(key);</span>
+            }
+<span class="nc" id="L113">            return null;</span>
+        }
+
+        public void setTfsSummary(TfsSummary tfsSummary) {
+<span class="nc" id="L117">            this.tfsSummary = tfsSummary;</span>
+<span class="nc" id="L118">            this.keys = new ArrayList&lt;String&gt;(tfsSummary.getKeys());</span>
+<span class="nc" id="L119">            fireTableDataChanged();</span>
+<span class="nc" id="L120">        }</span>
+
+    }
+
+    @Override
+    protected void update(TfsResult tfsResult) {
+<span class="nc" id="L126">        this.tableModel.setTfsSummary(tfsResult.getSummary());</span>
+<span class="nc" id="L127">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

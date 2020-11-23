@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SaveTwissEventListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.actions</a> &gt; <span class="el_source">SaveTwissEventListener.java</span></div><h1>SaveTwissEventListener.java</h1><pre class="source lang-java linenums">/**
+ * Copyright (c) 2016 European Organisation for Nuclear Research (CERN), All Rights Reserved.
+ */
+
+package cern.accsoft.steering.jmad.gui.actions;
+
+import java.io.File;
+import java.util.Optional;
+
+import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileFilter;
+
+import cern.accsoft.steering.jmad.gui.actions.event.SaveTwissEvent;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Preconditions;
+
+import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
+import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.model.OpticUtil;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerListener;
+import org.springframework.context.event.EventListener;
+
+/**
+ * An action which shows a dialog to select a file and then saves the twiss of the actual model to the selected file.
+ * 
+ * @author kfuchsbe
+ */
+<span class="nc" id="L33">public class SaveTwissEventListener {</span>
+<span class="nc" id="L34">    private static final Logger LOGGER = LoggerFactory.getLogger(SaveTwissEventListener.class);</span>
+
+    private JMadGuiActions jmadGuiActions;
+    private JMadModelManager modelManager;
+<span class="nc" id="L38">    private JMadModelManagerListener modelManagerListener = new JMadModelManagerAdapter() {</span>
+        @Override
+        public void changedActiveModel(JMadModel model) {
+<span class="nc" id="L41">            updateEnabled(model);</span>
+<span class="nc" id="L42">        }</span>
+    };
+
+    /**
+     * Has to be called as soon as all the collaborators are injected. It checks that they are correctly set and
+     * configures listeners to them as needed.
+     * 
+     * @throws IllegalStateException if one of the collaborators is not correctly set
+     */
+    public void init() {
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        Preconditions.checkState(modelManager != null,</span>
+                &quot;The model manager must not be null. Most probably a configuration error.&quot;);
+<span class="nc" id="L54">        modelManager.addListener(modelManagerListener);</span>
+<span class="nc" id="L55">        updateEnabled(modelManager.getActiveModel());</span>
+<span class="nc" id="L56">    }</span>
+
+    @EventListener(SaveTwissEvent.class)
+    public void saveTwissEventListener() {
+<span class="nc" id="L60">        SwingUtilities.invokeLater(this::saveTwiss);</span>
+<span class="nc" id="L61">    }</span>
+
+    private void saveTwiss() {
+<span class="nc" id="L64">        JMadModel activeModel = modelManager.getActiveModel();</span>
+<span class="nc" id="L65">        checkNonNullActiveModel(activeModel);</span>
+<span class="nc" id="L66">        Optional&lt;File&gt; file = askUserForTargetFile();</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (file.isPresent()) {</span>
+<span class="nc" id="L68">            saveActualTwissToFile(activeModel, file.get());</span>
+        } else {
+<span class="nc" id="L70">            LOGGER.info(&quot;No file selected by user. Nothing saved.&quot;);</span>
+        }
+<span class="nc" id="L72">    }</span>
+
+    private Optional&lt;File&gt; askUserForTargetFile() {
+<span class="nc" id="L75">        JFileChooser fileChooser = createFileChooser();</span>
+<span class="nc" id="L76">        int returnValue = fileChooser.showSaveDialog(null);</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (JFileChooser.APPROVE_OPTION == returnValue) {</span>
+<span class="nc" id="L78">            return Optional.of(fileChooser.getSelectedFile());</span>
+        } else {
+<span class="nc" id="L80">            return Optional.empty();</span>
+        }
+    }
+
+    private JFileChooser createFileChooser() {
+<span class="nc" id="L85">        JFileChooser fileChooser = new JFileChooser();</span>
+<span class="nc" id="L86">        fileChooser.addChoosableFileFilter(new FileFilter() {</span>
+
+            @Override
+            public String getDescription() {
+<span class="nc" id="L90">                return &quot;Madx Twiss files&quot;;</span>
+            }
+
+            @Override
+            public boolean accept(File file) {
+<span class="nc" id="L95">                return file.getName()</span>
+<span class="nc" id="L96">                        .endsWith(&quot;.tfs&quot;);</span>
+            }
+        });
+<span class="nc" id="L99">        return fileChooser;</span>
+    }
+
+    private void saveActualTwissToFile(JMadModel model, File file) {
+        try {
+<span class="nc" id="L104">            model.twissToFile(OpticUtil.fullOpticsRequest(), file);</span>
+<span class="nc" id="L105">        } catch (JMadModelException e) {</span>
+<span class="nc" id="L106">            LOGGER.error(&quot;Could not write twiss of model '&quot; + model + &quot;'to file '&quot; + file + &quot;'&quot;, e);</span>
+<span class="nc" id="L107">        }</span>
+<span class="nc" id="L108">    }</span>
+
+    private void checkNonNullActiveModel(JMadModel activeModel) {
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (activeModel == null) {</span>
+<span class="nc" id="L112">            throw new IllegalStateException(&quot;There is no active model. No TFS can be exported.&quot;);</span>
+        }
+<span class="nc" id="L114">    }</span>
+
+    private void updateEnabled(JMadModel model) {
+        /* It does not look very good to do it here.. */
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        jmadGuiActions.getSaveTwissAction().setEnabled(model != null);</span>
+<span class="nc" id="L119">    }</span>
+
+    public void setModelManager(JMadModelManager modelManager) {
+<span class="nc" id="L122">        this.modelManager = modelManager;</span>
+<span class="nc" id="L123">    }</span>
+
+    public void setJmadGuiActions(JMadGuiActions jmadGuiActions) {
+<span class="nc" id="L126">        this.jmadGuiActions = jmadGuiActions;</span>
+<span class="nc" id="L127">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TwoPointChartRenderer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.dv.ds</a> &gt; <span class="el_source">TwoPointChartRenderer.java</span></div><h1>TwoPointChartRenderer.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.dv.ds;
+
+import java.awt.Graphics2D;
+
+import cern.jdve.Style;
+import cern.jdve.data.DataSet;
+import cern.jdve.graphic.Marker;
+import cern.jdve.renderer.ScatterChartRenderer;
+import cern.jdve.utils.DisplayPoints;
+
+/**
+ * This renderer always connects two subsequent points with one line. This e.g. is useful for displaying data, which
+ * contains start and end-values. (e.g. alignmentData)
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class TwoPointChartRenderer extends ScatterChartRenderer {
+
+    //
+    // -- CONSTRUCTORS -----------------------------------------------
+    //
+    /**
+     * Creates a new &lt;code&gt;TwoPointChartRenderer&lt;/code&gt;.
+     */
+    public TwoPointChartRenderer() {
+<span class="nc" id="L48">        super(true);</span>
+<span class="nc" id="L49">    }</span>
+
+    /**
+     * Creates a new &lt;code&gt;TwoPointChartRenderer&lt;/code&gt;.
+     * 
+     * @param marker marker that will be drawn at each data point.
+     */
+    public TwoPointChartRenderer(Marker marker) {
+<span class="nc" id="L57">        super(marker);</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * Creates a new instance of &lt;code&gt;TwoPointChartRenderer&lt;/code&gt;.
+     * 
+     * @param marker marker that will be drawn at each data point.
+     * @param markerSize size of the marker (in pixels)
+     */
+    public TwoPointChartRenderer(Marker marker, int markerSize) {
+<span class="nc" id="L67">        super(marker, markerSize);</span>
+<span class="nc" id="L68">    }</span>
+
+    //
+    // -- Overrides ChartRenderer
+    // -----------------------------------------------
+    //
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see cern.jdve.ChartRenderer#drawLegendSymbol(java.awt.Graphics2D, int, cern.jdve.Style)
+     */
+    protected void drawLegendSymbol(Graphics2D g2, int width, int height, Style style) {
+<span class="nc" id="L81">        int[] xPoints = new int[] { 2, width - 2 };</span>
+<span class="nc" id="L82">        int[] yPoints = new int[] { height / 2, height / 2 };</span>
+<span class="nc" id="L83">        style.drawPolyline(g2, xPoints, yPoints);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (getMarker() != null) {</span>
+<span class="nc" id="L85">            super.drawLegendSymbol(g2, width, height, style);</span>
+        }
+<span class="nc" id="L87">    }</span>
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see cern.jdve.ChartRenderer#draw(java.awt.Graphics2D, cern.jdve.utils.DisplayPoints, cern.jdve.Style)
+     */
+    protected void draw(Graphics2D g2, DisplayPoints points, Style defaultStyle, DataSet dataSet) {
+
+        /*
+         * The points must alternate, so if division by zero is not null, then the first point is a end-point and we
+         * start the drawing at the next one.
+         */
+<span class="nc" id="L100">        int startIndex = 0;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if ((points.getIndexRange().getMin() % 2) != 0) {</span>
+<span class="nc" id="L102">            startIndex = 1;</span>
+        }
+
+        /* First we draw the polylines with the current style */
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        for (int i = startIndex + 1; i &lt; points.getXValues().length; i += 2) {</span>
+<span class="nc" id="L107">            int[] xValues = new int[] { points.getXValues()[i - 1], points.getXValues()[i] };</span>
+<span class="nc" id="L108">            int[] yValues = new int[] { points.getYValues()[i - 1], points.getYValues()[i] };</span>
+<span class="nc" id="L109">            defaultStyle.drawPolyline(g2, xValues, yValues);</span>
+        }
+
+        /* then we draw the markers */
+<span class="nc" id="L113">        super.draw(g2, points, defaultStyle, dataSet);</span>
+
+<span class="nc" id="L115">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
