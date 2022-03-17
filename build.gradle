@@ -59,7 +59,7 @@ dependencies {
 
     compile group: 'io.projectreactor', name: 'reactor-core', version: '3.4.11'
 
-    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 
     testCompile group: 'org.springframework', name: 'spring-test', version: '5.3.12'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.13.2'
