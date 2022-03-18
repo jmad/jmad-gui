@@ -22,27 +22,16 @@
 
 package cern.accsoft.steering.jmad.gui.panels;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.AbstractTableModel;
-
 import cern.accsoft.steering.jmad.domain.elem.Element;
-import cern.accsoft.steering.jmad.domain.elem.JMadElementType;
 import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
 import cern.accsoft.steering.jmad.domain.machine.Range;
 import cern.accsoft.steering.jmad.domain.misalign.MisalignmentConfiguration;
@@ -417,7 +406,7 @@ public class ModelElementsPanel extends JPanel implements EditHandlerUser<ModelE
             case COL_NAME:
                 return element.getName();
             case COL_TYPE:
-                return JMadElementType.fromElement(element).toString();
+                return element.getMadxElementType().toString();
             default:
                 return null;
             }
