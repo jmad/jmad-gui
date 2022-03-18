@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BeanShellPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.panels</a> &gt; <span class="el_source">BeanShellPanel.java</span></div><h1>BeanShellPanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.panels;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Map;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
+import cern.accsoft.steering.jmad.util.ListUtil;
+import cern.accsoft.steering.jmad.util.ListUtil.Mapper;
+import cern.accsoft.steering.util.gui.script.ScriptConsole;
+
+/**
+ * This Class encapsulates the creation of the panel for the bean-shell
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="nc" id="L50">public class BeanShellPanel extends JPanel implements ApplicationContextAware {</span>
+    private static final long serialVersionUID = 4374231778801633419L;
+
+    /**
+     * the name of the variable under which the application context will be accessible in BeanShell
+     */
+    private final static String BSH_APPCONTEXT_NAME = &quot;ctx&quot;;
+
+    /** The manager which detects all the available engines. */
+<span class="nc" id="L59">    private ScriptEngineManager scriptEngineManager = new ScriptEngineManager();</span>
+
+    /** The interactive console */
+<span class="nc" id="L62">    private ScriptConsole console = new ScriptConsole();</span>
+
+    /**
+     * init-method called by spring
+     */
+    public void init() {
+<span class="nc" id="L68">        initComponents();</span>
+<span class="nc" id="L69">    }</span>
+
+    /**
+     * creates all contained components
+     */
+    private void initComponents() {
+<span class="nc" id="L75">        setLayout(new BorderLayout());</span>
+
+<span class="nc" id="L77">        List&lt;ScriptEngineFactoryItem&gt; items = ListUtil.map(this.scriptEngineManager.getEngineFactories(),</span>
+<span class="nc" id="L78">                new Mapper&lt;ScriptEngineFactory, ScriptEngineFactoryItem&gt;() {</span>
+                    @Override
+                    public ScriptEngineFactoryItem map(ScriptEngineFactory inobject) {
+<span class="nc" id="L81">                        return new ScriptEngineFactoryItem(inobject);</span>
+                    }
+                });
+
+<span class="nc" id="L85">        final JComboBox cboScriptingEngineFactories = new JComboBox(items.toArray());</span>
+
+<span class="nc" id="L87">        cboScriptingEngineFactories.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L90">                Object item = cboScriptingEngineFactories.getSelectedItem();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                if (item == null) {</span>
+<span class="nc" id="L92">                    return;</span>
+                }
+<span class="nc" id="L94">                ScriptEngineFactory factory = ((ScriptEngineFactoryItem) item).getFactory();</span>
+<span class="nc" id="L95">                setScriptEngine(factory);</span>
+<span class="nc" id="L96">            }</span>
+        });
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (items.size() &gt; 0) {</span>
+<span class="nc" id="L99">            setScriptEngine(items.get(0).getFactory());</span>
+        }
+<span class="nc" id="L101">        add(cboScriptingEngineFactories, BorderLayout.NORTH);</span>
+
+<span class="nc" id="L103">        add(this.console, BorderLayout.CENTER);</span>
+
+<span class="nc" id="L105">    }</span>
+
+    private void setScriptEngine(ScriptEngineFactory factory) {
+        /*
+         * we let the manager do the creation of the engine. By that method the bindings should be set correctly.
+         */
+<span class="nc" id="L111">        String shortName = factory.getNames().get(0);</span>
+<span class="nc" id="L112">        ScriptEngine engine = scriptEngineManager.getEngineByName(shortName);</span>
+<span class="nc" id="L113">        this.console.setScriptEngine(engine);</span>
+<span class="nc" id="L114">    }</span>
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+<span class="nc" id="L118">        this.scriptEngineManager.put(BSH_APPCONTEXT_NAME, applicationContext);</span>
+<span class="nc" id="L119">    }</span>
+
+    public void setContextObjects(Map&lt;String, Object&gt; contextObjects) {
+<span class="nc" id="L122">        scriptEngineManager.getBindings().putAll(contextObjects);</span>
+<span class="nc" id="L123">    }</span>
+
+    /**
+     * just a wrapper for ScriptEngineFactories whose toString Method returns a nice name;
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+    private static class ScriptEngineFactoryItem {
+
+        /** the wrapped {@link ScriptEngineFactory} */
+        private ScriptEngineFactory factory;
+
+<span class="nc" id="L135">        private ScriptEngineFactoryItem(ScriptEngineFactory factory) {</span>
+<span class="nc" id="L136">            this.factory = factory;</span>
+<span class="nc" id="L137">        }</span>
+
+        public String toString() {
+<span class="nc" id="L140">            return this.factory.getEngineName();</span>
+        }
+
+        public ScriptEngineFactory getFactory() {
+<span class="nc" id="L144">            return this.factory;</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

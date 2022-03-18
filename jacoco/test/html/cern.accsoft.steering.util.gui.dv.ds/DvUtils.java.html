@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DvUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.dv.ds</a> &gt; <span class="el_source">DvUtils.java</span></div><h1>DvUtils.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.dv.ds;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Font;
+
+import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
+
+import cern.jdve.Chart;
+import cern.jdve.ChartInteractor;
+import cern.jdve.ChartRenderer;
+import cern.jdve.LabelRenderer;
+import cern.jdve.data.DataSet;
+import cern.jdve.graphic.ChartAnnotation;
+import cern.jdve.graphic.Marker;
+import cern.jdve.graphic.MarkerFactory;
+import cern.jdve.graphic.RenderingHint;
+import cern.jdve.interactor.CoordinatesPane;
+import cern.jdve.interactor.DataPickerInteractor;
+import cern.jdve.interactor.ScrollInteractor;
+import cern.jdve.interactor.ZoomInteractor;
+import cern.jdve.renderer.BarChartRenderer;
+import cern.jdve.renderer.HiLoRenderer;
+import cern.jdve.renderer.PolylineChartRenderer;
+import cern.jdve.renderer.ScatterChartRenderer;
+import cern.jdve.viewer.DataView;
+
+/**
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public final class DvUtils {
+
+<span class="nc" id="L56">    public final static RenderingHint VALIDITY_RENDERING_HINT = new ValidityRenderingHint();</span>
+
+    /**
+     * private constructor, no external instantiation
+     */
+    private DvUtils() {
+        // only static methods
+    }
+
+    /**
+     * creates a DataView which additionaly contains an edit - interactor toolbar for fitting.
+     * 
+     * @param chart
+     * @return
+     */
+    public final static DataView createFitInteractorView(Chart chart) {
+<span class="nc" id="L72">        chart.setInteractors(ChartInteractor.createEditIteractors());</span>
+
+<span class="nc" id="L74">        ChartInteractor interactor = chart.getInteractorOfType(ChartInteractor.DATA_PICKER);</span>
+<span class="nc bnc" id="L75" title="All 4 branches missed.">        if ((interactor != null) &amp;&amp; (interactor instanceof DataPickerInteractor)) {</span>
+<span class="nc" id="L76">            configureDataPickerInteractor((DataPickerInteractor) interactor);</span>
+        }
+
+<span class="nc" id="L79">        SineFitInteractor sineFitInteractor = new AlohaSineFitInteractor();</span>
+<span class="nc" id="L80">        chart.addInteractor(sineFitInteractor);</span>
+
+<span class="nc" id="L82">        DataView dataView = new DataView(chart);</span>
+<span class="nc" id="L83">        JToolBar toolBar = chart.getInteractorsToolbar();</span>
+
+        /* add all components from the fit-interactor to the toolbar */
+<span class="nc" id="L86">        toolBar.addSeparator();</span>
+<span class="nc" id="L87">        Component[] fitComponents = sineFitInteractor.getToolBarComponents();</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        for (int i = 0; i &lt; fitComponents.length; i++) {</span>
+<span class="nc" id="L89">            toolBar.add(fitComponents[i]);</span>
+        }
+
+<span class="nc" id="L92">        dataView.add(toolBar, BorderLayout.NORTH);</span>
+<span class="nc" id="L93">        return dataView;</span>
+    }
+
+    /**
+     * creates the default DataView for Aloha.
+     * 
+     * @param chart the chart for which to create the DataView
+     * @return the dataView
+     */
+    public final static DataView createDataView(Chart chart) {
+        /* default behaviour for the moment */
+<span class="nc" id="L104">        return new DataView(chart);</span>
+    }
+
+    /**
+     * create a polyline renderer for aloha and sets the dataSet
+     * 
+     * @param dataSet the dataSet to use for the renderer
+     * @return the renderer
+     */
+    public final static ChartRenderer createPolylineRenderer(DataSet dataSet) {
+<span class="nc" id="L114">        ChartRenderer renderer = createMarkerPolylineRenderer();</span>
+<span class="nc" id="L115">        renderer.setDataSet(dataSet);</span>
+<span class="nc" id="L116">        return renderer;</span>
+    }
+
+    /**
+     * creates the default polyline-renderer with marker for aloha
+     * 
+     * @return
+     */
+    public final static ChartRenderer createMarkerPolylineRenderer() {
+<span class="nc" id="L125">        PolylineChartRenderer renderer = new PolylineChartRenderer(MarkerFactory.getMarker(Marker.CIRCLE));</span>
+<span class="nc" id="L126">        renderer.setMarkerSize(4);</span>
+<span class="nc" id="L127">        configureRenderer(renderer);</span>
+<span class="nc" id="L128">        return renderer;</span>
+    }
+
+    /**
+     * creates the default marker rederer for aloha
+     * 
+     * @return
+     */
+    public final static ChartRenderer createScatterRenderer() {
+<span class="nc" id="L137">        ScatterChartRenderer renderer = new ScatterChartRenderer(MarkerFactory.getMarker(Marker.CIRCLE), 4);</span>
+<span class="nc" id="L138">        configureRenderer(renderer);</span>
+<span class="nc" id="L139">        return renderer;</span>
+    }
+
+    /**
+     * creates the default renderer that connects two points (e.g. for alignment) for aloha.
+     * 
+     * @return the renderer
+     */
+    public final static ChartRenderer createTwoPointRenderer() {
+<span class="nc" id="L148">        TwoPointChartRenderer renderer = new TwoPointChartRenderer(MarkerFactory.getMarker(Marker.CIRCLE), 5);</span>
+<span class="nc" id="L149">        configureRenderer(renderer);</span>
+<span class="nc" id="L150">        return renderer;</span>
+    }
+
+    /**
+     * creates the default PolyLineRenderer without markers for aloha.
+     * 
+     * @return the Renderer
+     */
+    public final static ChartRenderer createPolyLineRenderer() {
+<span class="nc" id="L159">        ChartRenderer renderer = new PolylineChartRenderer();</span>
+<span class="nc" id="L160">        configureRenderer(renderer);</span>
+<span class="nc" id="L161">        return renderer;</span>
+    }
+
+    /**
+     * creates the default HiLo-Renderer for aloha
+     * 
+     * @return the Renderer
+     */
+    public final static ChartRenderer createHiLoRenderer() {
+<span class="nc" id="L170">        ChartRenderer renderer = new HiLoRenderer();</span>
+<span class="nc" id="L171">        configureRenderer(renderer);</span>
+<span class="nc" id="L172">        return renderer;</span>
+    }
+
+    /**
+     * creates the default BarChartRenderer for aloha.
+     * 
+     * @return the BarChartRenderer
+     */
+    public final static ChartRenderer createBarChartRenderer() {
+<span class="nc" id="L181">        BarChartRenderer renderer = new BarChartRenderer();</span>
+<span class="nc" id="L182">        configureRenderer(renderer);</span>
+<span class="nc" id="L183">        return renderer;</span>
+    }
+
+    private final static void configureRenderer(ChartRenderer renderer) {
+<span class="nc" id="L187">        renderer.setRenderingHint(VALIDITY_RENDERING_HINT);</span>
+<span class="nc" id="L188">    }</span>
+
+    /**
+     * create the default data-picker for aloha.
+     * 
+     * @return the DataPickerInteractor
+     */
+    public final static ChartInteractor createDataPickerInteractor() {
+<span class="nc" id="L196">        DataPickerInteractor dataPicker = new DataPickerInteractor();</span>
+<span class="nc" id="L197">        configureDataPickerInteractor(dataPicker);</span>
+<span class="nc" id="L198">        return dataPicker;</span>
+    }
+
+    public final static void configureDefaultInteractors(Chart chart) {
+<span class="nc" id="L202">        chart.addInteractor(DvUtils.createDataPickerInteractor());</span>
+<span class="nc" id="L203">        chart.addInteractor(new ZoomInteractor());</span>
+<span class="nc" id="L204">        chart.addInteractor(new ScrollInteractor());</span>
+<span class="nc" id="L205">    }</span>
+
+    /**
+     * configures the {@link DataPickerInteractor} to our default values,
+     * 
+     * @param dataPicker
+     */
+    private final static void configureDataPickerInteractor(DataPickerInteractor dataPicker) {
+<span class="nc" id="L213">        dataPicker.setPointCoordPane(new AccurateCoordinatesPane());</span>
+<span class="nc" id="L214">        dataPicker.setDisplayDataSetName(false);</span>
+<span class="nc" id="L215">        dataPicker.setCursorCoordPainted(false);</span>
+<span class="nc" id="L216">        dataPicker.getPointCoordPane().setXCoordDisplay(CoordinatesPane.DATA_LABEL);</span>
+<span class="nc" id="L217">    }</span>
+
+    /**
+     * creates a simple annotation in the chart, with the given Text
+     * 
+     * @param chart the chart to add the annotation to
+     * @param comment the text of the annotation
+     * @return the annotatioon
+     */
+    public final static ChartAnnotation addComment(Chart chart, String comment) {
+<span class="nc" id="L227">        ChartAnnotation commentAnnotation = new ChartAnnotation(comment, 5, 1, false);</span>
+<span class="nc" id="L228">        LabelRenderer labRender = new LabelRenderer();</span>
+<span class="nc" id="L229">        labRender.setFont(new Font(&quot;Monospaced&quot;, Font.BOLD, 12));</span>
+<span class="nc" id="L230">        labRender.setHorizontalAlignment(SwingConstants.LEFT);</span>
+<span class="nc" id="L231">        labRender.setVerticalAlignment(SwingConstants.TOP);</span>
+<span class="nc" id="L232">        labRender.setBackground(null);</span>
+<span class="nc" id="L233">        labRender.setBorder(null);</span>
+<span class="nc" id="L234">        commentAnnotation.setLabelRenderer(labRender);</span>
+
+<span class="nc" id="L236">        chart.addDecoration(commentAnnotation);</span>
+<span class="nc" id="L237">        return commentAnnotation;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

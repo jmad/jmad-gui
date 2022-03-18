@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TabbedPanePanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels</a> &gt; <span class="el_source">TabbedPanePanel.java</span></div><h1>TabbedPanePanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+
+/**
+ * A very simple panel, to which several sub-panels can be set via a map. When the panel is initialized, then all the
+ * panels are shown as tabbed panes with their keys as tab title.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class TabbedPanePanel extends JPanel {
+    private static final long serialVersionUID = 7123876964118824309L;
+
+    /** The default dimension of this panel */
+<span class="fc" id="L45">    private final static Dimension PREFERRED_SIZE = new Dimension(400, 300);</span>
+
+    /** all the components that will be shown as tabbed pane afterwards */
+<span class="fc" id="L48">    private Map&lt;String, Component&gt; tabbedPaneComponents = new HashMap&lt;String, Component&gt;();</span>
+
+    /**
+     * constructor
+     */
+    public TabbedPanePanel() {
+<span class="fc" id="L54">        super(new BorderLayout());</span>
+        //setPreferredSize(PREFERRED_SIZE);
+<span class="fc" id="L56">    }</span>
+
+    /**
+     * init function that can be used to initialize the panel, after all components are set.
+     */
+    public void init() {
+<span class="fc" id="L62">        initComponents();</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * adds all the components to the panel as tabbed panes with their keys as tabbed-pane title
+     */
+    private void initComponents() {
+<span class="fc" id="L69">        removeAll();</span>
+
+<span class="fc" id="L71">        JTabbedPane tabbedPane = new JTabbedPane();</span>
+<span class="fc" id="L72">        add(tabbedPane, BorderLayout.CENTER);</span>
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        for (Entry&lt;String, Component&gt; entry : this.getTabbedPaneComponents().entrySet()) {</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">            if (entry.getValue() != null) {</span>
+<span class="fc" id="L76">                tabbedPane.add(entry.getKey(), entry.getValue());</span>
+            }
+<span class="fc" id="L78">        }</span>
+
+<span class="fc" id="L80">        validate();</span>
+<span class="fc" id="L81">    }</span>
+
+    public Map&lt;String, Component&gt; getTabbedPaneComponents() {
+<span class="fc" id="L84">        return tabbedPaneComponents;</span>
+    }
+
+    public void setTabbedPaneComponents(Map&lt;String, Component&gt; tabbedPaneComponents) {
+<span class="fc" id="L88">        this.tabbedPaneComponents = tabbedPaneComponents;</span>
+<span class="fc" id="L89">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

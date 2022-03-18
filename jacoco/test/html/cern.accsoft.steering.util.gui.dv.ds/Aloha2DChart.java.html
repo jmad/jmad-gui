@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Aloha2DChart.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.dv.ds</a> &gt; <span class="el_source">Aloha2DChart.java</span></div><h1>Aloha2DChart.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.dv.ds;
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
+import cern.accsoft.steering.jmad.gui.dv.MarkableChart;
+import cern.accsoft.steering.util.StatUtil;
+import cern.jdve.ChartRenderer;
+import cern.jdve.EditionManager;
+import cern.jdve.Style;
+import cern.jdve.data.DataSet;
+import cern.jdve.data.DataSource;
+import cern.jdve.data.DefaultDataSet;
+import cern.jdve.data.DefaultDataSource;
+import cern.jdve.event.DataSetEvent;
+import cern.jdve.event.DataSetListener;
+import cern.jdve.event.DataSourceEvent;
+import cern.jdve.event.DataSourceListener;
+import cern.jdve.graphic.ChartAnnotation;
+import cern.jdve.renderer.HiLoRenderer;
+
+/**
+ * This class is derived from a MarkerXProvider-chart, which is defined in jmad, in order to provide some additional
+ * functions, we use in aloha. Here we provide an easy way to access the renderers, which each of them will have a
+ * dedicated role in Aloha.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class Aloha2DChart extends MarkableChart {
+    private static final long serialVersionUID = 7117238469835822463L;
+
+    /** here we display the mean and rms */
+<span class="nc" id="L56">    private ChartAnnotation commentAnnotation = null;</span>
+
+    /** determines, if stats shall be shown, or not */
+<span class="nc" id="L59">    private boolean visibleStatistics = true;</span>
+
+    /**
+     * the default constructor, which creates the necessary renderers with default settings.
+     */
+    public Aloha2DChart() {
+<span class="nc" id="L65">        super();</span>
+<span class="nc" id="L66">        initDefaultConfig();</span>
+<span class="nc" id="L67">        createRenderers();</span>
+<span class="nc" id="L68">        createDefaultInteractors();</span>
+<span class="nc" id="L69">    }</span>
+
+    /**
+     * just sets the default-values
+     */
+    private void initDefaultConfig() {
+<span class="nc" id="L75">        super.setAntiAliasingText(true);</span>
+<span class="nc" id="L76">    }</span>
+
+    public void setVisibleCategory(boolean visibleCategory) {
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        super.getXScale().setLabelRotation((visibleCategory ? 90 : 0));</span>
+<span class="nc" id="L80">        super.getXScale().setCategory(visibleCategory);</span>
+<span class="nc" id="L81">    }</span>
+
+    public boolean isVisibleCategory() {
+<span class="nc" id="L84">        return super.getXScale().isCategory();</span>
+    }
+
+    /**
+     * create the default renderers and set empty dataSets to them.
+     */
+    private void createRenderers() {
+        /*
+         * one renderer for each role:
+         */
+        /* MEASUREMENT_DATA */
+<span class="nc" id="L95">        addEmptyRenderer(styleRenderer(DvUtils.createBarChartRenderer(), ChartRendererRole.MEAS_DATA));</span>
+        /* MEAS_ERROR */
+<span class="nc" id="L97">        addEmptyRenderer(styleRenderer(DvUtils.createHiLoRenderer(), ChartRendererRole.MEAS_ERROR));</span>
+        /* MODEL_DATA */
+<span class="nc" id="L99">        addEmptyRenderer(styleRenderer(DvUtils.createMarkerPolylineRenderer(), ChartRendererRole.MODEL_DATA));</span>
+        /* MEASUREMENT_FIT */
+<span class="nc" id="L101">        addEmptyRenderer(styleRenderer(DvUtils.createPolyLineRenderer(), ChartRendererRole.MEAS_FIT));</span>
+        /* MODEL_FIT */
+<span class="nc" id="L103">        addEmptyRenderer(styleRenderer(DvUtils.createPolyLineRenderer(), ChartRendererRole.MODEL_FIT));</span>
+<span class="nc" id="L104">    }</span>
+
+    /**
+     * returns the correct style for the given role
+     * 
+     * @param role
+     * @return
+     */
+    private ChartRenderer styleRenderer(ChartRenderer renderer, ChartRendererRole role) {
+<span class="nc" id="L113">        Color color = null;</span>
+<span class="nc" id="L114">        Color strokeColor = null;</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (ChartRendererRole.MEAS_DATA.equals(role)) {</span>
+<span class="nc" id="L116">            color = ColorConstants.COLOR_MEAS_DATA_FILL;</span>
+<span class="nc" id="L117">            strokeColor = ColorConstants.COLOR_MEAS_DATA_STROKE;</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        } else if (ChartRendererRole.MEAS_ERROR.equals(role)) {</span>
+<span class="nc" id="L119">            color = ColorConstants.COLOR_MEAS_ERROR_FILL;</span>
+<span class="nc" id="L120">            strokeColor = ColorConstants.COLOR_MEAS_ERROR_STROKE;</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        } else if (ChartRendererRole.MODEL_DATA.equals(role)) {</span>
+<span class="nc" id="L122">            color = ColorConstants.COLOR_MODEL_DATA;</span>
+<span class="nc" id="L123">            strokeColor = color.darker();</span>
+        }
+
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (color != null) {</span>
+<span class="nc" id="L127">            renderer.setStyles(new Style[] { new Style(strokeColor, color) });</span>
+        }
+
+<span class="nc" id="L130">        return renderer;</span>
+    }
+
+    /**
+     * adds the default interactors for an aloha-chart
+     */
+    public void createDefaultInteractors() {
+<span class="nc" id="L137">        DvUtils.configureDefaultInteractors(this);</span>
+<span class="nc" id="L138">    }</span>
+
+    /**
+     * sets an empty dataSet to the given renderer and adds it to the chart.
+     * 
+     * @param renderer the renderer which to add to the chart.
+     */
+    private void addEmptyRenderer(ChartRenderer renderer) {
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        if (renderer instanceof HiLoRenderer) {</span>
+<span class="nc" id="L147">            renderer.setDataSource(new DefaultDataSource(new DataSet[] { createEmptyDataSet(), createEmptyDataSet() }));</span>
+        } else {
+<span class="nc" id="L149">            renderer.setDataSet(createEmptyDataSet());</span>
+        }
+<span class="nc" id="L151">        addRenderer(renderer);</span>
+<span class="nc" id="L152">    }</span>
+
+    /**
+     * sets a new dataSet to the renderer of the given role.
+     * 
+     * @param role the role of the renderer for which to set the new DataSet
+     * @param dataSet the new DataSet which to set to the renderer
+     */
+    public void setRendererDataSet(ChartRendererRole role, DataSet dataSet) {
+<span class="nc" id="L161">        ChartRenderer renderer = getRenderer(role);</span>
+<span class="nc" id="L162">        renderer.setDataSet(dataSet);</span>
+
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if (ChartRendererRole.MEAS_DATA.equals(role)) {</span>
+<span class="nc" id="L165">            dataSet.addDataSetListener(new DataSetListener() {</span>
+
+                @Override
+                public void dataSetChanged(DataSetEvent evt) {
+<span class="nc" id="L169">                    updateStatistics();</span>
+<span class="nc" id="L170">                }</span>
+            });
+        }
+<span class="nc" id="L173">        updateStatistics();</span>
+<span class="nc" id="L174">    }</span>
+
+    /**
+     * sets a new dataSource to the renderer of a given Role
+     * 
+     * @param role the role of the Renderer to which to set the dataSource
+     * @param dataSource the {@link DataSource} to set
+     */
+    public void setRenderDataSource(ChartRendererRole role, DataSource dataSource) {
+<span class="nc" id="L183">        ChartRenderer renderer = getRenderer(role);</span>
+<span class="nc" id="L184">        renderer.setDataSource(dataSource);</span>
+
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        if (ChartRendererRole.MEAS_DATA.equals(role)) {</span>
+<span class="nc" id="L187">            dataSource.addDataSourceListener(new DataSourceListener() {</span>
+
+                @Override
+                public void dataSourceChanged(DataSourceEvent evt) {
+<span class="nc" id="L191">                    updateStatistics();</span>
+<span class="nc" id="L192">                }</span>
+            });
+        }
+<span class="nc" id="L195">        updateStatistics();</span>
+<span class="nc" id="L196">    }</span>
+
+    /**
+     * sets the renderer as empty
+     */
+    public void clearRenderer(ChartRendererRole role) {
+<span class="nc" id="L202">        setRendererDataSet(role, createEmptyDataSet());</span>
+<span class="nc" id="L203">    }</span>
+
+    /**
+     * creates an empty dataSet which is used as default for the renderers.
+     * 
+     * @return the empty DataSet.
+     */
+    private DataSet createEmptyDataSet() {
+<span class="nc" id="L211">        return new DefaultDataSet(&quot;empty&quot;, new double[] {}, new double[] {});</span>
+    }
+
+    /**
+     * @param role the {@link ChartRendererRole} for which to retrieve the renderer.
+     * @return the renderer for that role.
+     */
+    public ChartRenderer getRenderer(ChartRendererRole role) {
+<span class="nc" id="L219">        return super.getRenderer(role.ordinal());</span>
+    }
+
+    /**
+     * exchanges the renderer of the given role with the new one.
+     * 
+     * @param role
+     * @param renderer
+     */
+    public void setRenderer(ChartRendererRole role, ChartRenderer renderer) {
+<span class="nc" id="L229">        super.setRenderer(role.ordinal(), styleRenderer(renderer, role));</span>
+<span class="nc" id="L230">        updateEditablePlots();</span>
+<span class="nc" id="L231">    }</span>
+
+    /**
+     * replace the renderer for the given Role with a renderer of another type
+     * 
+     * @param role the role of the renderer
+     * @param rendererType the type of the renderer
+     */
+    public void setRendererType(ChartRendererRole role, int rendererType) {
+<span class="nc" id="L240">        setRendererType(role.ordinal(), rendererType);</span>
+<span class="nc" id="L241">    }</span>
+
+    /**
+     * set the renderer-type for a given role, by Enum
+     * 
+     * @param role the role for which to set the new renderer
+     * @param type the type of renderer to set.
+     */
+    public void setRendererType(ChartRendererRole role, RendererType type) {
+<span class="nc" id="L250">        setRendererType(role, type.getDvIntValue());</span>
+<span class="nc" id="L251">    }</span>
+
+    /**
+     * @param role the role for which to retrieve the renderer-type
+     * @return the {@link RendererType} for the given renderer-role.
+     */
+    public RendererType getRendererType(ChartRendererRole role) {
+<span class="nc" id="L258">        int intValue = ChartRenderer.getRendererType(getRenderer(role));</span>
+<span class="nc" id="L259">        return RendererType.fromDvIntValue(intValue);</span>
+    }
+
+    @Override
+    public void setRendererType(int index, int rendererType) {
+        /*
+         * for some types we want to use our costumized renderers.
+         */
+<span class="nc bnc" id="L267" title="All 2 branches missed.">        if (rendererType == ChartRenderer.BAR) {</span>
+<span class="nc" id="L268">            setRenderer(index, DvUtils.createBarChartRenderer());</span>
+<span class="nc bnc" id="L269" title="All 2 branches missed.">        } else if (rendererType == ChartRenderer.POLYLINE_WITH_MARKERS) {</span>
+<span class="nc" id="L270">            setRenderer(index, DvUtils.createMarkerPolylineRenderer());</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">        } else if (rendererType == ChartRenderer.POLYLINE) {</span>
+<span class="nc" id="L272">            setRenderer(index, DvUtils.createPolyLineRenderer());</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">        } else if (rendererType == ChartRenderer.SCATTER) {</span>
+<span class="nc" id="L274">            setRenderer(index, DvUtils.createScatterRenderer());</span>
+        } else {
+            /* if we do not have a custom one, we use the default method. */
+<span class="nc" id="L277">            super.setRendererType(index, rendererType);</span>
+        }
+<span class="nc" id="L279">        updateEditablePlots();</span>
+<span class="nc" id="L280">    }</span>
+
+    /**
+     * this methods causes e.g. the refill of the combo-box for editable datasets.
+     */
+    private final void updateEditablePlots() {
+<span class="nc" id="L286">        EditionManager editionManager = getEditionManager();</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">        if (editionManager != null) {</span>
+            /*
+             * XXX ??? we get an error here!
+             */
+            // editionManager.updateEditablePlots();
+        }
+<span class="nc" id="L293">    }</span>
+
+    /**
+     * @param renderer the renderer for which to determine the role.
+     * @return the role of the renderer, if it is contained in this chart, otherwise null
+     */
+    public ChartRendererRole getRendererRole(ChartRenderer renderer) {
+<span class="nc bnc" id="L300" title="All 2 branches missed.">        for (int i = 0; i &lt; getRenderersCount(); i++) {</span>
+<span class="nc" id="L301">            ChartRenderer chartRenderer = getRenderer(i);</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">            if (chartRenderer == renderer) {</span>
+<span class="nc" id="L303">                return ChartRendererRole.values()[i];</span>
+            }
+        }
+<span class="nc" id="L306">        return null;</span>
+    }
+
+    /**
+     * draws the new stats for the plot
+     */
+    private void updateStatistics() {
+<span class="nc bnc" id="L313" title="All 2 branches missed.">        if (this.visibleStatistics) {</span>
+<span class="nc bnc" id="L314" title="All 2 branches missed.">            if (this.commentAnnotation == null) {</span>
+<span class="nc" id="L315">                this.commentAnnotation = DvUtils.addComment(this, &quot; &quot;);</span>
+            }
+<span class="nc" id="L317">            this.commentAnnotation.setText(getStatText());</span>
+        } else {
+<span class="nc bnc" id="L319" title="All 2 branches missed.">            if (this.commentAnnotation != null) {</span>
+<span class="nc" id="L320">                removeDecoration(this.commentAnnotation);</span>
+<span class="nc" id="L321">                this.commentAnnotation = null;</span>
+<span class="nc" id="L322">                repaintChart();</span>
+            }
+        }
+<span class="nc" id="L325">    }</span>
+
+    /**
+     * @return a text with statistical info for the measurement-data
+     */
+    private String getStatText() {
+<span class="nc" id="L331">        ChartRenderer dataRenderer = getRenderer(ChartRendererRole.MEAS_DATA);</span>
+<span class="nc bnc" id="L332" title="All 4 branches missed.">        if ((dataRenderer == null) || (dataRenderer.getDataSource() == null)) {</span>
+<span class="nc" id="L333">            return &quot;&quot;;</span>
+        }
+
+<span class="nc" id="L336">        DataSet dataSet = dataRenderer.getDataSource().getDataSet(0);</span>
+<span class="nc bnc" id="L337" title="All 2 branches missed.">        if (dataSet == null) {</span>
+<span class="nc" id="L338">            return &quot;&quot;;</span>
+        }
+
+<span class="nc" id="L341">        List&lt;Double&gt; values = new ArrayList&lt;Double&gt;();</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">        for (int i = 0; i &lt; dataSet.getDataCount(); i++) {</span>
+<span class="nc bnc" id="L343" title="All 4 branches missed.">            if ((dataSet instanceof ValidityDataSet) &amp;&amp; (((ValidityDataSet) dataSet).hasValidityInformation())) {</span>
+<span class="nc bnc" id="L344" title="All 2 branches missed.">                if (!((ValidityDataSet) dataSet).getValidity(i)) {</span>
+<span class="nc" id="L345">                    continue;</span>
+                }
+            }
+<span class="nc" id="L348">            values.add(dataSet.getY(i));</span>
+        }
+
+<span class="nc" id="L351">        double[] valuesArray = new double[values.size()];</span>
+<span class="nc bnc" id="L352" title="All 2 branches missed.">        for (int i = 0; i &lt; valuesArray.length; i++) {</span>
+<span class="nc" id="L353">            valuesArray[i] = values.get(i);</span>
+        }
+<span class="nc" id="L355">        return StatUtil.createMeanRmsString(valuesArray);</span>
+    }
+
+    /**
+     * @param visibleStatistics the visibleStatistics to set
+     */
+    public void setVisibleStatistics(boolean visibleStatistics) {
+<span class="nc" id="L362">        this.visibleStatistics = visibleStatistics;</span>
+<span class="nc" id="L363">        updateStatistics();</span>
+<span class="nc" id="L364">    }</span>
+
+    /**
+     * @return the visibleStatistics
+     */
+    public boolean isVisibleStatistics() {
+<span class="nc" id="L370">        return visibleStatistics;</span>
+    }
+
+    /**
+     * this is the enum, which will define the roles for different renderers in ALOHA.
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+<span class="nc" id="L378">    public enum ChartRendererRole {</span>
+<span class="nc" id="L379">        MEAS_DATA, MEAS_ERROR, MODEL_DATA, MEAS_FIT, MODEL_FIT;</span>
+    }
+
+    /**
+     * this enum encapsulates the int-constants used in dataViewer into an enum
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+<span class="nc" id="L387">    public enum RendererType {</span>
+
+<span class="nc" id="L389">        POLYLINE(ChartRenderer.POLYLINE), POLYLINE_WITH_MARKERS(ChartRenderer.POLYLINE_WITH_MARKERS), SCATTER(</span>
+<span class="nc" id="L390">                ChartRenderer.SCATTER), BAR(ChartRenderer.BAR), IMPULSES(ChartRenderer.IMPULSES), AREA(</span>
+<span class="nc" id="L391">                ChartRenderer.AREA), DIFF_AREA(ChartRenderer.DIFF_AREA), STAIRS(ChartRenderer.STAIRS), CONTOUR(</span>
+<span class="nc" id="L392">                ChartRenderer.CONTOUR), BOOLEAN(ChartRenderer.BOOLEAN), HI_LO(ChartRenderer.HI_LO);</span>
+
+<span class="nc" id="L394">        private int dvIntValue = 0;</span>
+
+        /**
+         * determines the RendererType - value out of a given integer used by the dataviewer
+         * 
+         * @param value the value for which to find the enum
+         * @return the type of the renderer as enum
+         */
+        public final static RendererType fromDvIntValue(int value) {
+<span class="nc bnc" id="L403" title="All 2 branches missed.">            for (RendererType type : RendererType.values()) {</span>
+<span class="nc bnc" id="L404" title="All 2 branches missed.">                if (type.getDvIntValue() == value) {</span>
+<span class="nc" id="L405">                    return type;</span>
+                }
+            }
+<span class="nc" id="L408">            return null;</span>
+        }
+
+        /**
+         * the constructor, which also sets the Dv-integer value
+         * 
+         * @param dvIntValue
+         */
+<span class="nc" id="L416">        private RendererType(int dvIntValue) {</span>
+<span class="nc" id="L417">            this.dvIntValue = dvIntValue;</span>
+<span class="nc" id="L418">        }</span>
+
+        /**
+         * @return the dvIntValue
+         */
+        public int getDvIntValue() {
+<span class="nc" id="L424">            return dvIntValue;</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

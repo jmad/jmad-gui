@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ModelElementsPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels</a> &gt; <span class="el_source">ModelElementsPanel.java</span></div><h1>ModelElementsPanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import cern.accsoft.steering.jmad.domain.elem.Element;
+import cern.accsoft.steering.jmad.domain.ex.JMadModelException;
+import cern.accsoft.steering.jmad.domain.machine.Range;
+import cern.accsoft.steering.jmad.domain.misalign.MisalignmentConfiguration;
+import cern.accsoft.steering.jmad.domain.optics.EditableOpticPointImpl;
+import cern.accsoft.steering.jmad.domain.optics.OpticPoint;
+import cern.accsoft.steering.jmad.gui.components.DoubleTableCellRenderer;
+import cern.accsoft.steering.jmad.gui.manage.ElementSelectionManager;
+import cern.accsoft.steering.jmad.gui.mark.MarkedElementsManager;
+import cern.accsoft.steering.jmad.gui.mark.MarkedElementsManagerListener;
+import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.model.JMadModelListener;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
+import cern.accsoft.steering.util.gui.CompUtils;
+import cern.accsoft.steering.util.gui.menu.ActionProvider;
+import cern.accsoft.steering.util.gui.menu.MousePopupListener;
+import cern.accsoft.steering.util.gui.menu.TablePopupMenu;
+import cern.accsoft.steering.util.gui.panels.TableFilterPanel;
+import cern.accsoft.steering.util.gui.table.BeanTableModel;
+import cern.accsoft.steering.util.gui.table.SelectionSetTableModel;
+import cern.accsoft.steering.util.gui.table.TableModelSelectionAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * this class represents a panel, which enables the display of all elements of a model including the details of the
+ * element. It also offers the possibility to select certain properties of some elements (when an Edit Handler is
+ * plugged in).
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class ModelElementsPanel extends JPanel implements EditHandlerUser&lt;ModelElementsPanelEditHandler&gt; {
+    private static final long serialVersionUID = 1L;
+
+    /** the logger for the class */
+<span class="fc" id="L70">    private final static Logger logger = LoggerFactory.getLogger(ModelElementsPanel.class);</span>
+
+    /**
+     * The initial location of the divider between elements-table and element-table.
+     */
+    private final static int DIVIDER_LOCATION = 250;
+
+    /**
+     * here we can plugin an edithandler to process selection/deselection of special attributes.
+     */
+    private ModelElementsPanelEditHandler editHandler;
+
+    /** The model manager that e.g. determines if the model changes */
+    private JMadModelManager modelManager;
+
+    /**
+     * The manager, which keeps track of all elements, that shall be displayed as markers in the charts
+     */
+    private MarkedElementsManager markedElementsManager;
+
+    /**
+     * the manager which keeps track of all selected elements
+     */
+    private ElementSelectionManager elementSelectionManager;
+
+    /** the table models for the elements-table and for the element-table. */
+<span class="fc" id="L96">    private ModelElementsTableModel tableModelElements = null;</span>
+<span class="fc" id="L97">    private ModelElementTableModel tableModelElement = null;</span>
+<span class="fc" id="L98">    private BeanTableModel tableModelElementOptic = null;</span>
+
+    /** the text field which displays the name of the actual selected element. */
+<span class="fc" id="L101">    private JTextField txtElementName = null;</span>
+
+    /** the listener, which shall be added to every model */
+<span class="fc" id="L104">    private JMadModelListener modelListener = new JMadModelListener() {</span>
+
+        @Override
+        public void elementsChanged() {
+<span class="nc" id="L108">            tableModelElement.fireTableDataChanged();</span>
+<span class="nc" id="L109">            validate();</span>
+<span class="nc" id="L110">        }</span>
+
+        @Override
+        public void opticsChanged() {
+<span class="nc" id="L114">            tableModelElementOptic.fireTableDataChanged();</span>
+<span class="nc" id="L115">            validate();</span>
+<span class="nc" id="L116">        }</span>
+
+        @Override
+        public void rangeChanged(Range newRange) {
+<span class="nc" id="L120">            tableModelElements.fireTableDataChanged();</span>
+<span class="nc" id="L121">            validate();</span>
+<span class="nc" id="L122">        }</span>
+
+        @Override
+        public void becameDirty() {
+            /* for the moment do not update every time a single value changes. */
+<span class="nc" id="L127">        }</span>
+
+        @Override
+        public void opticsDefinitionChanged() {
+            /* for the moment do not update every time a single value changes. */
+<span class="nc" id="L132">        }</span>
+    };
+
+    /**
+     * the constructor
+     */
+    public ModelElementsPanel() {
+<span class="fc" id="L139">        super(new BorderLayout());</span>
+<span class="fc" id="L140">        initComponents();</span>
+<span class="fc" id="L141">    }</span>
+
+    /**
+     * set the model-manager which determines e.g. when the model changes.
+     * 
+     * @param modelManager
+     */
+    public final void setModelManager(JMadModelManager modelManager) {
+<span class="fc" id="L149">        this.modelManager = modelManager;</span>
+
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">        if (this.modelManager.getActiveModel() != null) {</span>
+<span class="nc" id="L152">            this.modelManager.getActiveModel().addListener(modelListener);</span>
+        }
+
+<span class="fc" id="L155">        modelManager.addListener(new JMadModelManagerAdapter() {</span>
+
+            @Override
+            public void changedActiveModel(JMadModel newModel) {
+<span class="nc bnc" id="L159" title="All 2 branches missed.">                if (newModel != null) {</span>
+<span class="nc" id="L160">                    newModel.addListener(modelListener);</span>
+                }
+<span class="nc" id="L162">                tableModelElements.fireTableDataChanged();</span>
+<span class="nc" id="L163">            }</span>
+
+        });
+<span class="fc" id="L166">    }</span>
+
+    /**
+     * create all containing Components
+     */
+    private final void initComponents() {
+        JTable table;
+
+        /*
+         * the panel for the overall list
+         */
+<span class="fc" id="L177">        JPanel listPanel = new JPanel(new GridBagLayout());</span>
+<span class="fc" id="L178">        GridBagConstraints constraints = new GridBagConstraints();</span>
+<span class="fc" id="L179">        constraints.gridx = 0;</span>
+<span class="fc" id="L180">        constraints.gridy = 0;</span>
+<span class="fc" id="L181">        constraints.weightx = 1;</span>
+<span class="fc" id="L182">        constraints.weighty = 0;</span>
+<span class="fc" id="L183">        constraints.fill = GridBagConstraints.BOTH;</span>
+
+<span class="fc" id="L185">        tableModelElements = new ModelElementsTableModel();</span>
+<span class="fc" id="L186">        table = new JTable(tableModelElements);</span>
+<span class="fc" id="L187">        table.setDefaultRenderer(Double.class, new DoubleTableCellRenderer());</span>
+<span class="fc" id="L188">        table.setAutoCreateRowSorter(true);</span>
+<span class="fc" id="L189">        table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);</span>
+<span class="fc" id="L190">        table.getSelectionModel().addListSelectionListener(new ElementSelectionAdapter(table));</span>
+<span class="fc" id="L191">        tableModelElements.setTableModelSelectionAdapter(new TableModelSelectionAdapter(table));</span>
+<span class="fc" id="L192">        JScrollPane elementsScrollPane = CompUtils.createScrollPane(table);</span>
+
+        /* add a popup-menu to the table */
+<span class="fc" id="L195">        new MousePopupListener(table, new TablePopupMenu(new MisalignmentCreator()));</span>
+
+        /*
+         * the filter for the elements-table
+         */
+<span class="fc" id="L200">        listPanel.add(new TableFilterPanel(table), constraints);</span>
+
+<span class="fc" id="L202">        constraints.weighty = 1;</span>
+<span class="fc" id="L203">        constraints.gridx = 0;</span>
+<span class="fc" id="L204">        constraints.gridy++;</span>
+<span class="fc" id="L205">        constraints.gridwidth = 2;</span>
+<span class="fc" id="L206">        listPanel.add(elementsScrollPane, constraints);</span>
+
+        /*
+         * the panel for the details
+         */
+<span class="fc" id="L211">        JPanel detailPanel = new JPanel(new GridBagLayout());</span>
+<span class="fc" id="L212">        constraints.gridx = 0;</span>
+<span class="fc" id="L213">        constraints.gridy = 0;</span>
+<span class="fc" id="L214">        constraints.weightx = 1;</span>
+<span class="fc" id="L215">        constraints.weighty = 0;</span>
+<span class="fc" id="L216">        constraints.fill = GridBagConstraints.BOTH;</span>
+
+<span class="fc" id="L218">        txtElementName = new JTextField();</span>
+<span class="fc" id="L219">        txtElementName.setEditable(false);</span>
+<span class="fc" id="L220">        detailPanel.add(txtElementName, constraints);</span>
+
+<span class="fc" id="L222">        constraints.weighty = 1;</span>
+<span class="fc" id="L223">        constraints.gridy++;</span>
+<span class="fc" id="L224">        tableModelElement = new ModelElementTableModel();</span>
+<span class="fc" id="L225">        table = new JTable(tableModelElement);</span>
+<span class="fc" id="L226">        table.setDefaultRenderer(Double.class, new DoubleTableCellRenderer());</span>
+<span class="fc" id="L227">        detailPanel.add(CompUtils.createScrollPane(table), constraints);</span>
+
+<span class="fc" id="L229">        constraints.gridy++;</span>
+<span class="fc" id="L230">        tableModelElementOptic = new BeanTableModel(OpticPoint.class);</span>
+<span class="fc" id="L231">        table = new JTable(tableModelElementOptic);</span>
+<span class="fc" id="L232">        table.setDefaultRenderer(Double.class, new DoubleTableCellRenderer());</span>
+<span class="fc" id="L233">        detailPanel.add(CompUtils.createScrollPane(table), constraints);</span>
+
+<span class="fc" id="L235">        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);</span>
+
+<span class="fc" id="L237">        splitPane.setLeftComponent(listPanel);</span>
+        // splitPane.setLeftComponent(elementsScrollPane);
+<span class="fc" id="L239">        splitPane.setRightComponent(detailPanel);</span>
+<span class="fc" id="L240">        add(splitPane, BorderLayout.CENTER);</span>
+<span class="fc" id="L241">        splitPane.setDividerLocation(DIVIDER_LOCATION);</span>
+<span class="fc" id="L242">    }</span>
+
+    /**
+     * @return the actually selected elements
+     */
+    private ArrayList&lt;Element&gt; getSelectedElements() {
+<span class="nc" id="L248">        ArrayList&lt;Element&gt; elements = new ArrayList&lt;Element&gt;();</span>
+
+<span class="nc bnc" id="L250" title="All 2 branches missed.">        if (modelManager != null) {</span>
+<span class="nc" id="L251">            Range range = modelManager.getActiveModel().getActiveRange();</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">            if (range != null) {</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">                for (Integer index : this.tableModelElements.getTableModelSelectionAdapter().getSelectedRowIndizes()) {</span>
+<span class="nc" id="L254">                    elements.add(range.getElements().get(index));</span>
+<span class="nc" id="L255">                }</span>
+            }
+        }
+<span class="nc" id="L258">        return elements;</span>
+    }
+
+    private Element getElement(int modelIndex) {
+<span class="nc bnc" id="L262" title="All 4 branches missed.">        if ((modelIndex &gt;= 0) &amp;&amp; (modelManager != null)) {</span>
+<span class="nc" id="L263">            Range range = modelManager.getActiveModel().getActiveRange();</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">            if (range != null) {</span>
+<span class="nc" id="L265">                return range.getElements().get(modelIndex);</span>
+            }
+        }
+<span class="nc" id="L268">        return null;</span>
+    }
+
+    /**
+     * this class is attended to be plugged in into the table-menu
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+<span class="fc" id="L276">    private class MisalignmentCreator implements ActionProvider {</span>
+
+        /**
+         * this action adds an empty misalignment to the model, for each selected element.
+         */
+<span class="fc" id="L281">        private Action createMisalignmentsAction = new AbstractAction(&quot;create misalignments&quot;) {</span>
+            private static final long serialVersionUID = -7332873258819061907L;
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+<span class="nc" id="L286">                List&lt;Element&gt; elements = getSelectedElements();</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">                for (Element element : elements) {</span>
+<span class="nc" id="L288">                    Range range = modelManager.getActiveModel().getActiveRange();</span>
+<span class="nc" id="L289">                    range.addMisalignment(new MisalignmentConfiguration(element.getName()));</span>
+<span class="nc" id="L290">                }</span>
+<span class="nc" id="L291">            }</span>
+
+        };
+
+        @Override
+        public List&lt;Action&gt; getActions() {
+<span class="fc" id="L297">            List&lt;Action&gt; actions = new ArrayList&lt;Action&gt;();</span>
+<span class="fc" id="L298">            actions.add(this.createMisalignmentsAction);</span>
+<span class="fc" id="L299">            return actions;</span>
+        }
+
+    }
+
+    /**
+     * This class is the implementation of a listener to change the selected elements in the elements-table.
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+    private class ElementSelectionAdapter implements ListSelectionListener {
+<span class="fc" id="L310">        private JTable table = null;</span>
+
+<span class="fc" id="L312">        public ElementSelectionAdapter(JTable table) {</span>
+<span class="fc" id="L313">            this.table = table;</span>
+<span class="fc" id="L314">        }</span>
+
+        @Override
+        public void valueChanged(ListSelectionEvent event) {
+<span class="nc bnc" id="L318" title="All 2 branches missed.">            if (event.getSource() == table.getSelectionModel()) {</span>
+<span class="nc" id="L319">                int index = table.getSelectedRow();</span>
+<span class="nc" id="L320">                Element element = null;</span>
+<span class="nc bnc" id="L321" title="All 2 branches missed.">                if (index &gt;= 0) {</span>
+<span class="nc" id="L322">                    element = getElement(table.convertRowIndexToModel(index));</span>
+                }
+<span class="nc" id="L324">                displayElementDetails(element);</span>
+<span class="nc bnc" id="L325" title="All 2 branches missed.">                if (getElementSelectionManager() != null) {</span>
+<span class="nc" id="L326">                    getElementSelectionManager().setSelectedElements(getSelectedElements(), element);</span>
+                }
+            }
+<span class="nc" id="L329">        }</span>
+
+    }
+
+    /**
+     * This class is the table model for the table of available elements.
+     * 
+     * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+     */
+<span class="fc" id="L338">    private class ModelElementsTableModel extends SelectionSetTableModel {</span>
+        private static final long serialVersionUID = 1L;
+
+        private final static int COLUMN_COUNT = 4;
+
+        private final static int COL_NUMBER = 0;
+        private final static int COL_MARK = 1;
+        private final static int COL_NAME = 2;
+        private final static int COL_TYPE = 3;
+
+        @Override
+        public int getColumnCount() {
+<span class="fc" id="L350">            return COLUMN_COUNT;</span>
+        }
+
+        @Override
+        public int getRowCount() {
+<span class="pc bpc" id="L355" title="3 of 4 branches missed.">            if ((modelManager == null) || (modelManager.getActiveModel() == null)</span>
+<span class="nc bnc" id="L356" title="All 2 branches missed.">                    || (modelManager.getActiveModel().getActiveRange() == null)) {</span>
+<span class="fc" id="L357">                return 0;</span>
+            }
+<span class="nc" id="L359">            return getElements().size();</span>
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int col) {
+<span class="nc bnc" id="L364" title="All 2 branches missed.">            if (col == COL_MARK) {</span>
+<span class="nc" id="L365">                return true;</span>
+            } else {
+<span class="nc" id="L367">                return false;</span>
+            }
+        }
+
+        @Override
+        public void setValueAt(Object value, int row, int col) {
+<span class="nc bnc" id="L373" title="All 2 branches missed.">            if (modelManager == null) {</span>
+<span class="nc" id="L374">                return;</span>
+            }
+
+<span class="nc bnc" id="L377" title="All 2 branches missed.">            if (col == COL_MARK) {</span>
+<span class="nc bnc" id="L378" title="All 2 branches missed.">                if (getMarkedElementsManager() == null) {</span>
+<span class="nc" id="L379">                    return;</span>
+                }
+<span class="nc" id="L381">                Element element = modelManager.getActiveModel().getActiveRange().getElements().get(row);</span>
+<span class="nc bnc" id="L382" title="All 2 branches missed.">                if ((Boolean) value) {</span>
+<span class="nc" id="L383">                    getMarkedElementsManager().addElementName(element.getName());</span>
+                } else {
+<span class="nc" id="L385">                    getMarkedElementsManager().removeElementName(element.getName());</span>
+                }
+            }
+<span class="nc" id="L388">        }</span>
+
+        @Override
+        public Object getValueAt(int row, int col) {
+<span class="nc bnc" id="L392" title="All 2 branches missed.">            if (modelManager == null) {</span>
+<span class="nc" id="L393">                return null;</span>
+            }
+
+<span class="nc" id="L396">            Element element = modelManager.getActiveModel().getActiveRange().getElements().get(row);</span>
+<span class="nc bnc" id="L397" title="All 5 branches missed.">            switch (col) {</span>
+            case COL_NUMBER:
+<span class="nc" id="L399">                return row;</span>
+            case COL_MARK:
+<span class="nc bnc" id="L401" title="All 2 branches missed.">                if (getMarkedElementsManager() == null) {</span>
+<span class="nc" id="L402">                    return false;</span>
+                } else {
+<span class="nc" id="L404">                    return getMarkedElementsManager().contains(element.getName());</span>
+                }
+            case COL_NAME:
+<span class="nc" id="L407">                return element.getName();</span>
+            case COL_TYPE:
+<span class="nc" id="L409">                return element.getMadxElementType().toString();</span>
+            default:
+<span class="nc" id="L411">                return null;</span>
+            }
+        }
+
+        @Override
+        public Class&lt;?&gt; getColumnClass(int col) {
+<span class="nc bnc" id="L417" title="All 5 branches missed.">            switch (col) {</span>
+            case COL_NUMBER:
+<span class="nc" id="L419">                return Integer.class;</span>
+            case COL_MARK:
+<span class="nc" id="L421">                return Boolean.class;</span>
+            case COL_NAME:
+<span class="nc" id="L423">                return String.class;</span>
+            case COL_TYPE:
+<span class="nc" id="L425">                return String.class;</span>
+            default:
+<span class="nc" id="L427">                return null;</span>
+            }
+        }
+
+        @Override
+        public String getColumnName(int col) {
+<span class="pc bpc" id="L433" title="1 of 5 branches missed.">            switch (col) {</span>
+            case COL_NUMBER:
+<span class="fc" id="L435">                return &quot;number&quot;;</span>
+            case COL_MARK:
+<span class="fc" id="L437">                return &quot;mark&quot;;</span>
+            case COL_NAME:
+<span class="fc" id="L439">                return &quot;name&quot;;</span>
+            case COL_TYPE:
+<span class="fc" id="L441">                return &quot;type&quot;;</span>
+            default:
+<span class="nc" id="L443">                return null;</span>
+            }
+        }
+
+        private List&lt;Element&gt; getElements() {
+<span class="nc bnc" id="L448" title="All 4 branches missed.">            if ((modelManager != null) &amp;&amp; (modelManager.getActiveModel() != null)</span>
+<span class="nc bnc" id="L449" title="All 2 branches missed.">                    &amp;&amp; (modelManager.getActiveModel().getActiveRange() != null)) {</span>
+<span class="nc" id="L450">                return modelManager.getActiveModel().getActiveRange().getElements();</span>
+            }
+<span class="nc" id="L452">            return new ArrayList&lt;Element&gt;();</span>
+        }
+    }
+
+    /**
+     * This is the table model for the table of details of one element
+     */
+<span class="fc" id="L459">    private class ModelElementTableModel extends AbstractTableModel {</span>
+
+        private static final long serialVersionUID = 1L;
+
+        /* the name an position are not accessible through property - name */
+        private final static int DEFAULT_ATTRIBUTE_COUNT = 1;
+
+        private final static int ROW_POSITION = 0;
+        private final static String NAME_POSITIONE = &quot;position&quot;;
+
+        /* the columns */
+        private final static int COLUMN_COUNT = 3;
+
+        private final static int COL_SELECTED = 0;
+        private final static int COL_ATTR_NAME = 1;
+        private final static int COL_ATTR_VALUE = 2;
+
+<span class="fc" id="L476">        private Element element = null;</span>
+
+        public void setElement(Element element) {
+<span class="nc" id="L479">            this.element = element;</span>
+<span class="nc" id="L480">            fireTableDataChanged();</span>
+<span class="nc" id="L481">        }</span>
+
+        @Override
+        public int getColumnCount() {
+<span class="fc" id="L485">            return COLUMN_COUNT;</span>
+        }
+
+        @Override
+        public int getRowCount() {
+<span class="nc bnc" id="L490" title="All 2 branches missed.">            if (element != null) {</span>
+<span class="nc" id="L491">                return element.getAttributeNames().size() + DEFAULT_ATTRIBUTE_COUNT;</span>
+            } else {
+<span class="nc" id="L493">                return 0;</span>
+            }
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int col) {
+<span class="nc bnc" id="L499" title="All 4 branches missed.">            if ((row != ROW_POSITION) &amp;&amp; (col != COL_ATTR_NAME)) {</span>
+<span class="nc bnc" id="L500" title="All 2 branches missed.">                return (getValueAt(row, COL_ATTR_VALUE) != null);</span>
+            } else {
+<span class="nc" id="L502">                return false;</span>
+            }
+        }
+
+        @Override
+        public Object getValueAt(int row, int col) {
+<span class="nc bnc" id="L508" title="All 2 branches missed.">            if (element == null) {</span>
+<span class="nc" id="L509">                return null;</span>
+            }
+
+<span class="nc bnc" id="L512" title="All 4 branches missed.">            switch (col) {</span>
+            case COL_ATTR_NAME:
+<span class="nc bnc" id="L514" title="All 2 branches missed.">                if (row == ROW_POSITION) {</span>
+<span class="nc" id="L515">                    return NAME_POSITIONE;</span>
+                } else {
+<span class="nc" id="L517">                    return element.getAttributeNames().get(row - DEFAULT_ATTRIBUTE_COUNT);</span>
+                }
+            case COL_ATTR_VALUE:
+<span class="nc bnc" id="L520" title="All 2 branches missed.">                if (row == ROW_POSITION) {</span>
+<span class="nc" id="L521">                    return element.getPosition().getValue();</span>
+                } else {
+<span class="nc" id="L523">                    return element.getAttribute(element.getAttributeNames().get(row - DEFAULT_ATTRIBUTE_COUNT));</span>
+                }
+            case COL_SELECTED:
+<span class="nc bnc" id="L526" title="All 2 branches missed.">                if (row == ROW_POSITION) {</span>
+<span class="nc" id="L527">                    return false;</span>
+                } else {
+<span class="nc bnc" id="L529" title="All 2 branches missed.">                    if (editHandler != null) {</span>
+<span class="nc" id="L530">                        return editHandler.getSelectionValue(element,</span>
+<span class="nc" id="L531">                                element.getAttributeNames().get(row - DEFAULT_ATTRIBUTE_COUNT));</span>
+                    } else {
+<span class="nc" id="L533">                        return false;</span>
+                    }
+                }
+            default:
+<span class="nc" id="L537">                return null;</span>
+            }
+        }
+
+        @Override
+        public void setValueAt(Object value, int row, int col) {
+<span class="nc bnc" id="L543" title="All 2 branches missed.">            if (row &lt; DEFAULT_ATTRIBUTE_COUNT) {</span>
+<span class="nc" id="L544">                return;</span>
+            }
+
+<span class="nc" id="L547">            String attributeName = element.getAttributeNames().get(row - DEFAULT_ATTRIBUTE_COUNT);</span>
+<span class="nc bnc" id="L548" title="All 3 branches missed.">            switch (col) {</span>
+            case COL_SELECTED:
+<span class="nc bnc" id="L550" title="All 2 branches missed.">                if (editHandler != null) {</span>
+<span class="nc" id="L551">                    ArrayList&lt;Element&gt; elements = getSelectedElements();</span>
+<span class="nc bnc" id="L552" title="All 2 branches missed.">                    for (Element elem : elements) {</span>
+<span class="nc" id="L553">                        editHandler.setSelectionValue(elem, attributeName, (Boolean) value);</span>
+<span class="nc" id="L554">                    }</span>
+<span class="nc" id="L555">                    fireTableCellUpdated(row, col);</span>
+<span class="nc" id="L556">                }</span>
+                break;
+            case COL_ATTR_VALUE:
+<span class="nc" id="L559">                ArrayList&lt;Element&gt; elements = getSelectedElements();</span>
+<span class="nc bnc" id="L560" title="All 2 branches missed.">                for (Element elem : elements) {</span>
+<span class="nc" id="L561">                    elem.setAttribute(attributeName, (Double) value);</span>
+<span class="nc" id="L562">                }</span>
+<span class="nc" id="L563">                fireTableCellUpdated(row, col);</span>
+                break;
+            }
+<span class="nc" id="L566">        }</span>
+
+        @Override
+        public Class&lt;?&gt; getColumnClass(int col) {
+<span class="nc bnc" id="L570" title="All 4 branches missed.">            switch (col) {</span>
+            case COL_ATTR_NAME:
+<span class="nc" id="L572">                return String.class;</span>
+            case COL_ATTR_VALUE:
+<span class="nc" id="L574">                return Double.class;</span>
+            case COL_SELECTED:
+<span class="nc" id="L576">                return Boolean.class;</span>
+            default:
+<span class="nc" id="L578">                return null;</span>
+            }
+        }
+
+        @Override
+        public String getColumnName(int col) {
+<span class="pc bpc" id="L584" title="1 of 4 branches missed.">            switch (col) {</span>
+            case COL_ATTR_NAME:
+<span class="fc" id="L586">                return &quot;attribute name&quot;;</span>
+            case COL_ATTR_VALUE:
+<span class="fc" id="L588">                return &quot;value&quot;;</span>
+            case COL_SELECTED:
+<span class="pc bpc" id="L590" title="1 of 2 branches missed.">                if (editHandler != null) {</span>
+<span class="nc" id="L591">                    return editHandler.getCheckableColumnHeader();</span>
+                } else {
+<span class="fc" id="L593">                    return &quot;selected&quot;;</span>
+                }
+            default:
+<span class="nc" id="L596">                return null;</span>
+            }
+        }
+    }
+
+    /**
+     * displays the data of the given element.
+     * 
+     * @param element the element whose data to display
+     */
+    private void displayElementDetails(Element element) {
+<span class="nc bnc" id="L607" title="All 2 branches missed.">        if (element != null) {</span>
+<span class="nc" id="L608">            txtElementName.setText(element.getName());</span>
+<span class="nc" id="L609">            tableModelElement.setElement(element);</span>
+<span class="nc" id="L610">            tableModelElementOptic.setBean(getElementOptics(element));</span>
+        } else {
+<span class="nc" id="L612">            txtElementName.setText(&quot;&quot;);</span>
+<span class="nc" id="L613">            tableModelElement.setElement(null);</span>
+<span class="nc" id="L614">            tableModelElementOptic.setBean(null);</span>
+        }
+<span class="nc" id="L616">    }</span>
+
+    /**
+     * retrieves the optics-point for an element from the model and handles exceptions if they occur.
+     * 
+     * @param element the element for which to get the optics point
+     * @return the {@link EditableOpticPointImpl}
+     */
+    private OpticPoint getElementOptics(Element element) {
+<span class="nc" id="L625">        JMadModel model = modelManager.getActiveModel();</span>
+        try {
+<span class="nc" id="L627">            return model.getOptics().getPoint(element);</span>
+<span class="nc" id="L628">        } catch (JMadModelException e) {</span>
+<span class="nc" id="L629">            logger.warn(&quot;no optics-information found for element '&quot; + element.getName() + &quot;'&quot;, e);</span>
+<span class="nc" id="L630">            return null;</span>
+        }
+    }
+
+    /**
+     * @return the editHandler
+     */
+    public final ModelElementsPanelEditHandler getEditHandler() {
+<span class="nc" id="L638">        return editHandler;</span>
+    }
+
+    /**
+     * @param editHandler the editHandler to set
+     */
+    @Override
+    public final void setEditHandler(TablePanelEditHandler editHandler) {
+<span class="nc bnc" id="L646" title="All 2 branches missed.">        if (editHandler instanceof ModelElementsPanelEditHandler) {</span>
+<span class="nc" id="L647">            this.editHandler = (ModelElementsPanelEditHandler) editHandler;</span>
+        }
+<span class="nc" id="L649">    }</span>
+
+    /**
+     * @param markedElementsManager the markedElementsManager to set
+     */
+    public void setMarkedElementsManager(MarkedElementsManager markedElementsManager) {
+<span class="fc" id="L655">        this.markedElementsManager = markedElementsManager;</span>
+<span class="fc" id="L656">        markedElementsManager.addListener(new MarkedElementsManagerListener() {</span>
+
+            @Override
+            public void addedElementName(String elementName) {
+<span class="nc" id="L660">                tableModelElements.fireTableDataChanged();</span>
+<span class="nc" id="L661">            }</span>
+
+            @Override
+            public void removedElementName(String elementName) {
+<span class="nc" id="L665">                tableModelElements.fireTableDataChanged();</span>
+<span class="nc" id="L666">            }</span>
+        });
+<span class="fc" id="L668">    }</span>
+
+    /**
+     * @return the markedElementsManager
+     */
+    private MarkedElementsManager getMarkedElementsManager() {
+<span class="nc" id="L674">        return markedElementsManager;</span>
+    }
+
+    public void setElementSelectionManager(ElementSelectionManager elementSelectionManager) {
+<span class="fc" id="L678">        this.elementSelectionManager = elementSelectionManager;</span>
+<span class="fc" id="L679">    }</span>
+
+    private ElementSelectionManager getElementSelectionManager() {
+<span class="nc" id="L682">        return elementSelectionManager;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

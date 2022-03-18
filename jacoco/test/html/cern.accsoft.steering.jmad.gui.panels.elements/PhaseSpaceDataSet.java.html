@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PhaseSpaceDataSet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels.elements</a> &gt; <span class="el_source">PhaseSpaceDataSet.java</span></div><h1>PhaseSpaceDataSet.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels.elements;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cern.accsoft.steering.jmad.domain.optics.OpticPoint;
+import cern.accsoft.steering.jmad.domain.types.enums.JMadPlane;
+import cern.accsoft.steering.jmad.domain.var.enums.JMadTwissVariable;
+import cern.accsoft.steering.util.gui.dv.ds.ListDataSet;
+
+/**
+ * The Dataset for the charts to display the phase space coordinates.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class PhaseSpaceDataSet extends ListDataSet {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * if set to &lt;code&gt;true&lt;/code&gt; then the coordinates are displayed in normalized phase space coordinates. If it is
+     * &lt;code&gt;false&lt;/code&gt;, then the real phase space coordinates are displayed.
+     */
+<span class="fc" id="L45">    private boolean normalized = true;</span>
+
+    /** the plane for which to display the coordinates */
+<span class="fc" id="L48">    private JMadPlane plane = JMadPlane.H;</span>
+
+    /** All the optics points which shall be displayed */
+<span class="fc" id="L51">    private List&lt;OpticPoint&gt; opticsPoints = new ArrayList&lt;OpticPoint&gt;();</span>
+
+    /**
+     * The default constructor which requires the name of the dataset
+     * 
+     * @param name the name of the dataset
+     */
+    public PhaseSpaceDataSet(String name, JMadPlane plane) {
+<span class="fc" id="L59">        super(name);</span>
+<span class="fc" id="L60">        this.plane = plane;</span>
+<span class="fc" id="L61">    }</span>
+
+    /**
+     * recalculates all the x and y values.
+     */
+    private void recalc() {
+<span class="nc" id="L67">        List&lt;Double&gt; xValues = new ArrayList&lt;Double&gt;();</span>
+<span class="nc" id="L68">        List&lt;Double&gt; yValues = new ArrayList&lt;Double&gt;();</span>
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        for (OpticPoint opticPoint : this.opticsPoints) {</span>
+<span class="nc" id="L71">            double pos = opticPoint.getValue(JMadTwissVariable.POS, this.plane);</span>
+<span class="nc" id="L72">            double angle = opticPoint.getValue(JMadTwissVariable.P, this.plane);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            if (isNormalized()) {</span>
+<span class="nc" id="L74">                double sqrtBeta = Math.sqrt(opticPoint.getValue(JMadTwissVariable.BETA, this.plane));</span>
+<span class="nc" id="L75">                double normalizedPos = pos / sqrtBeta;</span>
+<span class="nc" id="L76">                double normalizedAngle = normalizedPos * opticPoint.getValue(JMadTwissVariable.ALFA, this.plane)</span>
+                        + sqrtBeta * angle;
+<span class="nc" id="L78">                xValues.add(normalizedPos);</span>
+<span class="nc" id="L79">                yValues.add(normalizedAngle);</span>
+<span class="nc" id="L80">            } else {</span>
+<span class="nc" id="L81">                xValues.add(pos);</span>
+<span class="nc" id="L82">                yValues.add(angle);</span>
+            }
+<span class="nc" id="L84">        }</span>
+
+<span class="nc" id="L86">        super.setValues(xValues, yValues);</span>
+<span class="nc" id="L87">    }</span>
+
+    /**
+     * extracts the names of the elements from the optics points and sets them as labels.
+     */
+    private void updateLabels() {
+<span class="nc" id="L93">        List&lt;String&gt; labels = new ArrayList&lt;String&gt;();</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        for (OpticPoint opticPoint : this.opticsPoints) {</span>
+<span class="nc" id="L95">            labels.add(opticPoint.getName());</span>
+<span class="nc" id="L96">        }</span>
+<span class="nc" id="L97">        super.setLabels(labels);</span>
+<span class="nc" id="L98">    }</span>
+
+    public synchronized void setOpticsPoints(List&lt;OpticPoint&gt; opticsPoints) {
+<span class="nc" id="L101">        this.opticsPoints = opticsPoints;</span>
+<span class="nc" id="L102">        updateLabels();</span>
+<span class="nc" id="L103">        recalc();</span>
+<span class="nc" id="L104">    }</span>
+
+    public void setNormalized(boolean normalized) {
+<span class="nc" id="L107">        this.normalized = normalized;</span>
+<span class="nc" id="L108">        recalc();</span>
+<span class="nc" id="L109">    }</span>
+
+    public boolean isNormalized() {
+<span class="fc" id="L112">        return normalized;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

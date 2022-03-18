@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BeanTableModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.table</a> &gt; <span class="el_source">BeanTableModel.java</span></div><h1>BeanTableModel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.table;
+
+import javax.swing.table.AbstractTableModel;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * this class is a simple table model, which enables the display of an object, that provides java-bean like properties
+ * in a table. the table then has as many rows as the bean has properties and 2 columns: one for the name of the
+ * property and one for the value.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class BeanTableModel extends AbstractTableModel {
+    /** the logger for the class */
+<span class="fc" id="L43">    private final static Logger logger = LoggerFactory.getLogger(BeanTableModel.class);</span>
+
+    /** the amount of Columns */
+    private final static int COL_COUNT = 3;
+
+    /* the indizes for the columns */
+    private final static int COL_INDEX_SELECTED = 0;
+    private final static int COL_INDEX_NAME = 1;
+    private final static int COL_INDEX_VALUE = 2;
+
+    /* the prefixes we use to identify a getter- and setter- methods */
+    private final static String GETTER_PREFIX_DEFAULT = &quot;get&quot;;
+    private final static String GETTER_PREFIX_BOOLEAN = &quot;is&quot;;
+    private final static String SETTER_PREFIX = &quot;set&quot;;
+
+    /**
+     * the classes, which are allowed for the value-column. One has to take care, that they are compatible, since table
+     * only supports one class for the column. To tell the table, which renderer to use, we use the first entry in this
+     * array. By default we support Double and double.
+     */
+<span class="fc" id="L63">    private Class&lt;?&gt;[] valueClasses = new Class&lt;?&gt;[] { Double.class, double.class };</span>
+
+    /** the explicit bean-class to use */
+    private Class&lt;?&gt; beanClass;
+
+    /** the actually displayed bean */
+    private Object bean;
+
+    /** the names of the getters corresponding to the properties */
+<span class="fc" id="L72">    private List&lt;Method&gt; getters = new ArrayList&lt;&gt;();</span>
+
+    /** determines, if the values are editable */
+<span class="fc" id="L75">    private boolean editable = false;</span>
+
+    /** an edit-handler, which enables to check/uncheck certain properties */
+<span class="fc" id="L78">    private BeanTableEditHandler editHandler = null;</span>
+
+<span class="fc" id="L80">    public BeanTableModel(Class&lt;?&gt; beanClass) {</span>
+<span class="fc" id="L81">        this.beanClass = beanClass;</span>
+<span class="fc" id="L82">    }</span>
+
+    /**
+     * the according getter-prefix for the configured type.
+     * 
+     * @return the prefix for getters.
+     */
+    private String getGetterPrefix() {
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (Boolean.class.equals(valueClasses[0])) {</span>
+<span class="nc" id="L91">            return GETTER_PREFIX_BOOLEAN;</span>
+        } else {
+<span class="nc" id="L93">            return GETTER_PREFIX_DEFAULT;</span>
+        }
+    }
+
+    @Override
+    public int getColumnCount() {
+<span class="fc" id="L99">        return COL_COUNT;</span>
+    }
+
+    @Override
+    public int getRowCount() {
+<span class="nc" id="L104">        return this.getters.size();</span>
+    }
+
+    @Override
+    public Object getValueAt(int row, int col) {
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        if (col == COL_INDEX_SELECTED) {</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            if (getEditHandler() != null) {</span>
+<span class="nc" id="L111">                return getEditHandler().getCheckValue(this.bean, getPropertyName(row));</span>
+            } else {
+<span class="nc" id="L113">                return false;</span>
+            }
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        } else if (col == COL_INDEX_NAME) {</span>
+<span class="nc" id="L116">            return getPropertyName(row);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        } else if (col == COL_INDEX_VALUE) {</span>
+<span class="nc" id="L118">            return getPropertyValue(row);</span>
+        } else {
+<span class="nc" id="L120">            logger.warn(&quot;unknown column number '&quot; + col + &quot;'&quot;);</span>
+<span class="nc" id="L121">            return null;</span>
+        }
+    }
+
+    @Override
+    public Class&lt;?&gt; getColumnClass(int col) {
+<span class="nc bnc" id="L127" title="All 4 branches missed.">        switch (col) {</span>
+        case COL_INDEX_SELECTED:
+<span class="nc" id="L129">            return Boolean.class;</span>
+        case COL_INDEX_NAME:
+<span class="nc" id="L131">            return String.class;</span>
+        case COL_INDEX_VALUE:
+<span class="nc" id="L133">            return getValueClasses()[0];</span>
+        default:
+<span class="nc" id="L135">            return null;</span>
+        }
+    }
+
+    @Override
+    public String getColumnName(int col) {
+<span class="pc bpc" id="L141" title="1 of 4 branches missed.">        switch (col) {</span>
+        case COL_INDEX_SELECTED:
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">            if (getEditHandler() != null) {</span>
+<span class="nc" id="L144">                return getEditHandler().getCheckableColumnHeader();</span>
+            } else {
+<span class="fc" id="L146">                return &quot;select&quot;;</span>
+            }
+        case COL_INDEX_NAME:
+<span class="fc" id="L149">            return &quot;property name&quot;;</span>
+        case COL_INDEX_VALUE:
+<span class="fc" id="L151">            return &quot;value&quot;;</span>
+        default:
+<span class="nc" id="L153">            return null;</span>
+        }
+    }
+
+    @Override
+    public void setValueAt(Object value, int row, int col) {
+<span class="nc bnc" id="L159" title="All 3 branches missed.">        switch (col) {</span>
+        case COL_INDEX_SELECTED:
+<span class="nc bnc" id="L161" title="All 2 branches missed.">            if (getEditHandler() != null) {</span>
+<span class="nc" id="L162">                getEditHandler().setCheckValue(getBean(), getPropertyName(row), (Boolean) value);</span>
+            }
+            break;
+        case COL_INDEX_VALUE:
+<span class="nc" id="L166">            setPropertyValue(value, row);</span>
+<span class="nc" id="L167">            break;</span>
+        default:
+<span class="nc" id="L169">            super.setValueAt(value, row, col);</span>
+            break;
+        }
+<span class="nc" id="L172">    }</span>
+
+    @Override
+    public boolean isCellEditable(int row, int col) {
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        if (COL_INDEX_SELECTED == col) {</span>
+<span class="nc bnc" id="L177" title="All 4 branches missed.">            return ((getEditHandler() != null) &amp;&amp; (getEditHandler().isEditable()));</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">        } else if (COL_INDEX_VALUE == col) {</span>
+<span class="nc" id="L179">            return isEditable();</span>
+        } else {
+<span class="nc" id="L181">            return false;</span>
+        }
+    }
+
+    /**
+     * sets the given value to the property of the given index
+     * 
+     * @param value the value to set
+     * @param index the index of the property to which to set the value
+     */
+    private void setPropertyValue(Object value, int index) {
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        if (getBean() == null) {</span>
+<span class="nc" id="L193">            return;</span>
+        }
+
+<span class="nc" id="L196">        Method setter = getSetter(index);</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">        if (setter == null) {</span>
+<span class="nc" id="L198">            logger.error(&quot;no setter method for property '&quot; + getPropertyName(index) + &quot;' could be found.&quot;);</span>
+<span class="nc" id="L199">            return;</span>
+        }
+
+        try {
+<span class="nc" id="L203">            setter.invoke(getBean(), value);</span>
+<span class="nc" id="L204">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L205">            logger.error(&quot;Error while invoking setter '&quot; + setter.getName() + &quot;' of bean '&quot; + getBean().toString(), e);</span>
+<span class="nc" id="L206">        } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L207">            logger.error(&quot;Error while invoking setter '&quot; + setter.getName() + &quot;' of bean '&quot; + getBean().toString(), e);</span>
+<span class="nc" id="L208">        } catch (InvocationTargetException e) {</span>
+<span class="nc" id="L209">            logger.error(&quot;Error while invoking setter '&quot; + setter.getName() + &quot;' of bean '&quot; + getBean().toString(), e);</span>
+<span class="nc" id="L210">        }</span>
+<span class="nc" id="L211">    }</span>
+
+    /**
+     * searches in the bean for a getter of property with given index
+     * 
+     * @param index the index for which to find the getter
+     * @return the getter method
+     */
+    private Method getSetter(int index) {
+<span class="nc" id="L220">        String getterName = this.getters.get(index).getName();</span>
+
+<span class="nc" id="L222">        String setterName = SETTER_PREFIX + getterName.substring(getGetterPrefix().length());</span>
+<span class="nc" id="L223">        Method setter = null;</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">        for (int i = 0; i &lt; valueClasses.length; i++) {</span>
+<span class="nc" id="L225">            Class&lt;?&gt; valueClass = this.valueClasses[i];</span>
+            try {
+<span class="nc" id="L227">                setter = this.bean.getClass().getMethod(setterName, valueClass);</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">                if (setter != null) {</span>
+<span class="nc" id="L229">                    break;</span>
+                }
+<span class="nc" id="L231">            } catch (SecurityException e) {</span>
+<span class="nc" id="L232">                logger.error(&quot;Error while searching for method '&quot; + setterName + &quot;'.&quot;, e);</span>
+<span class="nc" id="L233">            } catch (NoSuchMethodException e) {</span>
+                /* do nothing, just search for another one. */
+<span class="nc" id="L235">            }</span>
+        }
+<span class="nc" id="L237">        return setter;</span>
+    }
+
+    /**
+     * return the name of the property for a given index
+     * 
+     * @param index the index in the getterNames - list
+     * @return the name of the property
+     */
+    private String getPropertyName(int index) {
+<span class="nc" id="L247">        String getterName = this.getters.get(index).getName();</span>
+
+<span class="nc" id="L249">        int startIndex = getGetterPrefix().length();</span>
+<span class="nc" id="L250">        String propertyName = getterName.substring(startIndex, startIndex + 1).toLowerCase();</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">        if (getterName.length() &gt; getGetterPrefix().length() + 1) {</span>
+<span class="nc" id="L252">            propertyName += getterName.substring(startIndex + 1);</span>
+        }
+<span class="nc" id="L254">        return propertyName;</span>
+    }
+
+    /**
+     * return the value of the property
+     * 
+     * @param index the index in the getterNames - list
+     * @return the value
+     */
+    private Object getPropertyValue(int index) {
+<span class="nc bnc" id="L264" title="All 2 branches missed.">        if (getBean() == null) {</span>
+<span class="nc" id="L265">            return null;</span>
+        }
+<span class="nc" id="L267">        Method method = this.getters.get(index);</span>
+        try {
+<span class="nc" id="L269">            return method.invoke(getBean());</span>
+<span class="nc" id="L270">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L271">            logger.error(&quot;Error while invoking getter '&quot; + method.getName() + &quot;' of bean '&quot; + getBean().toString(), e);</span>
+<span class="nc" id="L272">        } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L273">            logger.error(&quot;Error while invoking getter '&quot; + method.getName() + &quot;' of bean '&quot; + getBean().toString(), e);</span>
+<span class="nc" id="L274">        } catch (InvocationTargetException e) {</span>
+<span class="nc" id="L275">            logger.error(&quot;Error while invoking getter '&quot; + method.getName() + &quot;' of bean '&quot; + getBean().toString(), e);</span>
+<span class="nc" id="L276">        }</span>
+<span class="nc" id="L277">        return null;</span>
+    }
+
+    /**
+     * searches for all getters in the bean. These are methods which begin with the prefix. Additionaly we only keep
+     * such, which return the classes which we support.
+     */
+    private void initGetterNames() {
+<span class="nc" id="L285">        this.getters.clear();</span>
+
+<span class="nc bnc" id="L287" title="All 2 branches missed.">        for (Method method : this.beanClass.getMethods()) {</span>
+            /*
+             * we are only interested in getters, that take no argument.
+             */
+<span class="nc bnc" id="L291" title="All 2 branches missed.">            if (method.getParameterTypes().length &gt; 0) {</span>
+<span class="nc" id="L292">                continue;</span>
+            }
+<span class="nc" id="L294">            String methodName = method.getName();</span>
+<span class="nc bnc" id="L295" title="All 4 branches missed.">            if (methodName.startsWith(getGetterPrefix()) &amp;&amp; methodName.length() &gt; getGetterPrefix().length()) {</span>
+<span class="nc bnc" id="L296" title="All 2 branches missed.">                for (int i = 0; i &lt; getValueClasses().length; i++) {</span>
+<span class="nc bnc" id="L297" title="All 2 branches missed.">                    if (method.getReturnType().equals(getValueClasses()[i])) {</span>
+<span class="nc" id="L298">                        this.getters.add(method);</span>
+<span class="nc" id="L299">                        break;</span>
+                    }
+                }
+            }
+        }
+<span class="nc" id="L304">    }</span>
+
+    /**
+     * set the bean
+     * 
+     * @param bean the bean, which shall be displayed.
+     */
+    public void setBean(Object bean) {
+<span class="nc" id="L312">        this.bean = bean;</span>
+<span class="nc" id="L313">        initGetterNames();</span>
+<span class="nc" id="L314">        fireTableDataChanged();</span>
+<span class="nc" id="L315">    }</span>
+
+    /**
+     * @return the actual displayed bean
+     */
+    private Object getBean() {
+<span class="nc" id="L321">        return this.bean;</span>
+    }
+
+    /**
+     * @param editable the editable to set
+     */
+    public void setEditable(boolean editable) {
+<span class="fc" id="L328">        this.editable = editable;</span>
+<span class="fc" id="L329">    }</span>
+
+    /**
+     * @return the editable
+     */
+    public boolean isEditable() {
+<span class="nc" id="L335">        return editable;</span>
+    }
+
+    /**
+     * @param valueClasses the valueClasses to set
+     */
+    public void setValueClasses(Class&lt;?&gt;[] valueClasses) {
+<span class="fc" id="L342">        this.valueClasses = valueClasses;</span>
+<span class="fc" id="L343">    }</span>
+
+    /**
+     * @return the valueClasses
+     */
+    public Class&lt;?&gt;[] getValueClasses() {
+<span class="nc" id="L349">        return valueClasses;</span>
+    }
+
+    /**
+     * @param editHandler the editHandler to set
+     */
+    public void setEditHandler(BeanTableEditHandler editHandler) {
+<span class="nc" id="L356">        this.editHandler = editHandler;</span>
+<span class="nc" id="L357">    }</span>
+
+    /**
+     * @return the editHandler
+     */
+    public BeanTableEditHandler getEditHandler() {
+<span class="fc" id="L363">        return editHandler;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

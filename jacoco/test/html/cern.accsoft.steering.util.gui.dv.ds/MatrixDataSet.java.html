@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MatrixDataSet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.dv.ds</a> &gt; <span class="el_source">MatrixDataSet.java</span></div><h1>MatrixDataSet.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.dv.ds;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import Jama.Matrix;
+import cern.jdve.data.AbstractDataSet3D;
+import cern.jdve.event.DataSetEvent;
+import cern.jdve.utils.DataRange;
+
+/**
+ * implements the interface &lt;code&gt;DataSet3D&lt;/code&gt; in order to map Matrix-values to Z-coordinates.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class MatrixDataSet extends AbstractDataSet3D {
+<span class="nc" id="L39">    private Matrix matrix = null;</span>
+
+<span class="nc" id="L41">    private List&lt;String&gt; rowLabels = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L42">    private List&lt;String&gt; columnLabels = new ArrayList&lt;String&gt;();</span>
+
+    /* transpose the matrix */
+<span class="nc" id="L45">    boolean transposed = false;</span>
+
+    public MatrixDataSet(String name, Matrix matrix) {
+<span class="nc" id="L48">        super(name);</span>
+<span class="nc" id="L49">        this.matrix = matrix;</span>
+<span class="nc" id="L50">    }</span>
+
+    public MatrixDataSet(String name, Matrix matrix, boolean transposed) {
+<span class="nc" id="L53">        super(name);</span>
+<span class="nc" id="L54">        this.matrix = matrix;</span>
+<span class="nc" id="L55">        this.transposed = transposed;</span>
+<span class="nc" id="L56">    }</span>
+
+    public void setMatrix(Matrix matrix) {
+<span class="nc" id="L59">        this.matrix = matrix;</span>
+<span class="nc" id="L60">        fireDataSetChanged(new DataSetEvent(this, DataSetEvent.FULL_CHANGE));</span>
+<span class="nc" id="L61">    }</span>
+
+    public void setTransposed(boolean transposed) {
+<span class="nc" id="L64">        this.transposed = transposed;</span>
+<span class="nc" id="L65">        fireDataSetChanged(new DataSetEvent(this, DataSetEvent.FULL_CHANGE));</span>
+<span class="nc" id="L66">    }</span>
+
+    public boolean isTransposed() {
+<span class="nc" id="L69">        return transposed;</span>
+    }
+
+    public String getDataLabel(int index) {
+<span class="nc" id="L73">        return &quot;Index &quot; + index;</span>
+    }
+
+    @Override
+    public int getXDataCount() {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (matrix == null) {</span>
+<span class="nc" id="L79">            return 1;</span>
+        }
+
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (transposed) {</span>
+<span class="nc" id="L83">            return matrix.getRowDimension();</span>
+        } else {
+<span class="nc" id="L85">            return matrix.getColumnDimension();</span>
+        }
+    }
+
+    @Override
+    public int getYDataCount() {
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (matrix == null) {</span>
+<span class="nc" id="L92">            return 1;</span>
+        }
+
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (transposed) {</span>
+<span class="nc" id="L96">            return matrix.getColumnDimension();</span>
+        } else {
+<span class="nc" id="L98">            return matrix.getRowDimension();</span>
+        }
+    }
+
+    private boolean isLimitsOk(int xIndex, int yIndex) {
+<span class="nc bnc" id="L103" title="All 4 branches missed.">        if ((xIndex &lt; 0) || (yIndex &lt; 0)) {</span>
+<span class="nc" id="L104">            return false;</span>
+        }
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if (transposed) {</span>
+<span class="nc bnc" id="L107" title="All 4 branches missed.">            return ((xIndex &lt; matrix.getRowDimension()) &amp;&amp; (yIndex &lt; matrix.getColumnDimension()));</span>
+        } else {
+<span class="nc bnc" id="L109" title="All 4 branches missed.">            return ((xIndex &lt; matrix.getColumnDimension()) &amp;&amp; (yIndex &lt; matrix.getRowDimension()));</span>
+        }
+    }
+
+    @Override
+    public double getZ(int xIndex, int yIndex) {
+<span class="nc bnc" id="L115" title="All 4 branches missed.">        if ((matrix == null) || !isLimitsOk(xIndex, yIndex)) {</span>
+<span class="nc" id="L116">            return 0;</span>
+        }
+
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if (transposed) {</span>
+<span class="nc" id="L120">            return matrix.get(xIndex, yIndex);</span>
+        } else {
+<span class="nc" id="L122">            return matrix.get(yIndex, xIndex);</span>
+        }
+    }
+
+    @Override
+    public DataRange getZRange() {
+<span class="nc" id="L128">        return calcZRange();</span>
+    }
+
+    @Override
+    public double getX(int index) {
+<span class="nc" id="L133">        return index;</span>
+    }
+
+    @Override
+    public DataRange getXRange() {
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (matrix == null) {</span>
+<span class="nc" id="L139">            return new DataRange(0, 0);</span>
+        }
+
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        if (transposed) {</span>
+<span class="nc" id="L143">            return new DataRange(0, matrix.getRowDimension() - 1);</span>
+        } else {
+<span class="nc" id="L145">            return new DataRange(0, matrix.getColumnDimension() - 1);</span>
+        }
+    }
+
+    @Override
+    public double getY(int index) {
+<span class="nc" id="L151">        return index;</span>
+    }
+
+    @Override
+    public DataRange getYRange() {
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        if (matrix == null) {</span>
+<span class="nc" id="L157">            return new DataRange(0, 0);</span>
+        }
+
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        if (transposed) {</span>
+<span class="nc" id="L161">            return new DataRange(0, matrix.getColumnDimension() - 1);</span>
+        } else {
+<span class="nc" id="L163">            return new DataRange(0, matrix.getRowDimension() - 1);</span>
+        }
+    }
+
+    @Override
+    public int indexOf(double coordinate) {
+<span class="nc" id="L169">        return new Double(coordinate).intValue();</span>
+    }
+
+    @Override
+    public boolean isEditable() {
+<span class="nc" id="L174">        return false;</span>
+    }
+
+    private DataRange calcZRange() {
+<span class="nc bnc" id="L178" title="All 2 branches missed.">        if (matrix == null) {</span>
+<span class="nc" id="L179">            return new DataRange(0, 0);</span>
+        }
+
+<span class="nc" id="L182">        double minZ = 0;</span>
+<span class="nc" id="L183">        double maxZ = 0;</span>
+
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        for (int i = 0; i &lt; matrix.getRowDimension(); i++) {</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">            for (int j = 0; j &lt; matrix.getColumnDimension(); j++) {</span>
+<span class="nc" id="L187">                double value = matrix.get(i, j);</span>
+<span class="nc bnc" id="L188" title="All 4 branches missed.">                if ((i == 0) &amp;&amp; (j == 0)) {</span>
+<span class="nc" id="L189">                    minZ = value;</span>
+<span class="nc" id="L190">                    maxZ = value;</span>
+                } else {
+<span class="nc" id="L192">                    minZ = Math.min(minZ, value);</span>
+<span class="nc" id="L193">                    maxZ = Math.max(maxZ, value);</span>
+                }
+            }
+        }
+
+<span class="nc" id="L198">        return new DataRange(minZ, maxZ);</span>
+    }
+
+    public void setRowLabels(List&lt;String&gt; labels) {
+<span class="nc" id="L202">        this.rowLabels = labels;</span>
+<span class="nc" id="L203">    }</span>
+
+    public void setColumnLabels(List&lt;String&gt; labels) {
+<span class="nc" id="L206">        this.columnLabels = labels;</span>
+<span class="nc" id="L207">    }</span>
+
+    public String getXLabel(int xIndex) {
+<span class="nc" id="L210">        List&lt;String&gt; labels = null;</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">        if (transposed) {</span>
+<span class="nc" id="L212">            labels = rowLabels;</span>
+        } else {
+<span class="nc" id="L214">            labels = columnLabels;</span>
+        }
+<span class="nc bnc" id="L216" title="All 2 branches missed.">        if (xIndex &lt; labels.size()) {</span>
+<span class="nc" id="L217">            return labels.get(xIndex);</span>
+        }
+<span class="nc" id="L219">        return null;</span>
+    }
+
+    public String getYLabel(int yIndex) {
+<span class="nc" id="L223">        List&lt;String&gt; labels = null;</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">        if (transposed) {</span>
+<span class="nc" id="L225">            labels = columnLabels;</span>
+        } else {
+<span class="nc" id="L227">            labels = rowLabels;</span>
+        }
+<span class="nc bnc" id="L229" title="All 2 branches missed.">        if (yIndex &lt; labels.size()) {</span>
+<span class="nc" id="L230">            return labels.get(yIndex);</span>
+        }
+<span class="nc" id="L232">        return null;</span>
+    }
+
+    public int getColumnNumber(int xIndex, int yIndex) {
+<span class="nc bnc" id="L236" title="All 4 branches missed.">        if (getXRange().contains(xIndex) &amp;&amp; getYRange().contains(yIndex)) {</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">            if (transposed) {</span>
+<span class="nc" id="L238">                return yIndex;</span>
+            } else {
+<span class="nc" id="L240">                return xIndex;</span>
+            }
+        } else {
+<span class="nc" id="L243">            return 0;</span>
+        }
+
+    }
+
+    public int getRowNumber(int xIndex, int yIndex) {
+<span class="nc bnc" id="L249" title="All 4 branches missed.">        if (getXRange().contains(xIndex) &amp;&amp; getYRange().contains(yIndex)) {</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">            if (transposed) {</span>
+<span class="nc" id="L251">                return xIndex;</span>
+            } else {
+<span class="nc" id="L253">                return yIndex;</span>
+            }
+        } else {
+<span class="nc" id="L256">            return 0;</span>
+        }
+    }
+
+    public String getRowLabel(int row) {
+<span class="nc bnc" id="L261" title="All 4 branches missed.">        if ((row &gt;= 0) &amp;&amp; (row &lt; rowLabels.size())) {</span>
+<span class="nc" id="L262">            return rowLabels.get(row);</span>
+        }
+<span class="nc" id="L264">        return null;</span>
+    }
+
+    public String getColumnLabel(int column) {
+<span class="nc bnc" id="L268" title="All 4 branches missed.">        if ((column &gt;= 0) &amp;&amp; (column &lt; columnLabels.size())) {</span>
+<span class="nc" id="L269">            return columnLabels.get(column);</span>
+        }
+<span class="nc" id="L271">        return null;</span>
+    }
+
+    @Override
+    public void set(int index, int index2, double x, double y, double z) {
+<span class="nc" id="L276">        throw new UnsupportedOperationException(&quot;not implemented&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

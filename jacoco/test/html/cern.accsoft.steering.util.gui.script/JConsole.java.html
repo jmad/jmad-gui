@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JConsole.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.script</a> &gt; <span class="el_source">JConsole.java</span></div><h1>JConsole.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.script;
+
+import java.awt.Color;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
+public class JConsole extends JTextPane {
+    private static final long serialVersionUID = 1L;
+
+    private boolean output_able;
+
+    private SimpleAttributeSet out_att;
+    private SimpleAttributeSet err_att;
+
+    private ConsoleOutputStream out;
+    private ConsoleOutputStream err;
+
+    private StyledDocument text;
+
+    public JConsole() {
+<span class="nc" id="L53">        super();</span>
+<span class="nc" id="L54">        setEditable(false);</span>
+<span class="nc" id="L55">        setBackground(Color.BLACK);</span>
+
+<span class="nc" id="L57">        out_att = new SimpleAttributeSet();</span>
+<span class="nc" id="L58">        StyleConstants.setForeground(out_att, Color.GREEN);</span>
+<span class="nc" id="L59">        err_att = new SimpleAttributeSet();</span>
+<span class="nc" id="L60">        StyleConstants.setForeground(err_att, Color.RED);</span>
+
+<span class="nc" id="L62">        text = new DefaultStyledDocument();</span>
+<span class="nc" id="L63">        setDocument(text);</span>
+
+<span class="nc" id="L65">        out = new ConsoleOutputStream();</span>
+<span class="nc" id="L66">        err = new ConsoleOutputStream();</span>
+
+<span class="nc" id="L68">        output_able = true;</span>
+<span class="nc" id="L69">    }</span>
+
+    private synchronized void print(byte[] b, ConsoleOutputStream os) {
+        try {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            text.insertString(text.getLength(), new String(b, 0, b.length), os == out ? out_att : err_att);</span>
+<span class="nc" id="L74">        } catch (BadLocationException e) {</span>
+<span class="nc" id="L75">            e.printStackTrace();</span>
+<span class="nc" id="L76">        }</span>
+<span class="nc" id="L77">    }</span>
+
+    public void clear() throws BadLocationException {
+<span class="nc" id="L80">        text.remove(0, text.getLength());</span>
+<span class="nc" id="L81">    }</span>
+
+    public void redirectSystem() {
+<span class="nc" id="L84">        System.setOut(new PrintStream(out, true));</span>
+<span class="nc" id="L85">        System.setErr(new PrintStream(err, true));</span>
+<span class="nc" id="L86">    }</span>
+
+    public void setOutColor(Color outc) {
+<span class="nc" id="L89">        StyleConstants.setForeground(out_att, outc);</span>
+<span class="nc" id="L90">    }</span>
+
+    public void setErrColor(Color errc) {
+<span class="nc" id="L93">        StyleConstants.setForeground(err_att, errc);</span>
+<span class="nc" id="L94">    }</span>
+
+    public OutputStream getOutStream() {
+<span class="nc" id="L97">        return out;</span>
+    }
+
+    public OutputStream getErrStream() {
+<span class="nc" id="L101">        return err;</span>
+    }
+
+    /**
+     * OutputStream der Text in diesem JTextPane ausgibt
+     */
+    private class ConsoleOutputStream extends OutputStream {
+<span class="nc" id="L108">        private Queue&lt;Byte&gt; buffer = new LinkedList&lt;Byte&gt;();</span>
+        private boolean closed;
+
+<span class="nc" id="L111">        public ConsoleOutputStream() {</span>
+<span class="nc" id="L112">            closed = false;</span>
+<span class="nc" id="L113">        }</span>
+
+        @Override
+        public void write(int b) throws IOException {
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            if (closed)</span>
+<span class="nc" id="L118">                throw new IOException(&quot;Stream closed&quot;);</span>
+<span class="nc" id="L119">            buffer.offer((byte) b);</span>
+<span class="nc" id="L120">        }</span>
+
+        @Override
+        public void flush() {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">            if (output_able)</span>
+<span class="nc" id="L125">                synchronized (buffer) {</span>
+<span class="nc" id="L126">                    byte[] b = new byte[buffer.size()];</span>
+<span class="nc" id="L127">                    int cnt = 0;</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">                    while (!buffer.isEmpty())</span>
+<span class="nc" id="L129">                        b[cnt++] = buffer.poll();</span>
+<span class="nc" id="L130">                    print(b, this);</span>
+<span class="nc" id="L131">                }</span>
+<span class="nc" id="L132">        }</span>
+
+        @Override
+        public void close() {
+<span class="nc" id="L136">            closed = true;</span>
+<span class="nc" id="L137">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

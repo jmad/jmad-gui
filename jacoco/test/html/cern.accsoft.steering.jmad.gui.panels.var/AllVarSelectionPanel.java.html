@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AllVarSelectionPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels.var</a> &gt; <span class="el_source">AllVarSelectionPanel.java</span></div><h1>AllVarSelectionPanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels.var;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JTabbedPane;
+
+import cern.accsoft.steering.jmad.domain.var.TwissVariable;
+
+/**
+ * This is just a panel that collects all available var selection panels
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="fc" id="L37">public class AllVarSelectionPanel extends JTabbedPane {</span>
+    private static final long serialVersionUID = 1447914858470855189L;
+
+    /**
+     * all the panels that shall be displayed as tabs. The key shall be the name of the tab and the
+     */
+<span class="fc" id="L43">    private Map&lt;String, VarSelectionPanel&gt; panels = new HashMap&lt;String, VarSelectionPanel&gt;();</span>
+
+    /**
+     * the var selection manager which will be propagated to all the children
+     */
+<span class="fc" id="L48">    private SelectedVarManager selectedVarManager = new SelectedVarManagerImpl();</span>
+
+    /**
+     * the variable which shall be selected by default in all the panels, if available there.
+     */
+<span class="fc" id="L53">    private TwissVariable defaultVariable = null;</span>
+
+    /**
+     * the init method which must be called after setting the SelectedVarManager correctly.
+     */
+    public void init() {
+<span class="fc" id="L59">        initComponents();</span>
+<span class="fc" id="L60">    }</span>
+
+    /**
+     * puts all the panels in a tab-panel and displays it
+     */
+    private void initComponents() {
+
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        for (String key : getPanels().keySet()) {</span>
+
+            /*
+             * initialize the panels
+             */
+<span class="fc" id="L72">            VarSelectionPanel panel = getPanels().get(key);</span>
+<span class="fc" id="L73">            panel.setSelectedVarManager(this.getSelectedVarManager());</span>
+<span class="fc" id="L74">            panel.setDefaultVariable(getDefaultVariable());</span>
+<span class="fc" id="L75">            panel.init();</span>
+
+            /*
+             * and put them as tabs
+             */
+<span class="fc" id="L80">            addTab(key, panel);</span>
+<span class="fc" id="L81">        }</span>
+<span class="fc" id="L82">    }</span>
+
+    /*
+     * getters and setters
+     */
+
+    public void setPanels(Map&lt;String, VarSelectionPanel&gt; panels) {
+<span class="fc" id="L89">        this.panels = panels;</span>
+<span class="fc" id="L90">    }</span>
+
+    public Map&lt;String, VarSelectionPanel&gt; getPanels() {
+<span class="fc" id="L93">        return panels;</span>
+    }
+
+    public void setDefaultVariable(TwissVariable defaultVariable) {
+<span class="fc" id="L97">        this.defaultVariable = defaultVariable;</span>
+<span class="fc" id="L98">    }</span>
+
+    public TwissVariable getDefaultVariable() {
+<span class="fc" id="L101">        return defaultVariable;</span>
+    }
+
+    public void setSelectedVarManager(SelectedVarManager selectedVarManager) {
+<span class="fc" id="L105">        this.selectedVarManager = selectedVarManager;</span>
+<span class="fc" id="L106">    }</span>
+
+    public SelectedVarManager getSelectedVarManager() {
+<span class="fc" id="L109">        return selectedVarManager;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

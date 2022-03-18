@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JMad.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui</a> &gt; <span class="el_source">JMad.java</span></div><h1>JMad.java</h1><pre class="source lang-java linenums">// @formatter:off
+/*******************************************************************************
+ *
+ * This file is part of JMad.
+ *
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui;
+
+import cern.accsoft.steering.jmad.gui.config.JMadGuiStandaloneConfiguration;
+import cern.accsoft.steering.jmad.gui.mark.MarkedElementsManager;
+import cern.accsoft.steering.jmad.gui.panels.JMadPanelFactory;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.service.JMadService;
+import cern.accsoft.steering.jmad.util.JMadPreferences;
+import org.jmad.modelpack.service.JMadModelPackageRepositoryManager;
+import org.jmad.modelpack.service.JMadModelPackageService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+/**
+ * JMad class that exposes the services that can be used. Each instance of this class will create the full JMad environment (e.g. a different {@link JMadService}).
+ */
+public class JMad {
+
+    private final ApplicationContext ctx;
+
+<span class="nc" id="L43">    private JMad() {</span>
+<span class="nc" id="L44">        this.ctx = new AnnotationConfigApplicationContext(JMadGuiStandaloneConfiguration.class);</span>
+<span class="nc" id="L45">    }</span>
+
+    public static JMad createStandaloneJMad() {
+<span class="nc" id="L48">        return new JMad();</span>
+    }
+
+    public JMadModelPackageRepositoryManager getJMadModelPackageRepositoryManager() {
+<span class="nc" id="L52">        return ctx.getBean(JMadModelPackageRepositoryManager.class);</span>
+    }
+
+    public JMadModelPackageService getJMadModelPackageService() {
+<span class="nc" id="L56">        return ctx.getBean(JMadModelPackageService.class);</span>
+    }
+
+    public JMadService getJMadService() {
+<span class="nc" id="L60">        return ctx.getBean(JMadService.class);</span>
+    }
+
+    public JMadModelManager getModelManager() {
+<span class="nc" id="L64">        return getJMadService().getModelManager();</span>
+    }
+
+    public MarkedElementsManager getMarkedElementsManager() {
+<span class="nc" id="L68">        return ctx.getBean(MarkedElementsManager.class);</span>
+    }
+
+    public JMadPreferences getJMadPreferences() {
+<span class="nc" id="L72">        return getJMadService().getPreferences();</span>
+    }
+
+    public JMadPanelFactory getJMadPanelFactory() {
+<span class="nc" id="L76">        return ctx.getBean(JMadPanelFactory.class);</span>
+    }
+
+    public JMadGui getJMadGui() {
+<span class="nc" id="L80">        return ctx.getBean(JMadGui.class);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

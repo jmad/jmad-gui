@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenericTwissVarSelectionTableModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels.var</a> &gt; <span class="el_source">GenericTwissVarSelectionTableModel.java</span></div><h1>GenericTwissVarSelectionTableModel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels.var;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cern.accsoft.steering.jmad.domain.var.TwissVariable;
+import cern.accsoft.steering.jmad.domain.var.VariableUtil;
+import cern.accsoft.steering.jmad.util.MadxVarType;
+
+/**
+ * table model for the available variables in tfs-results.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class GenericTwissVarSelectionTableModel&lt;T extends Enum&lt;T&gt; &amp; TwissVariable&gt; extends
+        AbstractVarSelectionTableModel {
+    private static final long serialVersionUID = -4113863768028872933L;
+
+    /** All the variables that can be selected in the panel */
+    private final List&lt;T&gt; availableVariables;
+
+<span class="fc" id="L44">    public GenericTwissVarSelectionTableModel(Class&lt;T&gt; clazz) {</span>
+<span class="fc" id="L45">        this.availableVariables = new ArrayList&lt;T&gt;(VariableUtil.findFromVarType(clazz, MadxVarType.DOUBLE));</span>
+<span class="fc" id="L46">    }</span>
+
+<span class="fc" id="L48">    private int columnCount = axesCount + 1;</span>
+<span class="fc" id="L49">    private int colidxName = columnCount - 1;</span>
+    {
+<span class="fc" id="L51">        updateColumnCounts();</span>
+    }
+
+    @Override
+    public int getColumnCount() {
+<span class="fc" id="L56">        return columnCount;</span>
+    }
+
+    @Override
+    public int getRowCount() {
+<span class="fc" id="L61">        return this.getAvailableVariables().size();</span>
+    }
+
+    @Override
+    public Object getValueAt(int row, int col) {
+<span class="nc" id="L66">        TwissVariable variable = this.getAvailableVariables().get(row);</span>
+<span class="nc bnc" id="L67" title="All 6 branches missed.">        if ((col &gt;= 0) &amp; (col &lt; axesCount)) {</span>
+<span class="nc" id="L68">            return getSelectedVarManager().getSelectedVariables().contains(variable);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        } else if (col == colidxName) {</span>
+<span class="nc" id="L70">            return variable.toString();</span>
+        } else {
+<span class="nc" id="L72">            return null;</span>
+        }
+    }
+
+    @Override
+    public Class&lt;?&gt; getColumnClass(int col) {
+<span class="pc bpc" id="L78" title="1 of 6 branches missed.">        if ((col &gt;= 0) &amp; (col &lt; axesCount)) {</span>
+<span class="fc" id="L79">            return Boolean.class;</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">        } else if (col == colidxName) {</span>
+<span class="fc" id="L81">            return String.class;</span>
+        } else {
+<span class="nc" id="L83">            return null;</span>
+        }
+    }
+
+    @Override
+    public String getColumnName(int col) {
+<span class="pc bpc" id="L89" title="1 of 6 branches missed.">        if ((col &gt;= 0) &amp; (col &lt; axesCount)) {</span>
+<span class="fc" id="L90">            return &quot;plot&quot;;</span>
+
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">        } else if (col == colidxName) {</span>
+<span class="fc" id="L93">            return &quot;variable&quot;;</span>
+        } else {
+<span class="nc" id="L95">            return null;</span>
+        }
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int col) {
+<span class="nc bnc" id="L101" title="All 6 branches missed.">        if ((col &gt;= 0) &amp; (col &lt; axesCount)) {</span>
+<span class="nc" id="L102">            return true;</span>
+        } else {
+<span class="nc" id="L104">            return false;</span>
+        }
+    }
+
+    @Override
+    public void setValueAt(Object value, int row, int col) {
+<span class="fc" id="L110">        TwissVariable variable = this.getAvailableVariables().get(row);</span>
+<span class="pc bpc" id="L111" title="3 of 6 branches missed.">        if ((col &gt;= 0) &amp; (col &lt; axesCount)) {</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">            if ((Boolean) value) {</span>
+<span class="fc" id="L113">                getSelectedVarManager().add(variable);</span>
+            } else {
+<span class="nc" id="L115">                getSelectedVarManager().remove(variable);</span>
+            }
+<span class="fc" id="L117">            fireTableDataChanged();</span>
+        }
+<span class="fc" id="L119">    }</span>
+
+    @Override
+    protected void updateColumnCounts() {
+<span class="fc" id="L123">        columnCount = axesCount + 1;</span>
+<span class="fc" id="L124">        colidxName = columnCount - 1;</span>
+<span class="fc" id="L125">    }</span>
+
+    @Override
+    public List&lt;? extends TwissVariable&gt; getAvailableVariables() {
+<span class="fc" id="L129">        return this.availableVariables;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

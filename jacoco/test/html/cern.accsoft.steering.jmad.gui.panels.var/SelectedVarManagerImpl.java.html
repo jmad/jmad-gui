@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SelectedVarManagerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels.var</a> &gt; <span class="el_source">SelectedVarManagerImpl.java</span></div><h1>SelectedVarManagerImpl.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels.var;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import cern.accsoft.steering.jmad.domain.var.TwissVariable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * the simplest implementation of a class collecting variables.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="fc" id="L38">public class SelectedVarManagerImpl implements SelectedVarManager {</span>
+
+    /** The logger for the class */
+<span class="fc" id="L41">    private final static Logger logger = LoggerFactory.getLogger(SelectedVarManagerImpl.class);</span>
+
+    /** how many variables may be selected */
+<span class="fc" id="L44">    private VarSelectionMode varSelectionMode = VarSelectionMode.MULTIPLE;</span>
+
+    /** the variables */
+<span class="fc" id="L47">    private List&lt;TwissVariable&gt; variables = new ArrayList&lt;TwissVariable&gt;();</span>
+
+    @Override
+    public void add(TwissVariable twissVariable) {
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        if (VarSelectionMode.SINGLE == this.varSelectionMode) {</span>
+<span class="fc" id="L52">            this.clear();</span>
+        }
+<span class="fc" id="L54">        this.variables.add(twissVariable);</span>
+<span class="fc" id="L55">    }</span>
+
+    @Override
+    public void clear() {
+<span class="fc" id="L59">        this.variables.clear();</span>
+<span class="fc" id="L60">    }</span>
+
+    @Override
+    public Collection&lt;TwissVariable&gt; getSelectedVariables() {
+<span class="nc" id="L64">        return this.variables;</span>
+    }
+
+    @Override
+    public void remove(TwissVariable twissVariable) {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (VarSelectionMode.SINGLE == this.varSelectionMode) {</span>
+<span class="nc" id="L70">            return;</span>
+        }
+<span class="nc" id="L72">        this.variables.remove(twissVariable);</span>
+<span class="nc" id="L73">    }</span>
+
+    @Override
+    public void setVarSelectionMode(VarSelectionMode varSelectionMode) {
+<span class="fc" id="L77">        this.varSelectionMode = varSelectionMode;</span>
+<span class="fc" id="L78">    }</span>
+
+    @Override
+    public TwissVariable getSelectedVariable() {
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (VarSelectionMode.SINGLE != this.varSelectionMode) {</span>
+<span class="nc" id="L83">            logger.warn(&quot;This only makes sense in single selection mode!&quot;);</span>
+<span class="nc" id="L84">            return null;</span>
+        }
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (variables.size() == 1) {</span>
+<span class="nc" id="L87">            return variables.get(0);</span>
+        } else {
+<span class="nc" id="L89">            return null;</span>
+        }
+    }
+
+    @Override
+    public VarSelectionMode getVarSelectionMode() {
+<span class="fc" id="L95">        return this.varSelectionMode;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

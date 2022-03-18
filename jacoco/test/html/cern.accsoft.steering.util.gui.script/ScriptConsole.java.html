@@ -1,0 +1,844 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ScriptConsole.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.script</a> &gt; <span class="el_source">ScriptConsole.java</span></div><h1>ScriptConsole.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.script;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
+import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
+import java.io.Reader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Vector;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
+import javax.swing.Icon;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
+/**
+ * Script console for BSF-compliant languages. The console is independent of the scripting language, which can be
+ * changed dynamically. This class uses a BSFManager, and not an Interpreter, as most other examples do. NB: This class
+ * is inspired from bsh/util/JConsole.java by Patrick Niemeyer (pat@pat.net). JConsole is subject to the Sun Public
+ * License version 1.0 and to the GNU Lesser General Public License (the &quot;LGPL&quot;). http://cvs.sourceforge.
+ * net/viewcvs.py/beanshell/BeanShell/src/bsh/util/JConsole.java This is a small refactoring, which does not use the
+ * apache-bsf library anymore, but the java-internal classes
+ * 
+ * @author Olivier Dameron (dameron@smi.stanford.edu), Patrick Niemeyer (pat@pat.net)
+ */
+public class ScriptConsole extends JScrollPane implements KeyListener, MouseListener, ActionListener {
+    private static final long serialVersionUID = 1L;
+
+    private final static String CUT = &quot;Cut&quot;;
+    private final static String COPY = &quot;Copy&quot;;
+    private final static String PASTE = &quot;Paste&quot;;
+
+    private InputStream in;
+<span class="nc" id="L84">    private ConsoleOutputStream out = new ConsoleOutputStream();</span>
+<span class="nc" id="L85">    private ConsoleOutputStream err = new ConsoleOutputStream();</span>
+<span class="nc" id="L86">    private PrintStream outPrintStream = new PrintStream(out, true);</span>
+<span class="nc" id="L87">    private PrintStream outErrStream = new PrintStream(err, true);</span>
+
+<span class="nc" id="L89">    private PrintStream defaultSystemOutput = System.out;</span>
+<span class="nc" id="L90">    private PrintStream defaultSystemError = System.err;</span>
+
+<span class="nc" id="L92">    private int cmdStart = 0;</span>
+<span class="nc" id="L93">    private Vector&lt;String&gt; history = new Vector&lt;String&gt;();</span>
+    private String startedLine;
+<span class="nc" id="L95">    private int histLine = 0;</span>
+<span class="nc" id="L96">    private String executionBuffer = &quot;&quot;;</span>
+<span class="nc" id="L97">    private boolean multilineCommand = false;</span>
+
+    private JPopupMenu menu;
+    private JTextPane text;
+<span class="nc" id="L101">    private StyledDocument doc = new DefaultStyledDocument();</span>
+
+    private ScriptEngine scriptEngine;
+    private String indentOffset;
+
+<span class="nc" id="L106">    private boolean output_able = true;</span>
+
+<span class="nc" id="L108">    private MutableAttributeSet out_att = new SimpleAttributeSet();</span>
+<span class="nc" id="L109">    private MutableAttributeSet err_att = new SimpleAttributeSet();</span>
+    {
+<span class="nc" id="L111">        StyleConstants.setForeground(out_att, Color.GREEN);</span>
+<span class="nc" id="L112">        StyleConstants.setForeground(err_att, Color.RED);</span>
+    }
+
+    public ScriptConsole() {
+<span class="nc" id="L116">        this(null, null);</span>
+<span class="nc" id="L117">    }</span>
+
+    public ScriptConsole(InputStream cin, OutputStream cout) {
+<span class="nc" id="L120">        super();</span>
+<span class="nc" id="L121">        indentOffset = &quot;&quot;;</span>
+
+        /*
+         * Special TextPane which catches for cut and paste, both L&amp;F keys and programmatic behaviour
+         */
+<span class="nc" id="L126">        text = new JTextPane(doc) {</span>
+            private static final long serialVersionUID = 1L;
+
+            public void cut() {
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                if (text.getCaretPosition() &lt; cmdStart) {</span>
+<span class="nc" id="L131">                    super.copy();</span>
+                } else {
+<span class="nc" id="L133">                    super.cut();</span>
+                }
+<span class="nc" id="L135">            }</span>
+
+            public void paste() {
+<span class="nc" id="L138">                forceCaretMoveToEnd();</span>
+<span class="nc" id="L139">                super.paste();</span>
+<span class="nc" id="L140">            }</span>
+        };
+
+<span class="nc" id="L143">        Font font = new Font(&quot;Monospaced&quot;, Font.PLAIN, 12);</span>
+<span class="nc" id="L144">        text.setText(&quot;&quot;);</span>
+<span class="nc" id="L145">        text.setFont(font);</span>
+<span class="nc" id="L146">        text.setMargin(new Insets(7, 5, 7, 5));</span>
+<span class="nc" id="L147">        text.addKeyListener(this);</span>
+<span class="nc" id="L148">        setViewportView(text);</span>
+
+        // create popup menu
+<span class="nc" id="L151">        menu = new JPopupMenu(&quot;JConsole	Menu&quot;);</span>
+<span class="nc" id="L152">        menu.add(new JMenuItem(CUT)).addActionListener(this);</span>
+<span class="nc" id="L153">        menu.add(new JMenuItem(COPY)).addActionListener(this);</span>
+<span class="nc" id="L154">        menu.add(new JMenuItem(PASTE)).addActionListener(this);</span>
+
+<span class="nc" id="L156">        text.addMouseListener(this);</span>
+
+<span class="nc" id="L158">        requestFocus();</span>
+
+<span class="nc" id="L160">        setStyle(Color.GREEN.darker());</span>
+<span class="nc" id="L161">        println(&quot;Welcome the scripting console!&quot;);</span>
+<span class="nc" id="L162">        setStyle(Color.black);</span>
+
+<span class="nc" id="L164">        addPrompt();</span>
+<span class="nc" id="L165">    }</span>
+
+    public void captureSystemOut(boolean mode) {
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (mode) {</span>
+<span class="nc" id="L169">            System.setOut(outPrintStream);</span>
+<span class="nc" id="L170">            System.setErr(outErrStream);</span>
+        } else {
+<span class="nc" id="L172">            System.setOut(defaultSystemOutput);</span>
+<span class="nc" id="L173">            System.setErr(defaultSystemError);</span>
+        }
+<span class="nc" id="L175">    }</span>
+
+    public InputStream getInputStream() {
+<span class="nc" id="L178">        return in;</span>
+    }
+
+    public Reader getIn() {
+<span class="nc" id="L182">        return new InputStreamReader(in);</span>
+    }
+
+    public void requestFocus() {
+<span class="nc" id="L186">        super.requestFocus();</span>
+<span class="nc" id="L187">        text.requestFocus();</span>
+<span class="nc" id="L188">    }</span>
+
+    public void keyPressed(KeyEvent e) {
+<span class="nc" id="L191">        type(e);</span>
+        // gotUp=false;
+<span class="nc" id="L193">    }</span>
+
+    public void keyTyped(KeyEvent e) {
+<span class="nc" id="L196">        type(e);</span>
+<span class="nc" id="L197">    }</span>
+
+    public void keyReleased(KeyEvent e) {
+        // gotUp=true;
+<span class="nc" id="L201">        type(e);</span>
+<span class="nc" id="L202">    }</span>
+
+    private void addPrompt() {
+<span class="nc" id="L205">        setStyle(Color.magenta);</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">        if (!multilineCommand) {</span>
+<span class="nc" id="L207">            append(&quot;&gt;&gt;&gt; &quot;);</span>
+        } else {
+<span class="nc" id="L209">            append(&quot;... &quot;);</span>
+        }
+        // append(indentOffset);
+<span class="nc" id="L212">        setStyle(Color.black);</span>
+<span class="nc" id="L213">        resetCommandStart();</span>
+<span class="nc" id="L214">    }</span>
+
+    private synchronized void type(KeyEvent e) {
+        /* Necessary for overcoming color bug */
+<span class="nc" id="L218">        setStyle(Color.black);</span>
+
+<span class="nc bnc" id="L220" title="All 11 branches missed.">        switch (e.getKeyCode()) {</span>
+        case (KeyEvent.VK_ENTER):
+<span class="nc bnc" id="L222" title="All 2 branches missed.">            if (e.getID() == KeyEvent.KEY_PRESSED) {</span>
+<span class="nc" id="L223">                enter();</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">                if (indentOffset.length() == 0) {</span>
+<span class="nc" id="L225">                    executeBuffer();</span>
+                }
+<span class="nc" id="L227">                blankLine();</span>
+<span class="nc" id="L228">                addPrompt();</span>
+<span class="nc" id="L229">                resetCommandStart();</span>
+<span class="nc" id="L230">                append(indentOffset);</span>
+<span class="nc" id="L231">                text.setCaretPosition(cmdStart + indentOffset.length());</span>
+            }
+<span class="nc" id="L233">            e.consume();</span>
+<span class="nc" id="L234">            text.repaint();</span>
+<span class="nc" id="L235">            break;</span>
+
+        case (KeyEvent.VK_UP):
+<span class="nc bnc" id="L238" title="All 2 branches missed.">            if (e.getID() == KeyEvent.KEY_PRESSED) {</span>
+<span class="nc" id="L239">                historyUp();</span>
+            }
+<span class="nc" id="L241">            e.consume();</span>
+<span class="nc" id="L242">            break;</span>
+
+        case (KeyEvent.VK_DOWN):
+<span class="nc bnc" id="L245" title="All 2 branches missed.">            if (e.getID() == KeyEvent.KEY_PRESSED) {</span>
+<span class="nc" id="L246">                historyDown();</span>
+            }
+<span class="nc" id="L248">            e.consume();</span>
+<span class="nc" id="L249">            break;</span>
+
+        case (KeyEvent.VK_LEFT):
+<span class="nc" id="L252">            break;</span>
+
+        case (KeyEvent.VK_BACK_SPACE):
+            // if (e.getID() == KeyEvent.KEY_PRESSED) {
+            // backspace();
+            // }
+            // e.consume();
+            // break;
+        case (KeyEvent.VK_DELETE):
+<span class="nc bnc" id="L261" title="All 2 branches missed.">            if (text.getCaretPosition() &lt;= cmdStart) {</span>
+                // This doesn't work for backspace.
+                // See default case for workaround
+<span class="nc" id="L264">                e.consume();</span>
+            }
+            break;
+
+        case (KeyEvent.VK_RIGHT):
+<span class="nc" id="L269">            forceCaretMoveToStart();</span>
+<span class="nc" id="L270">            break;</span>
+
+        case (KeyEvent.VK_HOME):
+<span class="nc" id="L273">            text.setCaretPosition(cmdStart);</span>
+<span class="nc" id="L274">            e.consume();</span>
+<span class="nc" id="L275">            break;</span>
+
+        case (KeyEvent.VK_U): // clear line
+<span class="nc bnc" id="L278" title="All 2 branches missed.">            if ((e.getModifiers() &amp; InputEvent.CTRL_MASK) &gt; 0) {</span>
+<span class="nc" id="L279">                replaceRange(&quot;&quot;, cmdStart, textLength());</span>
+<span class="nc" id="L280">                histLine = 0;</span>
+<span class="nc" id="L281">                e.consume();</span>
+            }
+            break;
+
+        case (KeyEvent.VK_ALT):
+        case (KeyEvent.VK_CAPS_LOCK):
+        case (KeyEvent.VK_CONTROL):
+        case (KeyEvent.VK_META):
+        case (KeyEvent.VK_SHIFT):
+        case (KeyEvent.VK_PRINTSCREEN):
+        case (KeyEvent.VK_SCROLL_LOCK):
+        case (KeyEvent.VK_PAUSE):
+        case (KeyEvent.VK_INSERT):
+        case (KeyEvent.VK_F1):
+        case (KeyEvent.VK_F2):
+        case (KeyEvent.VK_F3):
+        case (KeyEvent.VK_F4):
+        case (KeyEvent.VK_F5):
+        case (KeyEvent.VK_F6):
+        case (KeyEvent.VK_F7):
+        case (KeyEvent.VK_F8):
+        case (KeyEvent.VK_F9):
+        case (KeyEvent.VK_F10):
+        case (KeyEvent.VK_F11):
+        case (KeyEvent.VK_F12):
+        case (KeyEvent.VK_ESCAPE):
+
+            // only modifier pressed
+<span class="nc" id="L309">            break;</span>
+
+        // Control-C
+        case (KeyEvent.VK_C):
+<span class="nc bnc" id="L313" title="All 2 branches missed.">            if (text.getSelectedText() == null) {</span>
+<span class="nc bnc" id="L314" title="All 4 branches missed.">                if (((e.getModifiers() &amp; InputEvent.CTRL_MASK) &gt; 0) &amp;&amp; (e.getID() == KeyEvent.KEY_PRESSED)) {</span>
+<span class="nc" id="L315">                    append(&quot;^C&quot;);</span>
+                }
+<span class="nc" id="L317">                e.consume();</span>
+            }
+            break;
+
+        // case ( KeyEvent.VK_TAB ):
+        // if (e.getID() == KeyEvent.KEY_RELEASED) {
+        // String part = text.getText().substring( cmdStart );
+        // doCommandCompletion( part );
+        // }
+        // e.consume();
+        // break;
+
+        default:
+<span class="nc bnc" id="L330" title="All 2 branches missed.">            if ((e.getModifiers() &amp; (InputEvent.CTRL_MASK | InputEvent.ALT_MASK | InputEvent.META_MASK)) == 0) {</span>
+                // plain character
+<span class="nc" id="L332">                forceCaretMoveToEnd();</span>
+            }
+
+            /*
+             * The getKeyCode function always returns VK_UNDEFINED for keyTyped events, so backspace is not fully
+             * consumed.
+             */
+<span class="nc bnc" id="L339" title="All 2 branches missed.">            if (e.paramString().indexOf(&quot;Backspace&quot;) != -1) {</span>
+<span class="nc bnc" id="L340" title="All 2 branches missed.">                if (text.getCaretPosition() &lt;= cmdStart) {</span>
+<span class="nc" id="L341">                    e.consume();</span>
+                    break;
+                }
+            }
+
+            break;
+        }
+<span class="nc" id="L348">    }</span>
+
+    private void resetCommandStart() {
+<span class="nc" id="L351">        cmdStart = textLength();</span>
+<span class="nc" id="L352">    }</span>
+
+    private void append(String string) {
+<span class="nc" id="L355">        int slen = textLength();</span>
+<span class="nc" id="L356">        text.select(slen, slen);</span>
+<span class="nc" id="L357">        text.replaceSelection(string);</span>
+<span class="nc" id="L358">    }</span>
+
+    private String replaceRange(Object s, int start, int end) {
+<span class="nc" id="L361">        String st = s.toString();</span>
+<span class="nc" id="L362">        text.select(start, end);</span>
+<span class="nc" id="L363">        text.replaceSelection(st);</span>
+        // text.repaint();
+<span class="nc" id="L365">        return st;</span>
+    }
+
+    private void forceCaretMoveToEnd() {
+<span class="nc bnc" id="L369" title="All 2 branches missed.">        if (text.getCaretPosition() &lt; cmdStart) {</span>
+            // move caret first!
+<span class="nc" id="L371">            text.setCaretPosition(textLength());</span>
+        }
+<span class="nc" id="L373">        text.repaint();</span>
+<span class="nc" id="L374">    }</span>
+
+    private void forceCaretMoveToStart() {
+<span class="nc bnc" id="L377" title="All 2 branches missed.">        if (text.getCaretPosition() &lt; cmdStart) {</span>
+            // move caret first!
+        }
+<span class="nc" id="L380">        text.repaint();</span>
+<span class="nc" id="L381">    }</span>
+
+    private String getIndentation(String target) {
+<span class="nc bnc" id="L384" title="All 2 branches missed.">        if (target.length() == 0) {</span>
+<span class="nc" id="L385">            return &quot;&quot;;</span>
+        }
+<span class="nc bnc" id="L387" title="All 2 branches missed.">        if (target.startsWith(&quot; &quot;)) {</span>
+<span class="nc" id="L388">            return &quot; &quot; + getIndentation(target.substring(1));</span>
+        }
+<span class="nc" id="L390">        return &quot;&quot;;</span>
+    }
+
+    private void blankLine() {
+<span class="nc" id="L394">        String s = getCmd();</span>
+<span class="nc bnc" id="L395" title="All 2 branches missed.">        if (s.equals(indentOffset + &quot;\n&quot;)) {</span>
+<span class="nc" id="L396">            indentOffset = &quot;&quot;;</span>
+        }
+<span class="nc" id="L398">    }</span>
+
+    private void enter() {
+<span class="nc" id="L401">        String s = getCmd();</span>
+
+<span class="nc bnc" id="L403" title="All 2 branches missed.">        if (s.length() == 0) {</span>
+            // special hack for empty return!
+            // s = &quot;;\n&quot;;
+        } else {
+<span class="nc" id="L407">            history.addElement(s);</span>
+<span class="nc" id="L408">            s = s + &quot;\n&quot;;</span>
+        }
+
+<span class="nc" id="L411">        append(&quot;\n&quot;);</span>
+<span class="nc" id="L412">        histLine = 0;</span>
+<span class="nc" id="L413">        acceptLine(s);</span>
+<span class="nc" id="L414">        text.repaint();</span>
+
+<span class="nc" id="L416">        indentOffset = getIndentation(s);</span>
+<span class="nc bnc" id="L417" title="All 2 branches missed.">        if (isJython()) {</span>
+<span class="nc bnc" id="L418" title="All 2 branches missed.">            if (s.endsWith(&quot;:\n&quot;)) {</span>
+<span class="nc" id="L419">                indentOffset += &quot;    &quot;;</span>
+            }
+        }
+
+<span class="nc" id="L423">        multilineCommand = true; // will be reset to false in executeBuffer()</span>
+<span class="nc" id="L424">    }</span>
+
+    private boolean isJython() {
+<span class="nc bnc" id="L427" title="All 2 branches missed.">        if (this.scriptEngine == null) {</span>
+<span class="nc" id="L428">            return false;</span>
+        }
+<span class="nc" id="L430">        return scriptEngine.toString().equals(&quot;jython&quot;);</span>
+    }
+
+    private String getCmd() {
+<span class="nc" id="L434">        String s = &quot;&quot;;</span>
+        try {
+<span class="nc" id="L436">            s = text.getText(cmdStart, textLength() - cmdStart);</span>
+<span class="nc" id="L437">        } catch (BadLocationException e) {</span>
+            // should not happen
+<span class="nc" id="L439">            System.out.println(&quot;Internal JConsole Error: &quot; + e);</span>
+<span class="nc" id="L440">        }</span>
+<span class="nc" id="L441">        return s;</span>
+    }
+
+    private void historyUp() {
+<span class="nc bnc" id="L445" title="All 2 branches missed.">        if (history.size() == 0)</span>
+<span class="nc" id="L446">            return;</span>
+<span class="nc bnc" id="L447" title="All 2 branches missed.">        if (histLine == 0) // save current line</span>
+<span class="nc" id="L448">            startedLine = getCmd();</span>
+<span class="nc bnc" id="L449" title="All 2 branches missed.">        if (histLine &lt; history.size()) {</span>
+<span class="nc" id="L450">            histLine++;</span>
+<span class="nc" id="L451">            showHistoryLine();</span>
+        }
+<span class="nc" id="L453">    }</span>
+
+    private void historyDown() {
+<span class="nc bnc" id="L456" title="All 2 branches missed.">        if (histLine == 0)</span>
+<span class="nc" id="L457">            return;</span>
+
+<span class="nc" id="L459">        histLine--;</span>
+<span class="nc" id="L460">        showHistoryLine();</span>
+<span class="nc" id="L461">    }</span>
+
+    private void showHistoryLine() {
+        String showline;
+<span class="nc bnc" id="L465" title="All 2 branches missed.">        if (histLine == 0)</span>
+<span class="nc" id="L466">            showline = startedLine;</span>
+        else
+<span class="nc" id="L468">            showline = (String) history.elementAt(history.size() - histLine);</span>
+
+<span class="nc" id="L470">        replaceRange(showline, cmdStart, textLength());</span>
+<span class="nc" id="L471">        text.setCaretPosition(textLength());</span>
+<span class="nc" id="L472">        text.repaint();</span>
+<span class="nc" id="L473">    }</span>
+
+<span class="nc" id="L475">    String ZEROS = &quot;000&quot;;</span>
+
+    private void acceptLine(String line) {
+        // backup original line
+<span class="nc" id="L479">        String lineOrig = line;</span>
+        // Switch color to blue
+<span class="nc" id="L481">        setStyle(Color.blue);</span>
+        // Patch to handle Unicode characters
+        // Submitted by Daniel Leuck
+<span class="nc" id="L484">        StringBuffer buf = new StringBuffer();</span>
+<span class="nc" id="L485">        int lineLength = line.length();</span>
+<span class="nc bnc" id="L486" title="All 2 branches missed.">        for (int i = 0; i &lt; lineLength; i++) {</span>
+<span class="nc" id="L487">            String val = Integer.toString(line.charAt(i), 16);</span>
+<span class="nc" id="L488">            val = ZEROS.substring(0, 4 - val.length()) + val;</span>
+<span class="nc" id="L489">            buf.append(&quot;\\u&quot; + val);</span>
+        }
+<span class="nc" id="L491">        line = buf.toString();</span>
+        // End unicode patch
+
+        try {
+<span class="nc" id="L495">            addLineToExecutionBuffer(lineOrig);</span>
+<span class="nc" id="L496">        } catch (Exception e) {</span>
+<span class="nc" id="L497">            e.printStackTrace();</span>
+<span class="nc" id="L498">        }</span>
+        /* Restoring default black color */
+<span class="nc" id="L500">        setStyle(Color.black);</span>
+<span class="nc" id="L501">    }</span>
+
+    private void addLineToExecutionBuffer(String s) {
+        // executionBuffer.concat(s);
+<span class="nc" id="L505">        executionBuffer = executionBuffer + s;</span>
+<span class="nc" id="L506">    }</span>
+
+    private void executeBuffer() {
+<span class="nc" id="L509">        executeCommand(executionBuffer);</span>
+<span class="nc" id="L510">        executionBuffer = &quot;&quot;;</span>
+<span class="nc" id="L511">        multilineCommand = false;</span>
+<span class="nc" id="L512">        indentOffset = &quot;&quot;;</span>
+<span class="nc" id="L513">    }</span>
+
+    public void executeCommand(String command) {
+<span class="nc bnc" id="L516" title="All 2 branches missed.">        if (this.scriptEngine == null) {</span>
+<span class="nc" id="L517">            print(&quot;No script engine set. Cannot execute command.\n&quot;, Color.red);</span>
+<span class="nc" id="L518">            return;</span>
+        }
+<span class="nc" id="L520">        captureSystemOut(true);</span>
+<span class="nc" id="L521">        setStyle(Color.blue);</span>
+        try {
+<span class="nc" id="L523">            this.scriptEngine.eval(command);</span>
+<span class="nc" id="L524">        } catch (ScriptException e) {</span>
+<span class="nc" id="L525">            setStyle(Color.red);</span>
+<span class="nc" id="L526">            e.printStackTrace();</span>
+<span class="nc" id="L527">        }</span>
+<span class="nc" id="L528">        setStyle(Color.black);</span>
+<span class="nc" id="L529">        captureSystemOut(false);</span>
+<span class="nc" id="L530">    }</span>
+
+    public void println(Object o) {
+<span class="nc" id="L533">        print(String.valueOf(o) + &quot;\n&quot;);</span>
+<span class="nc" id="L534">        text.repaint();</span>
+<span class="nc" id="L535">    }</span>
+
+    public void setScriptEngine(ScriptEngine scriptEngine) {
+<span class="nc" id="L538">        this.scriptEngine = scriptEngine;</span>
+<span class="nc" id="L539">        AttributeSet style = setStyle(Color.green);</span>
+<span class="nc" id="L540">        println(&quot;New scriptEngine: '&quot; + scriptEngine.getFactory().getEngineName());</span>
+<span class="nc" id="L541">        setStyle(style);</span>
+<span class="nc" id="L542">    }</span>
+
+    public void print(final Object o) {
+<span class="nc" id="L545">        print(o, null, null);</span>
+<span class="nc" id="L546">    }</span>
+
+    /**
+     * Prints &quot;\\n&quot; (i.e. newline)
+     */
+    public void println() {
+<span class="nc" id="L552">        print(&quot;\n&quot;);</span>
+<span class="nc" id="L553">        text.repaint();</span>
+<span class="nc" id="L554">    }</span>
+
+    public void error(Object o) {
+<span class="nc" id="L557">        print(o, Color.red);</span>
+<span class="nc" id="L558">    }</span>
+
+    public void println(Icon icon) {
+<span class="nc" id="L561">        print(icon);</span>
+<span class="nc" id="L562">        println();</span>
+<span class="nc" id="L563">        text.repaint();</span>
+<span class="nc" id="L564">    }</span>
+
+    public void print(final Icon icon) {
+<span class="nc bnc" id="L567" title="All 2 branches missed.">        if (icon == null)</span>
+<span class="nc" id="L568">            return;</span>
+
+<span class="nc" id="L570">        invokeAndWait(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L572">                text.insertIcon(icon);</span>
+<span class="nc" id="L573">                resetCommandStart();</span>
+<span class="nc" id="L574">                text.setCaretPosition(cmdStart);</span>
+<span class="nc" id="L575">            }</span>
+        });
+<span class="nc" id="L577">    }</span>
+
+    public void print(Object s, Font font) {
+<span class="nc" id="L580">        print(s, font, null);</span>
+<span class="nc" id="L581">    }</span>
+
+    public void print(Object s, Color color) {
+<span class="nc" id="L584">        print(s, null, color);</span>
+<span class="nc" id="L585">    }</span>
+
+    public void print(final Object o, final Font font, final Color color) {
+<span class="nc" id="L588">        invokeAndWait(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L590">                AttributeSet old = getStyle();</span>
+<span class="nc" id="L591">                setStyle(font, color);</span>
+<span class="nc" id="L592">                append(String.valueOf(o));</span>
+<span class="nc" id="L593">                resetCommandStart();</span>
+<span class="nc" id="L594">                text.setCaretPosition(cmdStart);</span>
+<span class="nc" id="L595">                setStyle(old, true);</span>
+<span class="nc" id="L596">            }</span>
+        });
+<span class="nc" id="L598">    }</span>
+
+    public void print(Object s, String fontFamilyName, int size, Color color) {
+<span class="nc" id="L601">        print(s, fontFamilyName, size, color, false, false, false);</span>
+<span class="nc" id="L602">    }</span>
+
+    public void print(final Object o, final String fontFamilyName, final int size, final Color color,
+            final boolean bold, final boolean italic, final boolean underline) {
+<span class="nc" id="L606">        invokeAndWait(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L608">                AttributeSet old = getStyle();</span>
+<span class="nc" id="L609">                setStyle(fontFamilyName, size, color, bold, italic, underline);</span>
+<span class="nc" id="L610">                append(String.valueOf(o));</span>
+<span class="nc" id="L611">                resetCommandStart();</span>
+<span class="nc" id="L612">                text.setCaretPosition(cmdStart);</span>
+<span class="nc" id="L613">                setStyle(old, true);</span>
+<span class="nc" id="L614">            }</span>
+        });
+<span class="nc" id="L616">    }</span>
+
+    private AttributeSet setStyle(Color color) {
+<span class="nc" id="L619">        return setStyle(null, color);</span>
+    }
+
+    private AttributeSet setStyle(Font font, Color color) {
+<span class="nc bnc" id="L623" title="All 2 branches missed.">        if (font != null)</span>
+<span class="nc" id="L624">            return setStyle(font.getFamily(), font.getSize(), color, font.isBold(), font.isItalic(),</span>
+<span class="nc" id="L625">                    StyleConstants.isUnderline(getStyle()));</span>
+        else
+<span class="nc" id="L627">            return setStyle(null, -1, color);</span>
+    }
+
+    private AttributeSet setStyle(String fontFamilyName, int size, Color color) {
+<span class="nc" id="L631">        MutableAttributeSet attr = new SimpleAttributeSet();</span>
+<span class="nc bnc" id="L632" title="All 2 branches missed.">        if (color != null)</span>
+<span class="nc" id="L633">            StyleConstants.setForeground(attr, color);</span>
+<span class="nc bnc" id="L634" title="All 2 branches missed.">        if (fontFamilyName != null)</span>
+<span class="nc" id="L635">            StyleConstants.setFontFamily(attr, fontFamilyName);</span>
+<span class="nc bnc" id="L636" title="All 2 branches missed.">        if (size != -1)</span>
+<span class="nc" id="L637">            StyleConstants.setFontSize(attr, size);</span>
+
+<span class="nc" id="L639">        setStyle(attr);</span>
+
+<span class="nc" id="L641">        return getStyle();</span>
+    }
+
+    private AttributeSet setStyle(String fontFamilyName, int size, Color color, boolean bold, boolean italic,
+            boolean underline) {
+<span class="nc" id="L646">        MutableAttributeSet attr = new SimpleAttributeSet();</span>
+<span class="nc bnc" id="L647" title="All 2 branches missed.">        if (color != null)</span>
+<span class="nc" id="L648">            StyleConstants.setForeground(attr, color);</span>
+<span class="nc bnc" id="L649" title="All 2 branches missed.">        if (fontFamilyName != null)</span>
+<span class="nc" id="L650">            StyleConstants.setFontFamily(attr, fontFamilyName);</span>
+<span class="nc bnc" id="L651" title="All 2 branches missed.">        if (size != -1)</span>
+<span class="nc" id="L652">            StyleConstants.setFontSize(attr, size);</span>
+<span class="nc" id="L653">        StyleConstants.setBold(attr, bold);</span>
+<span class="nc" id="L654">        StyleConstants.setItalic(attr, italic);</span>
+<span class="nc" id="L655">        StyleConstants.setUnderline(attr, underline);</span>
+
+<span class="nc" id="L657">        setStyle(attr);</span>
+
+<span class="nc" id="L659">        return getStyle();</span>
+    }
+
+    private void setStyle(AttributeSet attributes) {
+<span class="nc" id="L663">        setStyle(attributes, false);</span>
+<span class="nc" id="L664">    }</span>
+
+    private void setStyle(AttributeSet attributes, boolean overWrite) {
+<span class="nc" id="L667">        text.setCharacterAttributes(attributes, overWrite);</span>
+<span class="nc" id="L668">    }</span>
+
+    private AttributeSet getStyle() {
+<span class="nc" id="L671">        return text.getCharacterAttributes();</span>
+    }
+
+    public void setFont(Font font) {
+<span class="nc" id="L675">        super.setFont(font);</span>
+
+<span class="nc bnc" id="L677" title="All 2 branches missed.">        if (text != null)</span>
+<span class="nc" id="L678">            text.setFont(font);</span>
+<span class="nc" id="L679">    }</span>
+
+    public String toString() {
+<span class="nc" id="L682">        return &quot;BeanShell console&quot;;</span>
+    }
+
+    // MouseListener Interface
+    public void mouseClicked(MouseEvent event) {
+<span class="nc" id="L687">    }</span>
+
+    public void mousePressed(MouseEvent event) {
+<span class="nc bnc" id="L690" title="All 2 branches missed.">        if (event.isPopupTrigger()) {</span>
+<span class="nc" id="L691">            menu.show((Component) event.getSource(), event.getX(), event.getY());</span>
+        }
+<span class="nc" id="L693">    }</span>
+
+    public void mouseReleased(MouseEvent event) {
+<span class="nc bnc" id="L696" title="All 2 branches missed.">        if (event.isPopupTrigger()) {</span>
+<span class="nc" id="L697">            menu.show((Component) event.getSource(), event.getX(), event.getY());</span>
+        }
+<span class="nc" id="L699">        text.repaint();</span>
+<span class="nc" id="L700">    }</span>
+
+    public void mouseEntered(MouseEvent event) {
+<span class="nc" id="L703">        giveFocusToConsole();</span>
+<span class="nc" id="L704">    }</span>
+
+    public void giveFocusToConsole() {
+<span class="nc" id="L707">        requestFocus();</span>
+<span class="nc" id="L708">        text.setCaretPosition(textLength());</span>
+<span class="nc" id="L709">    }</span>
+
+    // handle cut, copy and paste
+    public void actionPerformed(ActionEvent event) {
+<span class="nc" id="L713">        String cmd = event.getActionCommand();</span>
+<span class="nc bnc" id="L714" title="All 2 branches missed.">        if (cmd.equals(CUT)) {</span>
+<span class="nc" id="L715">            text.cut();</span>
+<span class="nc bnc" id="L716" title="All 2 branches missed.">        } else if (cmd.equals(COPY)) {</span>
+<span class="nc" id="L717">            text.copy();</span>
+<span class="nc bnc" id="L718" title="All 2 branches missed.">        } else if (cmd.equals(PASTE)) {</span>
+<span class="nc" id="L719">            text.paste();</span>
+        }
+<span class="nc" id="L721">    }</span>
+
+    /**
+     * If not in the event thread run via SwingUtilities.invokeAndWait()
+     */
+    private void invokeAndWait(Runnable run) {
+<span class="nc bnc" id="L727" title="All 2 branches missed.">        if (!SwingUtilities.isEventDispatchThread()) {</span>
+            try {
+<span class="nc" id="L729">                SwingUtilities.invokeAndWait(run);</span>
+<span class="nc" id="L730">            } catch (Exception e) {</span>
+                // shouldn't happen
+<span class="nc" id="L732">                e.printStackTrace();</span>
+<span class="nc" id="L733">            }</span>
+        } else {
+<span class="nc" id="L735">            run.run();</span>
+        }
+<span class="nc" id="L737">    }</span>
+
+    /**
+     * The overridden read method in this class will not throw &quot;Broken pipe&quot; IOExceptions; It will simply wait for new
+     * writers and data. This is used by the JConsole internal read thread to allow writers in different (and in
+     * particular ephemeral) threads to write to the pipe. It also checks a little more frequently than the original
+     * read(). Warning: read() will not even error on a read to an explicitly closed pipe (override closed to for that).
+     */
+    public static class BlockingPipedInputStream extends PipedInputStream {
+        boolean closed;
+
+        public BlockingPipedInputStream(PipedOutputStream pout) throws IOException {
+<span class="nc" id="L749">            super(pout);</span>
+<span class="nc" id="L750">        }</span>
+
+        public synchronized int read() throws IOException {
+<span class="nc bnc" id="L753" title="All 2 branches missed.">            if (closed)</span>
+<span class="nc" id="L754">                throw new IOException(&quot;stream closed&quot;);</span>
+
+<span class="nc bnc" id="L756" title="All 2 branches missed.">            while (super.in &lt; 0) { // While no data */</span>
+<span class="nc" id="L757">                notifyAll(); // Notify any writers to wake up</span>
+                try {
+<span class="nc" id="L759">                    wait(750);</span>
+<span class="nc" id="L760">                } catch (InterruptedException e) {</span>
+<span class="nc" id="L761">                    throw new InterruptedIOException();</span>
+<span class="nc" id="L762">                }</span>
+            }
+            // This is what the superclass does.
+<span class="nc" id="L765">            int ret = buffer[super.out++] &amp; 0xFF;</span>
+<span class="nc bnc" id="L766" title="All 2 branches missed.">            if (super.out &gt;= buffer.length)</span>
+<span class="nc" id="L767">                super.out = 0;</span>
+<span class="nc bnc" id="L768" title="All 2 branches missed.">            if (super.in == super.out)</span>
+<span class="nc" id="L769">                super.in = -1; /* now empty */</span>
+<span class="nc" id="L770">            return ret;</span>
+        }
+
+        public void close() throws IOException {
+<span class="nc" id="L774">            closed = true;</span>
+<span class="nc" id="L775">            super.close();</span>
+<span class="nc" id="L776">        }</span>
+    }
+
+    // public void setNameCompletion( NameCompletion nc ) {
+    // this.nameCompletion = nc;
+    // }
+
+    public void setWaitFeedback(boolean on) {
+<span class="nc bnc" id="L784" title="All 2 branches missed.">        if (on)</span>
+<span class="nc" id="L785">            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));</span>
+        else
+<span class="nc" id="L787">            setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));</span>
+<span class="nc" id="L788">    }</span>
+
+    private int textLength() {
+<span class="nc" id="L791">        return text.getDocument().getLength();</span>
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        /* nothing to do */
+<span class="nc" id="L797">    }</span>
+
+    private synchronized void print(byte[] b, ConsoleOutputStream os) {
+        try {
+<span class="nc bnc" id="L801" title="All 2 branches missed.">            doc.insertString(doc.getLength(), new String(b, 0, b.length), os == out ? out_att : err_att);</span>
+<span class="nc" id="L802">        } catch (BadLocationException e) {</span>
+<span class="nc" id="L803">            e.printStackTrace();</span>
+<span class="nc" id="L804">        }</span>
+<span class="nc" id="L805">    }</span>
+
+    /**
+     * OutputStream der Text in diesem JTextPane ausgibt
+     */
+    private class ConsoleOutputStream extends OutputStream {
+<span class="nc" id="L811">        private Queue&lt;Byte&gt; buffer = new LinkedList&lt;Byte&gt;();</span>
+        private boolean closed;
+
+<span class="nc" id="L814">        public ConsoleOutputStream() {</span>
+<span class="nc" id="L815">            closed = false;</span>
+<span class="nc" id="L816">        }</span>
+
+        @Override
+        public void write(int b) throws IOException {
+<span class="nc bnc" id="L820" title="All 2 branches missed.">            if (closed)</span>
+<span class="nc" id="L821">                throw new IOException(&quot;Stream closed&quot;);</span>
+<span class="nc" id="L822">            buffer.offer((byte) b);</span>
+<span class="nc" id="L823">        }</span>
+
+        @Override
+        public void flush() {
+<span class="nc bnc" id="L827" title="All 2 branches missed.">            if (output_able)</span>
+<span class="nc" id="L828">                synchronized (buffer) {</span>
+<span class="nc" id="L829">                    byte[] b = new byte[buffer.size()];</span>
+<span class="nc" id="L830">                    int cnt = 0;</span>
+<span class="nc bnc" id="L831" title="All 2 branches missed.">                    while (!buffer.isEmpty())</span>
+<span class="nc" id="L832">                        b[cnt++] = buffer.poll();</span>
+<span class="nc" id="L833">                    print(b, this);</span>
+<span class="nc" id="L834">                }</span>
+<span class="nc" id="L835">        }</span>
+
+        @Override
+        public void close() {
+<span class="nc" id="L839">            closed = true;</span>
+<span class="nc" id="L840">        }</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

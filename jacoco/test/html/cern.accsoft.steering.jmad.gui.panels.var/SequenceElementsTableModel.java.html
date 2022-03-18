@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SequenceElementsTableModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels.var</a> &gt; <span class="el_source">SequenceElementsTableModel.java</span></div><h1>SequenceElementsTableModel.java</h1><pre class="source lang-java linenums">/**
+ * Copyright (c) 2015 European Organisation for Nuclear Research (CERN), All Rights Reserved.
+ */
+
+package cern.accsoft.steering.jmad.gui.panels.var;
+
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
+import cern.accsoft.steering.jmad.domain.elem.Element;
+import com.google.common.collect.ImmutableList;
+
+<span class="fc" id="L14">public class SequenceElementsTableModel extends AbstractTableModel {</span>
+
+    private static final long serialVersionUID = 1L;
+
+<span class="fc" id="L18">    private List&lt;ElementPosition&gt; data = ImmutableList.of();</span>
+    private String modelName;
+
+    @Override
+    public int getRowCount() {
+<span class="nc" id="L23">        return data.size();</span>
+    }
+
+    @Override
+    public int getColumnCount() {
+<span class="fc" id="L28">        return 2;</span>
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+<span class="nc" id="L33">        ElementPosition rowElement = data.get(rowIndex);</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (columnIndex == 0) {</span>
+<span class="nc" id="L35">            return rowElement.element;</span>
+        }
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (columnIndex == 1) {</span>
+<span class="nc" id="L38">            return rowElement.position;</span>
+        }
+<span class="nc" id="L40">        return null;</span>
+    }
+
+    @Override
+    public String getColumnName(int column) {
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (column == 0) {</span>
+<span class="fc" id="L46">            return &quot;Element&quot;;</span>
+        }
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (column == 1) {</span>
+<span class="fc" id="L49">            return &quot;Position&quot;;</span>
+        }
+<span class="nc" id="L51">        return super.getColumnName(column);</span>
+    }
+
+    @Override
+    public Class&lt;?&gt; getColumnClass(int columnIndex) {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if (columnIndex == 0) {</span>
+<span class="nc" id="L57">            return Element.class;</span>
+        }
+<span class="nc" id="L59">        return Double.class;</span>
+    }
+
+    public void updateElements(List&lt;Element&gt; elements) {
+<span class="nc" id="L63">        ImmutableList.Builder&lt;ElementPosition&gt; builder = ImmutableList.builder();</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        for (Element element : elements) {</span>
+<span class="nc" id="L65">            builder.add(new ElementPosition(element, element.getPosition().getValue()));</span>
+<span class="nc" id="L66">        }</span>
+<span class="nc" id="L67">        this.data = builder.build();</span>
+<span class="nc" id="L68">        fireTableDataChanged();</span>
+<span class="nc" id="L69">    }</span>
+
+    public String getModelName() {
+<span class="nc" id="L72">        return modelName;</span>
+    }
+
+    public void setModelName(String modelName) {
+<span class="nc" id="L76">        this.modelName = modelName;</span>
+<span class="nc" id="L77">    }</span>
+
+    private static class ElementPosition {
+        private final Element element;
+        private final double position;
+
+<span class="nc" id="L83">        public ElementPosition(Element element, double position) {</span>
+<span class="nc" id="L84">            this.element = element;</span>
+<span class="nc" id="L85">            this.position = position;</span>
+<span class="nc" id="L86">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

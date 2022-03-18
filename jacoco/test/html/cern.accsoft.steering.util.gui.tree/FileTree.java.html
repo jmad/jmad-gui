@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FileTree.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.util.gui.tree</a> &gt; <span class="el_source">FileTree.java</span></div><h1>FileTree.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.util.gui.tree;
+
+/*
+ * Swing, Second Edition by Matthew Robinson, Pavel Vorobiev
+ */
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.File;
+import java.util.Vector;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+
+public class FileTree extends JFrame {
+    private static final long serialVersionUID = -5963248929237795732L;
+<span class="nc" id="L66">    public static final ImageIcon ICON_COMPUTER = new ImageIcon(&quot;computer.gif&quot;);</span>
+<span class="nc" id="L67">    public static final ImageIcon ICON_DISK = new ImageIcon(&quot;disk.gif&quot;);</span>
+<span class="nc" id="L68">    public static final ImageIcon ICON_FOLDER = new ImageIcon(&quot;folder.gif&quot;);</span>
+<span class="nc" id="L69">    public static final ImageIcon ICON_EXPANDEDFOLDER = new ImageIcon(&quot;expandedfolder.gif&quot;);</span>
+
+    protected JTree m_tree;
+    protected DefaultTreeModel m_model;
+    protected JTextField m_display;
+
+    // NEW
+    protected JPopupMenu m_popup;
+    protected Action m_action;
+    protected TreePath m_clickedPath;
+
+    public FileTree() {
+<span class="nc" id="L81">        super(&quot;Directories Tree [Popup Menus]&quot;);</span>
+<span class="nc" id="L82">        setSize(400, 300);</span>
+
+<span class="nc" id="L84">        DefaultMutableTreeNode top = new DefaultMutableTreeNode(new IconData(ICON_COMPUTER, null, &quot;Computer&quot;));</span>
+
+        DefaultMutableTreeNode node;
+<span class="nc" id="L87">        File[] roots = File.listRoots();</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        for (int k = 0; k &lt; roots.length; k++) {</span>
+<span class="nc" id="L89">            node = new DefaultMutableTreeNode(new IconData(ICON_DISK, null, new FileNode(roots[k])));</span>
+<span class="nc" id="L90">            top.add(node);</span>
+<span class="nc" id="L91">            node.add(new DefaultMutableTreeNode(new Boolean(true)));</span>
+        }
+
+<span class="nc" id="L94">        m_model = new DefaultTreeModel(top);</span>
+<span class="nc" id="L95">        m_tree = new JTree(m_model);</span>
+
+<span class="nc" id="L97">        m_tree.putClientProperty(&quot;JTree.lineStyle&quot;, &quot;Angled&quot;);</span>
+
+<span class="nc" id="L99">        TreeCellRenderer renderer = new IconCellRenderer();</span>
+<span class="nc" id="L100">        m_tree.setCellRenderer(renderer);</span>
+
+<span class="nc" id="L102">        m_tree.addTreeExpansionListener(new DirExpansionListener());</span>
+
+<span class="nc" id="L104">        m_tree.addTreeSelectionListener(new DirSelectionListener());</span>
+
+<span class="nc" id="L106">        m_tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);</span>
+<span class="nc" id="L107">        m_tree.setShowsRootHandles(true);</span>
+<span class="nc" id="L108">        m_tree.setEditable(false);</span>
+
+<span class="nc" id="L110">        JScrollPane s = new JScrollPane();</span>
+<span class="nc" id="L111">        s.getViewport().add(m_tree);</span>
+<span class="nc" id="L112">        getContentPane().add(s, BorderLayout.CENTER);</span>
+
+<span class="nc" id="L114">        m_display = new JTextField();</span>
+<span class="nc" id="L115">        m_display.setEditable(false);</span>
+<span class="nc" id="L116">        getContentPane().add(m_display, BorderLayout.NORTH);</span>
+
+        // NEW
+<span class="nc" id="L119">        m_popup = new JPopupMenu();</span>
+<span class="nc" id="L120">        m_action = new AbstractAction() {</span>
+            private static final long serialVersionUID = 5047958263478433364L;
+
+            public void actionPerformed(ActionEvent e) {
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                if (m_clickedPath == null)</span>
+<span class="nc" id="L125">                    return;</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">                if (m_tree.isExpanded(m_clickedPath))</span>
+<span class="nc" id="L127">                    m_tree.collapsePath(m_clickedPath);</span>
+                else
+<span class="nc" id="L129">                    m_tree.expandPath(m_clickedPath);</span>
+<span class="nc" id="L130">            }</span>
+        };
+<span class="nc" id="L132">        m_popup.add(m_action);</span>
+<span class="nc" id="L133">        m_popup.addSeparator();</span>
+
+<span class="nc" id="L135">        Action a1 = new AbstractAction(&quot;Delete&quot;) {</span>
+            private static final long serialVersionUID = 4068668545164395276L;
+
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L139">                m_tree.repaint();</span>
+<span class="nc" id="L140">                JOptionPane.showMessageDialog(FileTree.this, &quot;Delete option is not implemented&quot;, &quot;Info&quot;,</span>
+                        JOptionPane.INFORMATION_MESSAGE);
+<span class="nc" id="L142">            }</span>
+        };
+<span class="nc" id="L144">        m_popup.add(a1);</span>
+
+<span class="nc" id="L146">        Action a2 = new AbstractAction(&quot;Rename&quot;) {</span>
+            private static final long serialVersionUID = -2379914044256599884L;
+
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L150">                m_tree.repaint();</span>
+<span class="nc" id="L151">                JOptionPane.showMessageDialog(FileTree.this, &quot;Rename option is not implemented&quot;, &quot;Info&quot;,</span>
+                        JOptionPane.INFORMATION_MESSAGE);
+<span class="nc" id="L153">            }</span>
+        };
+<span class="nc" id="L155">        m_popup.add(a2);</span>
+<span class="nc" id="L156">        m_tree.add(m_popup);</span>
+<span class="nc" id="L157">        m_tree.addMouseListener(new PopupTrigger());</span>
+
+<span class="nc" id="L159">        WindowListener wndCloser = new WindowAdapter() {</span>
+            public void windowClosing(WindowEvent e) {
+<span class="nc" id="L161">                System.exit(0);</span>
+<span class="nc" id="L162">            }</span>
+        };
+<span class="nc" id="L164">        addWindowListener(wndCloser);</span>
+
+<span class="nc" id="L166">        setVisible(true);</span>
+<span class="nc" id="L167">    }</span>
+
+    DefaultMutableTreeNode getTreeNode(TreePath path) {
+<span class="nc" id="L170">        return (DefaultMutableTreeNode) (path.getLastPathComponent());</span>
+    }
+
+    FileNode getFileNode(DefaultMutableTreeNode node) {
+<span class="nc bnc" id="L174" title="All 2 branches missed.">        if (node == null)</span>
+<span class="nc" id="L175">            return null;</span>
+<span class="nc" id="L176">        Object obj = node.getUserObject();</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        if (obj instanceof IconData)</span>
+<span class="nc" id="L178">            obj = ((IconData) obj).getObject();</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        if (obj instanceof FileNode)</span>
+<span class="nc" id="L180">            return (FileNode) obj;</span>
+        else
+<span class="nc" id="L182">            return null;</span>
+    }
+
+    // NEW
+<span class="nc" id="L186">    class PopupTrigger extends MouseAdapter {</span>
+        public void mouseReleased(MouseEvent e) {
+<span class="nc bnc" id="L188" title="All 2 branches missed.">            if (e.isPopupTrigger()) {</span>
+<span class="nc" id="L189">                int x = e.getX();</span>
+<span class="nc" id="L190">                int y = e.getY();</span>
+<span class="nc" id="L191">                TreePath path = m_tree.getPathForLocation(x, y);</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">                if (path != null) {</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">                    if (m_tree.isExpanded(path))</span>
+<span class="nc" id="L194">                        m_action.putValue(Action.NAME, &quot;Collapse&quot;);</span>
+                    else
+<span class="nc" id="L196">                        m_action.putValue(Action.NAME, &quot;Expand&quot;);</span>
+<span class="nc" id="L197">                    m_popup.show(m_tree, x, y);</span>
+<span class="nc" id="L198">                    m_clickedPath = path;</span>
+                }
+            }
+<span class="nc" id="L201">        }</span>
+    }
+
+    // Make sure expansion is threaded and updating the tree model
+    // only occurs within the event dispatching thread.
+<span class="nc" id="L206">    class DirExpansionListener implements TreeExpansionListener {</span>
+        public void treeExpanded(TreeExpansionEvent event) {
+<span class="nc" id="L208">            final DefaultMutableTreeNode node = getTreeNode(event.getPath());</span>
+<span class="nc" id="L209">            final FileNode fnode = getFileNode(node);</span>
+
+<span class="nc" id="L211">            Thread runner = new Thread() {</span>
+                public void run() {
+<span class="nc bnc" id="L213" title="All 4 branches missed.">                    if (fnode != null &amp;&amp; fnode.expand(node)) {</span>
+<span class="nc" id="L214">                        Runnable runnable = new Runnable() {</span>
+                            public void run() {
+<span class="nc" id="L216">                                m_model.reload(node);</span>
+<span class="nc" id="L217">                            }</span>
+                        };
+<span class="nc" id="L219">                        SwingUtilities.invokeLater(runnable);</span>
+                    }
+<span class="nc" id="L221">                }</span>
+            };
+<span class="nc" id="L223">            runner.start();</span>
+<span class="nc" id="L224">        }</span>
+
+        public void treeCollapsed(TreeExpansionEvent event) {
+<span class="nc" id="L227">        }</span>
+    }
+
+<span class="nc" id="L230">    class DirSelectionListener implements TreeSelectionListener {</span>
+        public void valueChanged(TreeSelectionEvent event) {
+<span class="nc" id="L232">            DefaultMutableTreeNode node = getTreeNode(event.getPath());</span>
+<span class="nc" id="L233">            FileNode fnode = getFileNode(node);</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">            if (fnode != null)</span>
+<span class="nc" id="L235">                m_display.setText(fnode.getFile().getAbsolutePath());</span>
+            else
+<span class="nc" id="L237">                m_display.setText(&quot;&quot;);</span>
+<span class="nc" id="L238">        }</span>
+    }
+
+    public static void main(String argv[]) {
+<span class="nc" id="L242">        new FileTree();</span>
+<span class="nc" id="L243">    }</span>
+}
+
+class IconCellRenderer extends JLabel implements TreeCellRenderer {
+    private static final long serialVersionUID = 142633074710532101L;
+    protected Color m_textSelectionColor;
+    protected Color m_textNonSelectionColor;
+    protected Color m_bkSelectionColor;
+    protected Color m_bkNonSelectionColor;
+    protected Color m_borderSelectionColor;
+
+    protected boolean m_selected;
+
+    public IconCellRenderer() {
+<span class="nc" id="L257">        super();</span>
+<span class="nc" id="L258">        m_textSelectionColor = UIManager.getColor(&quot;Tree.selectionForeground&quot;);</span>
+<span class="nc" id="L259">        m_textNonSelectionColor = UIManager.getColor(&quot;Tree.textForeground&quot;);</span>
+<span class="nc" id="L260">        m_bkSelectionColor = UIManager.getColor(&quot;Tree.selectionBackground&quot;);</span>
+<span class="nc" id="L261">        m_bkNonSelectionColor = UIManager.getColor(&quot;Tree.textBackground&quot;);</span>
+<span class="nc" id="L262">        m_borderSelectionColor = UIManager.getColor(&quot;Tree.selectionBorderColor&quot;);</span>
+<span class="nc" id="L263">        setOpaque(false);</span>
+<span class="nc" id="L264">    }</span>
+
+    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded,
+            boolean leaf, int row, boolean hasFocus)
+
+    {
+<span class="nc" id="L270">        DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;</span>
+<span class="nc" id="L271">        Object obj = node.getUserObject();</span>
+<span class="nc" id="L272">        setText(obj.toString());</span>
+
+<span class="nc bnc" id="L274" title="All 2 branches missed.">        if (obj instanceof Boolean)</span>
+<span class="nc" id="L275">            setText(&quot;Retrieving data...&quot;);</span>
+
+<span class="nc bnc" id="L277" title="All 2 branches missed.">        if (obj instanceof IconData) {</span>
+<span class="nc" id="L278">            IconData idata = (IconData) obj;</span>
+<span class="nc bnc" id="L279" title="All 2 branches missed.">            if (expanded)</span>
+<span class="nc" id="L280">                setIcon(idata.getExpandedIcon());</span>
+            else
+<span class="nc" id="L282">                setIcon(idata.getIcon());</span>
+<span class="nc" id="L283">        } else</span>
+<span class="nc" id="L284">            setIcon(null);</span>
+
+<span class="nc" id="L286">        setFont(tree.getFont());</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">        setForeground(sel ? m_textSelectionColor : m_textNonSelectionColor);</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">        setBackground(sel ? m_bkSelectionColor : m_bkNonSelectionColor);</span>
+<span class="nc" id="L289">        m_selected = sel;</span>
+<span class="nc" id="L290">        return this;</span>
+    }
+
+    public void paintComponent(Graphics g) {
+<span class="nc" id="L294">        Color bColor = getBackground();</span>
+<span class="nc" id="L295">        Icon icon = getIcon();</span>
+
+<span class="nc" id="L297">        g.setColor(bColor);</span>
+<span class="nc" id="L298">        int offset = 0;</span>
+<span class="nc bnc" id="L299" title="All 4 branches missed.">        if (icon != null &amp;&amp; getText() != null)</span>
+<span class="nc" id="L300">            offset = (icon.getIconWidth() + getIconTextGap());</span>
+<span class="nc" id="L301">        g.fillRect(offset, 0, getWidth() - 1 - offset, getHeight() - 1);</span>
+
+<span class="nc bnc" id="L303" title="All 2 branches missed.">        if (m_selected) {</span>
+<span class="nc" id="L304">            g.setColor(m_borderSelectionColor);</span>
+<span class="nc" id="L305">            g.drawRect(offset, 0, getWidth() - 1 - offset, getHeight() - 1);</span>
+        }
+
+<span class="nc" id="L308">        super.paintComponent(g);</span>
+<span class="nc" id="L309">    }</span>
+}
+
+class IconData {
+    protected Icon m_icon;
+    protected Icon m_expandedIcon;
+    protected Object m_data;
+
+<span class="nc" id="L317">    public IconData(Icon icon, Object data) {</span>
+<span class="nc" id="L318">        m_icon = icon;</span>
+<span class="nc" id="L319">        m_expandedIcon = null;</span>
+<span class="nc" id="L320">        m_data = data;</span>
+<span class="nc" id="L321">    }</span>
+
+<span class="nc" id="L323">    public IconData(Icon icon, Icon expandedIcon, Object data) {</span>
+<span class="nc" id="L324">        m_icon = icon;</span>
+<span class="nc" id="L325">        m_expandedIcon = expandedIcon;</span>
+<span class="nc" id="L326">        m_data = data;</span>
+<span class="nc" id="L327">    }</span>
+
+    public Icon getIcon() {
+<span class="nc" id="L330">        return m_icon;</span>
+    }
+
+    public Icon getExpandedIcon() {
+<span class="nc bnc" id="L334" title="All 2 branches missed.">        return m_expandedIcon != null ? m_expandedIcon : m_icon;</span>
+    }
+
+    public Object getObject() {
+<span class="nc" id="L338">        return m_data;</span>
+    }
+
+    public String toString() {
+<span class="nc" id="L342">        return m_data.toString();</span>
+    }
+}
+
+class FileNode {
+    protected File m_file;
+
+<span class="nc" id="L349">    public FileNode(File file) {</span>
+<span class="nc" id="L350">        m_file = file;</span>
+<span class="nc" id="L351">    }</span>
+
+    public File getFile() {
+<span class="nc" id="L354">        return m_file;</span>
+    }
+
+    public String toString() {
+<span class="nc bnc" id="L358" title="All 2 branches missed.">        return m_file.getName().length() &gt; 0 ? m_file.getName() : m_file.getPath();</span>
+    }
+
+    public boolean expand(DefaultMutableTreeNode parent) {
+<span class="nc" id="L362">        DefaultMutableTreeNode flag = (DefaultMutableTreeNode) parent.getFirstChild();</span>
+<span class="nc bnc" id="L363" title="All 2 branches missed.">        if (flag == null) // No flag</span>
+<span class="nc" id="L364">            return false;</span>
+<span class="nc" id="L365">        Object obj = flag.getUserObject();</span>
+<span class="nc bnc" id="L366" title="All 2 branches missed.">        if (!(obj instanceof Boolean))</span>
+<span class="nc" id="L367">            return false; // Already expanded</span>
+
+<span class="nc" id="L369">        parent.removeAllChildren(); // Remove Flag</span>
+
+<span class="nc" id="L371">        File[] files = listFiles();</span>
+<span class="nc bnc" id="L372" title="All 2 branches missed.">        if (files == null)</span>
+<span class="nc" id="L373">            return true;</span>
+
+<span class="nc" id="L375">        Vector&lt;Object&gt; v = new Vector&lt;Object&gt;();</span>
+
+<span class="nc bnc" id="L377" title="All 2 branches missed.">        for (int k = 0; k &lt; files.length; k++) {</span>
+<span class="nc" id="L378">            File f = files[k];</span>
+<span class="nc bnc" id="L379" title="All 2 branches missed.">            if (!(f.isDirectory()))</span>
+<span class="nc" id="L380">                continue;</span>
+
+<span class="nc" id="L382">            FileNode newNode = new FileNode(f);</span>
+
+<span class="nc" id="L384">            boolean isAdded = false;</span>
+<span class="nc bnc" id="L385" title="All 2 branches missed.">            for (int i = 0; i &lt; v.size(); i++) {</span>
+<span class="nc" id="L386">                FileNode nd = (FileNode) v.elementAt(i);</span>
+<span class="nc bnc" id="L387" title="All 2 branches missed.">                if (newNode.compareTo(nd) &lt; 0) {</span>
+<span class="nc" id="L388">                    v.insertElementAt(newNode, i);</span>
+<span class="nc" id="L389">                    isAdded = true;</span>
+<span class="nc" id="L390">                    break;</span>
+                }
+            }
+<span class="nc bnc" id="L393" title="All 2 branches missed.">            if (!isAdded)</span>
+<span class="nc" id="L394">                v.addElement(newNode);</span>
+        }
+
+<span class="nc bnc" id="L397" title="All 2 branches missed.">        for (int i = 0; i &lt; v.size(); i++) {</span>
+<span class="nc" id="L398">            FileNode nd = (FileNode) v.elementAt(i);</span>
+<span class="nc" id="L399">            IconData idata = new IconData(FileTree.ICON_FOLDER, FileTree.ICON_EXPANDEDFOLDER, nd);</span>
+<span class="nc" id="L400">            DefaultMutableTreeNode node = new DefaultMutableTreeNode(idata);</span>
+<span class="nc" id="L401">            parent.add(node);</span>
+
+<span class="nc bnc" id="L403" title="All 2 branches missed.">            if (nd.hasSubDirs())</span>
+<span class="nc" id="L404">                node.add(new DefaultMutableTreeNode(new Boolean(true)));</span>
+        }
+
+<span class="nc" id="L407">        return true;</span>
+    }
+
+    public boolean hasSubDirs() {
+<span class="nc" id="L411">        File[] files = listFiles();</span>
+<span class="nc bnc" id="L412" title="All 2 branches missed.">        if (files == null)</span>
+<span class="nc" id="L413">            return false;</span>
+<span class="nc bnc" id="L414" title="All 2 branches missed.">        for (int k = 0; k &lt; files.length; k++) {</span>
+<span class="nc bnc" id="L415" title="All 2 branches missed.">            if (files[k].isDirectory())</span>
+<span class="nc" id="L416">                return true;</span>
+        }
+<span class="nc" id="L418">        return false;</span>
+    }
+
+    public int compareTo(FileNode toCompare) {
+<span class="nc" id="L422">        return m_file.getName().compareToIgnoreCase(toCompare.m_file.getName());</span>
+    }
+
+    protected File[] listFiles() {
+<span class="nc bnc" id="L426" title="All 2 branches missed.">        if (!m_file.isDirectory())</span>
+<span class="nc" id="L427">            return null;</span>
+        try {
+<span class="nc" id="L429">            return m_file.listFiles();</span>
+<span class="nc" id="L430">        } catch (Exception ex) {</span>
+<span class="nc" id="L431">            JOptionPane.showMessageDialog(null, &quot;Error reading directory &quot; + m_file.getAbsolutePath(), &quot;Warning&quot;,</span>
+                    JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L433">            return null;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

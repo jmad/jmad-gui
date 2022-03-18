@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ElementSelectionManagerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.manage.impl</a> &gt; <span class="el_source">ElementSelectionManagerImpl.java</span></div><h1>ElementSelectionManagerImpl.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.manage.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cern.accsoft.steering.jmad.domain.elem.Element;
+import cern.accsoft.steering.jmad.gui.manage.AbstractObservableManager;
+import cern.accsoft.steering.jmad.gui.manage.ElementSelectionManager;
+import cern.accsoft.steering.jmad.gui.manage.ElementSelectionManagerListener;
+
+/**
+ * default implementation of the {@link ElementSelectionManager}. It keepos track of all the elements that are currently
+ * selected.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="fc" id="L39">public class ElementSelectionManagerImpl extends AbstractObservableManager&lt;ElementSelectionManagerListener&gt; implements</span>
+        ElementSelectionManager {
+
+    /** All the selected elements */
+<span class="fc" id="L43">    private List&lt;Element&gt; selectedElements = new ArrayList&lt;Element&gt;();</span>
+
+    /** The most recently selected element */
+<span class="fc" id="L46">    private Element selectedElement = null;</span>
+
+    @Override
+    public Element getSelectedElement() {
+<span class="nc" id="L50">        return this.selectedElement;</span>
+    }
+
+    @Override
+    public List&lt;Element&gt; getSelectedElements() {
+<span class="nc" id="L55">        return this.selectedElements;</span>
+    }
+
+    /**
+     * notifies all the listeners that the selected elements have changed.
+     */
+    private void notifiyListenersChangedSelectedElements() {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        for (ElementSelectionManagerListener listener : getListeners()) {</span>
+<span class="nc" id="L63">            listener.changedSelectedElements(this.selectedElements, this.selectedElement);</span>
+<span class="nc" id="L64">        }</span>
+<span class="nc" id="L65">    }</span>
+
+    @Override
+    public void setSelectedElements(List&lt;Element&gt; selectedElements, Element selectedElement) {
+<span class="nc" id="L69">        this.selectedElements = selectedElements;</span>
+<span class="nc" id="L70">        this.selectedElement = selectedElement;</span>
+<span class="nc" id="L71">        notifiyListenersChangedSelectedElements();</span>
+<span class="nc" id="L72">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

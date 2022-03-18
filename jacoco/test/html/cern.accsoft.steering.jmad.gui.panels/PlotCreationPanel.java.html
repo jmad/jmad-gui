@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlotCreationPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels</a> &gt; <span class="el_source">PlotCreationPanel.java</span></div><h1>PlotCreationPanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels;
+
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.plaf.TabbedPaneUI;
+
+import cern.accsoft.steering.jmad.domain.var.TwissVariable;
+import cern.accsoft.steering.jmad.domain.var.enums.MadxTwissVariable;
+import cern.accsoft.steering.jmad.gui.data.TfsResultDataSet.TfsResultDataSetType;
+import cern.accsoft.steering.jmad.gui.manage.TfsDataSetManager;
+import cern.accsoft.steering.jmad.gui.panels.var.AllVarSelectionPanel;
+import cern.accsoft.steering.jmad.gui.panels.var.MadxVarSelector;
+import cern.accsoft.steering.jmad.gui.panels.var.SelectedVarManager;
+import cern.accsoft.steering.jmad.gui.panels.var.SelectedVarManager.VarSelectionMode;
+import cern.accsoft.steering.jmad.gui.panels.var.SelectedVarManagerImpl;
+import cern.accsoft.steering.util.gui.panels.Applyable;
+import cern.accsoft.steering.util.gui.panels.Titleable;
+
+/**
+ * This panel allows the creation of different datasets.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="fc" id="L61">public abstract class PlotCreationPanel extends JPanel implements Titleable, Applyable {</span>
+    private static final long serialVersionUID = -8324977554578482096L;
+
+    /** The maximum amount of y-panels */
+    private final static int MAX_Y_PANELS = 9;
+
+    /** The dataset manager */
+<span class="fc" id="L68">    private TfsDataSetManager tfsDataSetManager = null;</span>
+
+    /*
+     * some gui-components we need
+     */
+<span class="fc" id="L73">    private JTextField txtName = null;</span>
+<span class="fc" id="L74">    private JComboBox cboTfsDataSetType = null;</span>
+<span class="fc" id="L75">    private JTabbedPane varSelTabPane = null;</span>
+<span class="fc" id="L76">    private AllVarSelectionPanel xPanel = null;</span>
+<span class="fc" id="L77">    private List&lt;AllVarSelectionPanel&gt; yPanels = new ArrayList&lt;AllVarSelectionPanel&gt;();</span>
+
+    /** just a panel to add, where a click creates a new panel */
+<span class="fc" id="L80">    private JPanel newYPanel = new JPanel();</span>
+
+    /** just a panel to add, where a click deletes the last panel */
+<span class="fc" id="L83">    private JPanel delLastYPanel = new JPanel();</span>
+
+    /**
+     * initializes the components.
+     */
+    public void initComponents() {
+<span class="fc" id="L89">        setLayout(new GridBagLayout());</span>
+<span class="fc" id="L90">        setPreferredSize(new Dimension(300, 300));</span>
+
+<span class="fc" id="L92">        GridBagConstraints constraints = new GridBagConstraints();</span>
+<span class="fc" id="L93">        constraints.gridx = 0;</span>
+<span class="fc" id="L94">        constraints.gridy = 0;</span>
+<span class="fc" id="L95">        constraints.weighty = 0;</span>
+<span class="fc" id="L96">        constraints.fill = GridBagConstraints.BOTH;</span>
+
+        JLabel label;
+<span class="fc" id="L99">        label = new JLabel(&quot;Name:&quot;);</span>
+<span class="fc" id="L100">        add(label, constraints);</span>
+
+<span class="fc" id="L102">        constraints.gridx++;</span>
+<span class="fc" id="L103">        constraints.weightx = 1;</span>
+<span class="fc" id="L104">        txtName = new JTextField();</span>
+<span class="fc" id="L105">        txtName.setToolTipText(&quot;The name of the new chart.&quot;);</span>
+<span class="fc" id="L106">        add(txtName, constraints);</span>
+
+<span class="fc" id="L108">        constraints.gridx = 0;</span>
+<span class="fc" id="L109">        constraints.gridwidth = 2;</span>
+<span class="fc" id="L110">        constraints.gridy++;</span>
+<span class="fc" id="L111">        constraints.weightx = 1;</span>
+<span class="fc" id="L112">        constraints.weighty = 0;</span>
+<span class="fc" id="L113">        cboTfsDataSetType = new JComboBox(TfsResultDataSetType.values());</span>
+<span class="fc" id="L114">        cboTfsDataSetType.setSelectedItem(TfsResultDataSetType.ABSOLUTE);</span>
+<span class="fc" id="L115">        cboTfsDataSetType.setToolTipText(&quot;Selects the type of datasat (absolute, relative ...)&quot;);</span>
+<span class="fc" id="L116">        add(cboTfsDataSetType, constraints);</span>
+
+<span class="fc" id="L118">        constraints.gridy++;</span>
+<span class="fc" id="L119">        constraints.weighty = 1;</span>
+        /*
+         * the panels to select the variables
+         */
+<span class="fc" id="L123">        this.varSelTabPane = new JTabbedPane();</span>
+<span class="fc" id="L124">        varSelTabPane.setTabPlacement(JTabbedPane.LEFT);</span>
+<span class="fc" id="L125">        add(varSelTabPane, constraints);</span>
+
+        /* for x-axis: only one var selectable */
+<span class="fc" id="L128">        this.xPanel = createAnotherVariableSelectionPanel(VarSelectionMode.SINGLE, MadxTwissVariable.S);</span>
+<span class="fc" id="L129">        varSelTabPane.addTab(&quot;x&quot;, xPanel);</span>
+
+        /* per default: create one y-panel */
+<span class="fc" id="L132">        AllVarSelectionPanel yPanel = createAnotherVariableSelectionPanel(VarSelectionMode.MULTIPLE, null);</span>
+<span class="fc" id="L133">        this.yPanels.add(yPanel);</span>
+<span class="fc" id="L134">        varSelTabPane.addTab(&quot;y&quot;, yPanel);</span>
+
+<span class="fc" id="L136">        varSelTabPane.addTab(&quot;+&quot;, this.newYPanel);</span>
+
+<span class="fc" id="L138">        varSelTabPane.setSelectedComponent(yPanel);</span>
+
+<span class="fc" id="L140">        varSelTabPane.addMouseListener(new MouseAdapter() {</span>
+<span class="fc" id="L141">            private Boolean editing = false;</span>
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+<span class="nc" id="L145">                synchronized (editing) {</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                    if (editing) {</span>
+<span class="nc" id="L147">                        return;</span>
+                    }
+<span class="nc" id="L149">                }</span>
+<span class="nc" id="L150">                editing = true;</span>
+<span class="nc" id="L151">                TabbedPaneUI ui = varSelTabPane.getUI();</span>
+<span class="nc" id="L152">                int tab = ui.tabForCoordinate(varSelTabPane, e.getX(), e.getY());</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">                if (tab &gt;= 0) {</span>
+<span class="nc" id="L154">                    JComponent selectedComponent = (JComponent) varSelTabPane.getComponentAt(tab);</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">                    if (selectedComponent == newYPanel) {</span>
+<span class="nc" id="L156">                        addRemoveYPanel(true);</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">                    } else if (selectedComponent == delLastYPanel) {</span>
+<span class="nc" id="L158">                        addRemoveYPanel(false);</span>
+                    }
+                }
+<span class="nc" id="L161">                synchronized (editing) {</span>
+<span class="nc" id="L162">                    editing = false;</span>
+<span class="nc" id="L163">                }</span>
+<span class="nc" id="L164">            }</span>
+        });
+<span class="fc" id="L166">    }</span>
+
+    /**
+     * Create a new y-panel and adds it to the tabs
+     */
+    private void addRemoveYPanel(boolean add) {
+        /*
+         * first of all we remove the 'plus tab'
+         */
+<span class="nc" id="L175">        varSelTabPane.remove(this.newYPanel);</span>
+<span class="nc" id="L176">        varSelTabPane.remove(this.delLastYPanel);</span>
+
+<span class="nc" id="L178">        AllVarSelectionPanel yPanel = null;</span>
+
+<span class="nc bnc" id="L180" title="All 2 branches missed.">        if (add) {</span>
+            /*
+             * if this is the first added, then we also have to remove the first one and re-add it with a different
+             * name.
+             */
+<span class="nc bnc" id="L185" title="All 2 branches missed.">            if (this.yPanels.size() == 1) {</span>
+<span class="nc" id="L186">                varSelTabPane.removeTabAt(varSelTabPane.getTabCount() - 1);</span>
+<span class="nc" id="L187">                varSelTabPane.addTab(&quot;y1&quot;, this.yPanels.get(0));</span>
+            }
+
+<span class="nc" id="L190">            yPanel = createAnotherVariableSelectionPanel(VarSelectionMode.MULTIPLE, null);</span>
+<span class="nc" id="L191">            this.yPanels.add(yPanel);</span>
+<span class="nc" id="L192">            varSelTabPane.addTab(&quot;y&quot; + this.yPanels.size(), yPanel);</span>
+        } else {
+            /* remove the last */
+<span class="nc" id="L195">            this.yPanels.remove(this.yPanels.size() - 1);</span>
+<span class="nc" id="L196">            varSelTabPane.removeTabAt(varSelTabPane.getTabCount() - 1);</span>
+
+            /*
+             * if there is only one left, then we also have to remove the first one and re-add it with a different name.
+             */
+<span class="nc bnc" id="L201" title="All 2 branches missed.">            if (this.yPanels.size() == 1) {</span>
+<span class="nc" id="L202">                varSelTabPane.removeTabAt(varSelTabPane.getTabCount() - 1);</span>
+<span class="nc" id="L203">                varSelTabPane.addTab(&quot;y&quot;, this.yPanels.get(0));</span>
+            }
+        }
+
+        /*
+         * add the minus tab
+         */
+<span class="nc bnc" id="L210" title="All 2 branches missed.">        if (this.yPanels.size() &gt; 1) {</span>
+<span class="nc" id="L211">            varSelTabPane.addTab(&quot;-&quot;, this.delLastYPanel);</span>
+        }
+
+        /*
+         * and add the plus tab again
+         */
+<span class="nc bnc" id="L217" title="All 2 branches missed.">        if (this.yPanels.size() &lt; MAX_Y_PANELS) {</span>
+<span class="nc" id="L218">            varSelTabPane.addTab(&quot;+&quot;, this.newYPanel);</span>
+        }
+
+<span class="nc bnc" id="L221" title="All 2 branches missed.">        if (yPanel != null) {</span>
+<span class="nc" id="L222">            varSelTabPane.setSelectedComponent(yPanel);</span>
+        }
+<span class="nc" id="L224">        validate();</span>
+
+<span class="nc" id="L226">    }</span>
+
+    private AllVarSelectionPanel createAnotherVariableSelectionPanel(VarSelectionMode varSelectionMode,
+            TwissVariable defaultVariable) {
+
+<span class="fc" id="L231">        SelectedVarManager selectedVarManager = new SelectedVarManagerImpl();</span>
+<span class="fc" id="L232">        selectedVarManager.setVarSelectionMode(varSelectionMode);</span>
+
+<span class="fc" id="L234">        AllVarSelectionPanel panel = createVariableSelectionPanel();</span>
+<span class="fc" id="L235">        panel.setSelectedVarManager(selectedVarManager);</span>
+<span class="fc" id="L236">        panel.setDefaultVariable(defaultVariable);</span>
+<span class="fc" id="L237">        panel.init();</span>
+<span class="fc" id="L238">        return panel;</span>
+    }
+
+    /**
+     * this method will be injected by spring to create a preconfigured variable-selection panel
+     */
+    protected abstract AllVarSelectionPanel createVariableSelectionPanel();
+
+    /**
+     * @param tfsDataSetManager the tfsDataSetManager to set
+     */
+    public void setTfsDataSetManager(TfsDataSetManager tfsDataSetManager) {
+<span class="fc" id="L250">        this.tfsDataSetManager = tfsDataSetManager;</span>
+<span class="fc" id="L251">    }</span>
+
+    /**
+     * @return the tfsDataSetManager
+     */
+    public TfsDataSetManager getTfsDataSetManager() {
+<span class="nc" id="L257">        return tfsDataSetManager;</span>
+    }
+
+    /*
+     * methods from titlable and applyable
+     */
+    @Override
+    public String getTitle() {
+<span class="nc" id="L265">        return &quot;Create new chart-view&quot;;</span>
+    }
+
+    @Override
+    public boolean apply() {
+        /*
+         * create the chart
+         */
+<span class="nc" id="L273">        Map&lt;Integer, Collection&lt;TwissVariable&gt;&gt; yVars = new HashMap&lt;Integer, Collection&lt;TwissVariable&gt;&gt;();</span>
+
+<span class="nc bnc" id="L275" title="All 2 branches missed.">        for (int yAxis = 0; yAxis &lt; yPanels.size(); yAxis++) {</span>
+<span class="nc" id="L276">            MadxVarSelector ySelector = this.yPanels.get(yAxis)</span>
+<span class="nc" id="L277">                    .getSelectedVarManager();</span>
+<span class="nc" id="L278">            yVars.put(yAxis, ySelector.getSelectedVariables());</span>
+        }
+
+<span class="nc" id="L281">        tfsDataSetManager.createDataSets(txtName.getText(), xPanel.getSelectedVarManager()</span>
+<span class="nc" id="L282">                .getSelectedVariable(), yVars, (TfsResultDataSetType) cboTfsDataSetType.getSelectedItem());</span>
+
+<span class="nc" id="L284">        return true;</span>
+    }
+
+    @Override
+    public void cancel() {
+        /* do nothing */
+<span class="nc" id="L290">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

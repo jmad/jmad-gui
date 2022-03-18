@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GuiLogPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels</a> &gt; <span class="el_source">GuiLogPanel.java</span></div><h1>GuiLogPanel.java</h1><pre class="source lang-java linenums">package cern.accsoft.steering.jmad.gui.panels;
+
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import java.awt.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import cern.accsoft.steering.jmad.gui.executor.ActiveJobsEvent;
+import com.google.common.collect.ImmutableMap;
+import org.apache.log4j.Appender;
+import org.apache.log4j.AppenderSkeleton;
+import org.apache.log4j.Level;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.spi.LoggingEvent;
+import org.springframework.context.event.EventListener;
+
+/**
+ * Panel that includes a logger appender for displaying the logs in the GUI
+ */
+public class GuiLogPanel extends JPanel {
+    private static final String SHOW_LOGS = &quot;Show logs&quot;;
+    private static final String HIDE_LOGS = &quot;Hide logs&quot;;
+    private static final int EXPANDED_HEIGHT = 300;
+    private static final int CLOSED_HEIGHT = 0;
+<span class="fc" id="L30">    private static final Color DEFAULT_BACKGROUND_COLOR = Color.WHITE;</span>
+    private final GuiLogAppender guiLogAppender;
+<span class="fc" id="L32">    private final AtomicBoolean isExpanded = new AtomicBoolean(false);</span>
+    private final JLabel activeJobsLabel;
+
+<span class="fc" id="L35">    public GuiLogPanel() {</span>
+<span class="fc" id="L36">        setLayout(new BorderLayout());</span>
+
+<span class="fc" id="L38">        JTextPane fullLogText = new JTextPane();</span>
+<span class="fc" id="L39">        fullLogText.setEditable(false);</span>
+<span class="fc" id="L40">        JTextField lastEventText = new JTextField();</span>
+<span class="fc" id="L41">        lastEventText.setEditable(false);</span>
+
+<span class="fc" id="L43">        JScrollPane fullLogPane = new JScrollPane(fullLogText);</span>
+
+<span class="fc" id="L45">        JButton showLogsButton = new JButton(SHOW_LOGS);</span>
+<span class="fc" id="L46">        showLogsButton.setPreferredSize(new Dimension(120, showLogsButton.getPreferredSize().height));</span>
+<span class="fc" id="L47">        showLogsButton.addActionListener(c -&gt; {</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if (isExpanded.get()) {</span>
+<span class="nc" id="L49">                setHeight(fullLogPane, CLOSED_HEIGHT);</span>
+<span class="nc" id="L50">                showLogsButton.setText(SHOW_LOGS);</span>
+            } else {
+<span class="nc" id="L52">                setHeight(fullLogPane, EXPANDED_HEIGHT);</span>
+<span class="nc" id="L53">                showLogsButton.setText(HIDE_LOGS);</span>
+            }
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            isExpanded.set(!isExpanded.get());</span>
+<span class="nc" id="L56">            JFrame frame = (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, GuiLogPanel.this);</span>
+<span class="nc" id="L57">            frame.pack();</span>
+<span class="nc" id="L58">        });</span>
+
+<span class="fc" id="L60">        setHeight(fullLogPane, CLOSED_HEIGHT);</span>
+
+<span class="fc" id="L62">        activeJobsLabel = new JLabel();</span>
+<span class="fc" id="L63">        activeJobsLabel.setPreferredSize(new Dimension(120, activeJobsLabel.getPreferredSize().height));</span>
+<span class="fc" id="L64">        activeJobsLabel.setBackground(DEFAULT_BACKGROUND_COLOR);</span>
+
+<span class="fc" id="L66">        JPanel southBar = new JPanel();</span>
+<span class="fc" id="L67">        southBar.setLayout(new BoxLayout(southBar, BoxLayout.X_AXIS));</span>
+<span class="fc" id="L68">        southBar.setBackground(DEFAULT_BACKGROUND_COLOR);</span>
+<span class="fc" id="L69">        southBar.add(lastEventText);</span>
+<span class="fc" id="L70">        southBar.add(activeJobsLabel);</span>
+<span class="fc" id="L71">        southBar.add(showLogsButton);</span>
+
+<span class="fc" id="L73">        add(fullLogPane, BorderLayout.NORTH);</span>
+<span class="fc" id="L74">        add(southBar, BorderLayout.SOUTH);</span>
+
+<span class="fc" id="L76">        guiLogAppender = new GuiLogAppender(lastEventText, fullLogText);</span>
+<span class="fc" id="L77">    }</span>
+
+    public void init() {
+<span class="fc" id="L80">        setActiveJobText(0);</span>
+<span class="fc" id="L81">    }</span>
+
+    @EventListener
+    public void activeJobsCountChanged(ActiveJobsEvent e) {
+<span class="nc" id="L85">        SwingUtilities.invokeLater(() -&gt; setActiveJobText(e.getActiveJobsCount()));</span>
+<span class="nc" id="L86">    }</span>
+
+    private void setActiveJobText(int activeJobs) {
+<span class="fc" id="L89">        activeJobsLabel.setText(formatActiveJobsCount(activeJobs));</span>
+<span class="fc" id="L90">        activeJobsLabel.setForeground(backgroundForActiveJobsCount(activeJobs));</span>
+<span class="fc" id="L91">    }</span>
+
+    private static Color backgroundForActiveJobsCount(int activeJobs) {
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (activeJobs == 0) {</span>
+<span class="fc" id="L95">            return Color.GRAY;</span>
+        }
+<span class="nc" id="L97">        return Color.BLUE.brighter();</span>
+    }
+
+    private static String formatActiveJobsCount(int count) {
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if (count == 0) {</span>
+<span class="fc" id="L102">            return &quot;No active jobs&quot;;</span>
+        }
+
+<span class="nc" id="L105">        return String.format(&quot;Active jobs: %2d&quot;, count);</span>
+    }
+
+    private static void setHeight(JScrollPane fullLogPane, int closedHeight) {
+<span class="fc" id="L109">        fullLogPane.setPreferredSize(new Dimension(fullLogPane.getWidth(), closedHeight));</span>
+<span class="fc" id="L110">        fullLogPane.setSize(new Dimension(fullLogPane.getWidth(), closedHeight));</span>
+<span class="fc" id="L111">    }</span>
+
+    public Appender getGuiLogAppender() {
+<span class="fc" id="L114">        return guiLogAppender;</span>
+    }
+
+    public static class GuiLogAppender extends AppenderSkeleton {
+<span class="fc" id="L118">        private static final Map&lt;Level, Color&gt; LEVEL_STATUS_COLOR = ImmutableMap.of( //</span>
+                Level.ERROR, Color.RED, //
+                Level.INFO, Color.GREEN, //
+                Level.WARN, Color.ORANGE);
+<span class="fc" id="L122">        private static final Map&lt;Level, Color&gt; LEVEL_TEXT_COLOR = ImmutableMap.of( //</span>
+                Level.ERROR, Color.RED, //
+                Level.INFO, Color.BLUE, //
+<span class="fc" id="L125">                Level.WARN, Color.ORANGE.darker());</span>
+
+        private static final int BACKGROUND_RESET_TIMEOUT_MS = 4000;
+
+        private final JTextField lastEventPane;
+        private final JTextPane fullEventPane;
+        private final Timer lastEventBackgroundResetTime;
+
+        private final Map&lt;Level, Style&gt; levelStyles;
+        private final Style defaultStyle;
+
+        GuiLogAppender(JTextField lastEventPane, JTextPane fullEventPane) {
+<span class="fc" id="L137">            super(true);</span>
+
+<span class="fc" id="L139">            this.lastEventPane = lastEventPane;</span>
+<span class="fc" id="L140">            this.fullEventPane = fullEventPane;</span>
+
+<span class="fc" id="L142">            ImmutableMap.Builder&lt;Level, Style&gt; levelStyleBuilder = ImmutableMap.builder();</span>
+<span class="fc" id="L143">            LEVEL_TEXT_COLOR.forEach((level, color) -&gt; {</span>
+<span class="fc" id="L144">                Style style = fullEventPane.addStyle(level.toString(), null);</span>
+<span class="fc" id="L145">                StyleConstants.setForeground(style, color);</span>
+<span class="fc" id="L146">                levelStyleBuilder.put(level, style);</span>
+<span class="fc" id="L147">            });</span>
+<span class="fc" id="L148">            this.levelStyles = levelStyleBuilder.build();</span>
+<span class="fc" id="L149">            Style style = fullEventPane.addStyle(&quot;DEFAULT&quot;, null);</span>
+<span class="fc" id="L150">            StyleConstants.setForeground(style, Color.BLACK);</span>
+<span class="fc" id="L151">            this.defaultStyle = style;</span>
+
+<span class="fc" id="L153">            lastEventPane.setBorder(BorderFactory.createEmptyBorder());</span>
+
+<span class="fc" id="L155">            setThreshold(Level.INFO);</span>
+<span class="fc" id="L156">            setLayout(new PatternLayout(&quot;%d{ABSOLUTE} %-5p [%t]: %m %n&quot;));</span>
+
+<span class="fc" id="L158">            lastEventBackgroundResetTime = new Timer(BACKGROUND_RESET_TIMEOUT_MS,</span>
+<span class="nc" id="L159">                    a -&gt; lastEventPane.setBackground(DEFAULT_BACKGROUND_COLOR));</span>
+<span class="fc" id="L160">        }</span>
+
+        @Override
+        protected void append(LoggingEvent event) {
+<span class="fc" id="L164">            String msg = layout.format(event);</span>
+<span class="fc" id="L165">            String exceptionInfo = Optional.ofNullable(event.getThrowableStrRep()) //</span>
+<span class="pc" id="L166">                    .map(lines -&gt; String.join(&quot;\n&quot;, lines)) //</span>
+<span class="fc" id="L167">                    .orElse(&quot;&quot;);</span>
+<span class="fc" id="L168">            Level level = event.getLevel();</span>
+            /* It's in theory possible that the logs messages are printed not in order. */
+            /* It's ok since they are just informative and the overhead would be a bit too much */
+<span class="fc" id="L171">            SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="fc" id="L172">                lastEventBackgroundResetTime.restart();</span>
+<span class="fc" id="L173">                lastEventPane.setText(msg);</span>
+<span class="fc" id="L174">                Document document = fullEventPane.getDocument();</span>
+                try {
+<span class="fc" id="L176">                    document.insertString(document.getLength(), msg + exceptionInfo,</span>
+<span class="fc" id="L177">                            levelStyles.getOrDefault(level, defaultStyle));</span>
+<span class="nc" id="L178">                } catch (BadLocationException e) {</span>
+<span class="nc" id="L179">                    e.printStackTrace(); /* on purpose, do not use logger to prevent infinite loops! */</span>
+<span class="fc" id="L180">                }</span>
+<span class="fc" id="L181">                lastEventPane.setBackground(LEVEL_STATUS_COLOR.getOrDefault(level, DEFAULT_BACKGROUND_COLOR));</span>
+<span class="fc" id="L182">            });</span>
+<span class="fc" id="L183">        }</span>
+
+        @Override
+        public void close() {
+
+<span class="nc" id="L188">        }</span>
+
+        @Override
+        public boolean requiresLayout() {
+<span class="nc" id="L192">            return false;</span>
+        }
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

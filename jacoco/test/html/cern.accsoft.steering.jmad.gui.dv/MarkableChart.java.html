@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MarkableChart.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.dv</a> &gt; <span class="el_source">MarkableChart.java</span></div><h1>MarkableChart.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.dv;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+
+import cern.accsoft.steering.jmad.gui.mark.MarkedElementsManager;
+import cern.accsoft.steering.jmad.gui.mark.MarkedElementsManagerListener;
+import cern.accsoft.steering.jmad.gui.mark.MarkerXProvider;
+import cern.jdve.Chart;
+import cern.jdve.LabelRenderer;
+import cern.jdve.Style;
+import cern.jdve.data.DataSet;
+import cern.jdve.data.DataSource;
+import cern.jdve.graphic.DataIndicator;
+import cern.jdve.utils.DataRange;
+
+/**
+ * This chart is a chart which listens on the MarkedElementsManager, in order to display all the elements as markers.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+<span class="nc" id="L52">public class MarkableChart extends Chart {</span>
+    private static final long serialVersionUID = -6909388067830384883L;
+
+    /** the manager, which keeps track of all */
+    private MarkedElementsManager markedElementsManager;
+
+    /**
+     * with this map we keep track of the added markers, in order to be able to remove/replace them by name afterwards
+     */
+<span class="nc" id="L61">    private Map&lt;String, List&lt;DataIndicator&gt;&gt; markerDataIndicators = new HashMap&lt;String, List&lt;DataIndicator&gt;&gt;();</span>
+
+    /**
+     * if this is set, then the x-positions of the markers are fetched from here. Otherwise the datasets are searched
+     * for a valid marker-position.
+     */
+<span class="nc" id="L67">    private MarkerXProvider markerXProvider = null;</span>
+
+    /** the default font for an point indicator in the chart. */
+<span class="nc" id="L70">    private final static Font DEFAULT_INDICATOR_FONT = new Font(&quot;Dialog&quot;, Font.BOLD, 10);</span>
+
+    /** the default style of the indicator in the chart */
+<span class="nc" id="L73">    private static final Style DEFAULT_INDICATOR_STYLE = new Style(new BasicStroke(1, BasicStroke.CAP_BUTT,</span>
+            BasicStroke.JOIN_BEVEL, 1, new float[] { 2, 2 }, 2), Color.GRAY, Color.BLACK);
+
+    /** a light red */
+<span class="nc" id="L77">    private static final Color COLOR_H_RANGE = new Color(227, 151, 89, 50);</span>
+
+    /** a light blue */
+<span class="nc" id="L80">    private static final Color COLOR_V_RANGE = new Color(89, 188, 227, 50);</span>
+
+    /** the font for the ranges */
+<span class="nc" id="L83">    private final static Font DEFAULT_FONT_RANGE = new Font(&quot;Dialog&quot;, Font.BOLD, 20);</span>
+
+    /** shows / hides the H/V indicators */
+<span class="nc" id="L86">    private boolean visibleHVIndicators = false;</span>
+
+<span class="nc" id="L88">    private DataIndicator hRangeIndicator = null;</span>
+<span class="nc" id="L89">    private DataIndicator vRangeIndicator = null;</span>
+
+    /**
+     * the init method, which shall be called when the {@link MarkedElementsManager} was set. It creates all markers,
+     * according to the manager. {@link MarkedElementsManager} was set.
+     */
+    public void initMarkers() {
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (getMarkedElementsManager() == null) {</span>
+<span class="nc" id="L97">            return;</span>
+        }
+
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        for (String elementName : getMarkedElementsManager().getElementNames()) {</span>
+<span class="nc" id="L101">            addMarker(elementName);</span>
+<span class="nc" id="L102">        }</span>
+<span class="nc" id="L103">    }</span>
+
+    /**
+     * shows the marker for the given element name. This only works if at least one of the {@link DataSet}s implements
+     * the {@link MarkerXProvider} interface in order to determine the x-position of the marker.
+     * 
+     * @param elementName
+     */
+    private void addMarker(String elementName) {
+        /*
+         * we want to ensure, that only one indicator of the same name exists (important in the chart).
+         */
+<span class="nc" id="L115">        removeMarker(elementName);</span>
+
+<span class="nc" id="L117">        List&lt;Double&gt; xPositions = getMarkerXPositions(elementName);</span>
+<span class="nc" id="L118">        List&lt;DataIndicator&gt; dataIndicators = new ArrayList&lt;DataIndicator&gt;();</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        for (Double xPos : xPositions) {</span>
+<span class="nc" id="L120">            DataIndicator indicator = createXIndicator(xPos, elementName);</span>
+<span class="nc" id="L121">            dataIndicators.add(indicator);</span>
+<span class="nc" id="L122">            addDecoration(indicator);</span>
+<span class="nc" id="L123">        }</span>
+<span class="nc" id="L124">        this.markerDataIndicators.put(elementName, dataIndicators);</span>
+<span class="nc" id="L125">        repaintChart();</span>
+<span class="nc" id="L126">    }</span>
+
+    /**
+     * removes the marker for the given elementName both from the chart and from our map.
+     * 
+     * @param elementName the name of the element, for which to remove the marker.
+     */
+    private void removeMarker(String elementName) {
+<span class="nc" id="L134">        List&lt;DataIndicator&gt; indicators = markerDataIndicators.get(elementName);</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        if (indicators != null) {</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            for (DataIndicator indicator : indicators) {</span>
+<span class="nc" id="L137">                removeDecoration(indicator);</span>
+<span class="nc" id="L138">            }</span>
+        }
+<span class="nc" id="L140">        this.markerDataIndicators.remove(elementName);</span>
+<span class="nc" id="L141">        repaintChart();</span>
+<span class="nc" id="L142">    }</span>
+
+    /**
+     * adds the inidicators for horizontal and vertical range to the chart.
+     */
+    private void createHVRangeIndicators() {
+<span class="nc" id="L148">        removeHVRangeIndicators();</span>
+<span class="nc" id="L149">        List&lt;Double&gt; xPositions = getMarkerXPositions(MarkerXProvider.ELEMENT_NAME_HV_BORDER);</span>
+<span class="nc" id="L150">        Double hvBorder = null;</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">        if (xPositions.size() == 1) {</span>
+<span class="nc" id="L152">            hvBorder = xPositions.get(0);</span>
+        } else {
+<span class="nc" id="L154">            return;</span>
+        }
+
+<span class="nc" id="L157">        double minX = getXAxis().getVisibleRange().getMin();</span>
+<span class="nc" id="L158">        double maxX = getXAxis().getVisibleRange().getMax();</span>
+<span class="nc" id="L159">        hRangeIndicator = createRangeIndicator(new DataRange(minX, hvBorder), COLOR_H_RANGE, &quot;H&quot;);</span>
+<span class="nc" id="L160">        addDecoration(hRangeIndicator);</span>
+
+<span class="nc" id="L162">        vRangeIndicator = createRangeIndicator(new DataRange(hvBorder, maxX), COLOR_V_RANGE, &quot;V&quot;);</span>
+
+<span class="nc" id="L164">        addDecoration(vRangeIndicator);</span>
+
+<span class="nc" id="L166">        repaintChart();</span>
+<span class="nc" id="L167">    }</span>
+
+    private DataIndicator createRangeIndicator(DataRange dataRange, Color fillColor, String label) {
+<span class="nc" id="L170">        DataIndicator rangeIndicator = new DataIndicator(DataIndicator.X_RANGE, dataRange, label);</span>
+
+<span class="nc" id="L172">        rangeIndicator.setTextLocation(0.8);</span>
+<span class="nc" id="L173">        rangeIndicator.setStyle(new Style(fillColor, fillColor));</span>
+
+<span class="nc" id="L175">        LabelRenderer labelRenderer = rangeIndicator.getLabelRenderer();</span>
+<span class="nc" id="L176">        labelRenderer.setBackground(null);</span>
+<span class="nc" id="L177">        labelRenderer.setForeground(fillColor.darker());</span>
+<span class="nc" id="L178">        labelRenderer.setFont(DEFAULT_FONT_RANGE);</span>
+<span class="nc" id="L179">        return rangeIndicator;</span>
+    }
+
+    /**
+     * removes the indicators for horizontal and vertical range from the chart.
+     */
+    private void removeHVRangeIndicators() {
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        if (this.hRangeIndicator != null) {</span>
+<span class="nc" id="L187">            this.removeDecoration(hRangeIndicator);</span>
+        }
+<span class="nc bnc" id="L189" title="All 2 branches missed.">        if (this.vRangeIndicator != null) {</span>
+<span class="nc" id="L190">            this.removeDecoration(vRangeIndicator);</span>
+        }
+<span class="nc" id="L192">        repaintChart();</span>
+<span class="nc" id="L193">    }</span>
+
+    /**
+     * searches for the first markerXProvider DataSet, that returns a non-null xposition for the given element. This is
+     * then returned.
+     * 
+     * @return the DataSet, if one is found. null otherwise.
+     */
+    private List&lt;Double&gt; getMarkerXPositions(String elementName) {
+
+        /*
+         * if a x-provider is explicitely set, we try to get the x-pos from there.
+         */
+<span class="nc" id="L206">        List&lt;Double&gt; xPositions = new ArrayList&lt;Double&gt;();</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">        if (getMarkerXProvider() != null) {</span>
+<span class="nc" id="L208">            xPositions = getMarkerXProvider().getXPositions(elementName);</span>
+        }
+
+<span class="nc bnc" id="L211" title="All 2 branches missed.">        if (xPositions.size() &gt; 0) {</span>
+<span class="nc" id="L212">            return xPositions;</span>
+        }
+
+        /*
+         * if it is not set, or does not return a valid value, then we search in the datasets.
+         */
+<span class="nc" id="L218">        DataSource[] dataSources = getDataSources();</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        for (int i = 0; i &lt; dataSources.length; i++) {</span>
+<span class="nc" id="L220">            DataSet[] dataSets = dataSources[i].getDataSets();</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">            for (int j = 0; j &lt; dataSets.length; j++) {</span>
+<span class="nc" id="L222">                DataSet dataSet = dataSets[j];</span>
+<span class="nc bnc" id="L223" title="All 2 branches missed.">                if (dataSet instanceof MarkerXProvider) {</span>
+<span class="nc" id="L224">                    MarkerXProvider markable = (MarkerXProvider) dataSet;</span>
+<span class="nc" id="L225">                    List&lt;Double&gt; xPosNew = markable.getXPositions(elementName);</span>
+                    /*
+                     * we take the longest list ...
+                     */
+<span class="nc bnc" id="L229" title="All 2 branches missed.">                    if (xPosNew.size() &gt; xPositions.size()) {</span>
+<span class="nc" id="L230">                        return xPositions = xPosNew;</span>
+                    }
+                }
+            }
+        }
+        /* if no dataset implementing MarkerXProvider, then we return null */
+<span class="nc" id="L236">        return xPositions;</span>
+    }
+
+    /**
+     * This method creates a data-indicater of our default shape.
+     * 
+     * @return the DataIndicator object.
+     */
+    private DataIndicator createXIndicator(double xPos, String label) {
+<span class="nc" id="L245">        DataIndicator pointIndicator = new DataIndicator(DataIndicator.X_VALUE, xPos, label);</span>
+
+<span class="nc" id="L247">        pointIndicator.setTextLocation(0.06);</span>
+<span class="nc" id="L248">        pointIndicator.setStyle(DEFAULT_INDICATOR_STYLE);</span>
+
+<span class="nc" id="L250">        LabelRenderer labelRenderer = pointIndicator.getLabelRenderer();</span>
+<span class="nc" id="L251">        labelRenderer.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="nc" id="L252">        labelRenderer.setBackground(Color.WHITE);</span>
+<span class="nc" id="L253">        labelRenderer.setForeground(Color.DARK_GRAY);</span>
+<span class="nc" id="L254">        labelRenderer.setBorder(new LineBorder(Color.DARK_GRAY));</span>
+<span class="nc" id="L255">        labelRenderer.setFont(DEFAULT_INDICATOR_FONT);</span>
+
+<span class="nc" id="L257">        return pointIndicator;</span>
+    }
+
+    /**
+     * @param markedElementsManager the markedElementsManager to set
+     */
+    public void setMarkedElementsManager(MarkedElementsManager markedElementsManager) {
+<span class="nc" id="L264">        this.markedElementsManager = markedElementsManager;</span>
+<span class="nc" id="L265">        markedElementsManager.addListener(new MarkedElementsManagerListener() {</span>
+
+            @Override
+            public void addedElementName(String elementName) {
+<span class="nc" id="L269">                addMarker(elementName);</span>
+<span class="nc" id="L270">            }</span>
+
+            @Override
+            public void removedElementName(String elementName) {
+<span class="nc" id="L274">                removeMarker(elementName);</span>
+<span class="nc" id="L275">            }</span>
+        });
+<span class="nc" id="L277">    }</span>
+
+    /**
+     * @return the markedElementsManager
+     */
+    private MarkedElementsManager getMarkedElementsManager() {
+<span class="nc" id="L283">        return markedElementsManager;</span>
+    }
+
+    /**
+     * @param markerXProvider the markerXProvider to set
+     */
+    public void setMarkerXProvider(MarkerXProvider markerXProvider) {
+<span class="nc" id="L290">        this.markerXProvider = markerXProvider;</span>
+<span class="nc" id="L291">    }</span>
+
+    /**
+     * @return the markerXProvider
+     */
+    public MarkerXProvider getMarkerXProvider() {
+<span class="nc" id="L297">        return markerXProvider;</span>
+    }
+
+    /**
+     * @param visibleHVIndicators the visibleHVIndicators to set
+     */
+    public void setVisibleHVIndicators(boolean visibleHVIndicators) {
+<span class="nc" id="L304">        this.visibleHVIndicators = visibleHVIndicators;</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">        if (visibleHVIndicators) {</span>
+<span class="nc" id="L306">            createHVRangeIndicators();</span>
+        } else {
+<span class="nc" id="L308">            removeHVRangeIndicators();</span>
+        }
+<span class="nc" id="L310">    }</span>
+
+    /**
+     * @return the visibleHVIndicators
+     */
+    public boolean isVisibleHVIndicators() {
+<span class="nc" id="L316">        return visibleHVIndicators;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

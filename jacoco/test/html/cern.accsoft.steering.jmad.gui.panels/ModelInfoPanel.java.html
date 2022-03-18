@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ModelInfoPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">jmad-gui</a> &gt; <a href="index.source.html" class="el_package">cern.accsoft.steering.jmad.gui.panels</a> &gt; <span class="el_source">ModelInfoPanel.java</span></div><h1>ModelInfoPanel.java</h1><pre class="source lang-java linenums">// @formatter:off
+ /*******************************************************************************
+ *
+ * This file is part of JMad.
+ * 
+ * Copyright (c) 2008-2011, CERN. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ ******************************************************************************/
+// @formatter:on
+
+package cern.accsoft.steering.jmad.gui.panels;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import cern.accsoft.steering.jmad.model.JMadModel;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManager;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerAdapter;
+import cern.accsoft.steering.jmad.model.manage.JMadModelManagerListener;
+
+/**
+ * this panel just displays some information for the current selected model.
+ * 
+ * @author Kajetan Fuchsberger (kajetan.fuchsberger at cern.ch)
+ */
+public class ModelInfoPanel extends JPanel {
+    private static final long serialVersionUID = 7716343012633544812L;
+
+    /* the modelmanager which determines which is the actual model. */
+    private JMadModelManager modelManager;
+
+<span class="fc" id="L47">    private JMadModelManagerListener modelManagerListener = new JMadModelManagerAdapter() {</span>
+        @Override
+        public void changedActiveModel(JMadModel newModel) {
+<span class="nc" id="L50">            initComponents();</span>
+<span class="nc" id="L51">        }</span>
+    };
+
+    /**
+     * the constructor
+     */
+    public ModelInfoPanel() {
+<span class="fc" id="L58">        super(new GridBagLayout());</span>
+<span class="fc" id="L59">    }</span>
+
+    /**
+     * the public initialization method
+     */
+    public void init() {
+<span class="fc" id="L65">        initComponents();</span>
+<span class="fc" id="L66">    }</span>
+
+    /**
+     * set the modelManager.
+     * 
+     * @param modelManager
+     */
+    public void setModelManager(JMadModelManager modelManager) {
+<span class="fc" id="L74">        this.modelManager = modelManager;</span>
+<span class="fc" id="L75">        modelManager.addListener(this.modelManagerListener);</span>
+<span class="fc" id="L76">    }</span>
+
+    /**
+     * creates all the components and displays the data.
+     */
+    private void initComponents() {
+<span class="fc" id="L82">        removeAll();</span>
+
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if (modelManager == null) {</span>
+<span class="nc" id="L85">            return;</span>
+        }
+
+<span class="fc" id="L88">        JMadModel model = modelManager.getActiveModel();</span>
+
+<span class="fc" id="L90">        GridBagConstraints constraints = new GridBagConstraints();</span>
+<span class="fc" id="L91">        constraints.fill = GridBagConstraints.HORIZONTAL;</span>
+
+<span class="fc" id="L93">        JLabel typeLabel = new JLabel();</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (model != null) {</span>
+<span class="nc" id="L95">            typeLabel.setText(&quot;Type: &quot; + model.getClass().getCanonicalName());</span>
+        } else {
+<span class="fc" id="L97">            typeLabel.setText(&quot;Type: null&quot;);</span>
+        }
+<span class="fc" id="L99">        constraints.gridy = 0;</span>
+<span class="fc" id="L100">        add(typeLabel, constraints);</span>
+
+<span class="fc" id="L102">        JLabel nameLabel = new JLabel();</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">        if (model != null) {</span>
+<span class="nc" id="L104">            nameLabel.setText(&quot;Name: &quot; + model.getName());</span>
+        } else {
+<span class="fc" id="L106">            nameLabel.setText(&quot;Name: null&quot;);</span>
+        }
+<span class="fc" id="L108">        constraints.gridy = 1;</span>
+<span class="fc" id="L109">        add(nameLabel, constraints);</span>
+
+<span class="fc" id="L111">        JLabel descriptionLabel = new JLabel();</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">        if (model != null) {</span>
+<span class="nc" id="L113">            descriptionLabel.setText(&quot;Description: &quot; + model.getDescription());</span>
+        } else {
+<span class="fc" id="L115">            descriptionLabel.setText(&quot;Description: null&quot;);</span>
+        }
+<span class="fc" id="L117">        constraints.gridy++;</span>
+<span class="fc" id="L118">        add(descriptionLabel, constraints);</span>
+
+<span class="fc" id="L120">        validate();</span>
+<span class="fc" id="L121">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
