@@ -44,7 +44,7 @@ repositories {
 
 dependencies {
     compile group: 'io.jmad', name: 'jmad-modelpack-swing', version: '0.4.0'
-    compile group: 'io.jmad', name: 'jmad-core', version: '0.8.1'
+    compile group: 'io.jmad', name: 'jmad-core', version: '0.8.2'
 
     compile group: 'org.ossgang', name: 'ossgang-commons', version: '0.28.0'
     compile group: 'com.google.guava', name: 'guava', version: '30.0-jre'
