@@ -49,7 +49,7 @@ dependencies {
     compile group: 'org.ossgang', name: 'ossgang-commons', version: '0.28.0'
     compile group: 'com.google.guava', name: 'guava', version: '30.0-jre'
 
-    compile group: 'cern.dm', name: 'jdataviewer', version: '1.8.8'
+    compile group: 'cern.dm', name: 'jdataviewer', version: '2.3.0'
 
     compile group: 'org.springframework', name: 'spring-core', version: '5.3.12'
     compile group: 'org.springframework', name: 'spring-context', version: '5.3.12'
