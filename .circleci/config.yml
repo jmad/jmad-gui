@@ -12,7 +12,7 @@ jobs:
       - checkout
       - run: chmod +x ./gradlew
       - run: ./gradlew dependencies
-      - run: xvfb-run ./gradlew check --stacktrace
+      - run: xvfb-run -a ./gradlew check --stacktrace
       - run: ./gradlew jacocoTestReport
 
       - run: "[[ -n ${SIGNING_KEY_SECRING_BASE64} ]]"
@@ -37,7 +37,7 @@ jobs:
       - checkout
       - run: chmod +x ./gradlew
       - run: ./gradlew dependencies
-      - run: xvfb-run ./gradlew check --stacktrace
+      - run: xvfb-run -a ./gradlew check --stacktrace
 
 workflows:
   build-and-deploy-workflow:
