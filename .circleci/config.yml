@@ -37,7 +37,7 @@ jobs:
       - checkout
       - run: chmod +x ./gradlew
       - run: ./gradlew dependencies
-      - run: ./gradlew check --stacktrace
+      - run: xvfb-run ./gradlew check --stacktrace
 
 workflows:
   build-and-deploy-workflow:
