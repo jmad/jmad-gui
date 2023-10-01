@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build-and-deploy:
     docker:
-      - image: cimg/openjdk:11.0
+      - image: cimg/openjdk:11.0-browsers
     working_directory: ~/repo
     environment:
       JVM_OPTS: -Xmx3200m
@@ -12,7 +12,7 @@ jobs:
       - checkout
       - run: chmod +x ./gradlew
       - run: ./gradlew dependencies
-      - run: xvfb-run ./gradlew check --stacktrace
+      - run: xvfb-run -a ./gradlew check --stacktrace
       - run: ./gradlew jacocoTestReport
 
       - run: "[[ -n ${SIGNING_KEY_SECRING_BASE64} ]]"
@@ -28,7 +28,7 @@ jobs:
 
   build:
     docker:
-      - image: cimg/openjdk:11.0
+      - image: cimg/openjdk:11.0-browsers
     working_directory: ~/repo
     environment:
       JVM_OPTS: -Xmx3200m
@@ -37,7 +37,7 @@ jobs:
       - checkout
       - run: chmod +x ./gradlew
       - run: ./gradlew dependencies
-      - run: xvfb-run ./gradlew check --stacktrace
+      - run: xvfb-run -a ./gradlew check --stacktrace
 
 workflows:
   build-and-deploy-workflow:
