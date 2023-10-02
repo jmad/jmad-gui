@@ -1,5 +1,6 @@
 version: 2.1
-
+orbs:
+  codecov: codecov/codecov@3
 jobs:
   build-and-deploy:
     docker:
@@ -38,11 +39,15 @@ jobs:
       - run: chmod +x ./gradlew
       - run: ./gradlew dependencies
       - run: xvfb-run -a ./gradlew check --stacktrace
+      - run: ./gradlew jacocoTestReport
+      - codecov/upload
 
 workflows:
   build-and-deploy-workflow:
     jobs:
       - build-and-deploy:
+          context:
+            - jmad-deploy
           filters:
             tags:
               # any tag
