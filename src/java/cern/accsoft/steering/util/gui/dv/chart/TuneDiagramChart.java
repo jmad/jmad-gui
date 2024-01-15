@@ -89,7 +89,6 @@ public class TuneDiagramChart extends Chart {
         updateTuneMarkerStyles(MAX_NUMBER_OF_MARKER);
 
         fzoomInteractor = new ZoomInteractor();
-        fzoomInteractor.setAnimationStep(0);
         fzoomInteractor.setOutOfRangeZoomAllowed(false);
         this.addInteractor(fzoomInteractor);
 
